@@ -37,36 +37,27 @@ namespace WindowsFormsApp1
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
-            openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-            openFileDialog1.FilterIndex = 2;
-        
-            while (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-               
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                //tant que on a pas fini de lire le fichier tout le fichier 
-                while(openFileDialog1.OpenFile() != null)
-                {
-                    //on lit le fichier
-                    string file = openFileDialog1.FileName;
-                    //on lite ligne par ligne
-                    string[] lines = File.ReadAllLines(file);
-                    //on affiche le contenu du fichier
-                    foreach (string line in lines)
-                    {
-                        textBox1.Text = line;
-                    }
+            string file = openFileDialog1.FileName;
+            /*File.ReadAllLines(file);*/ //Lire toutes les lignes du fichier 
+            List<string> lines = new List<string>();
+            lines.AddRange(File.ReadAllLines(file));
 
-                }
+            /*Pour chaque ligne dans la liste de lignes*/
+            foreach (string line in lines)
+            {
+                textBox1.Text += line + "\r\n";//
             }
+
+
+           
+
 
         }
 
         private void ouvrirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openFileDialog1.ShowDialog();
-        
+            
         }
     }
 }
