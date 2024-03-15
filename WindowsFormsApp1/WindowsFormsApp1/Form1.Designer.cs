@@ -48,7 +48,8 @@
             this.fichierToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(682, 28);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(767, 33);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -60,27 +61,27 @@
             this.toolStripSeparator1,
             this.Paramètres});
             this.fichierToolStripMenuItem.Name = "fichierToolStripMenuItem";
-            this.fichierToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
+            this.fichierToolStripMenuItem.Size = new System.Drawing.Size(74, 29);
             this.fichierToolStripMenuItem.Text = "Fichier";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(201, 26);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(239, 30);
             this.toolStripMenuItem1.Text = "Ouvrir";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(201, 26);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(239, 30);
             this.toolStripMenuItem2.Text = "Enregistrer sous ...";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(198, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(236, 6);
             // 
             // Paramètres
             // 
@@ -88,45 +89,46 @@
             this.toolStripMenuItem4,
             this.toolStripMenuItem5});
             this.Paramètres.Name = "Paramètres";
-            this.Paramètres.Size = new System.Drawing.Size(201, 26);
+            this.Paramètres.Size = new System.Drawing.Size(239, 30);
             this.Paramètres.Text = "Paramètres";
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(194, 26);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(228, 30);
             this.toolStripMenuItem4.Text = "Changer Taille";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(194, 26);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(228, 30);
             this.toolStripMenuItem5.Text = "Changer Couleur";
             this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
             // 
             // textBox1
             // 
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(0, 28);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(10, 10, 10, 50);
+            this.textBox1.Location = new System.Drawing.Point(0, 33);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(11, 12, 11, 62);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(682, 425);
+            this.textBox1.Size = new System.Drawing.Size(767, 533);
             this.textBox1.TabIndex = 1;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(682, 453);
+            this.ClientSize = new System.Drawing.Size(767, 566);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.menuStrip1);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Éditeur de fichier texte";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing)
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
