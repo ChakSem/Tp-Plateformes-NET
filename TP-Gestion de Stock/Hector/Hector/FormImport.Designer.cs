@@ -1,7 +1,7 @@
 ﻿
 namespace Hector
 {
-    partial class FormModal
+    partial class FormImport
     {
         /// <summary>
         /// Required designer variable.

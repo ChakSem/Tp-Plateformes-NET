@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Hector
 {
-    public partial class FormModal : Form
+    public partial class FormImport : Form
     {
-        public FormModal()
+        public FormImport()
         {
             InitializeComponent();
         }
