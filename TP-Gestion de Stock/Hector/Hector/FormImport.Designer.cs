@@ -29,65 +29,73 @@ namespace Hector
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.selectButton = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.filePathLabel = new System.Windows.Forms.Label();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.checkBoxAjout = new System.Windows.Forms.CheckBox();
+            this.checkBoxEcrasement = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
-            // button1
+            // selectButton
             // 
-            this.button1.Location = new System.Drawing.Point(391, 86);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.selectButton.Location = new System.Drawing.Point(16, 12);
+            this.selectButton.Name = "selectButton";
+            this.selectButton.Size = new System.Drawing.Size(96, 23);
+            this.selectButton.TabIndex = 0;
+            this.selectButton.Text = "Open .csv file";
+            this.selectButton.UseVisualStyleBackColor = true;
+            this.selectButton.Click += new System.EventHandler(this.button1_Click);
             // 
-            // button2
+            // filePathLabel
             // 
-            this.button2.Location = new System.Drawing.Point(363, 214);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
+            this.filePathLabel.AutoSize = true;
+            this.filePathLabel.Location = new System.Drawing.Point(23, 55);
+            this.filePathLabel.Name = "filePathLabel";
+            this.filePathLabel.Size = new System.Drawing.Size(15, 13);
+            this.filePathLabel.TabIndex = 4;
+            this.filePathLabel.Text = "./";
             // 
-            // button3
+            // progressBar
             // 
-            this.button3.Location = new System.Drawing.Point(658, 287);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
+            this.progressBar.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.progressBar.Location = new System.Drawing.Point(0, 168);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(384, 23);
+            this.progressBar.TabIndex = 5;
             // 
-            // textBox1
+            // checkBoxAjout
             // 
-            this.textBox1.Location = new System.Drawing.Point(302, 55);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 3;
+            this.checkBoxAjout.AutoSize = true;
+            this.checkBoxAjout.Location = new System.Drawing.Point(35, 136);
+            this.checkBoxAjout.Name = "checkBoxAjout";
+            this.checkBoxAjout.Size = new System.Drawing.Size(96, 17);
+            this.checkBoxAjout.TabIndex = 6;
+            this.checkBoxAjout.Text = "Ouvrir en Ajout";
+            this.checkBoxAjout.UseVisualStyleBackColor = true;
+            this.checkBoxAjout.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // progressBar1
+            // checkBoxEcrasement
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 55);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(100, 23);
-            this.progressBar1.TabIndex = 4;
+            this.checkBoxEcrasement.AutoSize = true;
+            this.checkBoxEcrasement.Location = new System.Drawing.Point(224, 136);
+            this.checkBoxEcrasement.Name = "checkBoxEcrasement";
+            this.checkBoxEcrasement.Size = new System.Drawing.Size(128, 17);
+            this.checkBoxEcrasement.TabIndex = 7;
+            this.checkBoxEcrasement.Text = "Ouvrir en Ecrasement";
+            this.checkBoxEcrasement.UseVisualStyleBackColor = true;
             // 
-            // FormModal
+            // FormImport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Name = "FormModal";
+            this.ClientSize = new System.Drawing.Size(384, 191);
+            this.Controls.Add(this.checkBoxEcrasement);
+            this.Controls.Add(this.checkBoxAjout);
+            this.Controls.Add(this.progressBar);
+            this.Controls.Add(this.filePathLabel);
+            this.Controls.Add(this.selectButton);
+            this.Name = "FormImport";
             this.Text = "Form1";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -96,10 +104,11 @@ namespace Hector
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Button selectButton;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.Label filePathLabel;
+        private System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.CheckBox checkBoxAjout;
+        private System.Windows.Forms.CheckBox checkBoxEcrasement;
     }
 }
