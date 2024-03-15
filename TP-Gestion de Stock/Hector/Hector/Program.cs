@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace TP_Gestion_de_stock
+namespace Hector
 {
     static class Program
     {

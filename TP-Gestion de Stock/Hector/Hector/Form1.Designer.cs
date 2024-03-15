@@ -1,5 +1,5 @@
 ﻿
-namespace TP_Gestion_de_stock
+namespace Hector
 {
     partial class Form1
     {

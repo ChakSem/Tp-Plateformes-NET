@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{02CF5094-A777-4B64-9E18-5FAC9321531F}</ProjectGuid>
+    <ProjectGuid>{CC1D9E21-822A-4E36-BA16-913F6FC7C447}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>TP_Gestion_de_stock</RootNamespace>
-    <AssemblyName>TP-Gestion_de_stock</AssemblyName>
+    <RootNamespace>Hector</RootNamespace>
+    <AssemblyName>Hector</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

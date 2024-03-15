@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace TP_Gestion_de_stock
+namespace Hector
 {
     public partial class Form1 : Form
     {

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.34601.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TP-Gestion_de_stock", "TP-Gestion_de_stock\TP-Gestion_de_stock.csproj", "{02CF5094-A777-4B64-9E18-5FAC9321531F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hector", "Hector\Hector.csproj", "{CC1D9E21-822A-4E36-BA16-913F6FC7C447}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{02CF5094-A777-4B64-9E18-5FAC9321531F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{02CF5094-A777-4B64-9E18-5FAC9321531F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{02CF5094-A777-4B64-9E18-5FAC9321531F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{02CF5094-A777-4B64-9E18-5FAC9321531F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC1D9E21-822A-4E36-BA16-913F6FC7C447}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC1D9E21-822A-4E36-BA16-913F6FC7C447}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC1D9E21-822A-4E36-BA16-913F6FC7C447}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC1D9E21-822A-4E36-BA16-913F6FC7C447}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {8BB053DB-283D-419D-851B-FC13102E8805}
+		SolutionGuid = {F2AEB130-C07E-4CBA-9099-7E8FA77AF449}
 	EndGlobalSection
 EndGlobal

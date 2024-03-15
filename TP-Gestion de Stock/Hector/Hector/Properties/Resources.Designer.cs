@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 
-namespace TP_Gestion_de_stock.Properties
+namespace Hector.Properties
 {
     /// <summary>
     ///   Une classe de ressource fortement typée destinée, entre autres, à la consultation des chaînes localisées.
@@ -43,7 +43,7 @@ namespace TP_Gestion_de_stock.Properties
             {
                 if ((resourceMan == null))
                 {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TP_Gestion_de_stock.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Hector.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
