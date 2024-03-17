@@ -111,7 +111,7 @@ namespace Hector
             this.MinimumSize = new System.Drawing.Size(400, 230);
             this.Name = "FormImport";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Form1";
+            this.Text = "Importer";
             this.ResumeLayout(false);
             this.PerformLayout();
 
