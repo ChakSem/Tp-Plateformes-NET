@@ -9,20 +9,26 @@ namespace Hector
     class Famille
     { 
         private string Nom;
-        /*Attibut pour verifier que la famille n'est pas en doublon dans la liste des familles*/
-        private static List<string> ListeFamille = new List<string>();
-
-        private Famille(string NouveauNom)
+        private static Dictionary<string, Famille> FamillesObjects;
+        public static Famille CreateFamille(string NomParam)
         {
-            if (ListeFamille.Contains(NouveauNom))
+            if (FamillesObjects.ContainsKey(NomParam))
             {
-                throw new Exception("La famille existe déjà");
+                return FamillesObjects[NomParam];
             }
             else
             {
-                ListeFamille.Add(NouveauNom);
-                Nom = NouveauNom;
+                Famille NouvelleFamille = new Famille(NomParam);
+                FamillesObjects.Add(NomParam, NouvelleFamille);
+
+                return NouvelleFamille;
             }
+        }
+        private Famille() { }
+        private Famille(Famille FamilleParam) { }
+        private Famille(string NouveauNom)
+        {
+            Nom = NouveauNom;
         }
         
         /*Accesseurs*/
@@ -33,7 +39,16 @@ namespace Hector
 
         public void SetNom(string NouveauNom)
         {
-            Nom = NouveauNom;
+            try
+            {
+                if (FamillesObjects.ContainsKey(NouveauNom))
+                {
+                    throw NULL;
+
+                }
+                Nom = NouveauNom;
+            } catch () { 
+            }
         }
     }
 }

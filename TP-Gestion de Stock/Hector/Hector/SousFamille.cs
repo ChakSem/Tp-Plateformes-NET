@@ -10,21 +10,29 @@ namespace Hector
     {
         private string Nom;
         private Famille Famille;
-        /*Attribut pour verifier la sous famille n'exite pas en doublon*/
-        private static List<string> ListeSousFamille = new List<string>();
-        
-        private SousFamille(string NouveauNom, Famille NouvelleFamille)
+        private static Dictionary<string, SousFamille> SousFamillesObjects;
+
+        public static SousFamille CreateSousFamille(string NomParam, Famille FamilleParam)
         {
-            if (ListeSousFamille.Contains(NouveauNom))
+            if (SousFamillesObjects.ContainsKey(NomParam))
             {
-                throw new Exception("La sous famille existe déjà");
+                return SousFamillesObjects[NomParam];
             }
             else
             {
-                ListeSousFamille.Add(NouveauNom);
-                Nom = NouveauNom;
-                Famille = NouvelleFamille;
+                SousFamille NouvelleSousFamille = new SousFamille(NomParam, FamilleParam);
+                SousFamillesObjects.Add(NomParam, NouvelleSousFamille);
+
+                return NouvelleSousFamille;
             }
+        }
+        private SousFamille() { }
+        private SousFamille(SousFamille SousFamilleParam) { }
+        
+        private SousFamille(string NouveauNom, Famille FamilleParam)
+        {
+            Nom = NouveauNom;
+            Famille = FamilleParam;
         }
 
         public string GetNom()
