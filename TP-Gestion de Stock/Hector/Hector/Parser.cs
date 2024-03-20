@@ -39,7 +39,7 @@ namespace Hector
                 double PrixHT = double.Parse(values[5]);
                 bool Exist = false;
 
-                //on verifie que l'article n'est pas deja dans la liste
+                /*on verifie que l'article n'est pas deja dans la liste*/
                 foreach (Article Article in Articles)
                 {
                     if (Article.GetReference() == Reference)
