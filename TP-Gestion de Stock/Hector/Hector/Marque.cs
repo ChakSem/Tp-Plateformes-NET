@@ -11,6 +11,11 @@ namespace Hector
         private string Nom;
         private static Dictionary<string, Marque> MarquesObjects = new Dictionary<string, Marque>();
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="NouveauNom"></param>
+        /// <returns></returns>
         public static Marque CreateMarque(string NouveauNom)
         {
             //System.NullReferenceException : 'La référence d'objet n'est pas définie à une instance d'un objet.'
@@ -33,11 +38,19 @@ namespace Hector
             Nom = NouveauNom;
         }
 
+        /// <summary>
+        /// Accesseur en lecture de l'attribut Nom
+        /// </summary>
+        /// <returns> Nom </returns>
         public string GetNom()
         {
             return Nom;
         }
 
+        /// <summary>
+        /// Accesseur en écriture de l'attribut Nom
+        /// </summary>
+        /// <param name="NouveauNom">Le Nom que l'on souhaite définir</param>
         public void SetNom(string NouveauNom)
         {
             try

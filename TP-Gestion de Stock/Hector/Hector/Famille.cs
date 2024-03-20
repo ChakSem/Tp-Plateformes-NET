@@ -37,12 +37,19 @@ namespace Hector
             Nom = NouveauNom;
         }
         
-        /*Accesseurs*/
+        /// <summary>
+        /// Accesseur en lecture de l'attribut Nom
+        /// </summary>
+        /// <returns> Nom </returns>
         public string GetNom()
         {
             return Nom;
         }
 
+        /// <summary>
+        /// Accesseur en écriture de l'attribut Nom
+        /// </summary>
+        /// <param name="NouveauNom">Le Nom que l'on souhaite définir</param>
         public void SetNom(string NouveauNom)
         {
             try
