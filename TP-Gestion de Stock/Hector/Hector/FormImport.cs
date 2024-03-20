@@ -60,19 +60,25 @@ namespace Hector
             {
                 FilePathLabel.Text = path;
             }
-            //Article.AfficherArticles(articles);
+            //Article.AfficherArticles(articles); //pour le debug
             if (CheckBoxAjout.Checked)
             {
                 foreach (Article article in articles)
                 {
 
-                    
+                    //TO DO : Ajouter les articles dans la base de données ( Hector.sqlite) en mode ajout ( /!!!\ on rajoute les articles qui n'existent pas dans la BDD)
+                    //Article.AjouterArticle(article, true); //true pour le mode ajout
+
                 }
             }
             else
             {
                 foreach (Article article in articles)
                 {
+
+                    //TO DO : On va vider la base de données ( Hector.sqlite) et on va ajouter les articles de la liste
+                    //Article.AjouterArticle(article, false); //false pour le mode ecrasement
+
                     
                 }
             }
