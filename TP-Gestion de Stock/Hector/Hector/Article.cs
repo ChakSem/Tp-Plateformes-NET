@@ -7,54 +7,48 @@ using System.Threading.Tasks;
 
 namespace Hector
 {
-s
-
     class Article
     {
         private string Description;
         private string Reference;
-        private string Marque;
-        private string Famille;
-        private string SousFamille;
+        private Marque Marque;
+        private SousFamille SousFamille;
         private double PrixHT;
 
         /**
         * Constructeur de la classe Article
         * Entrées:
-        * - string description: la description de l'article
-        * - string reference: la référence de l'article
-        * - string marque: la marque de l'article
-        * - string famille: la famille de l'article
-        * - string sousFamille: la sous-famille de l'article
-        * - double prixHT: le prix hors taxe de l'article
+        * - string Description: la Description de l'article
+        * - string Reference: la référence de l'article
+        * - string Marque: la Marque de l'article
+        * - string Famille: la Famille de l'article
+        * - string SousFamille: la sous-Famille de l'article
+        * - double PrixHT: le prix hors taxe de l'article
         * Sortie:
         */
-        public Article(string description, string reference, string marque, string famille, string sousFamille, double prixHT)
+        public Article(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT)
         {
-            this.Description = description;
-            this.Reference = reference;
-            this.Marque = marque;
-            this.Famille = famille;
-            this.SousFamille = sousFamille;
-            this.PrixHT = prixHT;
+            this.Description = NouvelleDescription;
+            this.Reference = NouvelleReference;
+            this.Marque = NouvelleMarque;
+            this.SousFamille = NouvelleSousFamille;
+            this.PrixHT = NouveauPrixHT;
         }
 
         /* Accesseurs des attributs de la classe Article */
         public string GetDescription() { return Description; }
-        public void SetDescription(string value) { Description = value; }
+        public void SetDescription(string NouvelleDescription) { Description = NouvelleDescription; }
         public string GetReference() { return Reference; }
-        public void SetReference(string value) { Reference = value; }
-        public string GetMarque() { return Marque; }
-        public void SetMarque(string value) { Marque = value; }
-        public string GetFamille() { return Famille; }
-        public void SetFamille(string value) { Famille = value; }
-        public string GetSousFamille() { return SousFamille; }
-        public void SetSousFamille(string value) { SousFamille = value; }
+        public void SetReference(string NouvelleReference) { Reference = NouvelleReference; }
+        public Marque GetMarque() { return Marque; }
+        public void SetMarque(Marque NouvelleMarque) { Marque = NouvelleMarque; }
+        public SousFamille GetSousFamille() { return SousFamille; }
+        public void SetSousFamille(SousFamille NouvelleSousFamille) { SousFamille = NouvelleSousFamille; }
         public double GetPrixHT() { return PrixHT; }
-        public void SetPrixHT(double value) { PrixHT = value; }
+        public void SetPrixHT(double NouveauPrixHT) { PrixHT = NouveauPrixHT; }
 
-        /**
-        * Méthode qui permet d'afficher les articles de la liste
+        /** 
+        * Méthode qui permet d'afficher les articles de la liste (POUR LE DEBUG)
         * Entrée: 
         * - List<Article> articles: la liste des articles
         * Sortie: 
@@ -65,7 +59,7 @@ s
             string res = "";
             foreach (Article article in articles)
             {
-                res += article.GetDescription() + " " + article.GetReference() + " " + article.GetMarque() + " " + article.GetFamille() + " " + article.GetSousFamille() + " " + article.GetPrixHT() + "\n";
+                res += article.GetDescription() + " " + article.GetReference() + " " + article.GetMarque() + " " + article.GetSousFamille().GetFamille() + " " + article.GetSousFamille() + " " + article.GetPrixHT() + "\n";
             }
             Console.WriteLine(res); // Affichage dans le terminal
             return res;

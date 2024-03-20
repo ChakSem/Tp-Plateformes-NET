@@ -11,39 +11,41 @@ namespace Hector
         /**
         * Methode qui permet de parser un fichier csv
         * Entree: - string path: le chemin du fichier csv
-        * Sortie: - List<Article>: la liste des articles
+        * Sortie: - List<Article>: la liste des Articles
         */
         public static List<Article> Parse(string path)
         {
-            /*On crée une liste d'articles*/
-            List<Article> articles = new List<Article>();
+            /*On crée une liste d'Articles*/
+            List<Article> Articles = new List<Article>();
             /*On lit le fichier ligne par ligne*/
             string[] lines = System.IO.File.ReadAllLines(path);
-
             for (int i = 1; i < lines.Length; i++)// On commence à 1 pour ne pas prendre en compte la première ligne
             {
                 string[] values = lines[i].Split(';');
-                string description = values[0];
-                string reference = values[1];
-                string marque = values[2];
-                string famille = values[3];
-                string sousFamille = values[4];
-                double prixHT = double.Parse(values[5]);
-                bool exist = false;
+                string Description = values[0];
+                string Reference = values[1];
+                /*On verifie que la marque n'est pas deja dans la liste*/
+                Marque Marque = Marque.CreateMarque(values[2]);
+                /*On verifie que la famille n'est pas deja dans la liste*/
+                Famille Famille = new Famille(values[3]);
+                /*On verifie que la sous famille n'est pas deja dans la liste*/
+                SousFamille SousFamille = new SousFamille(values[4], Famille);
+                double PrixHT = double.Parse(values[5]);
+                bool Exist = false;
 
                 //on verifie que l'article n'est pas deja dans la liste
-                foreach (Article article in articles)
+                foreach (Article Article in Articles)
                 {
-                    if (article.GetReference() == reference)
+                    if (Article.GetReference() == Reference)
                     {
-                        exist = true;
+                        Exist = true;
                     }
                 }
-                if (!exist)
-                    articles.Add(new Article(description, reference, marque, famille, sousFamille, prixHT));
+                if (!Exist)
+                    Articles.Add(new Article(Description, Reference, Marque, SousFamille, PrixHT));
 
             }
-            return articles;
+            return Articles;
         }
     }
 }
