@@ -59,7 +59,8 @@ namespace Hector
             string res = "";
             foreach (Article article in articles)
             {
-                res += article.GetDescription() + " " + article.GetReference() + " " + article.GetMarque() + " " + article.GetSousFamille().GetFamille() + " " + article.GetSousFamille() + " " + article.GetPrixHT() + "\n";
+                res += article.GetDescription() + " " + article.GetReference() + " " + article.GetMarque().GetNom() + " " 
+                    + article.GetSousFamille().GetFamille().GetNom() + " " + article.GetSousFamille().GetNom() + " " + article.GetPrixHT() + "\n";
             }
             Console.WriteLine(res); // Affichage dans le terminal
             return res;
