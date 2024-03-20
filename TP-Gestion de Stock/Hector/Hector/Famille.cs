@@ -9,7 +9,13 @@ namespace Hector
     class Famille
     { 
         private string Nom;
-        private static Dictionary<string, Famille> FamillesObjects;
+        private static Dictionary<string, Famille> FamillesObjects = new Dictionary<string, Famille>();
+
+        /// <summary>
+        /// Méthode permettant de récupérer un objet Famille avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
+        /// </summary>
+        /// <param name="NomParam">Nom de la Famille que l'on souhaite</param>
+        /// <returns></returns>
         public static Famille CreateFamille(string NomParam)
         {
             if (FamillesObjects.ContainsKey(NomParam))

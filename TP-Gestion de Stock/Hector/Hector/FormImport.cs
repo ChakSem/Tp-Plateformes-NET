@@ -34,11 +34,11 @@ namespace Hector
 
         private void ImportCsvFile(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Fichiers CSV|*.csv";
-            openFileDialog.Title = "Selectionnez un fichier CSV";
-            openFileDialog.ShowDialog();
-            string path = openFileDialog.FileName;
+            OpenFileDialog OpenFileDialog = new OpenFileDialog();
+            OpenFileDialog.Filter = "Fichiers CSV|*.csv";
+            OpenFileDialog.Title = "Selectionnez un fichier CSV";
+            OpenFileDialog.ShowDialog();
+            string path = OpenFileDialog.FileName;
             List<Article> articles = Parser.Parse(path);
             foreach (Article article in articles)
             {

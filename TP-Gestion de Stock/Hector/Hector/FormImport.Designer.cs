@@ -41,40 +41,37 @@ namespace Hector
             // 
             // SelectFile
             // 
-            this.SelectFile.Location = new System.Drawing.Point(24, 18);
-            this.SelectFile.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.SelectFile.Location = new System.Drawing.Point(16, 12);
             this.SelectFile.Name = "SelectFile";
-            this.SelectFile.Size = new System.Drawing.Size(144, 35);
+            this.SelectFile.Size = new System.Drawing.Size(118, 23);
             this.SelectFile.TabIndex = 0;
-            this.SelectFile.Text = "Open .csv file";
+            this.SelectFile.Text = "Ouvrir le fichier .csv";
             this.SelectFile.UseVisualStyleBackColor = true;
             this.SelectFile.Click += new System.EventHandler(this.ImportCsvFile);
             // 
             // FilePathLabel
             // 
             this.FilePathLabel.AutoSize = true;
-            this.FilePathLabel.Location = new System.Drawing.Point(34, 85);
-            this.FilePathLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.FilePathLabel.Location = new System.Drawing.Point(23, 55);
             this.FilePathLabel.Name = "FilePathLabel";
-            this.FilePathLabel.Size = new System.Drawing.Size(17, 20);
+            this.FilePathLabel.Size = new System.Drawing.Size(15, 13);
             this.FilePathLabel.TabIndex = 4;
             this.FilePathLabel.Text = "./";
             // 
             // ProgressBar
             // 
-            this.ProgressBar.Location = new System.Drawing.Point(0, 220);
-            this.ProgressBar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 6);
+            this.ProgressBar.Location = new System.Drawing.Point(0, 143);
+            this.ProgressBar.Margin = new System.Windows.Forms.Padding(3, 3, 3, 4);
             this.ProgressBar.Name = "ProgressBar";
-            this.ProgressBar.Size = new System.Drawing.Size(576, 43);
+            this.ProgressBar.Size = new System.Drawing.Size(384, 28);
             this.ProgressBar.TabIndex = 5;
             // 
             // CheckBoxAjout
             // 
             this.CheckBoxAjout.AutoSize = true;
-            this.CheckBoxAjout.Location = new System.Drawing.Point(39, 169);
-            this.CheckBoxAjout.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.CheckBoxAjout.Location = new System.Drawing.Point(26, 110);
             this.CheckBoxAjout.Name = "CheckBoxAjout";
-            this.CheckBoxAjout.Size = new System.Drawing.Size(139, 24);
+            this.CheckBoxAjout.Size = new System.Drawing.Size(96, 17);
             this.CheckBoxAjout.TabIndex = 6;
             this.CheckBoxAjout.Text = "Ouvrir en Ajout";
             this.CheckBoxAjout.UseVisualStyleBackColor = true;
@@ -83,10 +80,9 @@ namespace Hector
             // CheckBoxEcrasement
             // 
             this.CheckBoxEcrasement.AutoSize = true;
-            this.CheckBoxEcrasement.Location = new System.Drawing.Point(338, 169);
-            this.CheckBoxEcrasement.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.CheckBoxEcrasement.Location = new System.Drawing.Point(225, 110);
             this.CheckBoxEcrasement.Name = "CheckBoxEcrasement";
-            this.CheckBoxEcrasement.Size = new System.Drawing.Size(188, 24);
+            this.CheckBoxEcrasement.Size = new System.Drawing.Size(128, 17);
             this.CheckBoxEcrasement.TabIndex = 7;
             this.CheckBoxEcrasement.Text = "Ouvrir en Ecrasement";
             this.CheckBoxEcrasement.UseVisualStyleBackColor = true;
@@ -94,10 +90,9 @@ namespace Hector
             // FinishButton
             // 
             this.FinishButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.FinishButton.Location = new System.Drawing.Point(0, 233);
-            this.FinishButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.FinishButton.Location = new System.Drawing.Point(0, 162);
             this.FinishButton.Name = "FinishButton";
-            this.FinishButton.Size = new System.Drawing.Size(567, 35);
+            this.FinishButton.Size = new System.Drawing.Size(382, 23);
             this.FinishButton.TabIndex = 8;
             this.FinishButton.Text = "Finir";
             this.FinishButton.UseVisualStyleBackColor = true;
@@ -108,18 +103,17 @@ namespace Hector
             // 
             // FormImport
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(567, 268);
+            this.ClientSize = new System.Drawing.Size(382, 185);
             this.Controls.Add(this.FinishButton);
             this.Controls.Add(this.CheckBoxEcrasement);
             this.Controls.Add(this.CheckBoxAjout);
             this.Controls.Add(this.ProgressBar);
             this.Controls.Add(this.FilePathLabel);
             this.Controls.Add(this.SelectFile);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.MaximumSize = new System.Drawing.Size(589, 324);
-            this.MinimumSize = new System.Drawing.Size(589, 324);
+            this.MaximumSize = new System.Drawing.Size(398, 224);
+            this.MinimumSize = new System.Drawing.Size(398, 224);
             this.Name = "FormImport";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Importer";

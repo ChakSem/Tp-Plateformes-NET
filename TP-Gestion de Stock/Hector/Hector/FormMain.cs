@@ -25,18 +25,14 @@ namespace Hector
 
         private void importerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           // FormImport formImport = new FormImport();
-           // formImport.ShowDialog();
-
-           
-
+            FormImport FormImport = new FormImport();
+            FormImport.ShowDialog();
         }
 
         private void exporterToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           // FormExport formExport = new FormExport();
-            //formExport.ShowDialog();
-
+            FormExport FormExport = new FormExport();
+            FormExport.ShowDialog();
         }
     }
 }
