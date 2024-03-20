@@ -17,7 +17,7 @@ namespace Hector
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void ImportButton(object sender, EventArgs e)
         {
 
         }
@@ -29,6 +29,21 @@ namespace Hector
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void ImportCsvFile(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Fichiers CSV|*.csv";
+            openFileDialog.Title = "Selectionnez un fichier CSV";
+            openFileDialog.ShowDialog();
+            string path = openFileDialog.FileName;
+            List<Article> articles = Parser.Parse(path);
+            foreach (Article article in articles)
+            {
+                Console.WriteLine(article.GetDescription());
+            }
 
         }
     }

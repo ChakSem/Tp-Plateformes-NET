@@ -27,9 +27,9 @@ namespace Hector
                 /*On verifie que la marque n'est pas deja dans la liste*/
                 Marque Marque = Marque.CreateMarque(values[2]);
                 /*On verifie que la famille n'est pas deja dans la liste*/
-                Famille Famille = new Famille(values[3]);
+                Famille Famille = Famille.CreateFamille(values[3]);
                 /*On verifie que la sous famille n'est pas deja dans la liste*/
-                SousFamille SousFamille = new SousFamille(values[4], Famille);
+                SousFamille SousFamille = SousFamille.CreateSousFamille(values[4], Famille);
                 double PrixHT = double.Parse(values[5]);
                 bool Exist = false;
 
