@@ -28,6 +28,7 @@ namespace Hector
 
         private void SelectFile_Click(object sender, EventArgs e)
         {
+
             SaveFileDialog SaveFileDialog = new SaveFileDialog();
             SaveFileDialog.Filter = "Fichiers CSV|*.csv";
             SaveFileDialog.Title = "Selectionnez le chemin où sauvegarder";
