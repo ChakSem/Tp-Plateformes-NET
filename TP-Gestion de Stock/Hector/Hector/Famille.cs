@@ -43,13 +43,11 @@ namespace Hector
             {
                 if (FamillesObjects.ContainsKey(NouveauNom))
                 {
-                    throw new Exception("La famille existe déjà");
-
+                    throw new Exception(Exception.ERROR_NOM_IS_ALREADY_ASSIGNED);
                 }
                 Nom = NouveauNom;
-            } catch (Exception e)
-            {
-                Console.WriteLine("La famille existe déjà");
+            } catch (Exception ExceptionCatched) {
+                ExceptionCatched.DisplayErrorMessage();
             }
         }
     }

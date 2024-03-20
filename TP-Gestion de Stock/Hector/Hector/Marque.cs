@@ -39,7 +39,18 @@ namespace Hector
 
         public void SetNom(string NouveauNom)
         {
-            Nom = NouveauNom;
+            try
+            {
+                if (MarquesObjects.ContainsKey(NouveauNom))
+                {
+                    throw new Exception(Exception.ERROR_NOM_IS_ALREADY_ASSIGNED);
+                }
+                Nom = NouveauNom;
+            }
+            catch (Exception ExceptionCatched)
+            {
+                ExceptionCatched.DisplayErrorMessage();
+            }
         }
 
     }
