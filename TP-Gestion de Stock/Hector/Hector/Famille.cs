@@ -43,11 +43,11 @@ namespace Hector
             {
                 if (FamillesObjects.ContainsKey(NouveauNom))
                 {
-                    throw NULL;
-
+                    throw new Exception(Exception.ERROR_NOM_IS_ALREADY_ASSIGNED);
                 }
                 Nom = NouveauNom;
-            } catch () { 
+            } catch (Exception ExceptionCatched) {
+                ExceptionCatched.DisplayErrorMessage();
             }
         }
     }
