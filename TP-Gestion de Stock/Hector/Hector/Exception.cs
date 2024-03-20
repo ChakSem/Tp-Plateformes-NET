@@ -9,7 +9,6 @@ namespace Hector
     class Exception : System.Exception
     {
         public const uint ERROR_NOM_IS_ALREADY_ASSIGNED = 1;
-
         private uint ErrorCode;
         public uint GetErrorCode()
         {

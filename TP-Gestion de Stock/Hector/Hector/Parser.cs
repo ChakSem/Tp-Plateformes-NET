@@ -15,10 +15,16 @@ namespace Hector
         */
         public static List<Article> Parse(string path)
         {
+            if (path == "")
+            {
+                /*On retourne une liste vide si le chemin est vide*/
+                return new List<Article>();
+            }
             /*On crée une liste d'Articles*/
+
             List<Article> Articles = new List<Article>();
             /*On lit le fichier ligne par ligne*/
-            string[] lines = System.IO.File.ReadAllLines(path);
+            string[] lines = System.IO.File.ReadAllLines(path, Encoding.GetEncoding("iso-8859-1"));
             for (int i = 1; i < lines.Length; i++)// On commence à 1 pour ne pas prendre en compte la première ligne
             {
                 string[] values = lines[i].Split(';');

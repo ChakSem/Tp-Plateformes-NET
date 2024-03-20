@@ -9,11 +9,12 @@ namespace Hector
     class Marque
     {
         private string Nom;
-        private static Dictionary<string, Marque> MarquesObjects;
+        private static Dictionary<string, Marque> MarquesObjects = new Dictionary<string, Marque>();
         
         public static Marque CreateMarque(string NouveauNom)
         {
-            if( MarquesObjects.ContainsKey(NouveauNom))
+            //System.NullReferenceException : 'La référence d'objet n'est pas définie à une instance d'un objet.'
+            if( MarquesObjects.ContainsKey(NouveauNom) )
             {
                 return MarquesObjects[NouveauNom];
             } else
