@@ -9,6 +9,8 @@ namespace Hector
     class Exception : System.Exception
     {
         public const uint ERROR_NOM_IS_ALREADY_ASSIGNED = 1;
+        public const uint ERROR_FAMILLE_DOESN_T_MATCH = 2;
+
         private uint ErrorCode;
         public uint GetErrorCode()
         {
@@ -32,6 +34,8 @@ namespace Hector
             {
                 case ERROR_NOM_IS_ALREADY_ASSIGNED:
                     //qDebug() << "Le nom de profil saisi est deja affecte";
+                    break;
+                case ERROR_FAMILLE_DOESN_T_MATCH:
                     break;
                 default:
                     //qDebug() << "INCONNUE"

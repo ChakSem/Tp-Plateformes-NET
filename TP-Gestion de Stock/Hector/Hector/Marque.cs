@@ -8,24 +8,25 @@ namespace Hector
 {
     class Marque
     {
-        private string Nom;
         private static Dictionary<string, Marque> MarquesObjects = new Dictionary<string, Marque>();
-        
+
+        private string Nom;
+
         /// <summary>
-        /// 
+        /// Méthode permettant de récupérer un objet Marque avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
         /// </summary>
-        /// <param name="NouveauNom"></param>
-        /// <returns></returns>
-        public static Marque CreateMarque(string NouveauNom)
+        /// <param name="NomParam">Nom de la Marque que l'on souhaite</param>
+        /// <returns> NouvelleMarque </returns>
+        public static Marque CreateMarque(string NomParam)
         {
             //System.NullReferenceException : 'La référence d'objet n'est pas définie à une instance d'un objet.'
-            if( MarquesObjects.ContainsKey(NouveauNom) )
+            if( MarquesObjects.ContainsKey(NomParam) )
             {
-                return MarquesObjects[NouveauNom];
+                return MarquesObjects[NomParam];
             } else
             {
-                Marque NouvelleMarque = new Marque(NouveauNom);
-                MarquesObjects.Add(NouveauNom, NouvelleMarque);
+                Marque NouvelleMarque = new Marque(NomParam);
+                MarquesObjects.Add(NomParam, NouvelleMarque);
 
                 return NouvelleMarque;
             }
@@ -33,9 +34,14 @@ namespace Hector
         private Marque() { }
         private Marque(Marque NouvelleMarque) { }
 
-        private Marque(string NouveauNom)
+
+        /// <summary>
+        /// Constructeur utilisé par la méthode CreateMarque
+        /// </summary>
+        /// <param name="NomParam">Nom de la Marque que l'on souhaite</param>
+        private Marque(string NomParam)
         {
-            Nom = NouveauNom;
+            Nom = NomParam;
         }
 
         /// <summary>
