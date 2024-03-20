@@ -9,7 +9,7 @@ namespace Hector
     class Famille
     { 
         private string Nom;
-        private static Dictionary<string, Famille> FamillesObjects;
+        private static Dictionary<string, Famille> FamillesObjects = new Dictionary<string, Famille>();
         public static Famille CreateFamille(string NomParam)
         {
             if (FamillesObjects.ContainsKey(NomParam))

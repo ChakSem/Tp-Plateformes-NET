@@ -10,7 +10,7 @@ namespace Hector
     {
         private string Nom;
         private Famille Famille;
-        private static Dictionary<string, SousFamille> SousFamillesObjects;
+        private static Dictionary<string, SousFamille> SousFamillesObjects = new Dictionary<string, SousFamille>();
 
         public static SousFamille CreateSousFamille(string NomParam, Famille FamilleParam)
         {
