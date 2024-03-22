@@ -11,7 +11,7 @@ namespace Hector
         /// <summary>
         /// Stocke les objets Famille déjà créé 
         /// </summary>
-        private static Dictionary<string, Famille> FamillesObjects = new Dictionary<string, Famille>();
+        private static Dictionary<string, Famille> DictionnaireFamilles= new Dictionary<string, Famille>();
 
         private string Nom;
 
@@ -22,14 +22,14 @@ namespace Hector
         /// <returns> NouvelleFamille </returns>
         public static Famille CreateFamille(string NomParam)
         {
-            if (FamillesObjects.ContainsKey(NomParam))
+            if (DictionnaireFamilles.ContainsKey(NomParam))
             {
-                return FamillesObjects[NomParam];
+                return DictionnaireFamilles[NomParam];
             }
             else
             {
                 Famille NouvelleFamille = new Famille(NomParam);
-                FamillesObjects.Add(NomParam, NouvelleFamille);
+                DictionnaireFamilles.Add(NomParam, NouvelleFamille);
 
                 return NouvelleFamille;
             }
@@ -63,7 +63,7 @@ namespace Hector
         {
             try
             {
-                if (FamillesObjects.ContainsKey(NouveauNom))
+                if (DictionnaireFamilles.ContainsKey(NouveauNom))
                 {
                     throw new Exception(Exception.ERROR_NOM_IS_ALREADY_ASSIGNED);
                 }
@@ -71,6 +71,16 @@ namespace Hector
             } catch (Exception ExceptionCatched) {
                 ExceptionCatched.DisplayErrorMessage();
             }
+        }
+
+        public static List<Famille> GetListeFamilles()
+        {
+            return DictionnaireFamilles.Values.ToList();
+        }
+
+        public static void ViderDictionnaireFamilles()
+        {
+            DictionnaireFamilles.Clear();
         }
     }
 }

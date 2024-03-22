@@ -11,7 +11,7 @@ namespace Hector
         /// <summary>
         /// Stocke les objets Sous-Famille déjà créé 
         /// </summary>
-        private static Dictionary<string, SousFamille> SousFamillesObjects = new Dictionary<string, SousFamille>();
+        private static Dictionary<string, SousFamille> DictionnaireSousFamilles= new Dictionary<string, SousFamille>();
 
         private string Nom;
         private Famille Famille;
@@ -24,11 +24,11 @@ namespace Hector
         /// <returns> NouvelleSousFamille </returns>
         public static SousFamille CreateSousFamille(string NomParam, Famille FamilleParam)
         {
-            if (SousFamillesObjects.ContainsKey(NomParam))
+            if (DictionnaireSousFamilles.ContainsKey(NomParam))
             {
                 try
                 {
-                    SousFamille SousFamilleExistante = SousFamillesObjects[NomParam];
+                    SousFamille SousFamilleExistante = DictionnaireSousFamilles[NomParam];
                     if (FamilleParam.GetNom() != SousFamilleExistante.GetFamille().GetNom())
                     {
                         throw new Exception(Exception.ERROR_FAMILLE_DOESN_T_MATCH);
@@ -46,7 +46,7 @@ namespace Hector
             else
             {
                 SousFamille NouvelleSousFamille = new SousFamille(NomParam, FamilleParam);
-                SousFamillesObjects.Add(NomParam, NouvelleSousFamille);
+                DictionnaireSousFamilles.Add(NomParam, NouvelleSousFamille);
 
                 return NouvelleSousFamille;
             }
@@ -82,7 +82,7 @@ namespace Hector
         {
             try
             {
-                if (SousFamillesObjects.ContainsKey(NouveauNom))
+                if (DictionnaireSousFamilles.ContainsKey(NouveauNom))
                 {
                     throw new Exception(Exception.ERROR_NOM_IS_ALREADY_ASSIGNED);
                 }
@@ -110,6 +110,16 @@ namespace Hector
         public void SetFamille(Famille NouvelleFamille)
         {
             Famille = NouvelleFamille;
+        }
+
+        public static List<SousFamille> GetListeSousFamilles()
+        {
+            return DictionnaireSousFamilles.Values.ToList();
+        }
+
+        public static void ViderDictionnaireSousFamilles()
+        {
+            DictionnaireSousFamilles.Clear();
         }
     }
 }

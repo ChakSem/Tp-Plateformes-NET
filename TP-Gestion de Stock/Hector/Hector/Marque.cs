@@ -11,7 +11,7 @@ namespace Hector
         /// <summary>
         /// Stocke les objets Marque déjà créé 
         /// </summary>
-        private static Dictionary<string, Marque> MarquesObjects = new Dictionary<string, Marque>();
+        private static Dictionary<string, Marque> DictionnairesMarques= new Dictionary<string, Marque>();
 
         private string Nom;
 
@@ -23,13 +23,13 @@ namespace Hector
         public static Marque CreateMarque(string NomParam)
         {
             //System.NullReferenceException : 'La référence d'objet n'est pas définie à une instance d'un objet.'
-            if( MarquesObjects.ContainsKey(NomParam) )
+            if(DictionnairesMarques.ContainsKey(NomParam) )
             {
-                return MarquesObjects[NomParam];
+                return DictionnairesMarques[NomParam];
             } else
             {
                 Marque NouvelleMarque = new Marque(NomParam);
-                MarquesObjects.Add(NomParam, NouvelleMarque);
+                DictionnairesMarques.Add(NomParam, NouvelleMarque);
 
                 return NouvelleMarque;
             }
@@ -64,7 +64,7 @@ namespace Hector
         {
             try
             {
-                if (MarquesObjects.ContainsKey(NouveauNom))
+                if (DictionnairesMarques.ContainsKey(NouveauNom))
                 {
                     throw new Exception(Exception.ERROR_NOM_IS_ALREADY_ASSIGNED);
                 }
@@ -74,6 +74,16 @@ namespace Hector
             {
                 ExceptionCatched.DisplayErrorMessage();
             }
+        }
+
+        public static List<Marque> GetListeMarques()
+        {
+            return DictionnairesMarques.Values.ToList();
+        }
+
+        public static void ViderDictionnairesMarques()
+        {
+            DictionnairesMarques.Clear();
         }
     }
 }

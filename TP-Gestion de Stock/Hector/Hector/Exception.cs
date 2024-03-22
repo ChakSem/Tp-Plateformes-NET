@@ -11,6 +11,8 @@ namespace Hector
         public const uint ERROR_REFERENCE_IS_ALREADY_ASSIGNED = 0;
         public const uint ERROR_NOM_IS_ALREADY_ASSIGNED = 1;
         public const uint ERROR_FAMILLE_DOESN_T_MATCH = 2;
+        public const uint ERROR_DATABASE_FILE_NOT_FOUND = 3;
+        public const uint ERROR_DATABASE_CONNECTION= 4;
 
         private uint ErrorCode;
         public uint GetErrorCode()
@@ -41,6 +43,12 @@ namespace Hector
                     break;
                 case ERROR_FAMILLE_DOESN_T_MATCH:
                     ErrorMessage = "La sous-famille existante à ce nom n'est pas de la famille indiquée";
+                    break;
+                case ERROR_DATABASE_FILE_NOT_FOUND:
+                    ErrorMessage = "Le fichier n'a pu être trouvé";
+                    break;
+                case ERROR_DATABASE_CONNECTION:
+                    ErrorMessage = "La connection avec la base de donnée a échouée";
                     break;
                 default:
                     ErrorMessage = "Une erreur inconnue est survenue";
