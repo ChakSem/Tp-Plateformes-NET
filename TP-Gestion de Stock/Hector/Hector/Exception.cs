@@ -8,7 +8,10 @@ namespace Hector
 {
     class Exception : System.Exception
     {
+        public const uint ERROR_REFERENCE_IS_ALREADY_ASSIGNED = 0;
         public const uint ERROR_NOM_IS_ALREADY_ASSIGNED = 1;
+        public const uint ERROR_FAMILLE_DOESN_T_MATCH = 2;
+
         private uint ErrorCode;
         public uint GetErrorCode()
         {
@@ -27,16 +30,25 @@ namespace Hector
 
         public void DisplayErrorMessage()
         {
-            //qDebug() << "ERREUR : ";
+            string ErrorMessage = "";
             switch (ErrorCode)
             {
+                case ERROR_REFERENCE_IS_ALREADY_ASSIGNED:
+                    ErrorMessage = "Un article existe déjà pour cette réference";
+                break;
                 case ERROR_NOM_IS_ALREADY_ASSIGNED:
-                    //qDebug() << "Le nom de profil saisi est deja affecte";
+                    ErrorMessage = "Un objet existe déjà pour ce nom";
+                    break;
+                case ERROR_FAMILLE_DOESN_T_MATCH:
+                    ErrorMessage = "La sous-famille existante à ce nom n'est pas de la famille indiquée";
                     break;
                 default:
-                    //qDebug() << "INCONNUE"
+                    ErrorMessage = "Une erreur inconnue est survenue";
                     break;
             }
+
+            System.Windows.Forms.MessageBox.Show(ErrorMessage, "Erreur code - " + ErrorCode,
+            System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
         }
     }
 }

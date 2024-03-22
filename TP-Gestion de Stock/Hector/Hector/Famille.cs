@@ -7,15 +7,19 @@ using System.Threading.Tasks;
 namespace Hector
 {
     class Famille
-    { 
-        private string Nom;
+    {
+        /// <summary>
+        /// Stocke les objets Famille déjà créé 
+        /// </summary>
         private static Dictionary<string, Famille> FamillesObjects = new Dictionary<string, Famille>();
+
+        private string Nom;
 
         /// <summary>
         /// Méthode permettant de récupérer un objet Famille avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
         /// </summary>
         /// <param name="NomParam">Nom de la Famille que l'on souhaite</param>
-        /// <returns></returns>
+        /// <returns> NouvelleFamille </returns>
         public static Famille CreateFamille(string NomParam)
         {
             if (FamillesObjects.ContainsKey(NomParam))
@@ -32,6 +36,11 @@ namespace Hector
         }
         private Famille() { }
         private Famille(Famille FamilleParam) { }
+
+        /// <summary>
+        /// Constructeur de confort de la classe Famille
+        /// </summary>
+        /// <param name="NouveauNom"></param>
         private Famille(string NouveauNom)
         {
             Nom = NouveauNom;
