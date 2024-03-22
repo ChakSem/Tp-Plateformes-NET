@@ -19,6 +19,9 @@ namespace Hector
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("Some text", "Some title",
+    MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             //FormArticle formArticle = new FormArticle();
             //formArticle.ShowDialog();
         }

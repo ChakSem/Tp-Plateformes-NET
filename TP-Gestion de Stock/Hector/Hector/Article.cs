@@ -9,11 +9,48 @@ namespace Hector
 {
     class Article
     {
+        /// <summary>
+        /// Stocke les objets Article déjà créé 
+        /// </summary>
+        private static Dictionary<string, Article> ArticlesObjects = new Dictionary<string, Article>();
+
         private string Description;
         private string Reference;
         private Marque Marque;
         private SousFamille SousFamille;
         private double PrixHT;
+
+        /// <summary>
+        /// Méthode qui crée un objet Article, si la réference est disponible
+        /// </summary>
+        /// <param name="NouvelleDescription">La description de l'article</param>
+        /// <param name="NouvelleReference">La référence de l'article</param>
+        /// <param name="NouvelleMarque">La Marque de l'article</param>
+        /// <param name="NouvelleSousFamille">La Sous-Famille de l'article</param>
+        /// <param name="NouveauPrixHT">Le prix hors taxe de l'article</param>
+        /// <returns>NouvelArticle</returns>
+        public static Article CreateArticle(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT)
+        {
+            try {
+                if (ArticlesObjects.ContainsKey(NouvelleReference))
+                {
+                    throw new Exception(Exception.ERROR_NOM_IS_ALREADY_ASSIGNED);
+                }
+
+                Article NouvelArticle = new Article(NouvelleDescription, NouvelleReference, NouvelleMarque, NouvelleSousFamille, NouveauPrixHT);
+                ArticlesObjects.Add(NouvelleReference, NouvelArticle);
+
+                return NouvelArticle;
+            } catch (Exception Exception)
+            {
+                Exception.DisplayErrorMessage();
+
+                return null;
+            }
+        }
+
+        private Article() { }
+        private Article(Article ArticleParam) { }
 
         /// <summary>
         /// Constructeur de la classe Article
@@ -23,7 +60,7 @@ namespace Hector
         /// <param name="NouvelleMarque">La Marque de l'article</param>
         /// <param name="NouvelleSousFamille">La Sous-Famille de l'article</param>
         /// <param name="NouveauPrixHT">Le prix hors taxe de l'article</param>
-        public Article(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT)
+        private Article(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT)
         {
             this.Description = NouvelleDescription;
             this.Reference = NouvelleReference;
@@ -54,14 +91,12 @@ namespace Hector
             string res = "";
             foreach (Article Article in Articles)
             {
-                res += Article.GetDescription() + " " + Article.GetReference() + " " + Article.GetMarque().GetNom() + " " 
+                res += Article.GetDescription() + " " + Article.GetReference() + " " + Article.GetMarque().GetNom() + " "
                     + Article.GetSousFamille().GetFamille().GetNom() + " " + Article.GetSousFamille().GetNom() + " " + Article.GetPrixHT() + "\n";
             }
             Console.WriteLine(res); // Affichage dans le terminal
             return res;
         }
     }
-
-
 }
 

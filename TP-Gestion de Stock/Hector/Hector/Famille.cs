@@ -9,7 +9,7 @@ namespace Hector
     class Famille
     {
         /// <summary>
-        /// Stocke les objets Sous-Famille déjà créé 
+        /// Stocke les objets Famille déjà créé 
         /// </summary>
         private static Dictionary<string, Famille> FamillesObjects = new Dictionary<string, Famille>();
 
@@ -36,6 +36,11 @@ namespace Hector
         }
         private Famille() { }
         private Famille(Famille FamilleParam) { }
+
+        /// <summary>
+        /// Constructeur de confort de la classe Famille
+        /// </summary>
+        /// <param name="NouveauNom"></param>
         private Famille(string NouveauNom)
         {
             Nom = NouveauNom;

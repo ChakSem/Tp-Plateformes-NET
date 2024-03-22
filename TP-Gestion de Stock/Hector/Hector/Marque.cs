@@ -9,7 +9,7 @@ namespace Hector
     class Marque
     {
         /// <summary>
-        /// Stocke les objets Sous-Famille déjà créé 
+        /// Stocke les objets Marque déjà créé 
         /// </summary>
         private static Dictionary<string, Marque> MarquesObjects = new Dictionary<string, Marque>();
 

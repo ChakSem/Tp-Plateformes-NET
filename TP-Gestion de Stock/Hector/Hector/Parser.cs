@@ -48,7 +48,12 @@ namespace Hector
                     }
                 }
                 if (!Exist)
-                    Articles.Add(new Article(Description, Reference, Marque, SousFamille, PrixHT));
+                {
+                    Article NouvelArticle;
+                    if ((NouvelArticle = Article.CreateArticle(Description, Reference, Marque, SousFamille, PrixHT)) != null)
+                        Articles.Add(NouvelArticle);
+
+                }
             }
             return Articles;
         }
