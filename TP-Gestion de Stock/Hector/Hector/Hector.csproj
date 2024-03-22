@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Article.cs" />
+    <Compile Include="Database.cs" />
     <Compile Include="Exception.cs" />
     <Compile Include="Famille.cs" />
     <Compile Include="FormExport.cs">
