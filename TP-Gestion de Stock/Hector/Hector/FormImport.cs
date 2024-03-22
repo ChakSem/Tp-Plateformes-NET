@@ -48,9 +48,8 @@ namespace Hector
             OpenFileDialog.Title = "Selectionnez un fichier CSV";
             OpenFileDialog.ShowDialog();
             return OpenFileDialog.FileName;
-           
-
         }
+
 
         private void FinishButton_Click(object sender, EventArgs e)
         {
@@ -60,7 +59,12 @@ namespace Hector
             {
                 FilePathLabel.Text = path;
             }
-            //Article.AfficherArticles(articles); //pour le debug
+            else
+            {
+                MessageBox.Show("Veuillez selectionner un fichier");
+            }
+
+            List<Article> articles = Parser.Parse(path);
             if (CheckBoxAjout.Checked)
             {
                 foreach (Article article in articles)

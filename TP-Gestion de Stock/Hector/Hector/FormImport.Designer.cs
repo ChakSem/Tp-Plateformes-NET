@@ -48,8 +48,6 @@ namespace Hector
             this.SelectFile.TabIndex = 0;
             this.SelectFile.Text = "Ouvrir le fichier .csv";
             this.SelectFile.UseVisualStyleBackColor = true;
-                  //  private string ImportCsvFile(object sender, EventArgs e)
-
             this.SelectFile.Click += new System.EventHandler(this.ImportButton);
             // 
             // FilePathLabel
@@ -129,6 +127,7 @@ namespace Hector
             this.Name = "FormImport";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Importer";
+            this.Load += new System.EventHandler(this.FormImport_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
