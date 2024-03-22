@@ -52,10 +52,7 @@ namespace Hector
 
         private void RefSousFamilleComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //On récupère les sous-familles
-            List<SousFamille> sousFamilles = SousFamille.GetSousFamilles();
-            //On récupère la sous-famille sélectionnée
-            SousFamille sousFamille = sousFamilles[RefSousFamilleComboBox.SelectedIndex];
+            //On récupère les sous
 
         }
 
