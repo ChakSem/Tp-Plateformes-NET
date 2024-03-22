@@ -16,5 +16,21 @@ namespace Hector
         {
             InitializeComponent();
         }
+
+        private void CreateButton_Click(object sender, EventArgs e)
+        {
+
+            if (RefArticlesTextBox.Text == "")
+            {
+                MessageBox.Show("Le champ Référence est vide", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            Marque.CreateMarque(RefArticlesTextBox.Text);
+        }
+
+        private void CancelButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

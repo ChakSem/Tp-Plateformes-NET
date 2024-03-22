@@ -16,5 +16,21 @@ namespace Hector
         {
             InitializeComponent();
         }
+
+        private void RefFamilleComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CreateButton_Click(object sender, EventArgs e)
+        {
+           // RefArticlesTextBox
+           // RefFamilleComboBox
+        }
+
+        private void CancelButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

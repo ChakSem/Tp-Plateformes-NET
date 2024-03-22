@@ -125,7 +125,6 @@ namespace Hector
         /// <summary>
         /// Permets de lire la liste des familles.
         /// </summary>
-        /// 
         public void ReadAllFamiliesFromDatabase()
         {
             FamilleList.Clear();
@@ -156,7 +155,6 @@ namespace Hector
         /// <summary>
         /// Permets de lire la liste des sous-familles.
         /// </summary>
-        /// 
         public void ReadAllSubFamiliesFromDatabase()
         {
             SousFamilleList.Clear();
@@ -189,7 +187,6 @@ namespace Hector
         /// <summary>
         /// Permets de lire la liste des articles.
         /// </summary>
-
         public void ReadAllArticlesFromDatabase()
         {
             ArticleList.Clear();

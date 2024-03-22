@@ -30,7 +30,6 @@ namespace Hector
             {
                 Marque NouvelleMarque = new Marque(NomParam);
                 MarquesObjects.Add(NomParam, NouvelleMarque);
-
                 return NouvelleMarque;
             }
         }
@@ -75,5 +74,7 @@ namespace Hector
                 ExceptionCatched.DisplayErrorMessage();
             }
         }
+
+     
     }
 }
