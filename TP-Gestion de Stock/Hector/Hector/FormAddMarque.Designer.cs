@@ -37,49 +37,56 @@ namespace Hector
             // 
             // CancelButton
             // 
-            this.CancelButton.Location = new System.Drawing.Point(76, 56);
+            this.CancelButton.Location = new System.Drawing.Point(114, 86);
+            this.CancelButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(75, 23);
+            this.CancelButton.Size = new System.Drawing.Size(112, 35);
             this.CancelButton.TabIndex = 25;
             this.CancelButton.Text = "Annuler";
             this.CancelButton.UseVisualStyleBackColor = true;
+            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // CreateButton
             // 
-            this.CreateButton.Location = new System.Drawing.Point(157, 56);
+            this.CreateButton.Location = new System.Drawing.Point(236, 86);
+            this.CreateButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.CreateButton.Name = "CreateButton";
-            this.CreateButton.Size = new System.Drawing.Size(75, 23);
+            this.CreateButton.Size = new System.Drawing.Size(112, 35);
             this.CreateButton.TabIndex = 24;
             this.CreateButton.Text = "Créer";
             this.CreateButton.UseVisualStyleBackColor = true;
+            this.CreateButton.Click += new System.EventHandler(this.CreateButton_Click);
             // 
             // RefArticlesTextBox
             // 
-            this.RefArticlesTextBox.Location = new System.Drawing.Point(76, 6);
+            this.RefArticlesTextBox.Location = new System.Drawing.Point(114, 9);
+            this.RefArticlesTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.RefArticlesTextBox.Name = "RefArticlesTextBox";
-            this.RefArticlesTextBox.Size = new System.Drawing.Size(100, 20);
+            this.RefArticlesTextBox.Size = new System.Drawing.Size(148, 26);
             this.RefArticlesTextBox.TabIndex = 23;
             // 
             // RefArticlesLabel
             // 
             this.RefArticlesLabel.AutoSize = true;
-            this.RefArticlesLabel.Location = new System.Drawing.Point(12, 9);
+            this.RefArticlesLabel.Location = new System.Drawing.Point(18, 14);
+            this.RefArticlesLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.RefArticlesLabel.Name = "RefArticlesLabel";
-            this.RefArticlesLabel.Size = new System.Drawing.Size(29, 13);
+            this.RefArticlesLabel.Size = new System.Drawing.Size(42, 20);
             this.RefArticlesLabel.TabIndex = 22;
             this.RefArticlesLabel.Text = "Nom";
             // 
             // FormAddMarque
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(234, 91);
+            this.ClientSize = new System.Drawing.Size(342, 114);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.CreateButton);
             this.Controls.Add(this.RefArticlesTextBox);
             this.Controls.Add(this.RefArticlesLabel);
-            this.MaximumSize = new System.Drawing.Size(250, 130);
-            this.MinimumSize = new System.Drawing.Size(250, 130);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.MaximumSize = new System.Drawing.Size(364, 170);
+            this.MinimumSize = new System.Drawing.Size(364, 170);
             this.Name = "FormAddMarque";
             this.Text = "Créer une nouvelle Marque";
             this.ResumeLayout(false);

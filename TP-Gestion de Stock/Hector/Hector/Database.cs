@@ -119,7 +119,6 @@ namespace Hector
         /// <summary>
         /// Permets de lire la liste des familles.
         /// </summary>
-        /// 
         public void ReadAllFamiliesFromDatabase()
         {
             using (SQLiteConnection Connection = new SQLiteConnection(ConnectionString))
@@ -174,7 +173,6 @@ namespace Hector
         /// <summary>
         /// Permets de lire la liste des articles.
         /// </summary>
-
         public void ReadAllArticlesFromDatabase()
         {
             using (SQLiteConnection Connection = new SQLiteConnection(ConnectionString))
