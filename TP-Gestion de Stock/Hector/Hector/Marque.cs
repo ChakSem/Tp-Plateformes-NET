@@ -8,6 +8,9 @@ namespace Hector
 {
     class Marque
     {
+        /// <summary>
+        /// Stocke les objets Sous-Famille déjà créé 
+        /// </summary>
         private static Dictionary<string, Marque> MarquesObjects = new Dictionary<string, Marque>();
 
         private string Nom;
@@ -72,6 +75,5 @@ namespace Hector
                 ExceptionCatched.DisplayErrorMessage();
             }
         }
-
     }
 }

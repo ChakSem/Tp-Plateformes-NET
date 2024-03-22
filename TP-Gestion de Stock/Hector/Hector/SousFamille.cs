@@ -8,6 +8,9 @@ namespace Hector
 {
     class SousFamille
     {
+        /// <summary>
+        /// Stocke les objets Sous-Famille déjà créé 
+        /// </summary>
         private static Dictionary<string, SousFamille> SousFamillesObjects = new Dictionary<string, SousFamille>();
 
         private string Nom;

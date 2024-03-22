@@ -15,17 +15,14 @@ namespace Hector
         private SousFamille SousFamille;
         private double PrixHT;
 
-        /**
-        * Constructeur de la classe Article
-        * Entrées:
-        * - string Description: la Description de l'article
-        * - string Reference: la référence de l'article
-        * - string Marque: la Marque de l'article
-        * - string Famille: la Famille de l'article
-        * - string SousFamille: la sous-Famille de l'article
-        * - double PrixHT: le prix hors taxe de l'article
-        * Sortie:
-        */
+        /// <summary>
+        /// Constructeur de la classe Article
+        /// </summary>
+        /// <param name="NouvelleDescription">La description de l'article</param>
+        /// <param name="NouvelleReference">La référence de l'article</param>
+        /// <param name="NouvelleMarque">La Marque de l'article</param>
+        /// <param name="NouvelleSousFamille">La Sous-Famille de l'article</param>
+        /// <param name="NouveauPrixHT">Le prix hors taxe de l'article</param>
         public Article(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT)
         {
             this.Description = NouvelleDescription;
@@ -47,20 +44,18 @@ namespace Hector
         public double GetPrixHT() { return PrixHT; }
         public void SetPrixHT(double NouveauPrixHT) { PrixHT = NouveauPrixHT; }
 
-        /** 
-        * Méthode qui permet d'afficher les articles de la liste (POUR LE DEBUG)
-        * Entrée: 
-        * - List<Article> articles: la liste des articles
-        * Sortie: 
-        * - string: la liste des articles dans le terminal
-        */
-        public static string AfficherArticles(List<Article> articles)
+        /// <summary>
+        /// Méthode qui permet d'afficher les articles de la liste (POUR LE DEBUG)
+        /// </summary>
+        /// <param name="Articles">La liste des articles</param>
+        /// <returns> res, la liste des articles dans le terminal </returns>
+        public static string AfficherArticles(List<Article> Articles)
         {
             string res = "";
-            foreach (Article article in articles)
+            foreach (Article Article in Articles)
             {
-                res += article.GetDescription() + " " + article.GetReference() + " " + article.GetMarque().GetNom() + " " 
-                    + article.GetSousFamille().GetFamille().GetNom() + " " + article.GetSousFamille().GetNom() + " " + article.GetPrixHT() + "\n";
+                res += Article.GetDescription() + " " + Article.GetReference() + " " + Article.GetMarque().GetNom() + " " 
+                    + Article.GetSousFamille().GetFamille().GetNom() + " " + Article.GetSousFamille().GetNom() + " " + Article.GetPrixHT() + "\n";
             }
             Console.WriteLine(res); // Affichage dans le terminal
             return res;
