@@ -14,14 +14,14 @@ using System.Data.SQLite;
 
 namespace Hector
 {
-    class Database
+    class BaseDeDonnees
     {
-        private string DatabasePath;
+        private string CheminBdd;
         private string ConnectionString;
 
-        public Database()
+        public BaseDeDonnees()
         {
-            DatabasePath = "";
+            CheminBdd = "";
             ConnectionString = "";
         }
 
@@ -29,13 +29,13 @@ namespace Hector
         /// Getter qui permet d'acceder au chemin de la base de données
         /// </summary>
         /// <returns> Le chemin de la base de données </returns>
-        public string ReadDatabasePath()
+        public string LireCheminBdd()
         {
-            if (DatabasePath == null)
+            if (CheminBdd == null)
             {
                 GetDatabasePath();
             }
-            return DatabasePath;
+            return CheminBdd;
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Hector
                     throw new Exception(Exception.ERROR_DATABASE_FILE_NOT_FOUND);
                 }
 
-                this.DatabasePath = FullDatabasePath;
+                this.CheminBdd = FullDatabasePath;
                 ConnectionString = $"Data Source={FullDatabasePath};Version=3;";
             }
 
@@ -95,7 +95,7 @@ namespace Hector
         /// <summary>
         /// Permets d'ajouter les marques d'une liste à la BDD.
         /// </summary>
-        public void AddAllBrandsToDatabase()
+        public void AjoutMarquesBdd()
         {
             foreach (Marque marque in Marque.GetListeMarques())
             {
@@ -119,7 +119,7 @@ namespace Hector
         /// <summary>
         /// Permets de lire la liste des familles.
         /// </summary>
-        public void ReadAllFamiliesFromDatabase()
+        public void LireFamillesBdd()
         {
             using (SQLiteConnection Connection = new SQLiteConnection(ConnectionString))
             {
@@ -145,7 +145,7 @@ namespace Hector
         /// <summary>
         /// Permets de lire la liste des sous-familles.
         /// </summary>
-        public void ReadAllSubFamiliesFromDatabase()
+        public void LireSousFamillesBdd()
         {
             using (SQLiteConnection Connection = new SQLiteConnection(ConnectionString))
             {
@@ -173,7 +173,7 @@ namespace Hector
         /// <summary>
         /// Permets de lire la liste des articles.
         /// </summary>
-        public void ReadAllArticlesFromDatabase()
+        public void LireArticlesBdd()
         {
             using (SQLiteConnection Connection = new SQLiteConnection(ConnectionString))
             {
