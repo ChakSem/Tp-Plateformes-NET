@@ -17,6 +17,30 @@ namespace Hector
         private Famille Famille;
 
         /// <summary>
+        /// Permet d'obtenir un objet SousFamille à patir de son nom
+        /// </summary>
+        /// <param name="NomParam"> Nom de la SousFamille que l'on veut </param>
+        /// <returns> SousFamille </returns>
+        public static SousFamille GetSousFamilleExistante(string NomParam)
+        {
+            try
+            {
+                if (!DictionnaireSousFamilles.ContainsKey(NomParam))
+                {
+                    throw new Exception(Exception.ERREUR_OBJET_INNEXISTANT);
+                }
+
+                return DictionnaireSousFamilles[NomParam];
+            }
+            catch (Exception Exception)
+            {
+                Exception.DisplayErrorMessage();
+
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Méthode permettant de récupérer un objet SousFamille avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
         /// </summary>
         /// <param name="NomParam">Nom de la SousFamille que l'on souhaite</param>
@@ -31,7 +55,7 @@ namespace Hector
                     SousFamille SousFamilleExistante = DictionnaireSousFamilles[NomParam];
                     if (FamilleParam.GetNom() != SousFamilleExistante.GetFamille().GetNom())
                     {
-                        throw new Exception(Exception.ERROR_FAMILLE_DOESN_T_MATCH);
+                        throw new Exception(Exception.ERREUR_FAMILLE_NE_CORRESPOND_PAS);
                     }
 
                     return SousFamilleExistante;
@@ -84,7 +108,7 @@ namespace Hector
             {
                 if (DictionnaireSousFamilles.ContainsKey(NouveauNom))
                 {
-                    throw new Exception(Exception.ERROR_NOM_IS_ALREADY_ASSIGNED);
+                    throw new Exception(Exception.ERREUR_NOM_DEJA_ASSIGNEE);
                 }
                 Nom = NouveauNom;
             }

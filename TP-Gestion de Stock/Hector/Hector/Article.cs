@@ -36,7 +36,7 @@ namespace Hector
             try {
                 if (DictionnaireArticles.ContainsKey(NouvelleReference))
                 {
-                    throw new Exception(Exception.ERROR_NOM_IS_ALREADY_ASSIGNED);
+                    throw new Exception(Exception.ERREUR_REFERENCE_DEJA_ASSIGNEE);
                 }
 
                 Article NouvelArticle = new Article(NouvelleDescription, NouvelleReference, NouvelleMarque, NouvelleSousFamille, NouveauPrixHT, NouvelleQuantite);

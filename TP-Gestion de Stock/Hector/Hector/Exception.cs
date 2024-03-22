@@ -8,11 +8,12 @@ namespace Hector
 {
     class Exception : System.Exception
     {
-        public const uint ERROR_REFERENCE_IS_ALREADY_ASSIGNED = 0;
-        public const uint ERROR_NOM_IS_ALREADY_ASSIGNED = 1;
-        public const uint ERROR_FAMILLE_DOESN_T_MATCH = 2;
-        public const uint ERROR_DATABASE_FILE_NOT_FOUND = 3;
-        public const uint ERROR_DATABASE_CONNECTION= 4;
+        public const uint ERREUR_REFERENCE_DEJA_ASSIGNEE = 0;
+        public const uint ERREUR_NOM_DEJA_ASSIGNEE = 1;
+        public const uint ERREUR_FAMILLE_NE_CORRESPOND_PAS = 2;
+        public const uint ERREUR_FICHIER_NON_TROUVE= 3;
+        public const uint ERREUR_CONNECTION_A_LA_BDD= 4;
+        public const uint ERREUR_OBJET_INNEXISTANT = 5;
 
         private uint ErrorCode;
         public uint GetErrorCode()
@@ -35,20 +36,23 @@ namespace Hector
             string ErrorMessage = "";
             switch (ErrorCode)
             {
-                case ERROR_REFERENCE_IS_ALREADY_ASSIGNED:
+                case ERREUR_REFERENCE_DEJA_ASSIGNEE:
                     ErrorMessage = "Un article existe déjà pour cette réference";
                 break;
-                case ERROR_NOM_IS_ALREADY_ASSIGNED:
+                case ERREUR_NOM_DEJA_ASSIGNEE:
                     ErrorMessage = "Un objet existe déjà pour ce nom";
                     break;
-                case ERROR_FAMILLE_DOESN_T_MATCH:
+                case ERREUR_FAMILLE_NE_CORRESPOND_PAS:
                     ErrorMessage = "La sous-famille existante à ce nom n'est pas de la famille indiquée";
                     break;
-                case ERROR_DATABASE_FILE_NOT_FOUND:
+                case ERREUR_FICHIER_NON_TROUVE:
                     ErrorMessage = "Le fichier n'a pu être trouvé";
                     break;
-                case ERROR_DATABASE_CONNECTION:
+                case ERREUR_CONNECTION_A_LA_BDD:
                     ErrorMessage = "La connection avec la base de donnée a échouée";
+                    break;
+                case ERREUR_OBJET_INNEXISTANT:
+                    ErrorMessage = "Aucun objet n'existe pour ce nom";
                     break;
                 default:
                     ErrorMessage = "Une erreur inconnue est survenue";

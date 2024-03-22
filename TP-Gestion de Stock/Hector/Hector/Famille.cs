@@ -16,6 +16,30 @@ namespace Hector
         private string Nom;
 
         /// <summary>
+        /// Permet d'obtenir un objet Famille à patir de son nom
+        /// </summary>
+        /// <param name="NomParam"> Nom de la Famille que l'on veut </param>
+        /// <returns> Famille </returns>
+        public static Famille GetFamilleExistante(string NomParam)
+        {
+            try
+            {
+                if (!DictionnaireFamilles.ContainsKey(NomParam))
+                {
+                    throw new Exception(Exception.ERREUR_OBJET_INNEXISTANT);
+                }
+
+                return DictionnaireFamilles[NomParam];
+            }
+            catch (Exception Exception)
+            {
+                Exception.DisplayErrorMessage();
+
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Méthode permettant de récupérer un objet Famille avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
         /// </summary>
         /// <param name="NomParam">Nom de la Famille que l'on souhaite</param>
@@ -65,7 +89,7 @@ namespace Hector
             {
                 if (DictionnaireFamilles.ContainsKey(NouveauNom))
                 {
-                    throw new Exception(Exception.ERROR_NOM_IS_ALREADY_ASSIGNED);
+                    throw new Exception(Exception.ERREUR_NOM_DEJA_ASSIGNEE);
                 }
                 Nom = NouveauNom;
             } catch (Exception ExceptionCatched) {

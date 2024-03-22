@@ -52,7 +52,7 @@ namespace Hector
             {
                 if (!File.Exists(FullDatabasePath))
                 {
-                    throw new Exception(Exception.ERROR_DATABASE_FILE_NOT_FOUND);
+                    throw new Exception(Exception.ERREUR_FICHIER_NON_TROUVE);
                 }
 
                 this.DatabasePath = FullDatabasePath;
@@ -71,7 +71,7 @@ namespace Hector
             {
                 if (ConnectionString == null)
                 {
-                    throw new Exception(Exception.ERROR_DATABASE_CONNECTION);
+                    throw new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD);
                 }
 
                 return ConnectionString;

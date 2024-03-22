@@ -16,13 +16,35 @@ namespace Hector
         private string Nom;
 
         /// <summary>
+        /// Permet d'obtenir un objet Marque à patir de son nom
+        /// </summary>
+        /// <param name="NomParam"> Nom de la Marque que l'on veut </param>
+        /// <returns> Marque </returns>
+        public static Marque GetMarqueExistante(string NomParam)
+        {
+            try
+            {
+                if (!DictionnairesMarques.ContainsKey(NomParam))
+                {
+                    throw new Exception(Exception.ERREUR_OBJET_INNEXISTANT);
+                }
+
+                return DictionnairesMarques[NomParam];
+            } catch (Exception Exception)
+            {
+                Exception.DisplayErrorMessage();
+
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Méthode permettant de récupérer un objet Marque avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
         /// </summary>
         /// <param name="NomParam">Nom de la Marque que l'on souhaite</param>
         /// <returns> NouvelleMarque </returns>
         public static Marque CreateMarque(string NomParam)
         {
-            //System.NullReferenceException : 'La référence d'objet n'est pas définie à une instance d'un objet.'
             if(DictionnairesMarques.ContainsKey(NomParam) )
             {
                 return DictionnairesMarques[NomParam];
@@ -66,7 +88,7 @@ namespace Hector
             {
                 if (DictionnairesMarques.ContainsKey(NouveauNom))
                 {
-                    throw new Exception(Exception.ERROR_NOM_IS_ALREADY_ASSIGNED);
+                    throw new Exception(Exception.ERREUR_NOM_DEJA_ASSIGNEE);
                 }
                 Nom = NouveauNom;
             }
