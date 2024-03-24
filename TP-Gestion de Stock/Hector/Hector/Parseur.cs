@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hector
 {
-    class Parser
+    class Parseur
     {
         /// <summary>
         /// Methode qui permet de parser un fichier csv
@@ -37,7 +37,6 @@ namespace Hector
                 // On verifie que la sous famille n'est pas deja dans la liste
                 SousFamille SousFamille = SousFamille.CreateSousFamille(values[4], Famille);
                 double PrixHT = double.Parse(values[5]);
-                uint Quantite = uint.Parse(values[6]);
                 bool Exist = false;
 
                 // on verifie que l'article n'est pas deja dans la liste
@@ -51,12 +50,26 @@ namespace Hector
                 if (!Exist)
                 {
                     Article NouvelArticle;
-                    if ((NouvelArticle = Article.CreateArticle(Description, Reference, Marque, SousFamille, PrixHT, Quantite)) != null)
+                    if ((NouvelArticle = Article.CreateArticle(Description, Reference, Marque, SousFamille, PrixHT)) != null)
                         Articles.Add(NouvelArticle);
 
                 }
             }
             return Articles;
+        }
+        /// <summary>
+        /// Methode qui permet de recuper le nombre d'articles dans un fichier csv
+        /// </summary>
+        /// <param name="path"> Le chemin du fichier csv </param>
+        /// <returns> Le nombre d'articles </returns>
+        public static int GetNbArticles(string path)
+        {
+            if (path == "")
+            {
+                return 0;
+            }
+            string[] lines = System.IO.File.ReadAllLines(path, Encoding.GetEncoding("iso-8859-1"));
+            return lines.Length - 1;
         }
     }
 }

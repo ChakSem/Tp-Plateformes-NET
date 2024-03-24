@@ -37,6 +37,9 @@ namespace Hector
             this.CheckBoxEcrasement = new System.Windows.Forms.CheckBox();
             this.FinishButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
+            this.backgroundWorker3 = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // SelectFile
@@ -49,6 +52,10 @@ namespace Hector
             this.SelectFile.Text = "Ouvrir le fichier .csv";
             this.SelectFile.UseVisualStyleBackColor = true;
             this.SelectFile.Click += new System.EventHandler(this.ImportButton);
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             // 
             // FilePathLabel
             // 
@@ -110,11 +117,20 @@ namespace Hector
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(24, 108);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(502, 53);
+            this.progressBar1.TabIndex = 9;
+            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
+            // 
             // FormImport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(564, 258);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.FinishButton);
             this.Controls.Add(this.CheckBoxEcrasement);
             this.Controls.Add(this.CheckBoxAjout);
@@ -142,5 +158,8 @@ namespace Hector
         private System.Windows.Forms.CheckBox CheckBoxEcrasement;
         private System.Windows.Forms.Button FinishButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker2;
+        private System.ComponentModel.BackgroundWorker backgroundWorker3;
     }
 }

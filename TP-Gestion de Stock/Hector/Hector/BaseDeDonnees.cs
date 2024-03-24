@@ -2,15 +2,9 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
-
-using System;
-using System.IO;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SQLite;
-
 
 namespace Hector
 {
@@ -23,6 +17,34 @@ namespace Hector
         {
             CheminBdd = "";
             ConnectionString = "";
+            GetDatabasePath();
+        }
+        /// <summary>
+        /// Methode pour lire le nombre d'article dans la base de données
+        /// </summary>
+        /// <returns> Le nombre d'article dans la base de données </returns>
+
+        public int LireNombreArticlesBdd()
+        {
+            int NombreArticles = 0;
+
+            using (SQLiteConnection Connection = new SQLiteConnection(ConnectionString))
+            {
+                
+                //Debug
+                System.Console.WriteLine(ConnectionString);
+                Connection.Open();
+
+                string SQL_Query_ReadNumberOfArticles = "SELECT COUNT(*) FROM Articles";
+
+                using (SQLiteCommand Command_ReadNumberOfArticles = new SQLiteCommand(SQL_Query_ReadNumberOfArticles, Connection))
+                {
+                    NombreArticles = Convert.ToInt32(Command_ReadNumberOfArticles.ExecuteScalar());
+                }
+                Connection.Close();
+            }
+
+            return NombreArticles;
         }
 
         /// <summary>
@@ -54,15 +76,15 @@ namespace Hector
                 {
                     throw new Exception(Exception.ERREUR_FICHIER_NON_TROUVE);
                 }
-
                 this.CheminBdd = FullDatabasePath;
-                ConnectionString = $"Data Source={FullDatabasePath};Version=3;";
+                ConnectionString = @"Data Source= " + FullDatabasePath;
+
             }
 
             catch (Exception Exception)
             {
                 Exception.DisplayErrorMessage();
-            } 
+            }
         }
 
         public string ReadConnectionString()
@@ -75,7 +97,8 @@ namespace Hector
                 }
 
                 return ConnectionString;
-            } catch (Exception Exception)
+            }
+            catch (Exception Exception)
             {
                 Exception.DisplayErrorMessage();
 
@@ -91,6 +114,79 @@ namespace Hector
         {
             ConnectionString = NewConnectionString;
         }
+        /// <summary>
+        /// Permets d'ajouter des articles à la BDD.
+        /// </summary>
+        /// <param name="Articles">Liste d'articles à ajouter</param>
+        /// <exception cref="A DEFINIR">L'ajout des articles a échoué.</exception>
+
+        public void AjoutArticlesBdd(List<Article> Articles)
+        {
+            foreach (Article article in Articles)
+            {
+                using (SQLiteConnection Connection = new SQLiteConnection(ConnectionString))
+                {
+                    Connection.Open();
+
+                    string Description = article.GetDescription();
+                    string Reference = article.GetReference();
+                    double PrixHT = article.GetPrixHT();
+                    string Marque = article.GetMarque().GetNom();
+                    string SousFamille = article.GetSousFamille().GetNom();
+                    string Famille = article.GetSousFamille().GetFamille().GetNom();
+
+                    string SQL_Query_AddArticle = "INSERT INTO Articles (Description, RefArticle, PrixHT, Marque, SousFamille, Famille) VALUES (@Description, @RefArticle, @PrixHT, @Marque, @SousFamille, @Famille)";
+
+                    using (SQLiteCommand Command_AddArticle = new SQLiteCommand(SQL_Query_AddArticle, Connection))
+                    {
+                        Command_AddArticle.Parameters.AddWithValue("@Description", Description);
+                        Command_AddArticle.Parameters.AddWithValue("@RefArticle", Reference);
+                        Command_AddArticle.Parameters.AddWithValue("@PrixHT", PrixHT);
+                        Command_AddArticle.Parameters.AddWithValue("@Marque", Marque);
+                        Command_AddArticle.Parameters.AddWithValue("@SousFamille", SousFamille);
+                        Command_AddArticle.Parameters.AddWithValue("@Famille", Famille);
+                        int RowsAffected = Command_AddArticle.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Permets d'ajouter un article à la BDD.
+        /// </summary>
+        /// <param name="article">Article à ajouter</param>
+        /// <exception cref="A DEFINIR">L'ajout de l'article a échoué.</exception>
+
+        public void AjoutArticleBdd(Article article)
+        {
+            using (SQLiteConnection Connection = new SQLiteConnection(ConnectionString))
+            {
+                //System.ArgumentException : 'Data Source cannot be empty.  Use :memory: to open an in-memory database'
+                Connection.Open();
+
+                string Description = article.GetDescription();
+                string Reference = article.GetReference();
+                double PrixHT = article.GetPrixHT();
+                string Marque = article.GetMarque().GetNom();
+                string SousFamille = article.GetSousFamille().GetNom();
+                string Famille = article.GetSousFamille().GetFamille().GetNom();
+
+                string SQL_Query_AddArticle = "INSERT INTO Articles (Description, RefArticle, PrixHT, Marque, SousFamille, Famille) VALUES (@Description, @RefArticle, @PrixHT, @Marque, @SousFamille, @Famille)";
+
+                using (SQLiteCommand Command_AddArticle = new SQLiteCommand(SQL_Query_AddArticle, Connection))
+                {
+                    Command_AddArticle.Parameters.AddWithValue("@Description", Description);
+                    Command_AddArticle.Parameters.AddWithValue("@RefArticle", Reference);
+                    Command_AddArticle.Parameters.AddWithValue("@PrixHT", PrixHT);
+                    Command_AddArticle.Parameters.AddWithValue("@Marque", Marque);
+                    Command_AddArticle.Parameters.AddWithValue("@SousFamille", SousFamille);
+                    Command_AddArticle.Parameters.AddWithValue("@Famille", Famille);
+                    int RowsAffected = Command_AddArticle.ExecuteNonQuery();
+                }
+            }
+        }
+
+
 
         /// <summary>
         /// Permets d'ajouter les marques d'une liste à la BDD.
@@ -190,19 +286,19 @@ namespace Hector
                             string Description = Reader.GetString(0);
                             string Reference = Reader.GetString(1);
                             double PrixHT = Reader.GetDouble(2);
-                            uint Quantite = (uint) Reader.GetInt32(3);
+                            uint Quantite = (uint)Reader.GetInt32(3);
                             Marque Marque = Marque.CreateMarque(Reader.GetString(4));
                             Famille Famille = Famille.CreateFamille(Reader.GetString(6));
                             SousFamille SousFamille = SousFamille.CreateSousFamille(Reader.GetString(5), Famille);
 
-                            Article article = Article.CreateArticle(Description, Reference, Marque, SousFamille, PrixHT, Quantite);
+                            Article article = Article.CreateArticle(Description, Reference, Marque, SousFamille, PrixHT);
                         }
                     }
                 }
                 Connection.Close();
             }
         }
-        
+
         public void ViderDonnees()
         {
             Article.ViderDictionnaireArticles();

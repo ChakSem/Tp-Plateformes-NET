@@ -1,39 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Collections.Generic;
+
 
 namespace Hector
 {
     public partial class FormImport : Form
     {
+        private BaseDeDonnees BDD;
+        private Parseur Parseur;
+        private string CheminCsvAImpoter;
+        private List<Article> ArticlesAImporter;
+
+        private int NombreArticleAvantImport;
+        private int NombreArticleApresImport;
+        private int NombreArticleAjoutee;
+
         public FormImport()
         {
             InitializeComponent();
+            Parseur = new Parseur(); // Initialisation de Parseur
         }
-
-        private void ImportButton(object sender, EventArgs e)
+                    //this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
+        private void progressBar1_Click(object sender, EventArgs e)
         {
-            /* On apelle la methode ImporterCSV de la classe ImporterCSV */
-            string path = ImportCsvFile(sender, e);
-            /*on ecrie le chemin du fichier dans le label*/
-            FilePathLabel.Text = path;
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void CheckBoxAjout_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBoxEcrasement.Checked = !CheckBoxAjout.Checked;
+            //this.progressBar1.Value = 0;
         }
 
         private void CheckBoxEcrasement_CheckedChanged(object sender, EventArgs e)
@@ -41,51 +33,61 @@ namespace Hector
             CheckBoxAjout.Checked = !CheckBoxEcrasement.Checked;
         }
 
-        private string ImportCsvFile(object sender, EventArgs e)
+        private void CheckBoxAjout_CheckedChanged(object sender, EventArgs e)
         {
-            OpenFileDialog OpenFileDialog = new OpenFileDialog();
-            OpenFileDialog.Filter = "Fichiers CSV|*.csv";
-            OpenFileDialog.Title = "Selectionnez un fichier CSV";
-            OpenFileDialog.ShowDialog();
-            return OpenFileDialog.FileName;
+            CheckBoxEcrasement.Checked = !CheckBoxAjout.Checked;
         }
 
+        private void ImportButton(object sender, EventArgs e)
+        {
+            /* On appelle la méthode ImporterCSV de la classe ImporterCSV */
+            CheminCsvAImpoter = ImportCsvFile(sender, e);
+            /* On écrit le chemin du fichier dans le label */
+            FilePathLabel.Text = CheminCsvAImpoter;
+        }
+
+        private string ImportCsvFile(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Fichiers CSV|*.csv";
+            openFileDialog.Title = "Sélectionnez un fichier CSV";
+            openFileDialog.ShowDialog();
+            return openFileDialog.FileName;
+        }
 
         private void FinishButton_Click(object sender, EventArgs e)
         {
-            /*On realise l'importation des articles*/
-            string path = FilePathLabel.Text;
-            if (path != null)
+            BDD = new BaseDeDonnees();
+
+            backgroundWorker1.WorkerReportsProgress = true;
+            backgroundWorker1.DoWork += new DoWorkEventHandler(backgroundWorker1_DoWork);
+            backgroundWorker1.RunWorkerAsync();
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            // On remplit les informations du fichier en code
+            BackgroundWorker worker = sender as BackgroundWorker; // On récupère le worker
+            ArticlesAImporter = Parseur.Parse(CheminCsvAImpoter);
+            NombreArticleAvantImport = BDD.LireNombreArticlesBdd();
+            int NombreArticleDansFichier = Parseur.GetNbArticles(CheminCsvAImpoter);
+            // On vide la BDD si besoin
+            if (CheckBoxEcrasement.Checked)
             {
-                FilePathLabel.Text = path;
+                BDD.ViderDonnees();
             }
-            else
+            // On ajoute les informations dans la BDD tout en mettant à jour la barre de progression
+            for (int i = 0; i < ArticlesAImporter.Count; i++)
             {
-                MessageBox.Show("Veuillez selectionner un fichier");
+                BDD.AjoutArticleBdd(ArticlesAImporter[i]);
+                worker.ReportProgress((i + 1) * 100 / NombreArticleDansFichier);
             }
-
-            List<Article> articles = Parser.Parse(path);
-            if (CheckBoxAjout.Checked)
-            {
-                foreach (Article article in articles)
-                {
-
-                    //TO DO : Ajouter les articles dans la base de données ( Hector.sqlite) en mode ajout ( /!!!\ on rajoute les articles qui n'existent pas dans la BDD)
-                    //Article.AjouterArticle(article, true); //true pour le mode ajout
-
-                }
-            }
-            else
-            {
-                foreach (Article article in articles)
-                {
-
-                    //TO DO : On va vider la base de données ( Hector.sqlite) et on va ajouter les articles de la liste
-                    //Article.AjouterArticle(article, false); //false pour le mode ecrasement
-
-                    
-                }
-            }
+            NombreArticleApresImport = BDD.LireNombreArticlesBdd();
+            NombreArticleAjoutee = NombreArticleApresImport - NombreArticleAvantImport;
+            // On affiche un message de succès
+            MessageBox.Show("L'intégration des données a été effectuée avec succès.\n\n" +
+                "Vous avez ajouté " + NombreArticleAjoutee + " article(s) dans la base de données. \n" +
+                "Il y a maintenant " + NombreArticleApresImport + " article(s) dans la base de données.", "Succès de l'intégration", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

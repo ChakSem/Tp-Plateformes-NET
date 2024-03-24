@@ -19,7 +19,6 @@ namespace Hector
         private Marque Marque;
         private SousFamille SousFamille;
         private double PrixHT;
-        private uint Quantite;
 
         /// <summary>
         /// Méthode qui crée un objet Article, si la réference est disponible
@@ -31,7 +30,7 @@ namespace Hector
         /// <param name="NouveauPrixHT">Le prix hors taxe de l'article</param>
         /// <param name="NouvelleQuantite">La quantite de cet article</param>
         /// <returns>NouvelArticle</returns>
-        public static Article CreateArticle(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT, uint NouvelleQuantite)
+        public static Article CreateArticle(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT)
         {
             try {
                 if (DictionnaireArticles.ContainsKey(NouvelleReference))
@@ -39,7 +38,7 @@ namespace Hector
                     throw new Exception(Exception.ERREUR_REFERENCE_DEJA_ASSIGNEE);
                 }
 
-                Article NouvelArticle = new Article(NouvelleDescription, NouvelleReference, NouvelleMarque, NouvelleSousFamille, NouveauPrixHT, NouvelleQuantite);
+                Article NouvelArticle = new Article(NouvelleDescription, NouvelleReference, NouvelleMarque, NouvelleSousFamille, NouveauPrixHT);
                 DictionnaireArticles.Add(NouvelleReference, NouvelArticle);
 
                 return NouvelArticle;
@@ -63,7 +62,7 @@ namespace Hector
         /// <param name="NouvelleSousFamille">La Sous-Famille de l'article</param>
         /// <param name="NouveauPrixHT">Le prix hors taxe de l'article</param>
         /// <param name="NouvelleQuantite">La quantite de cet article</param>
-        private Article(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT, uint NouvelleQuantite)
+        private Article(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT)
         {
             this.Description = NouvelleDescription;
             this.Reference = NouvelleReference;
@@ -83,9 +82,6 @@ namespace Hector
         public void SetSousFamille(SousFamille NouvelleSousFamille) { SousFamille = NouvelleSousFamille; }
         public double GetPrixHT() { return PrixHT; }
         public void SetPrixHT(double NouveauPrixHT) { PrixHT = NouveauPrixHT; }
-        public uint GetQuantite() { return Quantite; }
-        public void SetPrixHT(uint NouvelleQuantite) { Quantite = NouvelleQuantite; }
-
         /// <summary>
         /// Méthode qui permet d'afficher les articles de la liste (POUR LE DEBUG)
         /// </summary>
@@ -97,7 +93,7 @@ namespace Hector
             foreach (Article Article in Articles)
             {
                 res += Article.GetDescription() + " " + Article.GetReference() + " " + Article.GetMarque().GetNom() + " "
-                    + Article.GetSousFamille().GetFamille().GetNom() + " " + Article.GetSousFamille().GetNom() + " " + Article.GetPrixHT() + Article.GetQuantite() + "\n";
+                    + Article.GetSousFamille().GetFamille().GetNom() + " " + Article.GetSousFamille().GetNom() + " " + Article.GetPrixHT()  + "\n";
             }
             Console.WriteLine(res); // Affichage dans le terminal
             return res;
