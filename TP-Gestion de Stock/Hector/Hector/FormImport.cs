@@ -22,7 +22,7 @@ namespace Hector
             InitializeComponent();
             Parseur = new Parseur(); // Initialisation de Parseur
         }
-                    //this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
+        //this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
         private void progressBar1_Click(object sender, EventArgs e)
         {
             //this.progressBar1.Value = 0;
@@ -40,9 +40,7 @@ namespace Hector
 
         private void ImportButton(object sender, EventArgs e)
         {
-            /* On appelle la méthode ImporterCSV de la classe ImporterCSV */
             CheminCsvAImpoter = ImportCsvFile(sender, e);
-            /* On écrit le chemin du fichier dans le label */
             FilePathLabel.Text = CheminCsvAImpoter;
         }
 
@@ -66,12 +64,12 @@ namespace Hector
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            // On remplit les informations du fichier en code
+
             BackgroundWorker worker = sender as BackgroundWorker; // On récupère le worker
             ArticlesAImporter = Parseur.Parse(CheminCsvAImpoter);
             NombreArticleAvantImport = BDD.LireNombreArticlesBdd();
             int NombreArticleDansFichier = Parseur.GetNbArticles(CheminCsvAImpoter);
-            // On vide la BDD si besoin
+
             if (CheckBoxEcrasement.Checked)
             {
                 BDD.ViderDonnees();
@@ -84,7 +82,7 @@ namespace Hector
             }
             NombreArticleApresImport = BDD.LireNombreArticlesBdd();
             NombreArticleAjoutee = NombreArticleApresImport - NombreArticleAvantImport;
-            // On affiche un message de succès
+
             MessageBox.Show("L'intégration des données a été effectuée avec succès.\n\n" +
                 "Vous avez ajouté " + NombreArticleAjoutee + " article(s) dans la base de données. \n" +
                 "Il y a maintenant " + NombreArticleApresImport + " article(s) dans la base de données.", "Succès de l'intégration", MessageBoxButtons.OK, MessageBoxIcon.Information);
