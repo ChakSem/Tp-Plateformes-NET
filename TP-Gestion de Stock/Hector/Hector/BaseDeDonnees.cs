@@ -18,7 +18,10 @@ namespace Hector
             CheminBdd = "";
             ConnectionString = "";
             GetDatabasePath();
+            System.Console.WriteLine("BDD : " + CheminBdd);
+            System.Console.WriteLine("Connection : " + ConnectionString);
         }
+
         /// <summary>
         /// Methode pour lire le nombre d'article dans la base de données
         /// </summary>
@@ -66,9 +69,9 @@ namespace Hector
         /// <exception cref="A DEFINIR">Le fichier de base de données n'a pas été trouvé.</exception>
         public void GetDatabasePath()
         {
-            string ExecutablePath = AppDomain.CurrentDomain.BaseDirectory;
+            string SolutionDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
             string DatabaseName = "Hector.SQLite";
-            string FullDatabasePath = Path.Combine(ExecutablePath, DatabaseName);
+            string FullDatabasePath = Path.Combine(SolutionDirectory, DatabaseName);
 
             try
             {
