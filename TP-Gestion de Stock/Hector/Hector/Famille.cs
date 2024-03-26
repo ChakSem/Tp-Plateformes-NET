@@ -34,7 +34,7 @@ namespace Hector
             }
             catch (Exception Exception)
             {
-                Exception.DisplayErrorMessage();
+                Exception.AfficherMessageErreur();
 
                 return null;
             }
@@ -95,7 +95,7 @@ namespace Hector
                 }
                 Nom = NouveauNom;
             } catch (Exception ExceptionCatched) {
-                ExceptionCatched.DisplayErrorMessage();
+                ExceptionCatched.AfficherMessageErreur();
             }
         }
 
@@ -133,11 +133,11 @@ namespace Hector
             }
             catch (Exception ExceptionCatched)
             {
-                ExceptionCatched.DisplayErrorMessage();
+               // ExceptionCatched.AfficherMessageErreur();
             }
         }
 
-        public static List<Famille> GetListeFamilles()
+        public static List<Famille> GetDictionnaireFamilles()
         {
             return DictionnaireFamilles.Values.ToList();
         }

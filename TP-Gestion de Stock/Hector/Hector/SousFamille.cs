@@ -35,7 +35,7 @@ namespace Hector
             }
             catch (Exception Exception)
             {
-                Exception.DisplayErrorMessage();
+                Exception.AfficherMessageErreur();
 
                 return null;
             }
@@ -63,7 +63,7 @@ namespace Hector
 
                 } catch (Exception Exception)
                 {
-                    Exception.DisplayErrorMessage();
+                    Exception.AfficherMessageErreur();
 
                     return null;
                 }
@@ -116,7 +116,7 @@ namespace Hector
             }
             catch (Exception ExceptionCatched)
             {
-                ExceptionCatched.DisplayErrorMessage();
+                ExceptionCatched.AfficherMessageErreur();
             }
         }
 
@@ -153,7 +153,7 @@ namespace Hector
             }
             catch (Exception ExceptionCatched)
             {
-                ExceptionCatched.DisplayErrorMessage();
+                //ExceptionCatched.AfficherMessageErreur();
             }
         }
 

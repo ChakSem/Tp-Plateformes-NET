@@ -19,7 +19,7 @@ namespace Hector
         private Marque Marque;
         private SousFamille SousFamille;
         private double PrixHT;
-        private int Quantite;
+        private uint Quantite;
 
         /// <summary>
         /// Méthode qui crée un objet Article, si la réference est disponible
@@ -31,7 +31,7 @@ namespace Hector
         /// <param name="NouveauPrixHT">Le prix hors taxe de l'article</param>
         /// <param name="NouvelleQuantite">La quantite de cet article</param>
         /// <returns>NouvelArticle</returns>
-        public static Article CreateArticle(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT, int NouvelleQuantite)
+        public static Article CreateArticle(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT, uint NouvelleQuantite)
         {
             try {
                 if (DictionnaireArticles.ContainsKey(NouvelleReference))
@@ -45,10 +45,35 @@ namespace Hector
                 return NouvelArticle;
             } catch (Exception Exception)
             {
-                Exception.DisplayErrorMessage();
+                Exception.AfficherMessageErreur();
 
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Méthode qui crée un objet Article, utile lors de la lecture du fichier .csv, pour eviter d'avoir une popup pour chaque doublons
+        /// </summary>
+        /// <param name="NouvelleDescription">La description de l'article</param>
+        /// <param name="NouvelleReference">La référence de l'article</param>
+        /// <param name="NouvelleMarque">La Marque de l'article</param>
+        /// <param name="NouvelleSousFamille">La Sous-Famille de l'article</param>
+        /// <param name="NouveauPrixHT">Le prix hors taxe de l'article</param>
+        /// <param name="NouvelleQuantite">La quantite de cet article</param>
+        /// <returns>NouvelArticle</returns>
+        public static Article CreateArticleSansException(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT, uint NouvelleQuantite)
+        {
+            if (!DictionnaireArticles.ContainsKey(NouvelleReference))
+            {
+                Console.WriteLine("Article " + NouvelleReference + "  créé");
+                Article NouvelArticle = new Article(NouvelleDescription, NouvelleReference, NouvelleMarque, NouvelleSousFamille, NouveauPrixHT, NouvelleQuantite);
+                DictionnaireArticles.Add(NouvelleReference, NouvelArticle);
+
+                return NouvelArticle;
+            }
+            Console.WriteLine("Article " + NouvelleReference + " non créé");
+
+            return null;
         }
 
         private Article() { }
@@ -63,7 +88,7 @@ namespace Hector
         /// <param name="NouvelleSousFamille">La Sous-Famille de l'article</param>
         /// <param name="NouveauPrixHT">Le prix hors taxe de l'article</param>
         /// <param name="NouvelleQuantite">La quantite de cet article</param>
-        private Article(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT, int NouvelleQuantite)
+        private Article(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT, uint NouvelleQuantite)
         {
             this.Description = NouvelleDescription;
             this.Reference = NouvelleReference;
@@ -84,8 +109,8 @@ namespace Hector
         public void SetSousFamille(SousFamille NouvelleSousFamille) { SousFamille = NouvelleSousFamille; }
         public double GetPrixHT() { return PrixHT; }
         public void SetPrixHT(double NouveauPrixHT) { PrixHT = NouveauPrixHT; }
-        public int GetQuantite() { return Quantite; }
-        public void SetQuantite(int NouvelleQuantite) { Quantite = NouvelleQuantite; }
+        public uint GetQuantite() { return Quantite; }
+        public void SetQuantite(uint NouvelleQuantite) { Quantite = NouvelleQuantite; }
 
         /// <summary>
         /// Méthode qui permet d'afficher les articles de la liste (POUR LE DEBUG)

@@ -21,7 +21,13 @@ namespace Hector
         {
             InitializeComponent();
             Parseur = new Parseur(); // Initialisation de Parseur
+            backgroundWorker1.ProgressChanged += backgroundWorker1_ProgressChanged;
         }
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            progressBar1.Value = e.ProgressPercentage;
+        }
+
         //this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
         private void progressBar1_Click(object sender, EventArgs e)
         {
@@ -55,20 +61,37 @@ namespace Hector
 
         private void FinishButton_Click(object sender, EventArgs e)
         {
-            BDD = new BaseDeDonnees();
+            if (!backgroundWorker1.IsBusy)
+            {
+                BDD = new BaseDeDonnees();
 
-            backgroundWorker1.WorkerReportsProgress = true;
-            backgroundWorker1.DoWork += new DoWorkEventHandler(backgroundWorker1_DoWork);
-            backgroundWorker1.RunWorkerAsync();
+                // Si on n'ajoute pas en ecrasement, on s'assure d'avoir les elements de la BDD chargees dans les objets
+                if (CheckBoxAjout.Checked) { 
+                    BDD.LireMarquesBdd();
+                    BDD.LireFamillesBdd();
+                    BDD.LireSousFamillesBdd();
+                    BDD.LireArticlesBdd(); // TODO : Reparer de sorte à ce que les objets Articles soient crees (surement une erreur SQL)
+
+                    Console.WriteLine("NOMBRE : " + Famille.GetDictionnaireFamilles().Count);
+                }
+
+                Console.WriteLine("NOMBRE : " + Marque.GetListeMarques().Count);
+                Console.WriteLine("NOMBRE : " + SousFamille.GetListeSousFamilles().Count);
+                Console.WriteLine("NOMBRE : " + Article.GetListeArticles().Count);
+                /*backgroundWorker1.WorkerReportsProgress = true;
+                backgroundWorker1.DoWork -= backgroundWorker1_DoWork; 
+                backgroundWorker1.DoWork += backgroundWorker1_DoWork;
+                backgroundWorker1.RunWorkerAsync();*/
+
+            }
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-
             BackgroundWorker worker = sender as BackgroundWorker; // On récupère le worker
             ArticlesAImporter = Parseur.Parse(CheminCsvAImpoter);
             NombreArticleAvantImport = BDD.LireNombreArticlesBdd();
-            int NombreArticleDansFichier = Parseur.GetNbArticles(CheminCsvAImpoter);
+            int NombreArticleDansFichier = ArticlesAImporter.Count;
 
             if (CheckBoxEcrasement.Checked)
             {
@@ -77,7 +100,11 @@ namespace Hector
             // On ajoute les informations dans la BDD tout en mettant à jour la barre de progression
             for (int i = 0; i < ArticlesAImporter.Count; i++)
             {
-                BDD.AjoutArticleBdd(ArticlesAImporter[i]); // NON : 1) Cette metthode enregistre dans la bdd et ne lit pas 2) Il faut commencer par Marque / Famille, Sous Famille et enfin Article (pour que les ref soient generees) 
+                BDD.AjoutMarquesBdd(); // On ajoute toutes les Marques 
+                BDD.AjoutFamillesBdd(); // On ajoute toutes les Familles
+                BDD.AjoutSousFamillesBdd(); // On ajoute toutes les SousFamilles
+                BDD.AjoutArticleBdd(ArticlesAImporter[i]);  // On ajoute tout les nouveau Articles
+
                 worker.ReportProgress((i + 1) * 100 / NombreArticleDansFichier);
             }
             NombreArticleApresImport = BDD.LireNombreArticlesBdd();
