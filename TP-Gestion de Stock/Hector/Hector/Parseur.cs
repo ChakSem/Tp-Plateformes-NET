@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace Hector
 {
@@ -56,6 +57,25 @@ namespace Hector
                 Exception.AfficherMessageErreur();
 
                 return Articles;
+            }
+        }
+
+        public static void ExtraireDonnees(string CheminDExportation) {
+
+            Encoding Encodage = Encoding.UTF8;
+
+            using (StreamWriter Ecrivain = new StreamWriter(CheminDExportation, false, Encodage))
+            {
+                Ecrivain.WriteLine("Description; Ref; Marque; Famille; Sous - Famille; Prix H.T.");
+
+                foreach (Article ArticleAExtraire in Article.GetListeArticles()) {
+                    Ecrivain.WriteLine(ArticleAExtraire.GetDescription() + ";"
+                        + ArticleAExtraire.GetReference() + ";"
+                        + ArticleAExtraire.GetMarque().GetNom() + ";"
+                        + ArticleAExtraire.GetSousFamille().GetFamille().GetNom() + ";"
+                        + ArticleAExtraire.GetSousFamille().GetNom() + ";"
+                        + ArticleAExtraire.GetPrixHT());
+                }
             }
         }
 

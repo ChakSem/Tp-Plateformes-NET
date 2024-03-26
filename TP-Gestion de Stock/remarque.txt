@@ -1,0 +1,6 @@
+Parser attr inutile (methodes static)
+Constructeur qui font insert into
+	=> Revoir import
+Gerer Exception 7
+Initialiser les classes depuis la BDD des le lancement de l'appli
+Ecrivain

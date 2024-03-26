@@ -12,6 +12,8 @@ namespace Hector
 {
     public partial class FormExport : Form
     {
+        private string CheminCsvAExporter;
+
         public FormExport()
         {
             InitializeComponent();
@@ -33,13 +35,13 @@ namespace Hector
             SaveFileDialog.Filter = "Fichiers CSV|*.csv";
             SaveFileDialog.Title = "Selectionnez le chemin où sauvegarder";
             SaveFileDialog.ShowDialog();
-            string path = SaveFileDialog.FileName;
+            CheminCsvAExporter = SaveFileDialog.FileName;
 
-            if (path != null)
+            if (CheminCsvAExporter != null)
             {
-                FilePathLabel.Text = path;
+                FilePathLabel.Text = CheminCsvAExporter;
 
-                // TODO : Sauvegarde
+                Parseur.ExtraireDonnees(CheminCsvAExporter);
             }
         }
     }
