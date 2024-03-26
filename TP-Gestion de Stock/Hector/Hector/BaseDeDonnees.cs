@@ -17,7 +17,7 @@ namespace Hector
         {
             CheminBdd = "";
             ChaineDeConnexion = "";
-            GetDatabasePath();
+            GetCheminBaseDeDonnee();
         }
 
         /// <summary>
@@ -35,11 +35,11 @@ namespace Hector
                 //Debug
                 Connexion.Open();
 
-                string SQL_Query_ReadNumberOfArticles = "SELECT COUNT(*) FROM Articles";
+                string RequeteSQL = "SELECT COUNT(*) FROM Articles";
 
-                using (SQLiteCommand Command_ReadNumberOfArticles = new SQLiteCommand(SQL_Query_ReadNumberOfArticles, Connexion))
+                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
                 {
-                    NombreArticles = Convert.ToInt32(Command_ReadNumberOfArticles.ExecuteScalar());
+                    NombreArticles = Convert.ToInt32(CommandeSQL.ExecuteScalar());
                 }
                 Connexion.Close();
             }
@@ -55,7 +55,7 @@ namespace Hector
         {
             if (CheminBdd == null)
             {
-                GetDatabasePath();
+                GetCheminBaseDeDonnee();
             }
             return CheminBdd;
         }
@@ -64,20 +64,20 @@ namespace Hector
         /// Permets d'obtenir le chemin de la base de données et de l'associer à l'attribut de l'objet base de données.
         /// </summary>
         /// <exception cref="A DEFINIR">Le fichier de base de données n'a pas été trouvé.</exception>
-        public void GetDatabasePath()
+        public void GetCheminBaseDeDonnee()
         {
-            string SolutionDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
-            string DatabaseName = "Hector.SQLite";
-            string FullDatabasePath = Path.Combine(SolutionDirectory, DatabaseName);
+            string DossierSolution = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+            string NomBDD = "Hector.SQLite";
+            string CheminComplet = Path.Combine(DossierSolution, NomBDD);
 
             try
             {
-                if (!File.Exists(FullDatabasePath))
+                if (!File.Exists(CheminComplet))
                 {
                     throw new Exception(Exception.ERREUR_FICHIER_NON_TROUVE);
                 }
-                this.CheminBdd = FullDatabasePath;
-                ChaineDeConnexion = @"Data Source= " + FullDatabasePath;
+                this.CheminBdd = CheminComplet;
+                ChaineDeConnexion = @"Data Source= " + CheminComplet;
 
             }
 
@@ -87,7 +87,11 @@ namespace Hector
             }
         }
 
-        public string ReadConnectionString()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns> ChaineDeConnexion </returns>
+        public string LireChaineDeConnexion()
         {
             try
             {
@@ -110,9 +114,9 @@ namespace Hector
         /// Permets de modifier la chaine de connexion de la base de données.
         /// </summary>
         /// <param name="NewConnectionString">La nouvelle chaine de connexion</param>
-        public void ModifyConnectionString(string NewConnectionString)
+        public void SetChaineDeConnexion(string NouvelleChaineDeConnexion)
         {
-            ChaineDeConnexion = NewConnectionString;
+            ChaineDeConnexion = NouvelleChaineDeConnexion;
         }
 
         /// <summary>
@@ -131,7 +135,6 @@ namespace Hector
         /// Permets d'ajouter des articles à la BDD.
         /// </summary>
         /// <param name="Articles">Liste d'articles à ajouter</param>
-
         public void AjoutArticlesBdd()
         {
             foreach (Article ArticleExistant in Article.GetListeArticles())
@@ -147,7 +150,6 @@ namespace Hector
         /// </summary>
         /// <param name="Article">Article à ajouter</param>
         /// <exception cref="A DEFINIR">L'ajout de l'article a échoué.</exception>
-
         public void AjoutArticleBdd(Article ArticleParam)
         {
             using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
@@ -371,17 +373,17 @@ namespace Hector
             {
                 Connexion.Open();
 
-                string SQL_Query_ReadFamilies = "SELECT RefMarque, Nom FROM Marques";
+                string RequeteSQL = "SELECT RefMarque, Nom FROM Marques";
 
-                using (SQLiteCommand Command_ReadFamilies = new SQLiteCommand(SQL_Query_ReadFamilies, Connexion))
+                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
                 {
-                    using (SQLiteDataReader Reader = Command_ReadFamilies.ExecuteReader())
+                    using (SQLiteDataReader LecteurDonneeSQL = CommandeSQL.ExecuteReader())
                     {
-                        while (Reader.Read())
+                        while (LecteurDonneeSQL.Read())
                         {
-                            string Nom = Reader.GetString(1);
+                            string Nom = LecteurDonneeSQL.GetString(1);
                             Marque NouvelleMarque = Marque.CreateMarque(Nom);
-                            NouvelleMarque.DefineRefMarque(Reader.GetInt32(0));
+                            NouvelleMarque.DefineRefMarque(LecteurDonneeSQL.GetInt32(0));
                         }
                     }
                 }
@@ -398,17 +400,17 @@ namespace Hector
             {
                 Connexion.Open();
 
-                string SQL_Query_ReadFamilies = "SELECT RefFamille, Nom FROM Familles";
+                string RequeteSQL = "SELECT RefFamille, Nom FROM Familles";
 
-                using (SQLiteCommand Command_ReadFamilies = new SQLiteCommand(SQL_Query_ReadFamilies, Connexion))
+                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
                 {
-                    using (SQLiteDataReader Reader = Command_ReadFamilies.ExecuteReader())
+                    using (SQLiteDataReader LecteurDonneeSQL = CommandeSQL.ExecuteReader())
                     {
-                        while (Reader.Read())
+                        while (LecteurDonneeSQL.Read())
                         {
-                            string Name = Reader.GetString(1);
+                            string Name = LecteurDonneeSQL.GetString(1);
                             Famille NouvelleFamille = Famille.CreateFamille(Name);
-                            NouvelleFamille.DefineRefFamille(Reader.GetInt32(0));
+                            NouvelleFamille.DefineRefFamille(LecteurDonneeSQL.GetInt32(0));
                         }
                     }
                 }
@@ -425,17 +427,17 @@ namespace Hector
             {
                 Connexion.Open();
 
-                string SQL_Query_ReadSubFamilies = "SELECT s.RefSousFamille, s.Nom, f.Nom FROM SousFamilles s JOIN Familles f ON s.RefFamille = f.RefFamille"; 
+                string RequeteSQL = "SELECT s.RefSousFamille, s.Nom, f.Nom FROM SousFamilles s JOIN Familles f ON s.RefFamille = f.RefFamille"; 
 
-                using (SQLiteCommand Command_ReadSubFamilies = new SQLiteCommand(SQL_Query_ReadSubFamilies, Connexion))
+                using (SQLiteCommand Command_ReadSubFamilies = new SQLiteCommand(RequeteSQL, Connexion))
                 {
-                    using (SQLiteDataReader Reader = Command_ReadSubFamilies.ExecuteReader())
+                    using (SQLiteDataReader LecteurDonneeSQL = Command_ReadSubFamilies.ExecuteReader())
                     {
-                        while (Reader.Read())
+                        while (LecteurDonneeSQL.Read())
                         {
-                            int RefSousFamille = Reader.GetInt32(0);
-                            string Nom = Reader.GetString(1);
-                            Famille FamilleExistante = Famille.GetFamilleExistante(Reader.GetString(2));
+                            int RefSousFamille = LecteurDonneeSQL.GetInt32(0);
+                            string Nom = LecteurDonneeSQL.GetString(1);
+                            Famille FamilleExistante = Famille.GetFamilleExistante(LecteurDonneeSQL.GetString(2));
                             SousFamille NouvelleSousFamille = SousFamille.CreateSousFamille(Nom, FamilleExistante);
                             NouvelleSousFamille.DefineRefSousFamille(RefSousFamille);
                         }
@@ -454,24 +456,24 @@ namespace Hector
             {
                 Connexion.Open();
 
-                string SQL_Query_ReadArticles = "SELECT a.Description, a.RefArticle, a.PrixHT, a.Quantite, s.Nom, m.Nom FROM Articles a " +
+                string RequeteSQL = "SELECT a.Description, a.RefArticle, a.PrixHT, a.Quantite, s.Nom, m.Nom FROM Articles a " +
                 "JOIN Marques m ON a.RefMarque = m.RefMarque JOIN SousFamilles s ON a.RefSousFamille = s.RefSousFamille";
 
 
-                using (SQLiteCommand Command_ReadArticles = new SQLiteCommand(SQL_Query_ReadArticles, Connexion))
+                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
                 {
-                    using (SQLiteDataReader Reader = Command_ReadArticles.ExecuteReader())
+                    using (SQLiteDataReader LecteurDonneeSQL = CommandeSQL.ExecuteReader())
                     {
-                        while (Reader.Read())
+                        while (LecteurDonneeSQL.Read())
                         {
-                            string Description = Reader.GetString(0);
-                            string RefArticle = Reader.GetString(1);
-                            double PrixHT = Reader.GetDouble(2);
-                            uint Quantite = (uint) Reader.GetInt32(3);
-                            Marque MarqueExistante = Marque.GetMarqueExistante(Reader.GetString(4));
-                            SousFamille SousFamilleExistante = SousFamille.GetSousFamilleExistante(Reader.GetString(5));
+                            string Description = LecteurDonneeSQL.GetString(0);
+                            string RefArticle = LecteurDonneeSQL.GetString(1);
+                            double PrixHT = LecteurDonneeSQL.GetDouble(2);
+                            uint Quantite = (uint)LecteurDonneeSQL.GetInt32(3);
+                            SousFamille SousFamilleExistante = SousFamille.GetSousFamilleExistante(LecteurDonneeSQL.GetString(4));
+                            Marque MarqueExistante = Marque.GetMarqueExistante(LecteurDonneeSQL.GetString(5));
 
-                            Article article = Article.CreateArticleSansException(Description, RefArticle, MarqueExistante, SousFamilleExistante, PrixHT, Quantite);
+                            Article NouvelArticle = Article.CreateArticleSansException(Description, RefArticle, MarqueExistante, SousFamilleExistante, PrixHT, Quantite);
                         }
                     }
                 }
@@ -486,27 +488,27 @@ namespace Hector
                 Connexion.Open();
 
                 string RequeteSQL = "DELETE FROM Articles";
-                using (SQLiteCommand Command_DeleteArticles = new SQLiteCommand(RequeteSQL, Connexion))
+                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
                 {
-                    Command_DeleteArticles.ExecuteNonQuery();
+                    CommandeSQL.ExecuteNonQuery();
                 }
 
                 RequeteSQL = "DELETE FROM Marques";
-                using (SQLiteCommand Command_DeleteMarques = new SQLiteCommand(RequeteSQL, Connexion))
+                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
                 {
-                    Command_DeleteMarques.ExecuteNonQuery();
+                    CommandeSQL.ExecuteNonQuery();
                 }
 
                 RequeteSQL = "DELETE FROM SousFamilles";
-                using (SQLiteCommand Command_DeleteSousFamilles = new SQLiteCommand(RequeteSQL, Connexion))
+                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
                 {
-                    Command_DeleteSousFamilles.ExecuteNonQuery();
+                    CommandeSQL.ExecuteNonQuery();
                 }
 
                 RequeteSQL = "DELETE FROM Familles";
-                using (SQLiteCommand Command_DeleteFamilles = new SQLiteCommand(RequeteSQL, Connexion))
-                {
-                    Command_DeleteFamilles.ExecuteNonQuery();
+                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                { 
+                    CommandeSQL.ExecuteNonQuery();
                 }
 
                 Connexion.Close();

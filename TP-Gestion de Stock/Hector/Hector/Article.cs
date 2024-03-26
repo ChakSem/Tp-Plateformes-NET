@@ -65,13 +65,11 @@ namespace Hector
         {
             if (!DictionnaireArticles.ContainsKey(NouvelleReference))
             {
-                Console.WriteLine("Article " + NouvelleReference + "  créé");
                 Article NouvelArticle = new Article(NouvelleDescription, NouvelleReference, NouvelleMarque, NouvelleSousFamille, NouveauPrixHT, NouvelleQuantite);
                 DictionnaireArticles.Add(NouvelleReference, NouvelArticle);
 
                 return NouvelArticle;
             }
-            Console.WriteLine("Article " + NouvelleReference + " non créé");
 
             return null;
         }

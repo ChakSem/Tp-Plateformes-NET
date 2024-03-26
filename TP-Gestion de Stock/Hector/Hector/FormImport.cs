@@ -70,18 +70,13 @@ namespace Hector
                     BDD.LireMarquesBdd();
                     BDD.LireFamillesBdd();
                     BDD.LireSousFamillesBdd();
-                    BDD.LireArticlesBdd(); // TODO : Reparer de sorte à ce que les objets Articles soient crees (surement une erreur SQL)
-
-                    Console.WriteLine("NOMBRE : " + Famille.GetDictionnaireFamilles().Count);
+                    BDD.LireArticlesBdd();
                 }
 
-                Console.WriteLine("NOMBRE : " + Marque.GetListeMarques().Count);
-                Console.WriteLine("NOMBRE : " + SousFamille.GetListeSousFamilles().Count);
-                Console.WriteLine("NOMBRE : " + Article.GetListeArticles().Count);
-                /*backgroundWorker1.WorkerReportsProgress = true;
-                backgroundWorker1.DoWork -= backgroundWorker1_DoWork; 
+                backgroundWorker1.WorkerReportsProgress = true;
+                backgroundWorker1.DoWork -= backgroundWorker1_DoWork;
                 backgroundWorker1.DoWork += backgroundWorker1_DoWork;
-                backgroundWorker1.RunWorkerAsync();*/
+                backgroundWorker1.RunWorkerAsync();
 
             }
         }
@@ -89,20 +84,25 @@ namespace Hector
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = sender as BackgroundWorker; // On récupère le worker
-            ArticlesAImporter = Parseur.Parse(CheminCsvAImpoter);
-            NombreArticleAvantImport = BDD.LireNombreArticlesBdd();
-            int NombreArticleDansFichier = ArticlesAImporter.Count;
 
+            /* Si on ouvre en ecrasement, on vide la BDD */
             if (CheckBoxEcrasement.Checked)
             {
                 BDD.ViderDonnees();
             }
+
+            ArticlesAImporter = Parseur.Parse(CheminCsvAImpoter); // On crée et recupere les objets Article à importer dans la BDD ( et on cree les objets Marque, Familles et SousFamilles qui n'existent pas encore )
+
+            NombreArticleAvantImport = BDD.LireNombreArticlesBdd();
+            int NombreArticleDansFichier = ArticlesAImporter.Count;
+
+            BDD.AjoutMarquesBdd(); // On ajoute toutes les Marques 
+            BDD.AjoutFamillesBdd(); // On ajoute toutes les Familles
+            BDD.AjoutSousFamillesBdd(); // On ajoute toutes les SousFamilles
+
             // On ajoute les informations dans la BDD tout en mettant à jour la barre de progression
             for (int i = 0; i < ArticlesAImporter.Count; i++)
             {
-                BDD.AjoutMarquesBdd(); // On ajoute toutes les Marques 
-                BDD.AjoutFamillesBdd(); // On ajoute toutes les Familles
-                BDD.AjoutSousFamillesBdd(); // On ajoute toutes les SousFamilles
                 BDD.AjoutArticleBdd(ArticlesAImporter[i]);  // On ajoute tout les nouveau Articles
 
                 worker.ReportProgress((i + 1) * 100 / NombreArticleDansFichier);
