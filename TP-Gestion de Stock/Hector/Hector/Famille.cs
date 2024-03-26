@@ -14,6 +14,7 @@ namespace Hector
         private static Dictionary<string, Famille> DictionnaireFamilles= new Dictionary<string, Famille>();
 
         private string Nom;
+        private int RefFamille;
 
         /// <summary>
         /// Permet d'obtenir un objet Famille à patir de son nom
@@ -68,6 +69,7 @@ namespace Hector
         private Famille(string NouveauNom)
         {
             Nom = NouveauNom;
+            RefFamille = -1;
         }
         
         /// <summary>
@@ -93,6 +95,44 @@ namespace Hector
                 }
                 Nom = NouveauNom;
             } catch (Exception ExceptionCatched) {
+                ExceptionCatched.DisplayErrorMessage();
+            }
+        }
+
+
+        /// <summary>
+        /// Accesseur en lecture de l'attribut RefFamille
+        /// </summary>
+        /// <returns> RefFamille </returns>
+        public int GetRefFamille()
+        {
+            return RefFamille;
+        }
+
+        /// <summary>
+        /// Accesseur en écriture de l'attribut RefFamille, appelée lorsque l'objet est inserée, de sorte à rapporter la reference ainsi generee dans l'objet
+        /// </summary>
+        /// <param name="NouvelleRefFamille">La reference autogeneree</param>
+        public void DefineRefFamille(int NouvelleRefFamille)
+        {
+            try
+            {
+                if (RefFamille != -1)
+                {
+                    throw new Exception(Exception.ERREUR_REFERENCE_DEJA_DEFINIE);
+                }
+                foreach (Famille FamilleExistante in DictionnaireFamilles.Values)
+                {
+                    if (FamilleExistante.GetRefFamille() == NouvelleRefFamille)
+                    {
+                        throw new Exception(Exception.ERREUR_REFERENCE_AUTOGENEREE_DEJA_ASSIGNEE);
+                    }
+                }
+
+                RefFamille = NouvelleRefFamille;
+            }
+            catch (Exception ExceptionCatched)
+            {
                 ExceptionCatched.DisplayErrorMessage();
             }
         }

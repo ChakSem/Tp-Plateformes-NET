@@ -77,7 +77,7 @@ namespace Hector
             // On ajoute les informations dans la BDD tout en mettant à jour la barre de progression
             for (int i = 0; i < ArticlesAImporter.Count; i++)
             {
-                BDD.AjoutArticleBdd(ArticlesAImporter[i]);
+                BDD.AjoutArticleBdd(ArticlesAImporter[i]); // NON : 1) Cette metthode enregistre dans la bdd et ne lit pas 2) Il faut commencer par Marque / Famille, Sous Famille et enfin Article (pour que les ref soient generees) 
                 worker.ReportProgress((i + 1) * 100 / NombreArticleDansFichier);
             }
             NombreArticleApresImport = BDD.LireNombreArticlesBdd();

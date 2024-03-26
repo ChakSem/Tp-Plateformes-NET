@@ -14,6 +14,7 @@ namespace Hector
         private static Dictionary<string, SousFamille> DictionnaireSousFamilles= new Dictionary<string, SousFamille>();
 
         private string Nom;
+        private int RefSousFamille;
         private Famille Famille;
 
         /// <summary>
@@ -87,6 +88,7 @@ namespace Hector
         {
             Nom = NouveauNom;
             Famille = FamilleParam;
+            RefSousFamille = -1; // RefSousFamille non genere
         }
 
         /// <summary>
@@ -111,6 +113,43 @@ namespace Hector
                     throw new Exception(Exception.ERREUR_NOM_DEJA_ASSIGNEE);
                 }
                 Nom = NouveauNom;
+            }
+            catch (Exception ExceptionCatched)
+            {
+                ExceptionCatched.DisplayErrorMessage();
+            }
+        }
+
+        /// <summary>
+        /// Accesseur en lecture de l'attribut RefSousFamille
+        /// </summary>
+        /// <returns> RefSousFamille </returns>
+        public int GetRefSousFamille()
+        {
+            return RefSousFamille;
+        }
+
+        /// <summary>
+        /// Accesseur en écriture de l'attribut RefSousFamille, appelée lorsque l'objet est inserée, de sorte à rapporter la reference ainsi generee dans l'objet
+        /// </summary>
+        /// <param name="NouvelleRefSousFamille">La reference autogeneree</param>
+        public void DefineRefSousFamille(int NouvelleRefSousFamille)
+        {
+            try
+            {
+                if(RefSousFamille != -1)
+                {
+                    throw new Exception(Exception.ERREUR_REFERENCE_DEJA_DEFINIE);
+                }
+                foreach (SousFamille SousFamilleExistante in DictionnaireSousFamilles.Values)
+                {
+                    if (SousFamilleExistante.GetRefSousFamille() == NouvelleRefSousFamille)
+                    {
+                        throw new Exception(Exception.ERREUR_REFERENCE_AUTOGENEREE_DEJA_ASSIGNEE);
+                    }
+                }
+
+                RefSousFamille = NouvelleRefSousFamille;
             }
             catch (Exception ExceptionCatched)
             {

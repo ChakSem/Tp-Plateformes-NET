@@ -14,6 +14,7 @@ namespace Hector
         private static Dictionary<string, Marque> DictionnairesMarques= new Dictionary<string, Marque>();
 
         private string Nom;
+        private int RefMarque;
 
         /// <summary>
         /// Permet d'obtenir un objet Marque à patir de son nom
@@ -67,6 +68,7 @@ namespace Hector
         private Marque(string NomParam)
         {
             Nom = NomParam;
+            RefMarque = -1;
         }
 
         /// <summary>
@@ -76,6 +78,44 @@ namespace Hector
         public string GetNom()
         {
             return Nom;
+        }
+
+
+        /// <summary>
+        /// Accesseur en lecture de l'attribut RefMarque
+        /// </summary>
+        /// <returns> RefMarque </returns>
+        public int GetRefMarque()
+        {
+            return RefMarque;
+        }
+
+        /// <summary>
+        /// Accesseur en écriture de l'attribut RefMarque, appelée lorsque l'objet est inserée, de sorte à rapporter la reference ainsi generee dans l'objet
+        /// </summary>
+        /// <param name="NouvelleRefMarque">La reference autogeneree</param>
+        public void DefineRefMarque(int NouvelleRefMarque)
+        {
+            try
+            {
+                if (RefMarque != -1)
+                {
+                    throw new Exception(Exception.ERREUR_REFERENCE_DEJA_DEFINIE);
+                }
+                foreach (Marque MarqueExistante in DictionnairesMarques.Values)
+                {
+                    if (MarqueExistante.GetRefMarque() == NouvelleRefMarque)
+                    {
+                        throw new Exception(Exception.ERREUR_REFERENCE_AUTOGENEREE_DEJA_ASSIGNEE);
+                    }
+                }
+
+                RefMarque = NouvelleRefMarque;
+            }
+            catch (Exception ExceptionCatched)
+            {
+                ExceptionCatched.DisplayErrorMessage();
+            }
         }
 
         /// <summary>

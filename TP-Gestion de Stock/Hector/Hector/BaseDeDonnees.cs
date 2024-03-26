@@ -123,95 +123,195 @@ namespace Hector
         /// <param name="Articles">Liste d'articles à ajouter</param>
         /// <exception cref="A DEFINIR">L'ajout des articles a échoué.</exception>
 
-        public void AjoutArticlesBdd(List<Article> Articles)
+        public void AjoutArticlesBdd()
         {
-            foreach (Article article in Articles)
+            foreach (Article ArticleExistant in Article.GetListeArticles())
             {
-                using (SQLiteConnection Connection = new SQLiteConnection(ConnectionString))
-                {
-                    Connection.Open();
-
-                    string Description = article.GetDescription();
-                    string Reference = article.GetReference();
-                    double PrixHT = article.GetPrixHT();
-                    string Marque = article.GetMarque().GetNom();
-                    string SousFamille = article.GetSousFamille().GetNom();
-                    string Famille = article.GetSousFamille().GetFamille().GetNom();
-
-                    string SQL_Query_AddArticle = "INSERT INTO Articles (Description, RefArticle, PrixHT, Marque, SousFamille, Famille) VALUES (@Description, @RefArticle, @PrixHT, @Marque, @SousFamille, @Famille)";
-
-                    using (SQLiteCommand Command_AddArticle = new SQLiteCommand(SQL_Query_AddArticle, Connection))
-                    {
-                        Command_AddArticle.Parameters.AddWithValue("@Description", Description);
-                        Command_AddArticle.Parameters.AddWithValue("@RefArticle", Reference);
-                        Command_AddArticle.Parameters.AddWithValue("@PrixHT", PrixHT);
-                        Command_AddArticle.Parameters.AddWithValue("@Marque", Marque);
-                        Command_AddArticle.Parameters.AddWithValue("@SousFamille", SousFamille);
-                        Command_AddArticle.Parameters.AddWithValue("@Famille", Famille);
-                        int RowsAffected = Command_AddArticle.ExecuteNonQuery();
-                    }
-                }
+                AjoutArticleBdd(ArticleExistant);
             }
         }
 
         /// <summary>
         /// Permets d'ajouter un article à la BDD.
         /// </summary>
-        /// <param name="article">Article à ajouter</param>
+        /// <param name="Article">Article à ajouter</param>
         /// <exception cref="A DEFINIR">L'ajout de l'article a échoué.</exception>
 
-        public void AjoutArticleBdd(Article article)
+        public void AjoutArticleBdd(Article Article)
         {
             using (SQLiteConnection Connection = new SQLiteConnection(ConnectionString))
             {
                 //System.ArgumentException : 'Data Source cannot be empty.  Use :memory: to open an in-memory database'
                 Connection.Open();
 
-                string Description = article.GetDescription();
-                string Reference = article.GetReference();
-                double PrixHT = article.GetPrixHT();
-                string Marque = article.GetMarque().GetNom();
-                string SousFamille = article.GetSousFamille().GetNom();
-                string Famille = article.GetSousFamille().GetFamille().GetNom();
+                string Description = Article.GetDescription();
+                string Reference = Article.GetReference();
+                double PrixHT = Article.GetPrixHT();
+                int Quantite = Article.GetQuantite();
+                int Marque = Article.GetMarque().GetRefMarque();
+                int SousFamille = Article.GetSousFamille().GetRefSousFamille();
 
-                string SQL_Query_AddArticle = "INSERT INTO Articles (Description, RefArticle, PrixHT, Marque, SousFamille, Famille) VALUES (@Description, @RefArticle, @PrixHT, @Marque, @SousFamille, @Famille)";
+                string SQL_Query_AddArticle = "INSERT INTO Articles (Description, RefArticle, PrixHT, Quantite, RefMarque, RefSousFamille) VALUES (@Description, @RefArticle, @PrixHT, @Quantite, @Marque, @SousFamille)";
 
                 using (SQLiteCommand Command_AddArticle = new SQLiteCommand(SQL_Query_AddArticle, Connection))
                 {
                     Command_AddArticle.Parameters.AddWithValue("@Description", Description);
                     Command_AddArticle.Parameters.AddWithValue("@RefArticle", Reference);
                     Command_AddArticle.Parameters.AddWithValue("@PrixHT", PrixHT);
-                    Command_AddArticle.Parameters.AddWithValue("@Marque", Marque);
-                    Command_AddArticle.Parameters.AddWithValue("@SousFamille", SousFamille);
-                    Command_AddArticle.Parameters.AddWithValue("@Famille", Famille);
+                    Command_AddArticle.Parameters.AddWithValue("@Quantite", Quantite);
+                    Command_AddArticle.Parameters.AddWithValue("@RefMarque", Marque);
+                    Command_AddArticle.Parameters.AddWithValue("@RefSousFamille", SousFamille);
                     int RowsAffected = Command_AddArticle.ExecuteNonQuery();
                 }
             }
         }
-
-
 
         /// <summary>
         /// Permets d'ajouter les marques d'une liste à la BDD.
         /// </summary>
         public void AjoutMarquesBdd()
         {
-            foreach (Marque marque in Marque.GetListeMarques())
+            foreach (Marque MarqueExistante in Marque.GetListeMarques())
             {
-                using (SQLiteConnection Connection = new SQLiteConnection(ConnectionString))
+                AjoutMarqueBdd(MarqueExistante);
+            }
+        }
+
+        /// <summary>
+        /// Permets d'ajouter les marques d'une liste à la BDD.
+        /// </summary>
+        public void AjoutMarqueBdd(Marque Marque)
+        {
+            using (SQLiteConnection Connection = new SQLiteConnection(ConnectionString))
+            {
+                Connection.Open();
+
+                string Nom = Marque.GetNom();
+                int RefMarque = Marque.GetRefMarque();
+
+                if (RefMarque != -1)
                 {
-                    Connection.Open();
-
-                    string BrandName = marque.GetNom();
-
-                    string SQL_Query_AddBrand = "INSERT INTO Brands (Name) VALUES (@Name)";
+                    string SQL_Query_AddBrand = "INSERT INTO Marque (RefMarque, NaNomme) VALUES (@RefMarque, @Nom)";
 
                     using (SQLiteCommand Command_AddBrand = new SQLiteCommand(SQL_Query_AddBrand, Connection))
                     {
-                        Command_AddBrand.Parameters.AddWithValue("@Name", BrandName);
+                        Command_AddBrand.Parameters.AddWithValue("@Nom", Nom);
+                        Command_AddBrand.Parameters.AddWithValue("@RefMarque", RefMarque);
                         int RowsAffected = Command_AddBrand.ExecuteNonQuery();
                     }
                 }
+                else
+                {
+                    string SQL_Query_AddBrand = "INSERT INTO Marque (Nom) VALUES (@Nom)";
+
+                    using (SQLiteCommand Command_AddBrand = new SQLiteCommand(SQL_Query_AddBrand, Connection))
+                    {
+                        Command_AddBrand.Parameters.AddWithValue("@Nom", Nom);
+                        int RowsAffected = Command_AddBrand.ExecuteNonQuery();
+                    }
+
+                    // TODO : Lire le RefMarque autopgeneree est l'ajouter à l'obejt Marque à l'aide de la méthode : DefineRefMarque(); 
+                }
+            }
+        }
+
+        /// <summary>
+        /// Permets d'ajouter les marques d'une liste à la BDD.
+        /// </summary>
+        public void AjoutSousFamillesBdd()
+        {
+            foreach (SousFamille SousFamilleExistante in SousFamille.GetListeSousFamilles())
+            {
+                AjoutSousFamilleBdd(SousFamilleExistante);
+            }
+        }
+
+        /// <summary>
+        /// Permets d'ajouter les marques d'une liste à la BDD.
+        /// </summary>
+        public void AjoutSousFamilleBdd(SousFamille SousFamille)
+        {
+            using (SQLiteConnection Connection = new SQLiteConnection(ConnectionString))
+            {
+                Connection.Open();
+
+                string Nom = SousFamille.GetNom();
+                int RefSousFamille = SousFamille.GetRefSousFamille();
+
+                if (RefSousFamille != -1)
+                {
+                    string SQL_Query_AddBrand = "INSERT INTO SousFamille (RefSousFamille, Nom) VALUES (@RefSousFamille, @Nom)";
+
+                    using (SQLiteCommand Command_AddBrand = new SQLiteCommand(SQL_Query_AddBrand, Connection))
+                    {
+                        Command_AddBrand.Parameters.AddWithValue("@Nom", Nom);
+                        Command_AddBrand.Parameters.AddWithValue("@RefSousFamille", RefSousFamille);
+                        int RowsAffected = Command_AddBrand.ExecuteNonQuery();
+                    }
+                }
+                else
+                {
+                    string SQL_Query_AddBrand = "INSERT INTO SousFamille (Nom) VALUES (@Nom)";
+
+                    using (SQLiteCommand Command_AddBrand = new SQLiteCommand(SQL_Query_AddBrand, Connection))
+                    {
+                        Command_AddBrand.Parameters.AddWithValue("@Nom", Nom);
+                        int RowsAffected = Command_AddBrand.ExecuteNonQuery();
+                    }
+
+                    // TODO : Lire le RefSousFamille autogeneree est l'ajouter à l'objet SousFamile à l'aide de la méthode : DefineRefSousFamille(); 
+                }
+            }
+        }
+
+        /// <summary>
+        /// Permets d'ajouter les marques d'une liste à la BDD.
+        /// </summary>
+        public void AjoutFamillesBdd()
+        {
+            foreach (Famille FamilleExistante in Famille.GetListeFamilles())
+            {
+                AjoutFamilleBdd(FamilleExistante);
+            }
+        }
+
+        /// <summary>
+        /// Permets d'ajouter les marques d'une liste à la BDD.
+        /// </summary>
+        public void AjoutFamilleBdd(Famille Famille)
+        {
+            using (SQLiteConnection Connection = new SQLiteConnection(ConnectionString))
+            {
+                Connection.Open();
+
+                string Nom = Famille.GetNom();
+                int RefFamille = Famille.GetRefFamille();
+
+                if (RefFamille != -1)
+                {
+                    string SQL_Query_AddBrand = "INSERT INTO Famille (RefFamille, Name) VALUES (@RefFamille, @Name)";
+
+                    using (SQLiteCommand Command_AddBrand = new SQLiteCommand(SQL_Query_AddBrand, Connection))
+                    {
+                        Command_AddBrand.Parameters.AddWithValue("@Nom", Nom);
+                        Command_AddBrand.Parameters.AddWithValue("@RefFamille", RefFamille);
+                        int RowsAffected = Command_AddBrand.ExecuteNonQuery();
+                    }
+                }
+                else
+                {
+                    string SQL_Query_AddBrand = "INSERT INTO Famille (Name) VALUES (@Name)";
+
+                    using (SQLiteCommand Command_AddBrand = new SQLiteCommand(SQL_Query_AddBrand, Connection))
+                    {
+                        Command_AddBrand.Parameters.AddWithValue("@Nom", Nom);
+                        int RowsAffected = Command_AddBrand.ExecuteNonQuery();
+                    }
+
+                    // TODO : Lire le RefFamille autogeneree est l'ajouter à l'objet Famile à l'aide de la méthode : DefineRefFamille(); 
+                }
+
+
             }
         }
 
