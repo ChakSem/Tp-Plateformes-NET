@@ -18,7 +18,7 @@ namespace Hector
         public FormMain()
         {
             InitializeComponent();
-            ChargerTreeView(TreeView);
+            ChargerTreeView(TreeViewParam);
         }
 
         /// <summary>
@@ -28,8 +28,8 @@ namespace Hector
         /// <param name="e"></param>
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            ChargerTreeView(TreeView);
-            MessageBox.Show("Some text", "Some title",MessageBoxButtons.OK, MessageBoxIcon.Error);
+            ChargerTreeView(TreeViewParam);
+            MessageBox.Show("Some text", "Some title", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         /// <summary>
@@ -57,6 +57,7 @@ namespace Hector
         /// Methode qui permet de chager le TreeView
         /// </summary>
         /// <param name="treeView"></param>
+
         private static void ChargerTreeView(TreeView treeView)
         {
             //On vide le TreeView
@@ -92,5 +93,121 @@ namespace Hector
                 NoeudMarques.Nodes.Add(NoeudMarque);
             }
         }
+
+        private void TreeViewParam_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            //On recupere le noeud selectionné
+            TreeNode NoeudSelectionne = TreeViewParam.SelectedNode;
+
+            //On recupere le type de noeud selectionné
+            string TypeNoeudSelectionne = NoeudSelectionne.Text;
+
+            ListViewParam.Items.Clear();
+
+            
+            switch (TypeNoeudSelectionne)
+            {
+                case "Tous les articles":
+                    ChargerListViewArticles(ListViewParam, Article.GetListeArticles());
+                    break;
+
+                case "Familles":
+                    ChargerListViewFamilles(ListViewParam, Famille.GetDictionnaireFamilles());
+                    break;
+
+                case "Marques":
+                    ChargerListViewMarques(ListViewParam, Marque.GetListeMarques());
+                    break;
+
+                default:
+                    ChargerListViewSousFamilles(ListViewParam, SousFamille.GetListeSousFamilles());
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Methode qui permet de charger le ListView avec les articles
+        /// </summary>
+        /// <param name="ListViewParam"></param>
+        /// <param name="ListeArticles"></param>
+        private static void ChargerListViewArticles(ListView ListViewParam, List<Article> ListeArticles)
+        {
+            //On vide le ListView
+            ListViewParam.Items.Clear();
+            ListViewParam.Columns.Add("1");
+            //On ajoute les articles
+            foreach (Article ArticleExistante in ListeArticles)
+            {
+                ListViewItem NouvelItem = new ListViewItem(ArticleExistante.GetDescription());
+                NouvelItem.SubItems.Add(ArticleExistante.GetPrixHT().ToString());
+                NouvelItem.SubItems.Add(ArticleExistante.GetQuantite().ToString());
+                NouvelItem.SubItems.Add(ArticleExistante.GetSousFamille().GetFamille().GetNom());
+                NouvelItem.SubItems.Add(ArticleExistante.GetSousFamille().GetNom());
+                NouvelItem.SubItems.Add(ArticleExistante.GetMarque().GetNom());
+                ListViewParam.Items.Add(NouvelItem);
+            }
+        }
+        /// <summary>
+        /// Methode qui permet de charger le ListView avec les familles
+        /// </summary>
+        /// <param name="ListViewParam"></param>
+        /// <param name="ListeFamilles"></param>
+        private static void ChargerListViewFamilles(ListView ListViewParam, List<Famille> ListeFamilles)
+        {
+            //On vide le ListView
+            ListViewParam.Items.Clear();
+
+            //On ajoute les familles
+            foreach (Famille FamilleExistante in ListeFamilles)
+            {
+                ListViewItem NouvelItem = new ListViewItem(FamilleExistante.GetNom());
+                ListViewParam.Items.Add(NouvelItem);
+            }
+        }
+        /// <summary>
+        /// Methode qui permet de charger le ListView avec les marques
+        /// </summary>
+        /// <param name="ListViewParam"></param>
+        /// <param name="ListeMarques"></param>
+        
+        private static void ChargerListViewMarques(ListView ListViewParam, List<Marque> ListeMarques)
+        {
+            //On vide le ListView
+            ListViewParam.Items.Clear();
+
+            //On ajoute les marques
+            foreach (Marque MarqueExistante in ListeMarques)
+            {
+                ListViewItem NouvelItem = new ListViewItem(MarqueExistante.GetNom());
+                ListViewParam.Items.Add(NouvelItem);
+            }
+        }
+
+
+        /// <summary>
+        /// Methode qui permet de charger le ListView avec les sous-familles
+        /// </summary>
+        /// <param name="ListViewParam"></param>
+        /// <param name="ListeSousFamilles"></param>
+        
+       // public static List<Famille> GetDictionnaireFamilles()
+        private static void ChargerListViewSousFamilles( ListView ListViewParam, List<SousFamille> ListeSousFamilles)
+        {
+            //On vide le ListView
+            ListViewParam.Items.Clear();
+
+            //On ajoute les sous-familles
+            foreach (SousFamille SousFamilleExistante in ListeSousFamilles)
+            {
+                ListViewItem NouvelItem = new ListViewItem(SousFamilleExistante.GetNom());
+                NouvelItem.SubItems.Add(SousFamilleExistante.GetFamille().GetNom());
+                ListViewParam.Items.Add(NouvelItem);
+            }
+        }
+        
     }
 }
+
+
+
+

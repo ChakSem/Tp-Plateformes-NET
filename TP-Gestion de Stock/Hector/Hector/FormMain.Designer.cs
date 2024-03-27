@@ -37,8 +37,8 @@ namespace Hector
             this.exporterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.TreeView = new System.Windows.Forms.TreeView();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.TreeViewParam = new System.Windows.Forms.TreeView();
+            this.ListViewParam = new System.Windows.Forms.ListView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.créerUnNouvelIndividuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.articleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -115,37 +115,37 @@ namespace Hector
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.TreeView);
+            this.splitContainer1.Panel1.Controls.Add(this.TreeViewParam);
             this.splitContainer1.Panel1MinSize = 200;
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.listView1);
+            this.splitContainer1.Panel2.Controls.Add(this.ListViewParam);
             this.splitContainer1.Size = new System.Drawing.Size(1200, 635);
             this.splitContainer1.SplitterDistance = 397;
             this.splitContainer1.SplitterWidth = 6;
             this.splitContainer1.TabIndex = 2;
             // 
-            // TreeView
+            // TreeViewParam
             // 
-            this.TreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TreeView.Location = new System.Drawing.Point(0, 0);
-            this.TreeView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.TreeView.Name = "TreeView";
-            this.TreeView.Size = new System.Drawing.Size(397, 635);
-            this.TreeView.TabIndex = 0;
+            this.TreeViewParam.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TreeViewParam.Location = new System.Drawing.Point(0, 0);
+            this.TreeViewParam.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.TreeViewParam.Name = "TreeViewParam";
+            this.TreeViewParam.Size = new System.Drawing.Size(397, 635);
+            this.TreeViewParam.TabIndex = 0;
             // 
-            // listView1
+            // ListViewParam
             // 
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(0, 0);
-            this.listView1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(797, 635);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.ListViewParam.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ListViewParam.HideSelection = false;
+            this.ListViewParam.Location = new System.Drawing.Point(0, 0);
+            this.ListViewParam.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ListViewParam.Name = "ListViewParam";
+            this.ListViewParam.Size = new System.Drawing.Size(797, 635);
+            this.ListViewParam.TabIndex = 0;
+            this.ListViewParam.UseCompatibleStateImageBehavior = false;
+            this.ListViewParam.View = System.Windows.Forms.View.Details;
             // 
             // contextMenuStrip1
             // 
@@ -224,8 +224,8 @@ namespace Hector
         private System.Windows.Forms.ToolStripMenuItem exporterToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.TreeView TreeView;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.TreeView TreeViewParam;
+        private System.Windows.Forms.ListView ListViewParam;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem créerUnNouvelIndividuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem articleToolStripMenuItem;
