@@ -19,7 +19,7 @@ namespace Hector
         {
             InitializeComponent();
             ImporterDonneesFichierSQLite();
-            ChargerTreeView(TreeView);
+            ChargerTreeView();
         }
 
         public void ImporterDonneesFichierSQLite()
@@ -40,7 +40,7 @@ namespace Hector
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
             ImporterDonneesFichierSQLite();
-            ChargerTreeView(TreeView);
+            ChargerTreeView();
         }
 
         private void importerToolStripMenuItem_Click(object sender, EventArgs e)
@@ -64,20 +64,21 @@ namespace Hector
         /// </summary>
         /// <param name="treeView"></param>
 
-        private static void ChargerTreeView(TreeView treeView)
+        private void ChargerTreeView()
         {
-            //On vide le TreeView
-            treeView.Nodes.Clear();
+            //TreeviewParam est le TreeView que l'on veut charger
 
+ 
+            TreeViewParam.Nodes.Clear();
             //On ajoute les noeuds racines
             TreeNode NoeudTousLesArticles = new TreeNode("Tous les articles");
             TreeNode NoeudFamilles = new TreeNode("Familles");
             TreeNode NoeudMarques = new TreeNode("Marques");
 
             //On ajoute les noeuds racines au TreeView
-            treeView.Nodes.Add(NoeudTousLesArticles);
-            treeView.Nodes.Add(NoeudFamilles);
-            treeView.Nodes.Add(NoeudMarques);
+            TreeViewParam.Nodes.Add(NoeudTousLesArticles);
+            TreeViewParam.Nodes.Add(NoeudFamilles);
+            TreeViewParam.Nodes.Add(NoeudMarques);
 
             //On ajoute les sous-familles
             foreach (Famille FamilleExistante in Famille.GetDictionnaireFamilles())
@@ -85,7 +86,7 @@ namespace Hector
                 TreeNode NoeudFamille = new TreeNode(FamilleExistante.GetNom());
                 NoeudFamilles.Nodes.Add(NoeudFamille);
 
-                foreach (SousFamille SousFamilleExistante in SousFamille.GetListeSousFamilles())
+                foreach (SousFamille SousFamilleExistante in SousFamille.GetDictionnaireSousFamilles())
                 {
                     TreeNode NoeudSousFamille = new TreeNode(SousFamilleExistante.GetNom());
                     NoeudFamille.Nodes.Add(NoeudSousFamille);
@@ -93,7 +94,7 @@ namespace Hector
             }
 
             //On ajoute les marques
-            foreach (Marque MarqueExistante in Marque.GetListeMarques())
+            foreach (Marque MarqueExistante in Marque.GetDictionnaireMarques())
             {
                 TreeNode NoeudMarque = new TreeNode(MarqueExistante.GetNom());
                 NoeudMarques.Nodes.Add(NoeudMarque);
@@ -101,19 +102,16 @@ namespace Hector
         }
 
         private void TreeViewParam_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            //On recupere le noeud selectionné
-            TreeNode NoeudSelectionne = TreeViewParam.SelectedNode;
-
+        { 
             //On recupere le type de noeud selectionné
-            string TypeNoeudSelectionne = NoeudSelectionne.Text;
-
+            string TypeNoeudSelectionne = e.Node.Text;
+            MessageBox.Show(TypeNoeudSelectionne);
             ListViewParam.Items.Clear();
 
-            
             switch (TypeNoeudSelectionne)
             {
                 case "Tous les articles":
+               
                     ChargerListViewArticles(ListViewParam, Article.GetListeArticles());
                     break;
 
@@ -122,11 +120,11 @@ namespace Hector
                     break;
 
                 case "Marques":
-                    ChargerListViewMarques(ListViewParam, Marque.GetListeMarques());
+                    ChargerListViewMarques(ListViewParam, Marque.GetDictionnaireMarques());
                     break;
 
                 default:
-                    ChargerListViewSousFamilles(ListViewParam, SousFamille.GetListeSousFamilles());
+                    ChargerListViewSousFamilles(ListViewParam, SousFamille.GetDictionnaireSousFamilles());
                     break;
             }
         }
@@ -136,11 +134,12 @@ namespace Hector
         /// </summary>
         /// <param name="ListViewParam"></param>
         /// <param name="ListeArticles"></param>
-        private static void ChargerListViewArticles(ListView ListViewParam, List<Article> ListeArticles)
+        private void ChargerListViewArticles(ListView ListViewParam, List<Article> ListeArticles)
         {
             //On vide le ListView
             ListViewParam.Items.Clear();
-            ListViewParam.Columns.Add("1");
+            AjouterColonnesListViewArticles();
+
             //On ajoute les articles
             foreach (Article ArticleExistante in ListeArticles)
             {
@@ -153,15 +152,59 @@ namespace Hector
                 ListViewParam.Items.Add(NouvelItem);
             }
         }
+
         /// <summary>
+        /// Methode qui permet d'ajouter les colonnes correspondantes pour la lecture des articles avec le ListView 
+        /// <summary>
+        
+        public void AjouterColonnesListViewArticles()
+        {
+            ListViewParam.Columns.Add("Référence", 100);
+            ListViewParam.Columns.Add("Description", 100);
+            ListViewParam.Columns.Add("Famille", 100);
+            ListViewParam.Columns.Add("Sous-famille", 100);
+            ListViewParam.Columns.Add("Marque", 100);
+            ListViewParam.Columns.Add("Quantité", 100);
+        }
+
+        /// <summary>
+        /// Methode qui permet d'ajouter les colonnes correspondantes pour la lecture des familles avec le ListView
+        /// <summary>
+        public void AjouterColonnesListViewFamilles()
+        {
+            ListViewParam.Columns.Add("Référence", 100);
+            ListViewParam.Columns.Add("Nom", 100);
+        }
+
+        /// <summary>
+        /// Methode qui permet d'ajouter les colonnes correspondantes pour la lecture des marques avec le ListView
+        /// <summary>
+        
+        public void AjouterColonnesListViewMarques()
+        {
+            ListViewParam.Columns.Add("Référence", 100);
+            ListViewParam.Columns.Add("Nom", 100);
+        }
+
+        /// <summary>
+        /// Methode qui permet d'ajouter les colonnes correspondantes pour la lecture des sous-familles avec le ListView
+        /// <summary>
+        
+        public void AjouterColonnesListViewSousFamilles()
+        {
+            ListViewParam.Columns.Add("Référence", 100);
+            ListViewParam.Columns.Add("Nom", 100);
+        }
+
         /// Methode qui permet de charger le ListView avec les familles
         /// </summary>
         /// <param name="ListViewParam"></param>
         /// <param name="ListeFamilles"></param>
-        private static void ChargerListViewFamilles(ListView ListViewParam, List<Famille> ListeFamilles)
+        private void ChargerListViewFamilles(ListView ListViewParam, List<Famille> ListeFamilles)
         {
             //On vide le ListView
             ListViewParam.Items.Clear();
+            AjouterColonnesListViewFamilles();
 
             //On ajoute les familles
             foreach (Famille FamilleExistante in ListeFamilles)
@@ -175,11 +218,12 @@ namespace Hector
         /// </summary>
         /// <param name="ListViewParam"></param>
         /// <param name="ListeMarques"></param>
-        
-        private static void ChargerListViewMarques(ListView ListViewParam, List<Marque> ListeMarques)
+
+        private void ChargerListViewMarques(ListView ListViewParam, List<Marque> ListeMarques)
         {
             //On vide le ListView
             ListViewParam.Items.Clear();
+            AjouterColonnesListViewMarques();
 
             //On ajoute les marques
             foreach (Marque MarqueExistante in ListeMarques)
@@ -195,12 +239,12 @@ namespace Hector
         /// </summary>
         /// <param name="ListViewParam"></param>
         /// <param name="ListeSousFamilles"></param>
-        
-       // public static List<Famille> GetDictionnaireFamilles()
-        private static void ChargerListViewSousFamilles( ListView ListViewParam, List<SousFamille> ListeSousFamilles)
+
+        private void ChargerListViewSousFamilles(ListView ListViewParam, List<SousFamille> ListeSousFamilles)
         {
             //On vide le ListView
             ListViewParam.Items.Clear();
+            AjouterColonnesListViewSousFamilles();
 
             //On ajoute les sous-familles
             foreach (SousFamille SousFamilleExistante in ListeSousFamilles)
@@ -210,7 +254,7 @@ namespace Hector
                 ListViewParam.Items.Add(NouvelItem);
             }
         }
-        
+
     }
 }
 

@@ -78,21 +78,21 @@ namespace Hector
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(252, 30);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(172, 30);
             this.toolStripMenuItem2.Text = "Actualiser";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // importerToolStripMenuItem
             // 
             this.importerToolStripMenuItem.Name = "importerToolStripMenuItem";
-            this.importerToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
+            this.importerToolStripMenuItem.Size = new System.Drawing.Size(172, 30);
             this.importerToolStripMenuItem.Text = "Importer";
             this.importerToolStripMenuItem.Click += new System.EventHandler(this.importerToolStripMenuItem_Click);
             // 
             // exporterToolStripMenuItem
             // 
             this.exporterToolStripMenuItem.Name = "exporterToolStripMenuItem";
-            this.exporterToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
+            this.exporterToolStripMenuItem.Size = new System.Drawing.Size(172, 30);
             this.exporterToolStripMenuItem.Text = "Exporter";
             this.exporterToolStripMenuItem.Click += new System.EventHandler(this.exporterToolStripMenuItem_Click);
             // 
@@ -134,6 +134,7 @@ namespace Hector
             this.TreeViewParam.Name = "TreeViewParam";
             this.TreeViewParam.Size = new System.Drawing.Size(397, 635);
             this.TreeViewParam.TabIndex = 0;
+            this.TreeViewParam.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeViewParam_AfterSelect);
             // 
             // ListViewParam
             // 
