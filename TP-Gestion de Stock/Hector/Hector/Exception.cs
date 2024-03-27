@@ -17,6 +17,7 @@ namespace Hector
         public const uint ERREUR_REFERENCE_AUTOGENEREE_DEJA_ASSIGNEE = 6;
         public const uint ERREUR_REFERENCE_DEJA_DEFINIE = 7;
         public const uint ERREUR_CHEMIN_VIDE = 8;
+        public const uint ERREUR_OBJET_DEJA_EXISTANT = 9;
 
         private uint CodeErreur;
         public uint GetCodeErreur()
@@ -65,6 +66,9 @@ namespace Hector
                     break;
                 case ERREUR_CHEMIN_VIDE:
                     MessageErreur = "Le chemin du fichier est vide";
+                    break;
+                case ERREUR_OBJET_DEJA_EXISTANT:
+                    MessageErreur = "L'objet qui devait être cree existe deja";
                     break;
                 default:
                     MessageErreur = "Une erreur inconnue est survenue";

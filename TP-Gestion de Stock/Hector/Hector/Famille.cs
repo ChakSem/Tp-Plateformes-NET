@@ -45,7 +45,7 @@ namespace Hector
         /// </summary>
         /// <param name="NomParam">Nom de la Famille que l'on souhaite</param>
         /// <returns> NouvelleFamille </returns>
-        public static Famille CreateFamille(string NomParam)
+        public static Famille CreerFamille(string NomParam)
         {
             if (DictionnaireFamilles.ContainsKey(NomParam))
             {
@@ -56,8 +56,49 @@ namespace Hector
                 Famille NouvelleFamille = new Famille(NomParam);
                 DictionnaireFamilles.Add(NomParam, NouvelleFamille);
 
+                BaseDeDonnees.GetInstance().AjoutFamilleBdd(NouvelleFamille);
+
                 return NouvelleFamille;
             }
+        }
+        
+        /// <summary>
+        /// Méthode permettant de récupérer un objet Famille avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
+        /// </summary>
+        /// <param name="NomParam">Nom de la Famille que l'on souhaite</param>
+        /// <returns> NouvelleFamille </returns>
+        public static Famille CreerFamilleDepuisSQLite(string NomParam)
+        {
+            if (!DictionnaireFamilles.ContainsKey(NomParam))
+            {
+                Famille NouvelleFamille = new Famille(NomParam);
+                DictionnaireFamilles.Add(NomParam, NouvelleFamille);
+
+                return NouvelleFamille;
+            }
+
+
+            return null;
+        }
+        
+        /// <summary>
+         /// Méthode permettant de récupérer un objet Famille avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
+         /// </summary>
+         /// <param name="NomParam">Nom de la Famille que l'on souhaite</param>
+         /// <returns> NouvelleFamille </returns>
+        public static Famille CreerFamilleDepuisCSV(string NomParam)
+        {
+            if (!DictionnaireFamilles.ContainsKey(NomParam))
+            {
+                Famille NouvelleFamille = new Famille(NomParam);
+                DictionnaireFamilles.Add(NomParam, NouvelleFamille);
+
+                BaseDeDonnees.GetInstance().AjoutFamilleBdd(NouvelleFamille);
+
+                return NouvelleFamille;
+            }
+
+            return DictionnaireFamilles[NomParam];
         }
         private Famille() { }
         private Famille(Famille FamilleParam) { }
@@ -133,7 +174,7 @@ namespace Hector
             }
             catch (Exception ExceptionCatched)
             {
-               // ExceptionCatched.AfficherMessageErreur();
+               ExceptionCatched.AfficherMessageErreur();
             }
         }
 

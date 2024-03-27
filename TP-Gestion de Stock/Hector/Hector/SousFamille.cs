@@ -47,7 +47,7 @@ namespace Hector
         /// <param name="NomParam">Nom de la SousFamille que l'on souhaite</param>
         /// <param name="FamilleParam">Famille de la SousFamille</param>
         /// <returns> NouvelleSousFamille </returns>
-        public static SousFamille CreateSousFamille(string NomParam, Famille FamilleParam)
+        public static SousFamille CreerSousFamille(string NomParam, Famille FamilleParam)
         {
             if (DictionnaireSousFamilles.ContainsKey(NomParam))
             {
@@ -73,9 +73,52 @@ namespace Hector
                 SousFamille NouvelleSousFamille = new SousFamille(NomParam, FamilleParam);
                 DictionnaireSousFamilles.Add(NomParam, NouvelleSousFamille);
 
+                BaseDeDonnees.GetInstance().AjoutSousFamilleBdd(NouvelleSousFamille);
+
                 return NouvelleSousFamille;
             }
         }
+        
+        /// <summary>
+        /// Méthode permettant de récupérer un objet SousFamille avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
+        /// </summary>
+        /// <param name="NomParam">Nom de la SousFamille que l'on souhaite</param>
+        /// <param name="FamilleParam">Famille de la SousFamille</param>
+        /// <returns> NouvelleSousFamille </returns>
+        public static SousFamille CreerSousFamilleDepuisSQLite(string NomParam, Famille FamilleParam)
+        {
+            if (!DictionnaireSousFamilles.ContainsKey(NomParam))
+            {
+                SousFamille NouvelleSousFamille = new SousFamille(NomParam, FamilleParam);
+                DictionnaireSousFamilles.Add(NomParam, NouvelleSousFamille);
+
+                return NouvelleSousFamille;
+            }
+
+            return null;
+        }
+        
+        /// <summary>
+        /// Méthode permettant de récupérer un objet SousFamille avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
+        /// </summary>
+        /// <param name="NomParam">Nom de la SousFamille que l'on souhaite</param>
+        /// <param name="FamilleParam">Famille de la SousFamille</param>
+        /// <returns> NouvelleSousFamille </returns>
+        public static SousFamille CreerSousFamilleDepuisCSV(string NomParam, Famille FamilleParam)
+        {
+            if (!DictionnaireSousFamilles.ContainsKey(NomParam))
+            {
+                SousFamille NouvelleSousFamille = new SousFamille(NomParam, FamilleParam);
+                DictionnaireSousFamilles.Add(NomParam, NouvelleSousFamille);
+
+                BaseDeDonnees.GetInstance().AjoutSousFamilleBdd(NouvelleSousFamille);
+
+                return NouvelleSousFamille;
+            }
+            
+            return DictionnaireSousFamilles[NomParam];
+        }
+
         private SousFamille() { }
         private SousFamille(SousFamille SousFamilleParam) { }
 
@@ -153,7 +196,7 @@ namespace Hector
             }
             catch (Exception ExceptionCatched)
             {
-                //ExceptionCatched.AfficherMessageErreur();
+                ExceptionCatched.AfficherMessageErreur();
             }
         }
 
@@ -175,7 +218,7 @@ namespace Hector
             Famille = NouvelleFamille;
         }
 
-        public static List<SousFamille> GetListeSousFamilles()
+        public static List<SousFamille> GetDictionnaireSousFamilles()
         {
             return DictionnaireSousFamilles.Values.ToList();
         }

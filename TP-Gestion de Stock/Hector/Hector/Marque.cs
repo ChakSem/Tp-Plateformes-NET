@@ -44,7 +44,7 @@ namespace Hector
         /// </summary>
         /// <param name="NomParam">Nom de la Marque que l'on souhaite</param>
         /// <returns> NouvelleMarque </returns>
-        public static Marque CreateMarque(string NomParam)
+        public static Marque CreerMarque(string NomParam)
         {
             if(DictionnairesMarques.ContainsKey(NomParam) )
             {
@@ -54,8 +54,48 @@ namespace Hector
                 Marque NouvelleMarque = new Marque(NomParam);
                 DictionnairesMarques.Add(NomParam, NouvelleMarque);
 
+                BaseDeDonnees.GetInstance().AjoutMarqueBdd(NouvelleMarque);
+
                 return NouvelleMarque;
             }
+        }
+        
+        /// <summary>
+        /// Méthode permettant de récupérer un objet Marque avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
+        /// </summary>
+        /// <param name="NomParam">Nom de la Marque que l'on souhaite</param>
+        /// <returns> NouvelleMarque </returns>
+        public static Marque CreerMarqueDepuisSQLite(string NomParam)
+        {
+            if (!DictionnairesMarques.ContainsKey(NomParam))
+            {
+                Marque NouvelleMarque = new Marque(NomParam);
+                DictionnairesMarques.Add(NomParam, NouvelleMarque);
+
+                return NouvelleMarque;
+            }
+
+            return null;
+        }
+        
+        /// <summary>
+         /// Méthode permettant de récupérer un objet Marque avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
+         /// </summary>
+         /// <param name="NomParam">Nom de la Marque que l'on souhaite</param>
+         /// <returns> NouvelleMarque </returns>
+        public static Marque CreerMarqueDepuisCSV(string NomParam)
+        {
+            if(!DictionnairesMarques.ContainsKey(NomParam) )
+            {
+                Marque NouvelleMarque = new Marque(NomParam);
+                DictionnairesMarques.Add(NomParam, NouvelleMarque);
+
+                BaseDeDonnees.GetInstance().AjoutMarqueBdd(NouvelleMarque);
+
+                return NouvelleMarque;
+            }
+
+            return DictionnairesMarques[NomParam];
         }
         private Marque() { }
         private Marque(Marque NouvelleMarque) { }
@@ -114,7 +154,7 @@ namespace Hector
             }
             catch (Exception ExceptionCatched)
             {
-                //ExceptionCatched.AfficherMessageErreur();
+                ExceptionCatched.AfficherMessageErreur();
             }
         }
 
@@ -138,7 +178,7 @@ namespace Hector
             }
         }
 
-        public static List<Marque> GetListeMarques()
+        public static List<Marque> GetDictionnaireMarques()
         {
             return DictionnairesMarques.Values.ToList();
         }

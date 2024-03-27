@@ -15,9 +15,9 @@ namespace Hector
         /// </summary>
         /// <param name="path"> Le chemin du fichier csv </param>
         /// <returns> La liste des Article </returns>
-        public static List<Article> Parse(string path)
+        public static uint Parse(string path)
         {
-            List<Article> Articles = new List<Article>();
+            uint NombreArticlesCrees = 0;
 
             try
             {
@@ -36,27 +36,27 @@ namespace Hector
                     string Description = values[0];
                     string Reference = values[1];
 
-                    Marque Marque = Marque.CreateMarque(values[2]);
-                    Famille Famille = Famille.CreateFamille(values[3]);
-                    SousFamille SousFamille = SousFamille.CreateSousFamille(values[4], Famille);
+                    Marque Marque = Marque.CreerMarqueDepuisCSV(values[2]);
+                    Famille Famille = Famille.CreerFamilleDepuisCSV(values[3]);
+                    SousFamille SousFamille = SousFamille.CreerSousFamilleDepuisCSV(values[4], Famille);
 
                     double PrixHT = double.Parse(values[5]);
                     uint Quantite = ExtraireQuantite(Description); // On extrait la quantite de la Description
 
-                    Article NouvelArticle = Article.CreateArticleSansException(Description, Reference, Marque, SousFamille, PrixHT, Quantite);
+                    Article NouvelArticle = Article.CreerArticleDepuisCSV(Description, Reference, Marque, SousFamille, PrixHT, Quantite);
 
                     if (NouvelArticle != null)
                     {
-                        Articles.Add(NouvelArticle);
+                        NombreArticlesCrees ++;
                     }
                 }
 
-                return Articles;
+                return NombreArticlesCrees;
             } catch (Exception Exception)
             {
                 Exception.AfficherMessageErreur();
 
-                return Articles;
+                return NombreArticlesCrees;
             }
         }
 

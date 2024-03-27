@@ -18,7 +18,18 @@ namespace Hector
         public FormMain()
         {
             InitializeComponent();
-            ChargerTreeView(TreeViewParam);
+            ImporterDonneesFichierSQLite();
+            ChargerTreeView(TreeView);
+        }
+
+        public void ImporterDonneesFichierSQLite()
+        {
+            BaseDeDonnees BDD = BaseDeDonnees.GetInstance();
+
+            BDD.LireMarquesBdd();
+            BDD.LireFamillesBdd();
+            BDD.LireSousFamillesBdd();
+            BDD.LireArticlesBdd();
         }
 
         /// <summary>
@@ -28,15 +39,10 @@ namespace Hector
         /// <param name="e"></param>
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            ChargerTreeView(TreeViewParam);
-            MessageBox.Show("Some text", "Some title", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            ImporterDonneesFichierSQLite();
+            ChargerTreeView(TreeView);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void importerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormImport FormImport = new FormImport();

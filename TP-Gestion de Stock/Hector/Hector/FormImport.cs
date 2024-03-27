@@ -63,14 +63,11 @@ namespace Hector
         {
             if (!backgroundWorker1.IsBusy)
             {
-                BDD = new BaseDeDonnees();
+                BDD = BaseDeDonnees.GetInstance();
 
                 // Si on n'ajoute pas en ecrasement, on s'assure d'avoir les elements de la BDD chargees dans les objets
                 if (CheckBoxAjout.Checked) { 
-                    BDD.LireMarquesBdd();
-                    BDD.LireFamillesBdd();
-                    BDD.LireSousFamillesBdd();
-                    BDD.LireArticlesBdd();
+                    // A Voir
                 }
 
                 backgroundWorker1.WorkerReportsProgress = true;
@@ -91,22 +88,15 @@ namespace Hector
                 BDD.ViderDonnees();
             }
 
-            ArticlesAImporter = Parseur.Parse(CheminCsvAImpoter); // On crée et recupere les objets Article à importer dans la BDD ( et on cree les objets Marque, Familles et SousFamilles qui n'existent pas encore )
+             // On crée et recupere les objets Article à importer dans la BDD ( et on cree les objets Marque, Familles et SousFamilles qui n'existent pas encore )
 
-            NombreArticleAvantImport = BDD.LireNombreArticlesBdd();
-            int NombreArticleDansFichier = ArticlesAImporter.Count;
+            NombreArticleAvantImport = BDD.LireNombreArticlesBdd();/*
+            int NombreArticleDansFichier = ArticlesAImporter.Count;*/
 
-            BDD.AjoutMarquesBdd(); // On ajoute toutes les Marques 
-            BDD.AjoutFamillesBdd(); // On ajoute toutes les Familles
-            BDD.AjoutSousFamillesBdd(); // On ajoute toutes les SousFamilles
+            uint NombreArticleAjoutesAvecSucces = Parseur.Parse(CheminCsvAImpoter);
 
-            // On ajoute les informations dans la BDD tout en mettant à jour la barre de progression
-            for (int i = 0; i < ArticlesAImporter.Count; i++)
-            {
-                BDD.AjoutArticleBdd(ArticlesAImporter[i]);  // On ajoute tout les nouveau Articles
-
-                worker.ReportProgress((i + 1) * 100 / NombreArticleDansFichier);
-            }
+            worker.ReportProgress(100);
+            
             NombreArticleApresImport = BDD.LireNombreArticlesBdd();
             NombreArticleAjoutee = NombreArticleApresImport - NombreArticleAvantImport;
 

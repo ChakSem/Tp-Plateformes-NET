@@ -31,10 +31,11 @@ namespace Hector
         /// <param name="NouveauPrixHT">Le prix hors taxe de l'article</param>
         /// <param name="NouvelleQuantite">La quantite de cet article</param>
         /// <returns>NouvelArticle</returns>
-        public static Article CreateArticle(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT, uint NouvelleQuantite)
+        public static Article CreerArticle(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT, uint NouvelleQuantite)
         {
-            try {
-                if (DictionnaireArticles.ContainsKey(NouvelleReference))
+            try
+            {
+                if (!DictionnaireArticles.ContainsKey(NouvelleReference))
                 {
                     throw new Exception(Exception.ERREUR_REFERENCE_DEJA_ASSIGNEE);
                 }
@@ -42,13 +43,39 @@ namespace Hector
                 Article NouvelArticle = new Article(NouvelleDescription, NouvelleReference, NouvelleMarque, NouvelleSousFamille, NouveauPrixHT, NouvelleQuantite);
                 DictionnaireArticles.Add(NouvelleReference, NouvelArticle);
 
+                BaseDeDonnees.GetInstance().AjoutArticleBdd(NouvelArticle);
+
                 return NouvelArticle;
-            } catch (Exception Exception)
+            }
+            catch (Exception Exception)
             {
                 Exception.AfficherMessageErreur();
 
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Méthode qui crée un objet Article, si la réference est disponible
+        /// </summary>
+        /// <param name="NouvelleDescription">La description de l'article</param>
+        /// <param name="NouvelleReference">La référence de l'article</param>
+        /// <param name="NouvelleMarque">La Marque de l'article</param>
+        /// <param name="NouvelleSousFamille">La Sous-Famille de l'article</param>
+        /// <param name="NouveauPrixHT">Le prix hors taxe de l'article</param>
+        /// <param name="NouvelleQuantite">La quantite de cet article</param>
+        /// <returns>NouvelArticle</returns>
+        public static Article CreerArticleDepuisSQLite(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT, uint NouvelleQuantite)
+        {
+            if (!DictionnaireArticles.ContainsKey(NouvelleReference))
+            { 
+                Article NouvelArticle = new Article(NouvelleDescription, NouvelleReference, NouvelleMarque, NouvelleSousFamille, NouveauPrixHT, NouvelleQuantite);
+                DictionnaireArticles.Add(NouvelleReference, NouvelArticle);
+
+                return NouvelArticle;
+            } 
+
+            return null;
         }
 
         /// <summary>
@@ -61,12 +88,14 @@ namespace Hector
         /// <param name="NouveauPrixHT">Le prix hors taxe de l'article</param>
         /// <param name="NouvelleQuantite">La quantite de cet article</param>
         /// <returns>NouvelArticle</returns>
-        public static Article CreateArticleSansException(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT, uint NouvelleQuantite)
+        public static Article CreerArticleDepuisCSV(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT, uint NouvelleQuantite)
         {
             if (!DictionnaireArticles.ContainsKey(NouvelleReference))
             {
                 Article NouvelArticle = new Article(NouvelleDescription, NouvelleReference, NouvelleMarque, NouvelleSousFamille, NouveauPrixHT, NouvelleQuantite);
                 DictionnaireArticles.Add(NouvelleReference, NouvelArticle);
+
+                BaseDeDonnees.GetInstance().AjoutArticleBdd(NouvelArticle);
 
                 return NouvelArticle;
             }
