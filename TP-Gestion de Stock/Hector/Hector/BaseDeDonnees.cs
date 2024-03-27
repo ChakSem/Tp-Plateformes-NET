@@ -13,12 +13,26 @@ namespace Hector
         private string CheminBdd;
         private string ChaineDeConnexion;
 
-        public BaseDeDonnees()
+        private static BaseDeDonnees Instance;
+
+        public static BaseDeDonnees GetInstance()
+        {
+            if (Instance == null)
+            {
+                Instance =  new BaseDeDonnees();
+            }
+
+            return Instance;
+        }
+
+        private BaseDeDonnees()
         {
             CheminBdd = "";
             ChaineDeConnexion = "";
             GetCheminBaseDeDonnee();
         }
+
+        private BaseDeDonnees(BaseDeDonnees BaseDeDonneesParam) { }
 
         /// <summary>
         /// Methode pour lire le nombre d'article dans la base de données
@@ -120,32 +134,6 @@ namespace Hector
         }
 
         /// <summary>
-        /// Permets d'ajouter des articles à la BDD.
-        /// </summary>
-        /// <param name="Articles"></param>
-        public void AjoutArticlesBdd(List<Article> Articles)
-        {
-            foreach (Article ArticleExistant in Articles)
-            {
-                AjoutArticleBdd(ArticleExistant);
-            }
-        }
-
-        /// <summary>
-        /// Permets d'ajouter des articles à la BDD.
-        /// </summary>
-        /// <param name="Articles">Liste d'articles à ajouter</param>
-        public void AjoutArticlesBdd()
-        {
-            foreach (Article ArticleExistant in Article.GetListeArticles())
-            {
-                Console.WriteLine(ArticleExistant.ToString());
-
-                AjoutArticleBdd(ArticleExistant);
-            }
-        }
-
-        /// <summary>
         /// Permets d'ajouter un article à la BDD.
         /// </summary>
         /// <param name="Article">Article à ajouter</param>
@@ -209,18 +197,6 @@ namespace Hector
         /// <summary>
         /// Permets d'ajouter les Marques d'une liste à la BDD.
         /// </summary>
-        public void AjoutMarquesBdd()
-        {
-            foreach (Marque MarqueExistante in Marque.GetListeMarques())
-            {
-                if (MarqueExistante.GetRefMarque() == -1)
-                    AjoutMarqueBdd(MarqueExistante);
-            }
-        }
-
-        /// <summary>
-        /// Permets d'ajouter les Marques d'une liste à la BDD.
-        /// </summary>
         public void AjoutMarqueBdd(Marque MarqueParam)
         {
             using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
@@ -254,19 +230,9 @@ namespace Hector
                     /* On recupere la Reference generee lors de l'insertion */
                     int RefMarqueGeneree = GetReferenceGeneree(Connexion, "Marques", "RefMarque", Nom);
                     MarqueParam.DefineRefMarque(RefMarqueGeneree);
-                }
-            }
-        }
 
-        /// <summary>
-        /// Permets d'ajouter les SousFamilles d'une liste à la BDD.
-        /// </summary>
-        public void AjoutSousFamillesBdd()
-        {
-            foreach (SousFamille SousFamilleExistante in SousFamille.GetListeSousFamilles())
-            {
-                if (SousFamilleExistante.GetRefSousFamille() == -1)
-                    AjoutSousFamilleBdd(SousFamilleExistante);
+                    Console.WriteLine("Marque " + Nom + " cree avec la ref " + RefMarqueGeneree);
+                }
             }
         }
 
@@ -309,18 +275,6 @@ namespace Hector
                     int RefSousFamilleGeneree = GetReferenceGeneree(Connexion, "SousFamilles", "RefSousFamille", Nom);
                     SousFamilleParam.DefineRefSousFamille(RefSousFamilleGeneree);
                 }
-            }
-        }
-
-        /// <summary>
-        /// Permets d'ajouter les Familles d'une liste à la BDD.
-        /// </summary>
-        public void AjoutFamillesBdd()
-        {
-            foreach (Famille FamilleExistante in Famille.GetDictionnaireFamilles())
-            {
-                if (FamilleExistante.GetRefFamille() == -1)
-                    AjoutFamilleBdd(FamilleExistante);
             }
         }
 
@@ -382,8 +336,11 @@ namespace Hector
                         while (LecteurDonneeSQL.Read())
                         {
                             string Nom = LecteurDonneeSQL.GetString(1);
-                            Marque NouvelleMarque = Marque.CreateMarque(Nom);
-                            NouvelleMarque.DefineRefMarque(LecteurDonneeSQL.GetInt32(0));
+                            Marque NouvelleMarque = Marque.CreerMarqueDepuisSQLite(Nom);
+
+                            if(NouvelleMarque != null)
+                                NouvelleMarque.DefineRefMarque(LecteurDonneeSQL.GetInt32(0));
+
                         }
                     }
                 }
@@ -408,9 +365,11 @@ namespace Hector
                     {
                         while (LecteurDonneeSQL.Read())
                         {
-                            string Name = LecteurDonneeSQL.GetString(1);
-                            Famille NouvelleFamille = Famille.CreateFamille(Name);
-                            NouvelleFamille.DefineRefFamille(LecteurDonneeSQL.GetInt32(0));
+                            string Nom = LecteurDonneeSQL.GetString(1);
+                            Famille NouvelleFamille = Famille.CreerFamilleDepuisSQLite(Nom);
+
+                            if (NouvelleFamille != null)
+                                NouvelleFamille.DefineRefFamille(LecteurDonneeSQL.GetInt32(0));
                         }
                     }
                 }
@@ -437,9 +396,12 @@ namespace Hector
                         {
                             int RefSousFamille = LecteurDonneeSQL.GetInt32(0);
                             string Nom = LecteurDonneeSQL.GetString(1);
-                            Famille FamilleExistante = Famille.GetFamilleExistante(LecteurDonneeSQL.GetString(2));
-                            SousFamille NouvelleSousFamille = SousFamille.CreateSousFamille(Nom, FamilleExistante);
-                            NouvelleSousFamille.DefineRefSousFamille(RefSousFamille);
+                            string NomFamille = LecteurDonneeSQL.GetString(2);
+                            Famille FamilleExistante = Famille.GetFamilleExistante(NomFamille);
+                            SousFamille NouvelleSousFamille = SousFamille.CreerSousFamilleDepuisSQLite(Nom, FamilleExistante);
+
+                            if (NouvelleSousFamille != null)
+                                NouvelleSousFamille.DefineRefSousFamille(RefSousFamille);
                         }
                     }
                 }
@@ -473,7 +435,7 @@ namespace Hector
                             SousFamille SousFamilleExistante = SousFamille.GetSousFamilleExistante(LecteurDonneeSQL.GetString(4));
                             Marque MarqueExistante = Marque.GetMarqueExistante(LecteurDonneeSQL.GetString(5));
 
-                            Article NouvelArticle = Article.CreateArticleSansException(Description, RefArticle, MarqueExistante, SousFamilleExistante, PrixHT, Quantite);
+                            Article NouvelArticle = Article.CreerArticleDepuisSQLite(Description, RefArticle, MarqueExistante, SousFamilleExistante, PrixHT, Quantite);
                         }
                     }
                 }

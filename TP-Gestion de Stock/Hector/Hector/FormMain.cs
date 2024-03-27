@@ -15,15 +15,22 @@ namespace Hector
         public FormMain()
         {
             InitializeComponent();
+            ImporterDonneesFichierSQLite();
+        }
+
+        public void ImporterDonneesFichierSQLite()
+        {
+            BaseDeDonnees BDD = BaseDeDonnees.GetInstance();
+
+            BDD.LireMarquesBdd();
+            BDD.LireFamillesBdd();
+            BDD.LireSousFamillesBdd();
+            BDD.LireArticlesBdd();
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Some text", "Some title",
-    MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            //FormArticle formArticle = new FormArticle();
-            //formArticle.ShowDialog();
+            ImporterDonneesFichierSQLite();
         }
 
         private void importerToolStripMenuItem_Click(object sender, EventArgs e)
