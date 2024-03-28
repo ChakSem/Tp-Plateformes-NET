@@ -1,0 +1,14 @@
+TODO : 
+- Commentaires
+- Raccourcis
+- CRUD
+ => Gerer modification aussi sur la BDD SQLite
+- Renomme Ecrivain + Check Nommage
+- Actualiser treeView apres import
+- ListView
+- Revoir Interface Export
+- Gerer Clique Droit
+- Filtrage par groupement
+- Barre de progression import
+
+Fini :
