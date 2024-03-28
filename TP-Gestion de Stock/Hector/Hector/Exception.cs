@@ -18,6 +18,8 @@ namespace Hector
         public const uint ERREUR_REFERENCE_DEJA_DEFINIE = 7;
         public const uint ERREUR_CHEMIN_VIDE = 8;
         public const uint ERREUR_OBJET_DEJA_EXISTANT = 9;
+        public const uint ERREUR_PARSING_DOUBLE = 10;
+        public const uint ERREUR_PARSING_UINT = 11;
 
         private uint CodeErreur;
         public uint GetCodeErreur()
@@ -69,6 +71,12 @@ namespace Hector
                     break;
                 case ERREUR_OBJET_DEJA_EXISTANT:
                     MessageErreur = "L'objet qui devait être cree existe deja";
+                    break;
+                case ERREUR_PARSING_DOUBLE:
+                    MessageErreur = "Le parsing en double a echoue";
+                    break;
+                case ERREUR_PARSING_UINT:
+                    MessageErreur = "Le parsing en uint a echoue";
                     break;
                 default:
                     MessageErreur = "Une erreur inconnue est survenue";
