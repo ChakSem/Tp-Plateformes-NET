@@ -155,8 +155,7 @@ namespace Hector
 
         /// <summary>
         /// Methode qui permet d'ajouter les colonnes correspondantes pour la lecture des articles avec le ListView 
-        /// <summary>
-        
+        /// <summary
         public void AjouterColonnesListViewArticles()
         {
             ListViewParam.Columns.Add("Référence", 100);
@@ -179,7 +178,6 @@ namespace Hector
         /// <summary>
         /// Methode qui permet d'ajouter les colonnes correspondantes pour la lecture des marques avec le ListView
         /// <summary>
-        
         public void AjouterColonnesListViewMarques()
         {
             ListViewParam.Columns.Add("Référence", 100);
@@ -240,6 +238,7 @@ namespace Hector
         /// <param name="ListViewParam"></param>
         /// <param name="ListeSousFamilles"></param>
 
+        // public static List<Famille> GetDictionnaireFamilles()
         private void ChargerListViewSousFamilles(ListView ListViewParam, List<SousFamille> ListeSousFamilles)
         {
             //On vide le ListView
