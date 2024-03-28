@@ -13,7 +13,7 @@ namespace Hector
 {
     public partial class FormMain : Form
     {
-
+        string TypeDonneesAffichees;
 
         public FormMain()
         {
@@ -132,49 +132,19 @@ namespace Hector
                     if (NoeudParent.Text == "Familles")
                     {
                         // Famille selectionnee
-                        List<Article> ListeArticles = new List<Article>();
-
-                        foreach(Article ArticleExistant in Article.GetListeArticles())
-                        {
-                            if(ArticleExistant.GetSousFamille().GetFamille().GetNom() == TypeNoeudSelectionne)
-                            {
-                                ListeArticles.Add(ArticleExistant);
-                            }
-                        }
-
-                        ChargerListViewArticles(ListeArticles);
+                        ChargerListViewArticlesPourUneFamille(TypeNoeudSelectionne);
                     }
                     else
                     {
                         if (NoeudParent.Text == "Marques")
                         {
                             // Marque selectionnee
-                            List<Article> ListeArticles = new List<Article>();
-
-                            foreach (Article ArticleExistant in Article.GetListeArticles())
-                            {
-                                if (ArticleExistant.GetMarque().GetNom() == TypeNoeudSelectionne)
-                                {
-                                    ListeArticles.Add(ArticleExistant);
-                                }
-                            }
-
-                            ChargerListViewArticles(ListeArticles);
+                            ChargerListViewArticlesPourUneMarque(TypeNoeudSelectionne);
                         }
                         else
                         {
                             // SousFamille selectionnee
-                            List<Article> ListeArticles = new List<Article>();
-
-                            foreach (Article ArticleExistant in Article.GetListeArticles())
-                            {
-                                if (ArticleExistant.GetSousFamille().GetNom() == TypeNoeudSelectionne)
-                                {
-                                    ListeArticles.Add(ArticleExistant);
-                                }
-                            }
-
-                            ChargerListViewArticles(ListeArticles);
+                            ChargerListViewArticlesPourUneSousFamille(TypeNoeudSelectionne);
                         }
                     }
                     break;
@@ -185,23 +155,82 @@ namespace Hector
         /// <summary>
         /// Methode qui permet de charger le ListView avec les articles
         /// </summary>
+        /// <param name="NomMarque"></param>
+        private void ChargerListViewArticlesPourUneMarque(string NomMarque)
+        {
+            List<Article> ListeArticles = new List<Article>();
+
+            foreach (Article ArticleExistant in Article.GetListeArticles())
+            {
+                if (ArticleExistant.GetMarque().GetNom() == NomMarque)
+                {
+                    ListeArticles.Add(ArticleExistant);
+                }
+            }
+
+            ChargerListViewArticles(ListeArticles);
+        }
+
+        /// <summary>
+        /// Methode qui permet de charger le ListView avec les articles
+        /// </summary>
+        /// <param name="NomFamille"></param>
+        private void ChargerListViewArticlesPourUneFamille(string NomFamille)
+        {
+            List<Article> ListeArticles = new List<Article>();
+
+            foreach (Article ArticleExistant in Article.GetListeArticles())
+            {
+                if (ArticleExistant.GetSousFamille().GetFamille().GetNom() == NomFamille)
+                {
+                    ListeArticles.Add(ArticleExistant);
+                }
+            }
+
+            ChargerListViewArticles(ListeArticles);
+        }
+
+        /// <summary>
+        /// Methode qui permet de charger le ListView avec les articles
+        /// </summary>
+        /// <param name="NomSousFamille"></param>
+        private void ChargerListViewArticlesPourUneSousFamille(string NomSousFamille)
+        {
+            List<Article> ListeArticles = new List<Article>();
+
+            foreach (Article ArticleExistant in Article.GetListeArticles())
+            {
+                if (ArticleExistant.GetSousFamille().GetNom() == NomSousFamille)
+                {
+                    ListeArticles.Add(ArticleExistant);
+                }
+            }
+
+            ChargerListViewArticles(ListeArticles);
+        }
+
+        /// <summary>
+        /// Methode qui permet de charger le ListView avec les articles
+        /// </summary>
         /// <param name="ListViewParam"></param>
         /// <param name="ListeArticles"></param>
         private void ChargerListViewArticles(List<Article> ListeArticles)
         {
             //On vide le ListView
+            ListView1.Columns.Clear();
             ListView1.Items.Clear();
             AjouterColonnesListViewArticles();
 
             //On ajoute les articles
             foreach (Article ArticleExistante in ListeArticles)
             {
-                ListViewItem NouvelItem = new ListViewItem(ArticleExistante.GetDescription());
-                NouvelItem.SubItems.Add(ArticleExistante.GetPrixHT().ToString());
-                NouvelItem.SubItems.Add(ArticleExistante.GetQuantite().ToString());
+                ListViewItem NouvelItem = new ListViewItem(ArticleExistante.GetReference());
+                NouvelItem.SubItems.Add(ArticleExistante.GetDescription().ToString());
                 NouvelItem.SubItems.Add(ArticleExistante.GetSousFamille().GetFamille().GetNom());
                 NouvelItem.SubItems.Add(ArticleExistante.GetSousFamille().GetNom());
                 NouvelItem.SubItems.Add(ArticleExistante.GetMarque().GetNom());
+                NouvelItem.SubItems.Add(ArticleExistante.GetPrixHT().ToString());
+                NouvelItem.SubItems.Add(ArticleExistante.GetQuantite().ToString());
                 ListView1.Items.Add(NouvelItem);
             }
         }
@@ -212,11 +241,14 @@ namespace Hector
         
         public void AjouterColonnesListViewArticles()
         {
+            TypeDonneesAffichees = "Articles";
+
             ListView1.Columns.Add("Référence", 100);
             ListView1.Columns.Add("Description", 100);
             ListView1.Columns.Add("Famille", 100);
             ListView1.Columns.Add("Sous-famille", 100);
             ListView1.Columns.Add("Marque", 100);
+            ListView1.Columns.Add("PrixHT", 100);
             ListView1.Columns.Add("Quantité", 100);
         }
 
@@ -225,6 +257,8 @@ namespace Hector
         /// <summary>
         public void AjouterColonnesListViewFamilles()
         {
+            TypeDonneesAffichees = "Familles";
+
             ListView1.Columns.Add("Référence", 100);
             ListView1.Columns.Add("Nom", 100);
         }
@@ -235,16 +269,8 @@ namespace Hector
         
         public void AjouterColonnesListViewMarques()
         {
-            ListView1.Columns.Add("Référence", 100);
-            ListView1.Columns.Add("Nom", 100);
-        }
+            TypeDonneesAffichees = "Marques";
 
-        /// <summary>
-        /// Methode qui permet d'ajouter les colonnes correspondantes pour la lecture des sous-familles avec le ListView
-        /// <summary>
-        
-        public void AjouterColonnesListViewSousFamilles()
-        {
             ListView1.Columns.Add("Référence", 100);
             ListView1.Columns.Add("Nom", 100);
         }
@@ -256,13 +282,15 @@ namespace Hector
         private void ChargerListViewFamilles(List<Famille> ListeFamilles)
         {
             //On vide le ListView
+            ListView1.Columns.Clear();
             ListView1.Items.Clear();
             AjouterColonnesListViewFamilles();
 
             //On ajoute les familles
             foreach (Famille FamilleExistante in ListeFamilles)
             {
-                ListViewItem NouvelItem = new ListViewItem(FamilleExistante.GetNom());
+                ListViewItem NouvelItem = new ListViewItem(FamilleExistante.GetRefFamille().ToString());
+                NouvelItem.SubItems.Add(FamilleExistante.GetNom());
                 ListView1.Items.Add(NouvelItem);
             }
         }
@@ -275,42 +303,61 @@ namespace Hector
         private void ChargerListViewMarques(List<Marque> ListeMarques)
         {
             //On vide le ListView
+            ListView1.Columns.Clear();
             ListView1.Items.Clear();
             AjouterColonnesListViewMarques();
 
             //On ajoute les marques
             foreach (Marque MarqueExistante in ListeMarques)
             {
-                ListViewItem NouvelItem = new ListViewItem(MarqueExistante.GetNom());
+                ListViewItem NouvelItem = new ListViewItem(MarqueExistante.GetRefMarque().ToString());
+                NouvelItem.SubItems.Add(MarqueExistante.GetNom());
                 ListView1.Items.Add(NouvelItem);
             }
         }
 
-
-        /// <summary>
-        /// Methode qui permet de charger le ListView avec les sous-familles
-        /// </summary>
-        /// <param name="ListViewParam"></param>
-        /// <param name="ListeSousFamilles"></param>
-
-        private void ChargerListViewSousFamilles(List<SousFamille> ListeSousFamilles)
+        private void ListView1_ItemActivate(object sender, EventArgs e)
         {
-            //On vide le ListView
-            ListView1.Items.Clear();
-            AjouterColonnesListViewSousFamilles();
-
-            //On ajoute les sous-familles
-            foreach (SousFamille SousFamilleExistante in ListeSousFamilles)
+            if (ListView1.SelectedItems.Count == 1)
             {
-                ListViewItem NouvelItem = new ListViewItem(SousFamilleExistante.GetNom());
-                NouvelItem.SubItems.Add(SousFamilleExistante.GetFamille().GetNom());
-                ListView1.Items.Add(NouvelItem);
+                ListViewItem Item = ListView1.SelectedItems[0];
+
+                if(TypeDonneesAffichees == "Familles")
+                {
+                    ChargerListViewArticlesPourUneFamille(Item.SubItems[1].Text);
+                    
+                } else
+                {
+                    if (TypeDonneesAffichees == "Marques")
+                    {
+                        ChargerListViewArticlesPourUneMarque(Item.SubItems[1].Text);
+                    }
+                }
             }
         }
 
+        private void articleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormAddArticle NouveauFormAddArticle = new FormAddArticle();
+            NouveauFormAddArticle.ShowDialog();
+        }
+
+        private void familleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormAddFamille NouveauFormAddFamille = new FormAddFamille();
+            NouveauFormAddFamille.ShowDialog();
+        }
+
+        private void sousFamilleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormAddSousFamille NouveauFormAddSousFamille = new FormAddSousFamille();
+            NouveauFormAddSousFamille.ShowDialog();
+        }
+
+        private void marqueToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormAddMarque NouveauFormAddMarque = new FormAddMarque();
+            NouveauFormAddMarque.ShowDialog();
+        }
     }
 }
-
-
-
-

@@ -15,21 +15,12 @@ namespace Hector
         public FormAddArticle()
         {
             InitializeComponent();
-        }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
+            foreach(SousFamille SousFamilleExistante in SousFamille.GetDictionnaireSousFamilles())
+                RefSousFamilleComboBox.Items.Add(SousFamilleExistante.GetNom());
 
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
+            foreach (Marque MarqueExistante in Marque.GetDictionnaireMarques())
+                RefMarqueComboBox.Items.Add(MarqueExistante.GetNom());
         }
 
         private void CreateButton_Click(object sender, EventArgs e)

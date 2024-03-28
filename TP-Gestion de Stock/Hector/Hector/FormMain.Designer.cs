@@ -141,6 +141,7 @@ namespace Hector
             this.ListView1.TabIndex = 0;
             this.ListView1.UseCompatibleStateImageBehavior = false;
             this.ListView1.View = System.Windows.Forms.View.Details;
+            this.ListView1.ItemActivate += new System.EventHandler(this.ListView1_ItemActivate);
             // 
             // contextMenuStrip1
             // 
@@ -148,7 +149,7 @@ namespace Hector
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.créerUnNouvelIndividuToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(205, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(205, 48);
             // 
             // créerUnNouvelIndividuToolStripMenuItem
             // 
@@ -164,26 +165,30 @@ namespace Hector
             // articleToolStripMenuItem
             // 
             this.articleToolStripMenuItem.Name = "articleToolStripMenuItem";
-            this.articleToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.articleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.articleToolStripMenuItem.Text = "Article";
+            this.articleToolStripMenuItem.Click += new System.EventHandler(this.articleToolStripMenuItem_Click);
             // 
             // familleToolStripMenuItem
             // 
             this.familleToolStripMenuItem.Name = "familleToolStripMenuItem";
-            this.familleToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.familleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.familleToolStripMenuItem.Text = "Famille";
+            this.familleToolStripMenuItem.Click += new System.EventHandler(this.familleToolStripMenuItem_Click);
             // 
             // sousFamilleToolStripMenuItem
             // 
             this.sousFamilleToolStripMenuItem.Name = "sousFamilleToolStripMenuItem";
-            this.sousFamilleToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.sousFamilleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.sousFamilleToolStripMenuItem.Text = "Sous-Famille";
+            this.sousFamilleToolStripMenuItem.Click += new System.EventHandler(this.sousFamilleToolStripMenuItem_Click);
             // 
             // marqueToolStripMenuItem
             // 
             this.marqueToolStripMenuItem.Name = "marqueToolStripMenuItem";
-            this.marqueToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.marqueToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.marqueToolStripMenuItem.Text = "Marque";
+            this.marqueToolStripMenuItem.Click += new System.EventHandler(this.marqueToolStripMenuItem_Click);
             // 
             // FormMain
             // 
