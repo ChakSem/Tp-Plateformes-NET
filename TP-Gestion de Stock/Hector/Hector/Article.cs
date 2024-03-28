@@ -35,7 +35,7 @@ namespace Hector
         {
             try
             {
-                if (!DictionnaireArticles.ContainsKey(NouvelleReference))
+                if (DictionnaireArticles.ContainsKey(NouvelleReference))
                 {
                     throw new Exception(Exception.ERREUR_REFERENCE_DEJA_ASSIGNEE);
                 }

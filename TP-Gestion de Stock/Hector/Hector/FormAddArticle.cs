@@ -15,50 +15,96 @@ namespace Hector
         public FormAddArticle()
         {
             InitializeComponent();
-        }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
+            foreach(SousFamille SousFamilleExistante in SousFamille.GetDictionnaireSousFamilles())
+            {
+                SousFamilleComboBox.Items.Add(SousFamilleExistante.GetNom());
+            }
+            SousFamilleComboBox.SelectedIndex = 0;
 
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
+            foreach (Marque MarqueExistante in Marque.GetDictionnaireMarques())
+            {
+                MarqueComboBox.Items.Add(MarqueExistante.GetNom());
+            }
+            MarqueComboBox.SelectedIndex = 0;
         }
 
         private void CreateButton_Click(object sender, EventArgs e)
         {
-
-            /*On vérifie que les champs obligatoires sont remplis */
-            if (RefArticlesTextBox.Text == "" || RefSousFamilleComboBox.Text == "" || RefMarqueComboBox.Text == "" || DescriptionTextBox.Text == "" || QuantiteTextBox.Text == "" || PrixHTTextBox.Text == "")
+            try
             {
-                MessageBox.Show("Un ou plusieurs champs sont vides", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                /*On vérifie que les champs obligatoires sont remplis */
+                if (RefArticlesTextBox.Text != "" && SousFamilleComboBox.Items.Count > 0 && MarqueComboBox.Items.Count > 0 && DescriptionTextBox.Text != ""
+                    && QuantiteTextBox.Text != "" && PrixHTTextBox.Text != "")
+                {
+                    SousFamille SousFamilleSelectionnee = SousFamille.GetSousFamilleExistante(SousFamilleComboBox.Text);
+                    Marque MarqueSelectionne = Marque.GetMarqueExistante(MarqueComboBox.Text);
+
+                    double PrixHT;
+                    if (!double.TryParse(PrixHTTextBox.Text, out PrixHT))
+                    {
+                        throw new Exception(Exception.ERREUR_PARSING_DOUBLE);
+                    }
+
+                    uint Quantite;
+                    if (!uint.TryParse(QuantiteTextBox.Text, out Quantite))
+                    {
+                        throw new Exception(Exception.ERREUR_PARSING_UINT);
+                    }
+
+                    Console.WriteLine(RefArticlesTextBox.Text);
+
+                    Article NouvelArticle = Article.CreerArticle(DescriptionTextBox.Text, RefArticlesTextBox.Text, MarqueSelectionne, SousFamilleSelectionnee,
+                        PrixHT, Quantite);
+
+                    if (NouvelArticle != null)
+                    {
+                        MessageBox.Show("Creer avec succes", "Tout bon", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Close();
+                    }
+                }
+                else
+                {
+                    if (RefArticlesTextBox.Text == "")
+                    {
+                        MessageBox.Show("Le champ RefArticle est vide", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    if (SousFamilleComboBox.Items.Count <= 0)
+                    {
+                        MessageBox.Show("Le champ SousFamille est vide", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    if (MarqueComboBox.Items.Count <= 0)
+                    {
+                        MessageBox.Show("Le champ Marque est vide", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    if (DescriptionTextBox.Text == "")
+                    {
+                        MessageBox.Show("Le champ Description est vide", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    if (QuantiteTextBox.Text == "")
+                    {
+                        MessageBox.Show("Le champ Quantite est vide", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    if (PrixHTTextBox.Text == "")
+                    {
+                        MessageBox.Show("Le champ PrixHT est vide", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+            } catch (Exception ExceptionAttrapee)
+            {
+                ExceptionAttrapee.AfficherMessageErreur();
             }
-
-
-            /*On crée l'obejet marque marque et la sous-famille en fonction de la combobox */
-
-            /*On crée l'article*/
-            
-
-        }
-
-        private void RefSousFamilleComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //On récupère les sous
-
         }
 
         private void CancelButton_Click(object sender, EventArgs e)
         {
-
+            this.Close();
         }
     }
 }

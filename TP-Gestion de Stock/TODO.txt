@@ -1,0 +1,16 @@
+TODO : 
+- Check le parsing en double dans la creation d'article
+- Commentaires
+- Raccourcis
+- CRUD
+ => Gerer modification aussi sur la BDD SQLite
+- Renomme Ecrivain + Check Nommage
+- Maj TreeView apres CRUD
+- ListView
+- Revoir Interface Export
+- Gerer Clique Droit
+- Filtrage par groupement
+- Barre de progression import
+
+Fini :
+- Actualiser treeView apres import
