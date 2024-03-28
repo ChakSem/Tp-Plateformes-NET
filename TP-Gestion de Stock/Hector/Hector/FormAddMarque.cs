@@ -19,13 +19,19 @@ namespace Hector
 
         private void CreateButton_Click(object sender, EventArgs e)
         {
-
-            if (RefArticlesTextBox.Text == "")
+            if (NomMarqueTextBox.Text != "")
             {
-                MessageBox.Show("Le champ Référence est vide", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                Marque NouvelleMarque = Marque.CreerMarque(NomMarqueTextBox.Text);
+
+                if (NouvelleMarque != null)
+                {
+                    MessageBox.Show("Creer avec succes", "Tout bon", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
+                }
+            } else
+            {
+                MessageBox.Show("Le champ Nom est vide", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            Marque.CreerMarque(RefArticlesTextBox.Text);
         }
 
         private void CancelButton_Click(object sender, EventArgs e)

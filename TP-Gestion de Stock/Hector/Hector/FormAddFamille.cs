@@ -17,14 +17,27 @@ namespace Hector
             InitializeComponent();
         }
 
-        private void RefArticlesLabel_Click(object sender, EventArgs e)
+        private void CreateButton_Click(object sender, EventArgs e)
         {
+            if(NomFamilleTextBox.Text != "")
+            {
+                Famille NouvelleFamille = Famille.CreerFamille(NomFamilleTextBox.Text);
 
+                if (NouvelleFamille != null)
+                {
+                    MessageBox.Show("Creer avec succes", "Tout bon", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Le champ Nom est vide", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void RefArticlesTextBox_TextChanged(object sender, EventArgs e)
+        private void CancelButton_Click(object sender, EventArgs e)
         {
-
+            this.Close();
         }
     }
 }

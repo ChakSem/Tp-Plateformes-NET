@@ -4,7 +4,7 @@ TODO :
 - CRUD
  => Gerer modification aussi sur la BDD SQLite
 - Renomme Ecrivain + Check Nommage
-- Actualiser treeView apres import
+- Maj TreeView apres CRUD
 - ListView
 - Revoir Interface Export
 - Gerer Clique Droit
@@ -12,3 +12,4 @@ TODO :
 - Barre de progression import
 
 Fini :
+- Actualiser treeView apres import

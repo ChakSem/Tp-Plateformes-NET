@@ -17,17 +17,24 @@ namespace Hector
             InitializeComponent();
 
             foreach(SousFamille SousFamilleExistante in SousFamille.GetDictionnaireSousFamilles())
-                RefSousFamilleComboBox.Items.Add(SousFamilleExistante.GetNom());
+            {
+                SousFamilleComboBox.Items.Add(SousFamilleExistante.GetNom());
+            }
+            SousFamilleComboBox.SelectedIndex = 0;
 
             foreach (Marque MarqueExistante in Marque.GetDictionnaireMarques())
-                RefMarqueComboBox.Items.Add(MarqueExistante.GetNom());
+            {
+                MarqueComboBox.Items.Add(MarqueExistante.GetNom());
+            }
+            MarqueComboBox.SelectedIndex = 0;
         }
 
         private void CreateButton_Click(object sender, EventArgs e)
         {
 
             /*On vérifie que les champs obligatoires sont remplis */
-            if (RefArticlesTextBox.Text == "" || RefSousFamilleComboBox.Text == "" || RefMarqueComboBox.Text == "" || DescriptionTextBox.Text == "" || QuantiteTextBox.Text == "" || PrixHTTextBox.Text == "")
+            if (RefArticlesTextBox.Text != "" && SousFamilleComboBox.Items.Count > 0 && MarqueComboBox.Items.Count > 0 && DescriptionTextBox.Text != "" 
+                && QuantiteTextBox.Text != "" && PrixHTTextBox.Text != "")
             {
                 MessageBox.Show("Un ou plusieurs champs sont vides", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -38,12 +45,6 @@ namespace Hector
 
             /*On crée l'article*/
             
-
-        }
-
-        private void RefSousFamilleComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //On récupère les sous
 
         }
 

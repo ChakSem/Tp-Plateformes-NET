@@ -29,40 +29,36 @@ namespace Hector
         /// </summary>
         private void InitializeComponent()
         {
-            this.RefFamilleComboBox = new System.Windows.Forms.ComboBox();
-            this.RefFamilleLabel = new System.Windows.Forms.Label();
+            this.FamilleComboBox = new System.Windows.Forms.ComboBox();
+            this.FamilleLabel = new System.Windows.Forms.Label();
             this.CancelButton = new System.Windows.Forms.Button();
             this.CreateButton = new System.Windows.Forms.Button();
-            this.RefArticlesTextBox = new System.Windows.Forms.TextBox();
-            this.RefArticlesLabel = new System.Windows.Forms.Label();
+            this.NomSousFamilleTextBox = new System.Windows.Forms.TextBox();
+            this.NomSousFamilleLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // RefFamilleComboBox
+            // FamilleComboBox
             // 
-            this.RefFamilleComboBox.FormattingEnabled = true;
-            this.RefFamilleComboBox.Location = new System.Drawing.Point(114, 57);
-            this.RefFamilleComboBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.RefFamilleComboBox.Name = "RefFamilleComboBox";
-            this.RefFamilleComboBox.Size = new System.Drawing.Size(180, 28);
-            this.RefFamilleComboBox.TabIndex = 37;
-            this.RefFamilleComboBox.SelectedIndexChanged += new System.EventHandler(this.RefFamilleComboBox_SelectedIndexChanged);
+            this.FamilleComboBox.FormattingEnabled = true;
+            this.FamilleComboBox.Location = new System.Drawing.Point(76, 37);
+            this.FamilleComboBox.Name = "FamilleComboBox";
+            this.FamilleComboBox.Size = new System.Drawing.Size(121, 21);
+            this.FamilleComboBox.TabIndex = 37;
             // 
-            // RefFamilleLabel
+            // FamilleLabel
             // 
-            this.RefFamilleLabel.AutoSize = true;
-            this.RefFamilleLabel.Location = new System.Drawing.Point(18, 62);
-            this.RefFamilleLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.RefFamilleLabel.Name = "RefFamilleLabel";
-            this.RefFamilleLabel.Size = new System.Drawing.Size(85, 20);
-            this.RefFamilleLabel.TabIndex = 36;
-            this.RefFamilleLabel.Text = "RefFamille";
+            this.FamilleLabel.AutoSize = true;
+            this.FamilleLabel.Location = new System.Drawing.Point(12, 40);
+            this.FamilleLabel.Name = "FamilleLabel";
+            this.FamilleLabel.Size = new System.Drawing.Size(39, 13);
+            this.FamilleLabel.TabIndex = 36;
+            this.FamilleLabel.Text = "Famille";
             // 
             // CancelButton
             // 
-            this.CancelButton.Location = new System.Drawing.Point(114, 117);
-            this.CancelButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.CancelButton.Location = new System.Drawing.Point(76, 76);
             this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(112, 35);
+            this.CancelButton.Size = new System.Drawing.Size(75, 23);
             this.CancelButton.TabIndex = 35;
             this.CancelButton.Text = "Annuler";
             this.CancelButton.UseVisualStyleBackColor = true;
@@ -70,47 +66,43 @@ namespace Hector
             // 
             // CreateButton
             // 
-            this.CreateButton.Location = new System.Drawing.Point(236, 117);
-            this.CreateButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.CreateButton.Location = new System.Drawing.Point(157, 76);
             this.CreateButton.Name = "CreateButton";
-            this.CreateButton.Size = new System.Drawing.Size(112, 35);
+            this.CreateButton.Size = new System.Drawing.Size(75, 23);
             this.CreateButton.TabIndex = 34;
             this.CreateButton.Text = "Créer";
             this.CreateButton.UseVisualStyleBackColor = true;
             this.CreateButton.Click += new System.EventHandler(this.CreateButton_Click);
             // 
-            // RefArticlesTextBox
+            // NomSousFamilleTextBox
             // 
-            this.RefArticlesTextBox.Location = new System.Drawing.Point(114, 9);
-            this.RefArticlesTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.RefArticlesTextBox.Name = "RefArticlesTextBox";
-            this.RefArticlesTextBox.Size = new System.Drawing.Size(148, 26);
-            this.RefArticlesTextBox.TabIndex = 33;
+            this.NomSousFamilleTextBox.Location = new System.Drawing.Point(76, 6);
+            this.NomSousFamilleTextBox.Name = "NomSousFamilleTextBox";
+            this.NomSousFamilleTextBox.Size = new System.Drawing.Size(100, 20);
+            this.NomSousFamilleTextBox.TabIndex = 33;
             // 
-            // RefArticlesLabel
+            // NomSousFamilleLabel
             // 
-            this.RefArticlesLabel.AutoSize = true;
-            this.RefArticlesLabel.Location = new System.Drawing.Point(18, 14);
-            this.RefArticlesLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.RefArticlesLabel.Name = "RefArticlesLabel";
-            this.RefArticlesLabel.Size = new System.Drawing.Size(42, 20);
-            this.RefArticlesLabel.TabIndex = 32;
-            this.RefArticlesLabel.Text = "Nom";
+            this.NomSousFamilleLabel.AutoSize = true;
+            this.NomSousFamilleLabel.Location = new System.Drawing.Point(12, 9);
+            this.NomSousFamilleLabel.Name = "NomSousFamilleLabel";
+            this.NomSousFamilleLabel.Size = new System.Drawing.Size(29, 13);
+            this.NomSousFamilleLabel.TabIndex = 32;
+            this.NomSousFamilleLabel.Text = "Nom";
             // 
             // FormAddSousFamille
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(342, 145);
-            this.Controls.Add(this.RefFamilleComboBox);
-            this.Controls.Add(this.RefFamilleLabel);
+            this.ClientSize = new System.Drawing.Size(232, 105);
+            this.Controls.Add(this.FamilleComboBox);
+            this.Controls.Add(this.FamilleLabel);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.CreateButton);
-            this.Controls.Add(this.RefArticlesTextBox);
-            this.Controls.Add(this.RefArticlesLabel);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.MaximumSize = new System.Drawing.Size(364, 201);
-            this.MinimumSize = new System.Drawing.Size(364, 201);
+            this.Controls.Add(this.NomSousFamilleTextBox);
+            this.Controls.Add(this.NomSousFamilleLabel);
+            this.MaximumSize = new System.Drawing.Size(248, 144);
+            this.MinimumSize = new System.Drawing.Size(248, 144);
             this.Name = "FormAddSousFamille";
             this.Text = "Créer une nouvelle Sous-Famille";
             this.ResumeLayout(false);
@@ -120,11 +112,11 @@ namespace Hector
 
         #endregion
 
-        private System.Windows.Forms.ComboBox RefFamilleComboBox;
-        private System.Windows.Forms.Label RefFamilleLabel;
+        private System.Windows.Forms.ComboBox FamilleComboBox;
+        private System.Windows.Forms.Label FamilleLabel;
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Button CreateButton;
-        private System.Windows.Forms.TextBox RefArticlesTextBox;
-        private System.Windows.Forms.Label RefArticlesLabel;
+        private System.Windows.Forms.TextBox NomSousFamilleTextBox;
+        private System.Windows.Forms.Label NomSousFamilleLabel;
     }
 }
