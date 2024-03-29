@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hector
 {
-    class Article
+    public class Article
     {
         /// <summary>
         /// Stocke les objets Article déjà créé 

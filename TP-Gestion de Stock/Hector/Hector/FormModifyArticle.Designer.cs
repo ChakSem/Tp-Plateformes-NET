@@ -31,14 +31,14 @@ namespace Hector
         {
             this.CancelButton = new System.Windows.Forms.Button();
             this.ModifyButton = new System.Windows.Forms.Button();
-            this.RefMarqueComboBox = new System.Windows.Forms.ComboBox();
-            this.RefSousFamilleComboBox = new System.Windows.Forms.ComboBox();
+            this.MarqueComboBox = new System.Windows.Forms.ComboBox();
+            this.SousFamilleComboBox = new System.Windows.Forms.ComboBox();
             this.PrixHTTextBox = new System.Windows.Forms.TextBox();
             this.PrixHTLabel = new System.Windows.Forms.Label();
             this.QuantiteTextBox = new System.Windows.Forms.TextBox();
             this.QuantiteLabel = new System.Windows.Forms.Label();
-            this.RefMarqueLabel = new System.Windows.Forms.Label();
-            this.RefSousFamilleLabel = new System.Windows.Forms.Label();
+            this.MarqueLabel = new System.Windows.Forms.Label();
+            this.SousFamilleLabel = new System.Windows.Forms.Label();
             this.DescriptionTextBox = new System.Windows.Forms.TextBox();
             this.DescriptionLabel = new System.Windows.Forms.Label();
             this.RefArticlesTextBox = new System.Windows.Forms.TextBox();
@@ -63,103 +63,103 @@ namespace Hector
             this.ModifyButton.Text = "Modifier";
             this.ModifyButton.UseVisualStyleBackColor = true;
             // 
-            // RefMarqueComboBox
+            // MarqueComboBox
             // 
-            this.RefMarqueComboBox.FormattingEnabled = true;
-            this.RefMarqueComboBox.Location = new System.Drawing.Point(93, 77);
-            this.RefMarqueComboBox.Name = "RefMarqueComboBox";
-            this.RefMarqueComboBox.Size = new System.Drawing.Size(121, 21);
-            this.RefMarqueComboBox.TabIndex = 27;
+            this.MarqueComboBox.FormattingEnabled = true;
+            this.MarqueComboBox.Location = new System.Drawing.Point(86, 75);
+            this.MarqueComboBox.Name = "MarqueComboBox";
+            this.MarqueComboBox.Size = new System.Drawing.Size(121, 21);
+            this.MarqueComboBox.TabIndex = 51;
             // 
-            // RefSousFamilleComboBox
+            // SousFamilleComboBox
             // 
-            this.RefSousFamilleComboBox.FormattingEnabled = true;
-            this.RefSousFamilleComboBox.Location = new System.Drawing.Point(93, 41);
-            this.RefSousFamilleComboBox.Name = "RefSousFamilleComboBox";
-            this.RefSousFamilleComboBox.Size = new System.Drawing.Size(121, 21);
-            this.RefSousFamilleComboBox.TabIndex = 26;
+            this.SousFamilleComboBox.FormattingEnabled = true;
+            this.SousFamilleComboBox.Location = new System.Drawing.Point(86, 39);
+            this.SousFamilleComboBox.Name = "SousFamilleComboBox";
+            this.SousFamilleComboBox.Size = new System.Drawing.Size(121, 21);
+            this.SousFamilleComboBox.TabIndex = 50;
             // 
             // PrixHTTextBox
             // 
-            this.PrixHTTextBox.Location = new System.Drawing.Point(93, 117);
+            this.PrixHTTextBox.Location = new System.Drawing.Point(86, 115);
             this.PrixHTTextBox.Name = "PrixHTTextBox";
             this.PrixHTTextBox.Size = new System.Drawing.Size(100, 20);
-            this.PrixHTTextBox.TabIndex = 25;
+            this.PrixHTTextBox.TabIndex = 49;
             // 
             // PrixHTLabel
             // 
             this.PrixHTLabel.AutoSize = true;
-            this.PrixHTLabel.Location = new System.Drawing.Point(12, 120);
+            this.PrixHTLabel.Location = new System.Drawing.Point(5, 118);
             this.PrixHTLabel.Name = "PrixHTLabel";
             this.PrixHTLabel.Size = new System.Drawing.Size(39, 13);
-            this.PrixHTLabel.TabIndex = 24;
+            this.PrixHTLabel.TabIndex = 48;
             this.PrixHTLabel.Text = "PrixHT";
             // 
             // QuantiteTextBox
             // 
-            this.QuantiteTextBox.Location = new System.Drawing.Point(265, 117);
+            this.QuantiteTextBox.Location = new System.Drawing.Point(258, 115);
             this.QuantiteTextBox.Name = "QuantiteTextBox";
             this.QuantiteTextBox.Size = new System.Drawing.Size(100, 20);
-            this.QuantiteTextBox.TabIndex = 23;
+            this.QuantiteTextBox.TabIndex = 47;
             // 
             // QuantiteLabel
             // 
             this.QuantiteLabel.AutoSize = true;
-            this.QuantiteLabel.Location = new System.Drawing.Point(212, 120);
+            this.QuantiteLabel.Location = new System.Drawing.Point(205, 118);
             this.QuantiteLabel.Name = "QuantiteLabel";
             this.QuantiteLabel.Size = new System.Drawing.Size(47, 13);
-            this.QuantiteLabel.TabIndex = 22;
+            this.QuantiteLabel.TabIndex = 46;
             this.QuantiteLabel.Text = "Quantite";
             // 
-            // RefMarqueLabel
+            // MarqueLabel
             // 
-            this.RefMarqueLabel.AutoSize = true;
-            this.RefMarqueLabel.Location = new System.Drawing.Point(12, 80);
-            this.RefMarqueLabel.Name = "RefMarqueLabel";
-            this.RefMarqueLabel.Size = new System.Drawing.Size(60, 13);
-            this.RefMarqueLabel.TabIndex = 21;
-            this.RefMarqueLabel.Text = "RefMarque";
+            this.MarqueLabel.AutoSize = true;
+            this.MarqueLabel.Location = new System.Drawing.Point(5, 78);
+            this.MarqueLabel.Name = "MarqueLabel";
+            this.MarqueLabel.Size = new System.Drawing.Size(43, 13);
+            this.MarqueLabel.TabIndex = 45;
+            this.MarqueLabel.Text = "Marque";
             // 
-            // RefSousFamilleLabel
+            // SousFamilleLabel
             // 
-            this.RefSousFamilleLabel.AutoSize = true;
-            this.RefSousFamilleLabel.Location = new System.Drawing.Point(12, 44);
-            this.RefSousFamilleLabel.Name = "RefSousFamilleLabel";
-            this.RefSousFamilleLabel.Size = new System.Drawing.Size(80, 13);
-            this.RefSousFamilleLabel.TabIndex = 20;
-            this.RefSousFamilleLabel.Text = "RefSousFamille";
+            this.SousFamilleLabel.AutoSize = true;
+            this.SousFamilleLabel.Location = new System.Drawing.Point(5, 42);
+            this.SousFamilleLabel.Name = "SousFamilleLabel";
+            this.SousFamilleLabel.Size = new System.Drawing.Size(63, 13);
+            this.SousFamilleLabel.TabIndex = 44;
+            this.SousFamilleLabel.Text = "SousFamille";
             // 
             // DescriptionTextBox
             // 
-            this.DescriptionTextBox.Location = new System.Drawing.Point(265, 6);
+            this.DescriptionTextBox.Location = new System.Drawing.Point(258, 4);
             this.DescriptionTextBox.Multiline = true;
             this.DescriptionTextBox.Name = "DescriptionTextBox";
             this.DescriptionTextBox.Size = new System.Drawing.Size(115, 92);
-            this.DescriptionTextBox.TabIndex = 19;
+            this.DescriptionTextBox.TabIndex = 43;
             // 
             // DescriptionLabel
             // 
             this.DescriptionLabel.AutoSize = true;
-            this.DescriptionLabel.Location = new System.Drawing.Point(199, 9);
+            this.DescriptionLabel.Location = new System.Drawing.Point(192, 7);
             this.DescriptionLabel.Name = "DescriptionLabel";
             this.DescriptionLabel.Size = new System.Drawing.Size(60, 13);
-            this.DescriptionLabel.TabIndex = 18;
+            this.DescriptionLabel.TabIndex = 42;
             this.DescriptionLabel.Text = "Description";
             // 
             // RefArticlesTextBox
             // 
-            this.RefArticlesTextBox.Location = new System.Drawing.Point(93, 6);
+            this.RefArticlesTextBox.Location = new System.Drawing.Point(86, 4);
             this.RefArticlesTextBox.Name = "RefArticlesTextBox";
             this.RefArticlesTextBox.Size = new System.Drawing.Size(100, 20);
-            this.RefArticlesTextBox.TabIndex = 17;
+            this.RefArticlesTextBox.TabIndex = 41;
             // 
             // RefArticlesLabel
             // 
             this.RefArticlesLabel.AutoSize = true;
-            this.RefArticlesLabel.Location = new System.Drawing.Point(12, 9);
+            this.RefArticlesLabel.Location = new System.Drawing.Point(5, 7);
             this.RefArticlesLabel.Name = "RefArticlesLabel";
             this.RefArticlesLabel.Size = new System.Drawing.Size(58, 13);
-            this.RefArticlesLabel.TabIndex = 16;
+            this.RefArticlesLabel.TabIndex = 40;
             this.RefArticlesLabel.Text = "RefArticles";
             // 
             // FormModifyArticle
@@ -167,24 +167,24 @@ namespace Hector
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 191);
-            this.Controls.Add(this.CancelButton);
-            this.Controls.Add(this.ModifyButton);
-            this.Controls.Add(this.RefMarqueComboBox);
-            this.Controls.Add(this.RefSousFamilleComboBox);
+            this.Controls.Add(this.MarqueComboBox);
+            this.Controls.Add(this.SousFamilleComboBox);
             this.Controls.Add(this.PrixHTTextBox);
             this.Controls.Add(this.PrixHTLabel);
             this.Controls.Add(this.QuantiteTextBox);
             this.Controls.Add(this.QuantiteLabel);
-            this.Controls.Add(this.RefMarqueLabel);
-            this.Controls.Add(this.RefSousFamilleLabel);
+            this.Controls.Add(this.MarqueLabel);
+            this.Controls.Add(this.SousFamilleLabel);
             this.Controls.Add(this.DescriptionTextBox);
             this.Controls.Add(this.DescriptionLabel);
             this.Controls.Add(this.RefArticlesTextBox);
             this.Controls.Add(this.RefArticlesLabel);
+            this.Controls.Add(this.CancelButton);
+            this.Controls.Add(this.ModifyButton);
             this.MaximumSize = new System.Drawing.Size(400, 230);
             this.MinimumSize = new System.Drawing.Size(400, 230);
             this.Name = "FormModifyArticle";
-            this.Text = "Créer un nouvel Article";
+            this.Text = "Modifier un Article";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -194,14 +194,14 @@ namespace Hector
 
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Button ModifyButton;
-        private System.Windows.Forms.ComboBox RefMarqueComboBox;
-        private System.Windows.Forms.ComboBox RefSousFamilleComboBox;
+        private System.Windows.Forms.ComboBox MarqueComboBox;
+        private System.Windows.Forms.ComboBox SousFamilleComboBox;
         private System.Windows.Forms.TextBox PrixHTTextBox;
         private System.Windows.Forms.Label PrixHTLabel;
         private System.Windows.Forms.TextBox QuantiteTextBox;
         private System.Windows.Forms.Label QuantiteLabel;
-        private System.Windows.Forms.Label RefMarqueLabel;
-        private System.Windows.Forms.Label RefSousFamilleLabel;
+        private System.Windows.Forms.Label MarqueLabel;
+        private System.Windows.Forms.Label SousFamilleLabel;
         private System.Windows.Forms.TextBox DescriptionTextBox;
         private System.Windows.Forms.Label DescriptionLabel;
         private System.Windows.Forms.TextBox RefArticlesTextBox;
