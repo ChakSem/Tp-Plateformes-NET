@@ -480,5 +480,97 @@ namespace Hector
             SousFamille.ViderDictionnaireSousFamilles();
             Famille.ViderDictionnaireFamilles();
         }
+
+        /// <summary>
+        /// Methode qui permet de suppimer un article de la base de données
+        /// </summary>
+        /// <param name="RefArticle">La référence de l'article à supprimer</param>
+        /// <exception cref="A DEFINIR">La suppression de l'article a échoué.</exception>
+        
+        public void SupprimerArticleBdd(string RefArticle)
+        {
+            using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+            {
+                Connexion.Open();
+                string RequeteSQL = "DELETE FROM Articles WHERE RefArticle = @RefArticle";
+
+                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                {
+                    CommandeSQL.Parameters.AddWithValue("@RefArticle", RefArticle);
+                    CommandeSQL.ExecuteNonQuery();
+                }
+                Connexion.Close();
+            }
+        }
+
+        /// <summary>
+        /// Methode qui permet de supprimer une marque de la base de données
+        /// </summary>
+        /// <param name="RefMarque">La référence de la marque à supprimer</param>
+        /// <exception cref="A DEFINIR">La suppression de la marque a échoué.</exception>
+        
+        public void SupprimerMarqueBdd(int RefMarque)
+        {
+            using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+            {
+                Connexion.Open();
+
+                string RequeteSQL = "DELETE FROM Marques WHERE RefMarque = @RefMarque";
+
+                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                {
+                    CommandeSQL.Parameters.AddWithValue("@RefMarque", RefMarque);
+                    CommandeSQL.ExecuteNonQuery();
+                }
+                Connexion.Close();
+            }
+        }
+
+        /// <summary>
+        /// Methode qui permet de supprimer une sous-famille de la base de données
+        /// </summary>
+        /// <param name="RefSousFamille">La référence de la sous-famille à supprimer</param>
+        /// <exception cref="A DEFINIR">La suppression de la sous-famille a échoué.</exception>
+        
+        public void SupprimerSousFamilleBdd(int RefSousFamille)
+        {
+            using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+            {
+                Connexion.Open();
+
+                string RequeteSQL = "DELETE FROM SousFamilles WHERE RefSousFamille = @RefSousFamille";
+
+                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                {
+                    CommandeSQL.Parameters.AddWithValue("@RefSousFamille", RefSousFamille);
+                    CommandeSQL.ExecuteNonQuery();
+                }
+                Connexion.Close();
+            }
+        }
+
+        /// <summary>
+        /// Methode qui permet de supprimer une famille de la base de données
+        /// </summary>
+        /// <param name="RefFamille">La référence de la famille à supprimer</param>
+        /// <exception cref="A DEFINIR">La suppression de la famille a échoué.</exception>
+        public void SupprimerFamilleBdd(int RefFamille)
+        {
+            using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+            {
+                Connexion.Open();
+
+                string RequeteSQL = "DELETE FROM Familles WHERE RefFamille = @RefFamille";
+
+                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                {
+                    CommandeSQL.Parameters.AddWithValue("@RefFamille", RefFamille);
+                    CommandeSQL.ExecuteNonQuery();
+                }
+                Connexion.Close();
+            }
+        }
     }
+
+
 }

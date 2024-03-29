@@ -10,7 +10,7 @@ namespace Hector
         /// <summary>
         /// Stocke les objets Famille déjà créé 
         /// </summary>
-        private static Dictionary<string, Famille> DictionnaireFamilles= new Dictionary<string, Famille>();
+        private static Dictionary<string, Famille> DictionnaireFamilles = new Dictionary<string, Famille>();
 
         private string Nom;
         private int RefFamille;
@@ -60,7 +60,7 @@ namespace Hector
                 return NouvelleFamille;
             }
         }
-        
+
         /// <summary>
         /// Méthode permettant de récupérer un objet Famille avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
         /// </summary>
@@ -79,12 +79,12 @@ namespace Hector
 
             return null;
         }
-        
+
         /// <summary>
-         /// Méthode permettant de récupérer un objet Famille avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
-         /// </summary>
-         /// <param name="NomParam">Nom de la Famille que l'on souhaite</param>
-         /// <returns> NouvelleFamille </returns>
+        /// Méthode permettant de récupérer un objet Famille avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
+        /// </summary>
+        /// <param name="NomParam">Nom de la Famille que l'on souhaite</param>
+        /// <returns> NouvelleFamille </returns>
         public static Famille CreerFamilleDepuisCSV(string NomParam)
         {
             if (!DictionnaireFamilles.ContainsKey(NomParam))
@@ -111,7 +111,7 @@ namespace Hector
             Nom = NouveauNom;
             RefFamille = -1;
         }
-        
+
         /// <summary>
         /// Accesseur en lecture de l'attribut Nom
         /// </summary>
@@ -177,7 +177,7 @@ namespace Hector
             }
             catch (Exception ExceptionCatched)
             {
-               ExceptionCatched.AfficherMessageErreur();
+                ExceptionCatched.AfficherMessageErreur();
             }
         }
 
@@ -197,5 +197,62 @@ namespace Hector
         {
             DictionnaireFamilles.Clear();
         }
+
+
+//  /// <summary>
+//         /// Méthode qui permet de supprimer un article de la liste
+//         /// </summary>
+//         /// <param name="Reference">La référence de l'article à supprimer</param>
+//         /// <returns> res, la liste des articles dans le terminal </returns>
+//         /// <returns> - true si l'article a été supprimé,
+//         ///           - false si l'article n'a pas été supprimé </returns>
+//         public static bool SupprimerArticle(string Reference)
+//         {
+//             try
+//             {
+//                 if (DictionnaireArticles.ContainsKey(Reference))
+//                 {
+//                     throw new Exception(Exception.ERREUR_REFERENCE_NON_EXISTANTE);
+//                 }
+//                 DictionnaireArticles.Remove(Reference);
+//                 BaseDeDonnees.GetInstance().SupprimerArticleBdd(Reference);
+//                 return true;
+//             }
+//             catch (Exception Exception)
+//             {
+//                 Exception.AfficherMessageErreur();
+//                 return false;
+//             }
+
+//         }
+        /// <summary>
+        /// Méthode qui permet de supprimer  une famille
+        /// </summary>
+        /// <param name="ReferenceFamilleASupprimer">La référence de la famille à supprimer</param>
+        /// <returns>bool</returns>
+
+        public static bool SupprimerFamille(int ReferenceFamilleASupprimer)
+        {
+            try
+            {
+                foreach (Famille Famille in DictionnaireFamilles.Values)
+                {
+                    if (Famille.GetRefFamille() == ReferenceFamilleASupprimer)
+                    {
+                        DictionnaireFamilles.Remove(Famille.GetNom());
+                        BaseDeDonnees.GetInstance().SupprimerFamilleBdd(ReferenceFamilleASupprimer);
+                        return true;
+                    }
+                }
+                throw new Exception(Exception.ERREUR_REFERENCE_NON_EXISTANTE);
+            }
+            catch (Exception Exception)
+            {
+                Exception.AfficherMessageErreur();
+                return false;
+            }
+        }
+
+
     }
 }
