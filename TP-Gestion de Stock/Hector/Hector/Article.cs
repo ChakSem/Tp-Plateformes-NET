@@ -150,19 +150,52 @@ namespace Hector
             foreach (Article Article in Articles)
             {
                 res += Article.GetDescription() + " " + Article.GetReference() + " " + Article.GetMarque().GetNom() + " "
-                    + Article.GetSousFamille().GetFamille().GetNom() + " " + Article.GetSousFamille().GetNom() + " " + Article.GetPrixHT()  + "\n";
+                    + Article.GetSousFamille().GetFamille().GetNom() + " " + Article.GetSousFamille().GetNom() + " " + Article.GetPrixHT() + "\n";
             }
             Console.WriteLine(res); // Affichage dans le terminal
             return res;
         }
+
+
         public static List<Article> GetListeArticles()
         {
             return DictionnaireArticles.Values.ToList();
         }
+
+
         public static void ViderDictionnaireArticles()
         {
             DictionnaireArticles.Clear();
         }
+
+        /// <summary>
+        /// Méthode qui permet de supprimer un article de la liste
+        /// </summary>
+        /// <param name="Reference">La référence de l'article à supprimer</param>
+        /// <returns> res, la liste des articles dans le terminal </returns>
+        /// <returns> - true si l'article a été supprimé,
+        ///           - false si l'article n'a pas été supprimé </returns>
+        public static bool SupprimerArticle(string Reference)
+        {
+            try
+            {
+                if (DictionnaireArticles.ContainsKey(Reference))
+                {
+                    throw new Exception(Exception.ERREUR_REFERENCE_NON_EXISTANTE);
+                }
+                DictionnaireArticles.Remove(Reference);
+                BaseDeDonnees.GetInstance().SupprimerArticleBdd(Reference);
+                return true;
+            }
+            catch (Exception Exception)
+            {
+                Exception.AfficherMessageErreur();
+                return false;
+            }
+
+        }
+   
+
     }
 }
 
