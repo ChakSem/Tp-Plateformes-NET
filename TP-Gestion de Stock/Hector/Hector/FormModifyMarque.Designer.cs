@@ -31,8 +31,8 @@ namespace Hector
         {
             this.CancelButton = new System.Windows.Forms.Button();
             this.CreateButton = new System.Windows.Forms.Button();
-            this.RefArticlesTextBox = new System.Windows.Forms.TextBox();
-            this.RefArticlesLabel = new System.Windows.Forms.Label();
+            this.NomMarqueTextBox = new System.Windows.Forms.TextBox();
+            this.NomMarqueLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // CancelButton
@@ -43,6 +43,7 @@ namespace Hector
             this.CancelButton.TabIndex = 29;
             this.CancelButton.Text = "Annuler";
             this.CancelButton.UseVisualStyleBackColor = true;
+            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // CreateButton
             // 
@@ -52,32 +53,33 @@ namespace Hector
             this.CreateButton.TabIndex = 28;
             this.CreateButton.Text = "Créer";
             this.CreateButton.UseVisualStyleBackColor = true;
+            this.CreateButton.Click += new System.EventHandler(this.CreateButton_Click);
             // 
-            // RefArticlesTextBox
+            // NomMarqueTextBox
             // 
-            this.RefArticlesTextBox.Location = new System.Drawing.Point(76, 6);
-            this.RefArticlesTextBox.Name = "RefArticlesTextBox";
-            this.RefArticlesTextBox.Size = new System.Drawing.Size(100, 20);
-            this.RefArticlesTextBox.TabIndex = 27;
+            this.NomMarqueTextBox.Location = new System.Drawing.Point(76, 12);
+            this.NomMarqueTextBox.Name = "NomMarqueTextBox";
+            this.NomMarqueTextBox.Size = new System.Drawing.Size(100, 20);
+            this.NomMarqueTextBox.TabIndex = 31;
             // 
-            // RefArticlesLabel
+            // NomMarqueLabel
             // 
-            this.RefArticlesLabel.AutoSize = true;
-            this.RefArticlesLabel.Location = new System.Drawing.Point(12, 9);
-            this.RefArticlesLabel.Name = "RefArticlesLabel";
-            this.RefArticlesLabel.Size = new System.Drawing.Size(29, 13);
-            this.RefArticlesLabel.TabIndex = 26;
-            this.RefArticlesLabel.Text = "Nom";
+            this.NomMarqueLabel.AutoSize = true;
+            this.NomMarqueLabel.Location = new System.Drawing.Point(12, 15);
+            this.NomMarqueLabel.Name = "NomMarqueLabel";
+            this.NomMarqueLabel.Size = new System.Drawing.Size(29, 13);
+            this.NomMarqueLabel.TabIndex = 30;
+            this.NomMarqueLabel.Text = "Nom";
             // 
             // FormModifyMarque
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(234, 91);
+            this.Controls.Add(this.NomMarqueTextBox);
+            this.Controls.Add(this.NomMarqueLabel);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.CreateButton);
-            this.Controls.Add(this.RefArticlesTextBox);
-            this.Controls.Add(this.RefArticlesLabel);
             this.MaximumSize = new System.Drawing.Size(250, 130);
             this.MinimumSize = new System.Drawing.Size(250, 130);
             this.Name = "FormModifyMarque";
@@ -91,7 +93,7 @@ namespace Hector
 
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Button CreateButton;
-        private System.Windows.Forms.TextBox RefArticlesTextBox;
-        private System.Windows.Forms.Label RefArticlesLabel;
+        private System.Windows.Forms.TextBox NomMarqueTextBox;
+        private System.Windows.Forms.Label NomMarqueLabel;
     }
 }

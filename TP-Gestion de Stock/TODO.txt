@@ -1,15 +1,12 @@
 TODO : 
-- Check le parsing en double dans la creation d'article
 - Commentaires
 - Raccourcis
-- CRUD
- => Gerer modification aussi sur la BDD SQLite
+- CRUD => Gerer modification aussi sur la BDD SQLite
+- Actualiser avant import par ajout
+- Afficher anomalie dans l'import
 - Renomme Ecrivain + Check Nommage
-- Maj TreeView apres CRUD
-- ListView
-- Revoir Interface Export
+- Maj TreeView apres CRUD (sans recharger)
 - Gerer Clique Droit
-- Filtrage par groupement
 - Barre de progression import
 
 Fini :

@@ -45,6 +45,8 @@ namespace Hector
             this.familleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sousFamilleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.marqueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modifierUnObjetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.supprimerLobjetSelectionneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -136,20 +138,25 @@ namespace Hector
             this.ListView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ListView1.HideSelection = false;
             this.ListView1.Location = new System.Drawing.Point(0, 0);
+            this.ListView1.MultiSelect = false;
             this.ListView1.Name = "ListView1";
             this.ListView1.Size = new System.Drawing.Size(532, 404);
             this.ListView1.TabIndex = 0;
             this.ListView1.UseCompatibleStateImageBehavior = false;
             this.ListView1.View = System.Windows.Forms.View.Details;
+            this.ListView1.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ListView1_ColumnClick);
             this.ListView1.ItemActivate += new System.EventHandler(this.ListView1_ItemActivate);
+            this.ListView1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListView1_MouseClick);
             // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.créerUnNouvelIndividuToolStripMenuItem});
+            this.créerUnNouvelIndividuToolStripMenuItem,
+            this.modifierUnObjetToolStripMenuItem,
+            this.supprimerLobjetSelectionneToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(205, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(236, 70);
             // 
             // créerUnNouvelIndividuToolStripMenuItem
             // 
@@ -159,36 +166,48 @@ namespace Hector
             this.sousFamilleToolStripMenuItem,
             this.marqueToolStripMenuItem});
             this.créerUnNouvelIndividuToolStripMenuItem.Name = "créerUnNouvelIndividuToolStripMenuItem";
-            this.créerUnNouvelIndividuToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.créerUnNouvelIndividuToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.créerUnNouvelIndividuToolStripMenuItem.Text = "Créer un nouvel individu";
             // 
             // articleToolStripMenuItem
             // 
             this.articleToolStripMenuItem.Name = "articleToolStripMenuItem";
-            this.articleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.articleToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.articleToolStripMenuItem.Text = "Article";
             this.articleToolStripMenuItem.Click += new System.EventHandler(this.articleToolStripMenuItem_Click);
             // 
             // familleToolStripMenuItem
             // 
             this.familleToolStripMenuItem.Name = "familleToolStripMenuItem";
-            this.familleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.familleToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.familleToolStripMenuItem.Text = "Famille";
             this.familleToolStripMenuItem.Click += new System.EventHandler(this.familleToolStripMenuItem_Click);
             // 
             // sousFamilleToolStripMenuItem
             // 
             this.sousFamilleToolStripMenuItem.Name = "sousFamilleToolStripMenuItem";
-            this.sousFamilleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sousFamilleToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.sousFamilleToolStripMenuItem.Text = "Sous-Famille";
             this.sousFamilleToolStripMenuItem.Click += new System.EventHandler(this.sousFamilleToolStripMenuItem_Click);
             // 
             // marqueToolStripMenuItem
             // 
             this.marqueToolStripMenuItem.Name = "marqueToolStripMenuItem";
-            this.marqueToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.marqueToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.marqueToolStripMenuItem.Text = "Marque";
             this.marqueToolStripMenuItem.Click += new System.EventHandler(this.marqueToolStripMenuItem_Click);
+            // 
+            // modifierUnObjetToolStripMenuItem
+            // 
+            this.modifierUnObjetToolStripMenuItem.Name = "modifierUnObjetToolStripMenuItem";
+            this.modifierUnObjetToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.modifierUnObjetToolStripMenuItem.Text = "Modifier un l\'objet selectionne";
+            // 
+            // supprimerLobjetSelectionneToolStripMenuItem
+            // 
+            this.supprimerLobjetSelectionneToolStripMenuItem.Name = "supprimerLobjetSelectionneToolStripMenuItem";
+            this.supprimerLobjetSelectionneToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.supprimerLobjetSelectionneToolStripMenuItem.Text = "Supprimer l\'objet selectionne";
             // 
             // FormMain
             // 
@@ -231,6 +250,8 @@ namespace Hector
         private System.Windows.Forms.ToolStripMenuItem familleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sousFamilleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem marqueToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem modifierUnObjetToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem supprimerLobjetSelectionneToolStripMenuItem;
     }
 }
 

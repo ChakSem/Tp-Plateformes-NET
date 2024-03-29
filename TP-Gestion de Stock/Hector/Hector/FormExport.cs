@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,15 +16,6 @@ namespace Hector
         public FormExport()
         {
             InitializeComponent();
-        }
-
-        private void CheckBoxAjout_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBoxEcrasement.Checked = !CheckBoxAjout.Checked;
-        }
-        private void CheckBoxEcrasement_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBoxAjout.Checked = !CheckBoxEcrasement.Checked;
         }
 
         private void SelectFile_Click(object sender, EventArgs e)

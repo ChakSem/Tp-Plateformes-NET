@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -162,7 +161,7 @@ namespace Hector
         /// Accesseur en écriture de l'attribut Nom
         /// </summary>
         /// <param name="NouveauNom">Le Nom que l'on souhaite définir</param>
-        public void SetNom(string NouveauNom)
+        public uint SetNom(string NouveauNom)
         {
             try
             {
@@ -171,16 +170,27 @@ namespace Hector
                     throw new Exception(Exception.ERREUR_NOM_DEJA_ASSIGNEE);
                 }
                 Nom = NouveauNom;
+
+                return Exception.RETOUR_NORMAL;
             }
             catch (Exception ExceptionCatched)
             {
                 ExceptionCatched.AfficherMessageErreur();
+
+                return Exception.RETOUR_ERREUR;
             }
         }
 
         public static List<Marque> GetDictionnaireMarques()
         {
-            return DictionnairesMarques.Values.ToList();
+            List<Marque> ListeMarques = new List<Marque>();
+
+            foreach (var Couple in DictionnairesMarques)
+            {
+                ListeMarques.Add(Couple.Value);
+            }
+
+            return ListeMarques;
         }
 
         public static void ViderDictionnairesMarques()

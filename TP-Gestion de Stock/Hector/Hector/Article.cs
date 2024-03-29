@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -174,7 +173,14 @@ namespace Hector
         }
         public static List<Article> GetListeArticles()
         {
-            return DictionnaireArticles.Values.ToList();
+            List<Article> ListeArticles = new List<Article>();
+
+            foreach (var Couple in DictionnaireArticles)
+            {
+                ListeArticles.Add(Couple.Value);
+            }
+
+            return ListeArticles;
         }
         public static void ViderDictionnaireArticles()
         {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Collections;
 
 
 namespace Hector
@@ -229,8 +229,6 @@ namespace Hector
                 NouvelItem.SubItems.Add(ArticleExistante.GetSousFamille().GetFamille().GetNom());
                 NouvelItem.SubItems.Add(ArticleExistante.GetSousFamille().GetNom());
                 NouvelItem.SubItems.Add(ArticleExistante.GetMarque().GetNom());
-                NouvelItem.SubItems.Add(ArticleExistante.GetPrixHT().ToString());
-                NouvelItem.SubItems.Add(ArticleExistante.GetQuantite().ToString());
                 ListView1.Items.Add(NouvelItem);
             }
         }
@@ -240,26 +238,25 @@ namespace Hector
         /// <summary
         public void AjouterColonnesListViewArticles()
         {
+            ListView1.ListViewItemSorter = null;
             TypeDonneesAffichees = "Articles";
 
-            ListView1.Columns.Add("Référence", 100);
-            ListView1.Columns.Add("Description", 100);
-            ListView1.Columns.Add("Famille", 100);
-            ListView1.Columns.Add("Sous-famille", 100);
-            ListView1.Columns.Add("Marque", 100);
-            ListView1.Columns.Add("PrixHT", 100);
-            ListView1.Columns.Add("Quantité", 100);
+            ListView1.Columns.Add("RefArticle", 60);
+            ListView1.Columns.Add("Description", 200);
+            ListView1.Columns.Add("Familles", 100);
+            ListView1.Columns.Add("Sous-familles", 100);
+            ListView1.Columns.Add("Marques", 90);
         }
 
         /// <summary>
         /// Methode qui permet d'ajouter les colonnes correspondantes pour la lecture des familles avec le ListView
         /// <summary>
         public void AjouterColonnesListViewFamilles()
-        {
+        { 
+            ListView1.ListViewItemSorter = null;
             TypeDonneesAffichees = "Familles";
 
-            ListView1.Columns.Add("Référence", 100);
-            ListView1.Columns.Add("Nom", 100);
+            ListView1.Columns.Add("Description", 150);
         }
 
         /// <summary>
@@ -267,10 +264,10 @@ namespace Hector
         /// <summary>
         public void AjouterColonnesListViewMarques()
         {
+            ListView1.ListViewItemSorter = null;
             TypeDonneesAffichees = "Marques";
 
-            ListView1.Columns.Add("Référence", 100);
-            ListView1.Columns.Add("Nom", 100);
+            ListView1.Columns.Add("Description", 150);
         }
 
         /// Methode qui permet de charger le ListView avec les familles
@@ -287,8 +284,7 @@ namespace Hector
             //On ajoute les familles
             foreach (Famille FamilleExistante in ListeFamilles)
             {
-                ListViewItem NouvelItem = new ListViewItem(FamilleExistante.GetRefFamille().ToString());
-                NouvelItem.SubItems.Add(FamilleExistante.GetNom());
+                ListViewItem NouvelItem = new ListViewItem(FamilleExistante.GetNom());
                 ListView1.Items.Add(NouvelItem);
             }
         }
@@ -308,8 +304,7 @@ namespace Hector
             //On ajoute les marques
             foreach (Marque MarqueExistante in ListeMarques)
             {
-                ListViewItem NouvelItem = new ListViewItem(MarqueExistante.GetRefMarque().ToString());
-                NouvelItem.SubItems.Add(MarqueExistante.GetNom());
+                ListViewItem NouvelItem = new ListViewItem(MarqueExistante.GetNom());
                 ListView1.Items.Add(NouvelItem);
             }
         }
@@ -322,13 +317,13 @@ namespace Hector
 
                 if(TypeDonneesAffichees == "Familles")
                 {
-                    ChargerListViewArticlesPourUneFamille(Item.SubItems[1].Text);
+                    ChargerListViewArticlesPourUneFamille(Item.SubItems[0].Text);
                     
                 } else
                 {
                     if (TypeDonneesAffichees == "Marques")
                     {
-                        ChargerListViewArticlesPourUneMarque(Item.SubItems[1].Text);
+                        ChargerListViewArticlesPourUneMarque(Item.SubItems[0].Text);
                     }
                 }
             }
@@ -356,6 +351,95 @@ namespace Hector
         {
             FormAddMarque NouveauFormAddMarque = new FormAddMarque();
             NouveauFormAddMarque.ShowDialog();
+        }
+
+        private void ListView1_ColumnClick(object sender, ColumnClickEventArgs Event)
+        {
+            ListView1.ListViewItemSorter = new ListViewItemComparer(Event.Column);
+
+            if (TypeDonneesAffichees == "Articles") { 
+                ListView1.Groups.Clear();
+
+                string NomColonne = ListView1.Columns[Event.Column].Text;
+
+                if (NomColonne == "Familles")
+                {
+                    Dictionary<string, int> IndicesGroupe = new Dictionary<string, int>();
+
+                    foreach (Famille FamilleExistante in Famille.GetDictionnaireFamilles())
+                    {
+                        int IdFamille = ListView1.Groups.Add(new ListViewGroup(FamilleExistante.GetNom(), HorizontalAlignment.Left));
+                        IndicesGroupe.Add(FamilleExistante.GetNom(), IdFamille);
+                    }
+
+                    foreach (ListViewItem Ligne in ListView1.Items)
+                    {
+                        Console.WriteLine(Ligne.SubItems[3].Text);
+                        Ligne.Group = ListView1.Groups[IndicesGroupe[Ligne.SubItems[2].Text]];
+                    }
+                }
+
+                if (NomColonne == "Sous-familles")
+                {
+                    Dictionary<string, int> IndicesGroupe = new Dictionary<string, int>();
+
+                    foreach (SousFamille SousFamilleExistante in SousFamille.GetDictionnaireSousFamilles())
+                    {
+                        int IdFamille = ListView1.Groups.Add(new ListViewGroup(SousFamilleExistante.GetNom(), HorizontalAlignment.Left));
+                        IndicesGroupe.Add(SousFamilleExistante.GetNom(), IdFamille);
+                    }
+
+                    foreach (ListViewItem Ligne in ListView1.Items)
+                    {
+                        Ligne.Group = ListView1.Groups[IndicesGroupe[Ligne.SubItems[3].Text]];
+                    }
+                }
+
+                if (NomColonne == "Marques")
+                {
+                    Dictionary<string, int> IndicesGroupe = new Dictionary<string, int>();
+
+                    foreach (Marque MarqueExistante in Marque.GetDictionnaireMarques())
+                    {
+                        int IdFamille = ListView1.Groups.Add(new ListViewGroup(MarqueExistante.GetNom(), HorizontalAlignment.Left));
+                        IndicesGroupe.Add(MarqueExistante.GetNom(), IdFamille);
+                    }
+
+                    foreach (ListViewItem Ligne in ListView1.Items)
+                    {
+                        Ligne.Group = ListView1.Groups[IndicesGroupe[Ligne.SubItems[4].Text]];
+                    }
+                }
+            }
+        }
+
+        class ListViewItemComparer : IComparer
+        {
+            private int col;
+            public ListViewItemComparer()
+            {
+                col = 0;
+            }
+            public ListViewItemComparer(int column)
+            {
+                col = column;
+            }
+            public int Compare(object x, object y)
+            {
+                return String.Compare(((ListViewItem)x).SubItems[col].Text, ((ListViewItem)y).SubItems[col].Text);
+            }
+        }
+
+        private void ListView1_MouseClick(object sender, MouseEventArgs Event)
+        {
+            if (Event.Button == MouseButtons.Right)
+            {
+                var focusedItem = ListView1.FocusedItem;
+                if (focusedItem != null && focusedItem.Bounds.Contains(Event.Location))
+                {
+                    c// TODO
+                }
+            }
         }
     }
 }

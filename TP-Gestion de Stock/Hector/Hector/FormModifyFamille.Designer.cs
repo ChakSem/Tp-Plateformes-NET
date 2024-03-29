@@ -31,8 +31,8 @@ namespace Hector
         {
             this.CancelButton = new System.Windows.Forms.Button();
             this.ModifyButton = new System.Windows.Forms.Button();
-            this.RefArticlesTextBox = new System.Windows.Forms.TextBox();
-            this.RefArticlesLabel = new System.Windows.Forms.Label();
+            this.NomFamilleTextBox = new System.Windows.Forms.TextBox();
+            this.NomFamilleLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // CancelButton
@@ -43,6 +43,7 @@ namespace Hector
             this.CancelButton.TabIndex = 25;
             this.CancelButton.Text = "Annuler";
             this.CancelButton.UseVisualStyleBackColor = true;
+            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // ModifyButton
             // 
@@ -52,36 +53,37 @@ namespace Hector
             this.ModifyButton.TabIndex = 24;
             this.ModifyButton.Text = "Modifier";
             this.ModifyButton.UseVisualStyleBackColor = true;
+            this.ModifyButton.Click += new System.EventHandler(this.ModifyButton_Click);
             // 
-            // RefArticlesTextBox
+            // NomFamilleTextBox
             // 
-            this.RefArticlesTextBox.Location = new System.Drawing.Point(76, 6);
-            this.RefArticlesTextBox.Name = "RefArticlesTextBox";
-            this.RefArticlesTextBox.Size = new System.Drawing.Size(100, 20);
-            this.RefArticlesTextBox.TabIndex = 23;
+            this.NomFamilleTextBox.Location = new System.Drawing.Point(76, 12);
+            this.NomFamilleTextBox.Name = "NomFamilleTextBox";
+            this.NomFamilleTextBox.Size = new System.Drawing.Size(100, 20);
+            this.NomFamilleTextBox.TabIndex = 27;
             // 
-            // RefArticlesLabel
+            // NomFamilleLabel
             // 
-            this.RefArticlesLabel.AutoSize = true;
-            this.RefArticlesLabel.Location = new System.Drawing.Point(12, 9);
-            this.RefArticlesLabel.Name = "RefArticlesLabel";
-            this.RefArticlesLabel.Size = new System.Drawing.Size(29, 13);
-            this.RefArticlesLabel.TabIndex = 22;
-            this.RefArticlesLabel.Text = "Nom";
+            this.NomFamilleLabel.AutoSize = true;
+            this.NomFamilleLabel.Location = new System.Drawing.Point(12, 15);
+            this.NomFamilleLabel.Name = "NomFamilleLabel";
+            this.NomFamilleLabel.Size = new System.Drawing.Size(29, 13);
+            this.NomFamilleLabel.TabIndex = 26;
+            this.NomFamilleLabel.Text = "Nom";
             // 
             // FormModifyFamille
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(234, 91);
+            this.Controls.Add(this.NomFamilleTextBox);
+            this.Controls.Add(this.NomFamilleLabel);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.ModifyButton);
-            this.Controls.Add(this.RefArticlesTextBox);
-            this.Controls.Add(this.RefArticlesLabel);
             this.MaximumSize = new System.Drawing.Size(250, 130);
             this.MinimumSize = new System.Drawing.Size(250, 130);
             this.Name = "FormModifyFamille";
-            this.Text = "Créer une nouvelle Famille";
+            this.Text = "Modifier une Famille";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -91,7 +93,7 @@ namespace Hector
 
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Button ModifyButton;
-        private System.Windows.Forms.TextBox RefArticlesTextBox;
-        private System.Windows.Forms.Label RefArticlesLabel;
+        private System.Windows.Forms.TextBox NomFamilleTextBox;
+        private System.Windows.Forms.Label NomFamilleLabel;
     }
 }
