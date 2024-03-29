@@ -53,6 +53,7 @@ namespace Hector
             this.CancelButton.TabIndex = 29;
             this.CancelButton.Text = "Annuler";
             this.CancelButton.UseVisualStyleBackColor = true;
+            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // ModifyButton
             // 
@@ -62,6 +63,7 @@ namespace Hector
             this.ModifyButton.TabIndex = 28;
             this.ModifyButton.Text = "Modifier";
             this.ModifyButton.UseVisualStyleBackColor = true;
+            this.ModifyButton.Click += new System.EventHandler(this.ModifyButton_Click);
             // 
             // MarqueComboBox
             // 

@@ -8,6 +8,9 @@ namespace Hector
 {
     class Exception : System.Exception
     {
+        public const uint RETOUR_NORMAL = 0;
+        public const uint RETOUR_ERREUR = 1;
+
         public const uint ERREUR_REFERENCE_DEJA_ASSIGNEE = 0;
         public const uint ERREUR_NOM_DEJA_ASSIGNEE = 1;
         public const uint ERREUR_FAMILLE_NE_CORRESPOND_PAS = 2;

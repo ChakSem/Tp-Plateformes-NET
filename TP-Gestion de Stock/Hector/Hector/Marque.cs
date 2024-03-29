@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hector
 {
-    class Marque
+    public class Marque
     {
         /// <summary>
         /// Stocke les objets Marque déjà créé 

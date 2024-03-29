@@ -129,7 +129,24 @@ namespace Hector
         public string GetDescription() { return Description; }
         public void SetDescription(string NouvelleDescription) { Description = NouvelleDescription; }
         public string GetReference() { return Reference; }
-        public void SetReference(string NouvelleReference) { Reference = NouvelleReference; }
+        public uint SetReference(string NouvelleReference) {
+            try
+            {
+                if (DictionnaireArticles.ContainsKey(NouvelleReference))
+                {
+                    throw new Exception(Exception.ERREUR_REFERENCE_DEJA_ASSIGNEE);
+                }
+                Reference = NouvelleReference;
+
+                return Exception.RETOUR_NORMAL;
+            }
+            catch (Exception ExceptionAttrapee)
+            {
+                ExceptionAttrapee.AfficherMessageErreur();
+
+                return Exception.RETOUR_ERREUR;
+            }
+        }
         public Marque GetMarque() { return Marque; }
         public void SetMarque(Marque NouvelleMarque) { Marque = NouvelleMarque; }
         public SousFamille GetSousFamille() { return SousFamille; }
