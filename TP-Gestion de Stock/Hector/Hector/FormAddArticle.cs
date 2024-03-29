@@ -52,8 +52,6 @@ namespace Hector
                         throw new Exception(Exception.ERREUR_PARSING_UINT);
                     }
 
-                    Console.WriteLine(RefArticlesTextBox.Text);
-
                     Article NouvelArticle = Article.CreerArticle(DescriptionTextBox.Text, RefArticlesTextBox.Text, MarqueSelectionne, SousFamilleSelectionnee,
                         PrixHT, Quantite);
 

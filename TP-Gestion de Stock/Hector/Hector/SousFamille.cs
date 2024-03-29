@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hector
 {
-    class SousFamille
+    public class SousFamille
     {
         /// <summary>
         /// Stocke les objets Sous-Famille déjà créé 
