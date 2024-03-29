@@ -439,7 +439,7 @@ namespace Hector
                 var focusedItem = ListView1.FocusedItem;
                 if (focusedItem != null && focusedItem.Bounds.Contains(Event.Location))
                 {
-                    c// TODO
+                    // TODO
                 }
             }
         }
