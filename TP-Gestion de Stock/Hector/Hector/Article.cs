@@ -129,6 +129,12 @@ namespace Hector
         public string GetDescription() { return Description; }
         public void SetDescription(string NouvelleDescription) { Description = NouvelleDescription; }
         public string GetReference() { return Reference; }
+
+        /// <summary>
+        /// Accesseur en écriture de l 'attribut réference
+        /// </summary>
+        /// <param name="NouvelleReference"> Reference que l'on veut définir </param>
+        /// <returns> Une valeur indiquant si la modification a réussie </returns>
         public uint SetReference(string NouvelleReference) {
             try
             {
@@ -144,7 +150,7 @@ namespace Hector
             {
                 ExceptionAttrapee.AfficherMessageErreur();
 
-                return Exception.RETOUR_ERREUR;
+                return Exception.RETOUR_ERREUR; // Si la réference n'a pas pu être changée (car déjà assignée)
             }
         }
         public Marque GetMarque() { return Marque; }
@@ -160,19 +166,24 @@ namespace Hector
         /// Méthode qui permet d'afficher les articles de la liste (POUR LE DEBUG)
         /// </summary>
         /// <param name="Articles">La liste des articles</param>
-        /// <returns> res, la liste des articles dans le terminal </returns>
+        /// <returns> String contenenat les données de l'article </returns>
         public static string AfficherArticles(List<Article> Articles)
         {
-            string res = "";
+            string Affichage = "";
             foreach (Article Article in Articles)
             {
-                res += Article.GetDescription() + " " + Article.GetReference() + " " + Article.GetMarque().GetNom() + " "
+                Affichage += Article.GetDescription() + " " + Article.GetReference() + " " + Article.GetMarque().GetNom() + " "
                     + Article.GetSousFamille().GetFamille().GetNom() + " " + Article.GetSousFamille().GetNom() + " " + Article.GetPrixHT() + "\n";
             }
-            Console.WriteLine(res); // Affichage dans le terminal
-            return res;
+            Console.WriteLine(Affichage); // Affichage dans le terminal
+            return Affichage;
         }
 
+        /// <summary>
+        /// Renvoi l'article correspondant à la réference passée en paramètre
+        /// </summary>
+        /// <param name="RefArticle"> Réference de l'article souhaité </param>
+        /// <returns> Article correspondant </returns>
         public static Article GetArticleExistant(string RefArticle)
         {
             try
@@ -192,7 +203,10 @@ namespace Hector
             }
         }
 
-
+        /// <summary>
+        /// Renvoie une liste correspondant au dictionnaire DictionnaireArticles
+        /// </summary>
+        /// <returns> Liste des Articles existants </returns>
         public static List<Article> GetListeArticles()
         {
             List<Article> ListeArticles = new List<Article>();
@@ -205,40 +219,22 @@ namespace Hector
             return ListeArticles;
         }
 
-
+        /// <summary>
+        /// Permet de vider DictionnaireArticles
+        /// </summary>
         public static void ViderDictionnaireArticles()
         {
             DictionnaireArticles.Clear();
         }
 
         /// <summary>
-        /// Méthode qui permet de supprimer un article de la liste
+        /// Méthode permettant de gérer la suppression d'un Article
         /// </summary>
-        /// <param name="Reference">La référence de l'article à supprimer</param>
-        /// <returns> res, la liste des articles dans le terminal </returns>
-        /// <returns> - true si l'article a été supprimé,
-        ///           - false si l'article n'a pas été supprimé </returns>
-        public static bool SupprimerArticle(string Reference)
+        public void SupprimerArticle()
         {
-            try
-            {
-                if (!DictionnaireArticles.ContainsKey(Reference))
-                {
-                    throw new Exception(Exception.ERREUR_REFERENCE_NON_EXISTANTE);
-                }
-                DictionnaireArticles.Remove(Reference);
-                BaseDeDonnees.GetInstance().SupprimerArticleBdd(Reference);
-                return true;
-            }
-            catch (Exception Exception)
-            {
-                Exception.AfficherMessageErreur();
-                return false;
-            }
-
+            DictionnaireArticles.Remove(Reference);
+            BaseDeDonnees.GetInstance().SupprimerArticleBdd(Reference);
         }
-   
-
     }
 }
 

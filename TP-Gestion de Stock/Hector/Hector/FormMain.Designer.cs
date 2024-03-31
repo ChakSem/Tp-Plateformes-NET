@@ -137,6 +137,7 @@ namespace Hector
             // ListView1
             // 
             this.ListView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ListView1.FullRowSelect = true;
             this.ListView1.HideSelection = false;
             this.ListView1.Location = new System.Drawing.Point(0, 0);
             this.ListView1.MultiSelect = false;
@@ -148,7 +149,7 @@ namespace Hector
             this.ListView1.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ListView1_ColumnClick);
             this.ListView1.ItemActivate += new System.EventHandler(this.ListView1_ItemActivate);
             this.ListView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ListView1_KeyDown);
-            this.ListView1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListView1_MouseClick);
+            this.ListView1.Leave += new System.EventHandler(this.ListView1_Leave);
             // 
             // contextMenuStrip1
             // 
@@ -158,7 +159,8 @@ namespace Hector
             this.modifierUnObjetToolStripMenuItem,
             this.supprimerLobjetSelectionneToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(236, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(236, 92);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // créerUnNouvelIndividuToolStripMenuItem
             // 
@@ -204,12 +206,14 @@ namespace Hector
             this.modifierUnObjetToolStripMenuItem.Name = "modifierUnObjetToolStripMenuItem";
             this.modifierUnObjetToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.modifierUnObjetToolStripMenuItem.Text = "Modifier un l\'objet selectionne";
+            this.modifierUnObjetToolStripMenuItem.Click += new System.EventHandler(this.modifierUnObjetToolStripMenuItem_Click);
             // 
             // supprimerLobjetSelectionneToolStripMenuItem
             // 
             this.supprimerLobjetSelectionneToolStripMenuItem.Name = "supprimerLobjetSelectionneToolStripMenuItem";
             this.supprimerLobjetSelectionneToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.supprimerLobjetSelectionneToolStripMenuItem.Text = "Supprimer l\'objet selectionne";
+            this.supprimerLobjetSelectionneToolStripMenuItem.Click += new System.EventHandler(this.supprimerLobjetSelectionneToolStripMenuItem_Click);
             // 
             // FormMain
             // 

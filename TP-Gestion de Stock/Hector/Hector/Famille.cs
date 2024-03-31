@@ -76,7 +76,6 @@ namespace Hector
                 return NouvelleFamille;
             }
 
-
             return null;
         }
 
@@ -125,6 +124,7 @@ namespace Hector
         /// Accesseur en écriture de l'attribut Nom
         /// </summary>
         /// <param name="NouveauNom">Le Nom que l'on souhaite définir</param>
+        /// <returns> Une valeur indiquant si la modification a réussie </returns>
         public uint SetNom(string NouveauNom)
         {
             try
@@ -142,7 +142,6 @@ namespace Hector
                 return Exception.RETOUR_ERREUR;
             }
         }
-
 
         /// <summary>
         /// Accesseur en lecture de l'attribut RefFamille
@@ -175,12 +174,16 @@ namespace Hector
 
                 RefFamille = NouvelleRefFamille;
             }
-            catch (Exception ExceptionCatched)
+            catch (Exception ExceptionAttrapee)
             {
-                ExceptionCatched.AfficherMessageErreur();
+                ExceptionAttrapee.AfficherMessageErreur();
             }
         }
 
+        /// <summary>
+        /// Renvoie une liste correspondant au dictionnaire DictionnaireFamilles
+        /// </summary>
+        /// <returns></returns>
         public static List<Famille> GetListeFamilles()
         {
             List<Famille> ListeFamilles= new List<Famille>();
@@ -193,11 +196,19 @@ namespace Hector
             return ListeFamilles;
         }
 
+        /// <summary>
+        /// Vider DictionnaireFamilles
+        /// </summary>
         public static void ViderDictionnaireFamilles()
         {
             DictionnaireFamilles.Clear();
         }
 
+        /// <summary>
+        /// Indique si la Famille a des SousFamilles
+        /// </summary>
+        /// <returns>   - true : Si au moins une SousFamille appartient à cette famille
+        ///             - false : Sinon </returns>
         public bool FamilleUtilisee()
         {
             foreach (SousFamille SousFamilleExistante in SousFamille.GetListeSousFamilles()) 
@@ -214,9 +225,8 @@ namespace Hector
         /// <summary>
         /// Méthode qui permet de supprimer une famille
         /// </summary>
-        /// <returns>bool</returns>
-
-        public bool SupprimerFamille()
+        /// <returns> Une valeur indiquant si la suppression a réussie </returns>
+        public uint SupprimerFamille()
         {
             try
             {
@@ -228,13 +238,13 @@ namespace Hector
                 DictionnaireFamilles.Remove(Nom);
                 BaseDeDonnees.GetInstance().SupprimerFamilleBdd(RefFamille);
 
-                return true;
+                return Exception.RETOUR_NORMAL;
             }
             catch (Exception Exception)
             {
                 Exception.AfficherMessageErreur();
 
-                return false;
+                return Exception.RETOUR_ERREUR;
             }
         }
     }

@@ -146,6 +146,7 @@ namespace Hector
         /// Accesseur en écriture de l'attribut Nom
         /// </summary>
         /// <param name="NouveauNom">Le Nom que l'on souhaite définir</param>
+        /// <returns> Une valeur indiquant si la modification a réussie </returns>
         public uint SetNom(string NouveauNom)
         {
             try
@@ -221,6 +222,10 @@ namespace Hector
             Famille = NouvelleFamille;
         }
 
+        /// <summary>
+        /// Renvoie une liste correspondant au dictionnaire DictionnaireSousFamilles
+        /// </summary>
+        /// <returns></returns>
         public static List<SousFamille> GetListeSousFamilles()
         {
             List<SousFamille> ListeSousFamilles = new List<SousFamille>();
@@ -233,11 +238,19 @@ namespace Hector
             return ListeSousFamilles;
         }
 
+        /// <summary>
+        /// Vide le dictionnaire DictionnaireSousFamilles
+        /// </summary>
         public static void ViderDictionnaireSousFamilles()
         {
             DictionnaireSousFamilles.Clear();
         }
 
+        /// <summary>
+        /// Indique si un Article appartient à la SousFamille
+        /// </summary>
+        /// <returns>   - true : Si au moins un Article appartient à cette sous-famille
+        ///             - false : Sinon </returns>
         public bool SousFamilleUtilisee()
         {
             foreach (Article ArticleExistant in Article.GetListeArticles())
@@ -254,9 +267,8 @@ namespace Hector
         /// <summary>
         /// Méthode qui permet de supprimer  une famille
         /// </summary>
-        /// <returns>bool</returns>
-
-        public bool SupprimerSousFamille()
+        /// <returns> Une valeur indiquant si la modification a réussie </returns>
+        public uint SupprimerSousFamille()
         {
             try
             {
@@ -268,13 +280,13 @@ namespace Hector
                 DictionnaireSousFamilles.Remove(Nom);
                 BaseDeDonnees.GetInstance().SupprimerFamilleBdd(RefSousFamille);
 
-                return true;
+                return Exception.RETOUR_NORMAL;
             }
             catch (Exception Exception)
             {
                 Exception.AfficherMessageErreur();
 
-                return false;
+                return Exception.RETOUR_ERREUR;
             }
         }
     }

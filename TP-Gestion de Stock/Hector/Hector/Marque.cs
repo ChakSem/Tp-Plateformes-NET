@@ -161,6 +161,7 @@ namespace Hector
         /// Accesseur en écriture de l'attribut Nom
         /// </summary>
         /// <param name="NouveauNom">Le Nom que l'on souhaite définir</param>
+        /// <returns> Une valeur indiquant si la modification a réussie </returns>
         public uint SetNom(string NouveauNom)
         {
             try
@@ -214,9 +215,9 @@ namespace Hector
         /// <summary>
         /// Méthode qui permet de supprimer  une famille
         /// </summary>
-        /// <returns>bool</returns>
+        /// <returns> Une valeur indiquant si la suppression a réussie </returns>
 
-        public bool SupprimerMarque()
+        public uint SupprimerMarque()
         {
             try
             {
@@ -228,13 +229,13 @@ namespace Hector
                 DictionnaireMarques.Remove(Nom);
                 BaseDeDonnees.GetInstance().SupprimerFamilleBdd(RefMarque);
 
-                return true;
+                return Exception.RETOUR_NORMAL;
             }
             catch (Exception Exception)
             {
                 Exception.AfficherMessageErreur();
 
-                return false;
+                return Exception.RETOUR_ERREUR;
             }
         }
     }

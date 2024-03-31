@@ -3,8 +3,9 @@ TODO :
 - CRUD => Gerer modification aussi sur la BDD SQLite
 - Afficher anomalie dans l'import
 - Renomme Ecrivain + Check Nommage
-- Gerer Clique Droit
 - Faire en sorte de ne pas remplacer element modifier sqlite par elements du csv (quand meme id)
+- modification sousfamille
+- Verifier que le form de suppression fonctionne( que cela ne soit pas supprimé dans tout les cas)
 
 
 Fini :
@@ -14,3 +15,5 @@ Fini :
 - Raccourcis
 - Barre de progression import
 - Actualiser avant import par ajout
+- Gerer Clique Droit
+- Commentaires formmain

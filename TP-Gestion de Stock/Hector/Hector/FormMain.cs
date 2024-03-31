@@ -16,19 +16,23 @@ namespace Hector
         string TypeDonneesAffichees;
         TreeNode NoeudSelectionne;
 
+        string Filtre;
+        string TypeFiltre;
+
         public FormMain()
         {
             InitializeComponent();
-            // ImporterDonneesFichierSQLite();
+            ImporterDonneesFichierSQLite();
 
             NoeudSelectionne = null;
             ChargerTreeView();
             Actualiser(false);
             this.KeyPreview = true;
-
-
         }
 
+        /// <summary>
+        /// Permet de mettre à jour les données depuis les données déjà présente dans le fichier .sqlite
+        /// </summary>
         public void ImporterDonneesFichierSQLite()
         {
             BaseDeDonnees BDD = BaseDeDonnees.GetInstance();
@@ -40,38 +44,8 @@ namespace Hector
         }
 
         /// <summary>
-        /// Quand on appuie sur actualiser
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void toolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-            Actualiser(false);
-        }
-
-        private void importerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormImport FormImport = new FormImport();
-            FormImport.ShowDialog();
-
-            Actualiser(false);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void exporterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormExport FormExport = new FormExport();
-            FormExport.ShowDialog();
-        }
-
-        /// <summary>
         /// Methode qui permet de chager le TreeView
         /// </summary>
-        /// <param name="treeView"></param>
-
         private void ChargerTreeView()
         {
             //TreeviewParam est le TreeView que l'on veut charger
@@ -112,6 +86,11 @@ namespace Hector
             }
         }
 
+        /// <summary>
+        /// Evenement lorsque qu'un noeud du treeview est cliqué
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="Event"></param>
         private void TreeViewParam_AfterSelect(object sender, TreeViewEventArgs Event)
         {
             //On recupere le type de noeud selectionné
@@ -124,16 +103,28 @@ namespace Hector
                 case "Tous les articles":
                     ListView1.Columns.Clear();
                     ChargerListViewArticles(Article.GetListeArticles());
+
+                    Filtre = "";
+                    TypeFiltre = "";
+
                     break;
 
                 case "Familles":
                     ListView1.Columns.Clear();
                     ChargerListViewFamilles(Famille.GetListeFamilles());
+
+                    Filtre = "";
+                    TypeFiltre = "";
+
                     break;
 
                 case "Marques":
                     ListView1.Columns.Clear();
                     ChargerListViewMarques(Marque.GetListeMarques());
+
+                    Filtre = "";
+                    TypeFiltre = "";
+
                     break;
 
                 default:
@@ -142,6 +133,9 @@ namespace Hector
                     {
                         // Famille selectionnee
                         ChargerListSousFamilles(NoeudSelectionne.Text);
+
+                        Filtre = NoeudSelectionne.Text;
+                        TypeFiltre = "Famille";
                     }
                     else
                     {
@@ -150,15 +144,20 @@ namespace Hector
                         {
                             // Marque selectionnee
                             ChargerListViewArticlesPourUneMarque(TypeNoeudSelectionne);
+
+                            Filtre = NoeudSelectionne.Text;
+                            TypeFiltre = "Marque";
                         }
                         else
                         {
                             // SousFamille selectionnee
                             ChargerListViewArticlesPourUneSousFamille(TypeNoeudSelectionne);
+
+                            Filtre = NoeudSelectionne.Text;
+                            TypeFiltre = "SousFamille";
                         }
                     }
                     break;
-
             }
         }
 
@@ -358,51 +357,38 @@ namespace Hector
             }
         }
 
+        /// <summary>
+        /// Appelée lorsqu'un objet du list view est cliqué
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ListView1_ItemActivate(object sender, EventArgs e)
         {
             if (ListView1.SelectedItems.Count == 1)
             {
                 ListViewItem Item = ListView1.SelectedItems[0];
 
+                if (TypeDonneesAffichees == "SousFamilles")
+                {
+                    ChargerListViewArticlesPourUneSousFamille(Item.SubItems[0].Text); // On affiche les articles correspondant à la sous-famille selectionnée
+                }
                 if (TypeDonneesAffichees == "Familles")
                 {
-                    ChargerListViewArticlesPourUneFamille(Item.SubItems[0].Text);
-
+                    ChargerListViewArticlesPourUneFamille(Item.SubItems[0].Text); // On affiche les articles correspondant à la famille selectionnée
                 }
-                else
+                if (TypeDonneesAffichees == "Marques")
                 {
-                    if (TypeDonneesAffichees == "Marques")
-                    {
-                        ChargerListViewArticlesPourUneMarque(Item.SubItems[0].Text);
-                    }
+                    ChargerListViewArticlesPourUneMarque(Item.SubItems[0].Text); // On affiche les articles correspondant à la marque selectionnée
                 }
             }
         }
 
-        private void articleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormAddArticle NouveauFormAddArticle = new FormAddArticle();
-            NouveauFormAddArticle.ShowDialog();
-        }
 
-        private void familleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormAddFamille NouveauFormAddFamille = new FormAddFamille();
-            NouveauFormAddFamille.ShowDialog();
-        }
-
-        private void sousFamilleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormAddSousFamille NouveauFormAddSousFamille = new FormAddSousFamille();
-            NouveauFormAddSousFamille.ShowDialog();
-        }
-
-        private void marqueToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormAddMarque NouveauFormAddMarque = new FormAddMarque();
-            NouveauFormAddMarque.ShowDialog();
-        }
-
+        /// <summary>
+        /// Evenement lors du clique sur une colomne du tree view, pour le tri et les groupe
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="Event"></param>
         private void ListView1_ColumnClick(object sender, ColumnClickEventArgs Event)
         {
             ListView1.ListViewItemSorter = new ListViewItemComparer(Event.Column);
@@ -464,35 +450,6 @@ namespace Hector
             }
         }
 
-        class ListViewItemComparer : IComparer
-        {
-            private int col;
-            public ListViewItemComparer()
-            {
-                col = 0;
-            }
-            public ListViewItemComparer(int column)
-            {
-                col = column;
-            }
-            public int Compare(object x, object y)
-            {
-                return String.Compare(((ListViewItem)x).SubItems[col].Text, ((ListViewItem)y).SubItems[col].Text);
-            }
-        }
-
-        private void ListView1_MouseClick(object sender, MouseEventArgs Event)
-        {
-            if (Event.Button == MouseButtons.Right)
-            {
-                var focusedItem = ListView1.FocusedItem;
-                if (focusedItem != null && focusedItem.Bounds.Contains(Event.Location))
-                {
-                    // TODO
-                }
-            }
-        }
-
         /// <summary>
         /// Permets d'actualiser l'application à partir de la BDD.
         /// </summary>
@@ -543,15 +500,6 @@ namespace Hector
                         {
                             SupprimerFamille(FamilleASupprimer);
 
-                            foreach (TreeNode node in NoeudSelectionne.Nodes)
-                            {
-                                if (node.Text == FamilleASupprimer.GetNom())
-                                {
-                                    TreeView1.Nodes["Familles"].Nodes.Remove(node);
-                                    break; // Found the node, no need to continue iterating
-                                }
-                            }
-
                             ListView1.Items.Remove(Item);
                         }
                         else
@@ -567,15 +515,6 @@ namespace Hector
                         {
                             SupprimerSousFamille(SousFamilleASupprimer);
 
-                            foreach (TreeNode node in NoeudSelectionne.Nodes)
-                            {
-                                if (node.Text == SousFamilleASupprimer.GetNom())
-                                {
-                                    TreeView1.Nodes.Remove(node);
-                                    break;
-                                }
-                            }
-
                             ListView1.Items.Remove(Item);
                         }
                         else
@@ -590,15 +529,6 @@ namespace Hector
                         if (MarqueASupprimer.MarqueUtilisee() == false)
                         {
                             SupprimerMarque(MarqueASupprimer);
-
-                            foreach (TreeNode node in NoeudSelectionne.Nodes)
-                            {
-                                if (node.Text == MarqueASupprimer.GetNom())
-                                {
-                                    TreeView1.Nodes.Remove(node);
-                                    break;
-                                }
-                            }
 
                             ListView1.Items.Remove(Item);
                         }
@@ -616,9 +546,12 @@ namespace Hector
             }
         }
 
+        /// <summary>
+        /// Permet de modifier la ligne selectionnee dans le list view
+        /// </summary>
         public void ModifierElement()
         {
-            if (ListView1.SelectedItems.Count == 1) // Si un seul élément est selectionne dans le ListView
+            if (ListView1.SelectedItems.Count == 1) // Si un seul élément est selectionne dans le ListView, on ouvre l'interface de modification de cet objet
             {
                 ListViewItem Item = ListView1.SelectedItems[0];
 
@@ -627,14 +560,30 @@ namespace Hector
                     Article ArticleSelectionnee = Article.GetArticleExistant(Item.SubItems[0].Text);
                     if (ArticleSelectionnee != null)
                     {
+                        string NomSousFamilleAvantModification = ArticleSelectionnee.GetSousFamille().GetNom();
+                        string NomMarqueAvantModification = ArticleSelectionnee.GetMarque().GetNom();
+
                         FormModifyArticle NouveauForm = new FormModifyArticle(ArticleSelectionnee);
                         NouveauForm.ShowDialog();
 
-                        Item.SubItems[0].Text = ArticleSelectionnee.GetReference();
-                        Item.SubItems[1].Text = ArticleSelectionnee.GetDescription();
-                        Item.SubItems[2].Text = ArticleSelectionnee.GetSousFamille().GetFamille().GetNom();
-                        Item.SubItems[3].Text = ArticleSelectionnee.GetSousFamille().GetNom();
-                        Item.SubItems[4].Text = ArticleSelectionnee.GetMarque().GetNom();
+                        string NomNouvelleSousFamille = ArticleSelectionnee.GetSousFamille().GetNom();
+                        string NomNouvelleMarque = ArticleSelectionnee.GetMarque().GetNom();
+
+                        /* Si un filtre (SousFamille ou Marque) est actif, on verifie que l'article n'a été modifié vis à vis de ce filtre */
+                        if (TypeFiltre == "" || 
+                            (TypeFiltre == "Marque" && NomMarqueAvantModification == NomNouvelleMarque) ||
+                            (TypeFiltre == "SousFamille" && NomSousFamilleAvantModification == NomNouvelleSousFamille))
+                        {
+                            Item.SubItems[0].Text = ArticleSelectionnee.GetReference();
+                            Item.SubItems[1].Text = ArticleSelectionnee.GetDescription();
+                            Item.SubItems[2].Text = ArticleSelectionnee.GetSousFamille().GetFamille().GetNom();
+                            Item.SubItems[3].Text = ArticleSelectionnee.GetSousFamille().GetNom();
+                            Item.SubItems[4].Text = ArticleSelectionnee.GetMarque().GetNom();
+                        } else
+                        {
+                            ListView1.Items.Remove(Item); // Sinon on supprime la ligne
+                        }
+                        
                     }
                 }
                 if (TypeDonneesAffichees == "Familles")
@@ -669,12 +618,13 @@ namespace Hector
                         FormModifySousFamille NouveauForm = new FormModifySousFamille(SousFamilleSelectionnee);
                         NouveauForm.ShowDialog();
 
+                        /* On vérifie que la famille n'a pas été modifié */
                         string NomNouvelleFamille = SousFamilleSelectionnee.GetNom();
                         if (NomFamilleAvantModification == NomNouvelleFamille) {
-                            Item.SubItems[0].Text = SousFamilleSelectionnee.GetNom();
+                            Item.SubItems[0].Text = SousFamilleSelectionnee.GetNom(); // Si non, on met à jour le nom
                         } else
                         {
-                            ListView1.Items.Remove(Item);
+                            ListView1.Items.Remove(Item); // Si oui, on supprime la ligne
                             // TODO : mise a jour dans le treeview
                         }
                     }
@@ -693,14 +643,14 @@ namespace Hector
             if (Resultat == DialogResult.Yes)
             {
                 string ReferenceArticle = Item.SubItems[0].Text;
-                Article.SupprimerArticle(ReferenceArticle);
+                Article.GetArticleExistant(ReferenceArticle).SupprimerArticle();
             }
         }
 
         /// <summary>
-        /// Permets de supprimer une famille.
+        /// Permets de supprimer une sous-famille
         /// </summary>
-        /// <param name="Item"></param>
+        /// <param name="SousFamilleASupprimer"> SousFamille à supprimer </param>
         public void SupprimerSousFamille(SousFamille SousFamilleASupprimer)
         {
             DialogResult Resultat = MessageBox.Show("Voulez-vous vraiment supprimer cette sous-famille ?", "Confirmation suppression sous-famille", MessageBoxButtons.YesNo);
@@ -709,13 +659,23 @@ namespace Hector
             {
                 SousFamilleASupprimer.SupprimerSousFamille();
             }
+
+            /* On cherche le noeud du tree view qui correspond à la sous-famille supprimée */
+            foreach (TreeNode node in NoeudSelectionne.Nodes)
+            {
+                if (node.Text == SousFamilleASupprimer.GetNom())
+                {
+                    TreeView1.Nodes.Remove(node);
+                    break;
+                }
+            }
         }
 
 
         /// <summary>
-        /// Permets de supprimer une famille.
+        /// Permets de supprimer une famille
         /// </summary>
-        /// <param name="Item"></param>
+        /// <param name="FamilleASupprimer"> Famille à supprimer </param>
         public void SupprimerFamille(Famille FamilleASupprimer)
         {
             DialogResult Resultat = MessageBox.Show("Voulez-vous vraiment supprimer cette famille ?", "Confirmation suppression famille", MessageBoxButtons.YesNo);
@@ -724,12 +684,22 @@ namespace Hector
             {
                 FamilleASupprimer.SupprimerFamille();
             }
+
+            /* On cherche le noeud du tree view qui correspond à la famille supprimée */
+            foreach (TreeNode node in NoeudSelectionne.Nodes)
+            {
+                if (node.Text == FamilleASupprimer.GetNom())
+                {
+                    TreeView1.Nodes["Familles"].Nodes.Remove(node);
+                    break;
+                }
+            }
         }
 
         /// <summary>
-        /// Permets de supprimer une marque.
+        /// Permets de supprimer une marque
         /// </summary>
-        /// <param name="Item"></param>
+        /// <param name="MarqueASupprimer"> Marque à supprimer </param>
         public void SupprimerMarque(Marque MarqueASupprimer)
         {
             DialogResult Resultat = MessageBox.Show("Voulez-vous vraiment supprimer cette marque ?", "Confirmation suppression marque", MessageBoxButtons.YesNo);
@@ -738,25 +708,58 @@ namespace Hector
             {
                 MarqueASupprimer.SupprimerMarque();
             }
+
+            /* On cherche le noeud du tree view qui correspond à la marque supprimée */
+            foreach (TreeNode node in NoeudSelectionne.Nodes)
+            {
+                if (node.Text == MarqueASupprimer.GetNom())
+                {
+                    TreeView1.Nodes.Remove(node);
+                    break;
+                }
+            }
         }
 
         /// <summary>
-        /// Permet de savoir si un article possède la famille sélectionné comme famille.
+        /// Quand on appuie sur actualiser
         /// </summary>
-        /// <returns> bool, indique si la famille est utilisé par un article ou non. </returns>
-        public bool FamilleUtiliseeParArticle()
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-
-            foreach (Article Article in Article.GetListeArticles())
-            {
-                //if (Article.GetSousFamille().GetFamille().GetNom() == Item.SubItems[1].Text)
-                //{
-                return true;
-                //}
-            }
-            return false;
+            Actualiser(false);
         }
 
+        /// <summary>
+        /// Evenement lié à l'import de données du fichier .csv
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void importerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormImport FormImport = new FormImport();
+            FormImport.ShowDialog();
+
+            Actualiser(false);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void exporterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormExport FormExport = new FormExport();
+            FormExport.ShowDialog();
+        }
+
+
+        /// <summary>
+        /// Evenements pour les raccourcis suppression et modification
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="Event"></param>
         private void ListView1_KeyDown(object sender, KeyEventArgs Event)
         { 
             if (Event.KeyCode == Keys.Delete)
@@ -769,11 +772,129 @@ namespace Hector
             }
         }
 
+        /// <summary>
+        /// Evenements pour le raccourci actualisation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="Event"></param>
         private void FormMain_KeyDown(object sender, KeyEventArgs Event)
         {
             if (Event.KeyCode == Keys.F5)
             {
                 Actualiser(true);
+            }
+        }
+
+        /// <summary>
+        /// Evenement à l'ouverture du menu contextuel du clic droit
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+            /* Si un objet dans le list view est selctionné, on affiche la modification et la suppression */
+            if (ListView1.SelectedItems.Count == 1)
+            {
+                contextMenuStrip1.Items[1].Enabled = true;
+                contextMenuStrip1.Items[2].Enabled = true;
+            }
+            /* Sinon on les cache*/
+            else
+            {
+                contextMenuStrip1.Items[1].Enabled = false;
+                contextMenuStrip1.Items[2].Enabled = false;
+            }
+        }
+
+        /// <summary>
+        /// Evenement lorsque la souris sort du list view, déselectionne les elements du list view (pour que contextMenuStrip1_Opening fonctionne correctement
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ListView1_Leave(object sender, EventArgs e)
+        {
+            ListView1.SelectedItems.Clear();
+        }
+
+        /// <summary>
+        /// Ajout d'un article depuis le menu contextuel du clique droit
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void articleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormAddArticle NouveauFormAddArticle = new FormAddArticle();
+            NouveauFormAddArticle.ShowDialog();
+        }
+
+        /// <summary>
+        /// Ajout d'une famille depuis le menu contextuel du clique droit
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void familleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormAddFamille NouveauFormAddFamille = new FormAddFamille();
+            NouveauFormAddFamille.ShowDialog();
+        }
+
+        /// <summary>
+        /// Ajout d'une sous-famille depuis le menu contextuel du clique droit
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void sousFamilleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormAddSousFamille NouveauFormAddSousFamille = new FormAddSousFamille();
+            NouveauFormAddSousFamille.ShowDialog();
+        }
+
+        /// <summary>
+        /// Ajout d'une marque depuis le menu contextuel du clique droit
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void marqueToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormAddMarque NouveauFormAddMarque = new FormAddMarque();
+            NouveauFormAddMarque.ShowDialog();
+        }
+
+        /// <summary>
+        /// Modification d'un element du list view depuis le menu contextuel du clique droit
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void modifierUnObjetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModifierElement();
+        }
+
+        /// <summary>
+        /// Suppression d'un element du list view depuis le menu contextuel du clique droit
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void supprimerLobjetSelectionneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SupprimerElement();
+        }
+
+
+        class ListViewItemComparer : IComparer
+        {
+            private int NumeroColomne;
+            public ListViewItemComparer()
+            {
+                NumeroColomne = 0;
+            }
+            public ListViewItemComparer(int column)
+            {
+                NumeroColomne = column;
+            }
+            public int Compare(object x, object y)
+            {
+                return String.Compare(((ListViewItem)x).SubItems[NumeroColomne].Text, ((ListViewItem)y).SubItems[NumeroColomne].Text);
             }
         }
     }
