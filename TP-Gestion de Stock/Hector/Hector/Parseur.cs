@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.ComponentModel;
 
 namespace Hector
 {
@@ -14,7 +15,7 @@ namespace Hector
         /// </summary>
         /// <param name="path"> Le chemin du fichier csv </param>
         /// <returns> La liste des Article </returns>
-        public static uint Parse(string path)
+        public static uint Parse(string path, BackgroundWorker BarreDeProgression)
         {
             uint NombreArticlesCrees = 0;
 
@@ -29,7 +30,8 @@ namespace Hector
 
                 // On lit le fichier ligne par ligne
                 string[] lines = System.IO.File.ReadAllLines(path, Encoding.GetEncoding("iso-8859-1"));
-                for (int i = 1; i < lines.Length; i++)// On commence à 1 pour ne pas prendre en compte la première ligne
+                int NombreDeLignes = lines.Length;
+                for (int i = 1; i < NombreDeLignes; i++)// On commence à 1 pour ne pas prendre en compte la première ligne
                 {
                     string[] values = lines[i].Split(';');
                     string Description = values[0];
@@ -48,6 +50,8 @@ namespace Hector
                     {
                         NombreArticlesCrees ++;
                     }
+
+                    BarreDeProgression.ReportProgress((int)(((i+1) / (double)NombreDeLignes) * 100));
                 }
 
                 return NombreArticlesCrees;

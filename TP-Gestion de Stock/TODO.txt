@@ -1,14 +1,16 @@
 TODO : 
 - Commentaires
-- Raccourcis
 - CRUD => Gerer modification aussi sur la BDD SQLite
-- Actualiser avant import par ajout
 - Afficher anomalie dans l'import
 - Renomme Ecrivain + Check Nommage
-- Maj TreeView apres CRUD (sans recharger)
 - Gerer Clique Droit
-- Barre de progression import
-- Tester raccourci suppr
+- Faire en sorte de ne pas remplacer element modifier sqlite par elements du csv (quand meme id)
+
 
 Fini :
 - Actualiser treeView apres import
+- Tester raccourci suppr
+- Maj TreeView apres CRUD (sans recharger)
+- Raccourcis
+- Barre de progression import
+- Actualiser avant import par ajout

@@ -23,6 +23,7 @@ namespace Hector
             Parseur = new Parseur(); // Initialisation de Parseur
             backgroundWorker1.ProgressChanged += backgroundWorker1_ProgressChanged;
         }
+
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             progressBar1.Value = e.ProgressPercentage;
@@ -65,11 +66,6 @@ namespace Hector
             {
                 BDD = BaseDeDonnees.GetInstance();
 
-                // Si on n'ajoute pas en ecrasement, on s'assure d'avoir les elements de la BDD chargees dans les objets
-                if (CheckBoxAjout.Checked) { 
-                    // A Voir
-                }
-
                 backgroundWorker1.WorkerReportsProgress = true;
                 backgroundWorker1.DoWork -= backgroundWorker1_DoWork;
                 backgroundWorker1.DoWork += backgroundWorker1_DoWork;
@@ -80,12 +76,18 @@ namespace Hector
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            BackgroundWorker worker = sender as BackgroundWorker; // On récupère le worker
+            BackgroundWorker BarreDeProgression = sender as BackgroundWorker; // On récupère le worker
 
             /* Si on ouvre en ecrasement, on vide la BDD */
-            if (CheckBoxEcrasement.Checked)
+            BDD.ViderDonnees();
+            if (CheckBoxAjout.Checked)
             {
-                BDD.ViderDonnees();
+                BaseDeDonnees BDD = BaseDeDonnees.GetInstance();
+
+                BDD.LireMarquesBdd();
+                BDD.LireFamillesBdd();
+                BDD.LireSousFamillesBdd();
+                BDD.LireArticlesBdd();
             }
 
              // On crée et recupere les objets Article à importer dans la BDD ( et on cree les objets Marque, Familles et SousFamilles qui n'existent pas encore )
@@ -93,9 +95,7 @@ namespace Hector
             NombreArticleAvantImport = BDD.LireNombreArticlesBdd();/*
             int NombreArticleDansFichier = ArticlesAImporter.Count;*/
 
-            uint NombreArticleAjoutesAvecSucces = Parseur.Parse(CheminCsvAImpoter);
-
-            worker.ReportProgress(100);
+            uint NombreArticleAjoutesAvecSucces = Parseur.Parse(CheminCsvAImpoter, BarreDeProgression);
             
             NombreArticleApresImport = BDD.LireNombreArticlesBdd();
             NombreArticleAjoutee = NombreArticleApresImport - NombreArticleAvantImport;

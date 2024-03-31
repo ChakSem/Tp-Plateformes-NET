@@ -222,7 +222,6 @@ namespace Hector
         {
             try
             {
-                MessageBox.Show("La ref de l'article qui va etre supprimée est le suivant " + Reference);
                 if (!DictionnaireArticles.ContainsKey(Reference))
                 {
                     throw new Exception(Exception.ERREUR_REFERENCE_NON_EXISTANTE);

@@ -230,7 +230,6 @@ namespace Hector
                     int RefMarqueGeneree = GetReferenceGeneree(Connexion, "Marques", "RefMarque", Nom);
                     MarqueParam.DefineRefMarque(RefMarqueGeneree);
 
-                    Console.WriteLine("Marque " + Nom + " cree avec la ref " + RefMarqueGeneree);
                 }
             }
         }
