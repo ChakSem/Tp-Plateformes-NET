@@ -8,6 +8,7 @@ TODO :
 - Maj TreeView apres CRUD (sans recharger)
 - Gerer Clique Droit
 - Barre de progression import
+- Tester raccourci suppr
 
 Fini :
 - Actualiser treeView apres import

@@ -15,13 +15,13 @@ namespace Hector
         {
             InitializeComponent();
 
-            foreach(SousFamille SousFamilleExistante in SousFamille.GetDictionnaireSousFamilles())
+            foreach(SousFamille SousFamilleExistante in SousFamille.GetListeSousFamilles())
             {
                 SousFamilleComboBox.Items.Add(SousFamilleExistante.GetNom());
             }
             SousFamilleComboBox.SelectedIndex = 0;
 
-            foreach (Marque MarqueExistante in Marque.GetDictionnaireMarques())
+            foreach (Marque MarqueExistante in Marque.GetListeMarques())
             {
                 MarqueComboBox.Items.Add(MarqueExistante.GetNom());
             }

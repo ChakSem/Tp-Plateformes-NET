@@ -19,13 +19,14 @@ namespace Hector
             SousFamilleSelectionnee = SousFamilleParam;
 
             string NomFamilleSousFamilleSelectionnee = SousFamilleSelectionnee.GetFamille().GetNom();
-            foreach (Famille FamilleExistante in Famille.GetDictionnaireFamilles())
+            FamilleComboBox.Items.Add(NomFamilleSousFamilleSelectionnee); // On l'ajoute en 1er pour s'assurer de l'avoir de selectionne
+            foreach (Famille FamilleExistante in Famille.GetListeFamilles())
             {
                 string Nom = FamilleExistante.GetNom();
                 if (Nom != NomFamilleSousFamilleSelectionnee)
                     FamilleComboBox.Items.Add(Nom);
             }
-            FamilleComboBox.Items.Add(NomFamilleSousFamilleSelectionnee);
+            
             FamilleComboBox.SelectedIndex = 0;
 
             NomSousFamilleTextBox.Text = SousFamilleSelectionnee.GetNom();

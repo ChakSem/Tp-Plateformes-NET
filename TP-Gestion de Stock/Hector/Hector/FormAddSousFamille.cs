@@ -15,7 +15,7 @@ namespace Hector
         {
             InitializeComponent();
 
-            foreach (Famille FamilleExistante in Famille.GetDictionnaireFamilles())
+            foreach (Famille FamilleExistante in Famille.GetListeFamilles())
             {
                 FamilleComboBox.Items.Add(FamilleExistante.GetNom());
             }

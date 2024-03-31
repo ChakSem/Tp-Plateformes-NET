@@ -24,6 +24,7 @@ namespace Hector
         public const uint ERREUR_PARSING_DOUBLE = 10;
         public const uint ERREUR_PARSING_UINT = 11;
         public const uint ERREUR_REFERENCE_NON_EXISTANTE = 12;
+        public const uint ERREUR_OBJET_UTILISEE = 13;
 
 
         private uint CodeErreur;
@@ -85,6 +86,9 @@ namespace Hector
                     break;
                 case ERREUR_REFERENCE_NON_EXISTANTE:
                     MessageErreur = "La Reference est introuvable";
+                    break;
+                case ERREUR_OBJET_UTILISEE:
+                    MessageErreur = "Cet objet ne peut etre supprime, il est utilse par un autre objet";
                     break;
                 default:
                     MessageErreur = "Une erreur inconnue est survenue";

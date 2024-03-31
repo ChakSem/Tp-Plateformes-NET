@@ -18,24 +18,25 @@ namespace Hector
             ArticleSelectionnee = ArticleParam;
 
             string NomSousFamilleArticleSelectionnee = ArticleSelectionnee.GetSousFamille().GetNom();
-            foreach (SousFamille SousFamilleExistante in SousFamille.GetDictionnaireSousFamilles())
+
+            SousFamilleComboBox.Items.Add(NomSousFamilleArticleSelectionnee); // On l'ajoute en 1er pour s'assurer de l'avoir de selectionne
+            foreach (SousFamille SousFamilleExistante in SousFamille.GetListeSousFamilles())
             {
                 string Nom = SousFamilleExistante.GetNom();
                 if (Nom != NomSousFamilleArticleSelectionnee)
                     SousFamilleComboBox.Items.Add(Nom);
             }
-            SousFamilleComboBox.Items.Add(NomSousFamilleArticleSelectionnee);
             SousFamilleComboBox.SelectedIndex = 0;
 
 
             string NomMarqueArticleSelectionnee = ArticleSelectionnee.GetMarque().GetNom();
-            foreach (Marque MarqueExistante in Marque.GetDictionnaireMarques())
+            MarqueComboBox.Items.Add(NomMarqueArticleSelectionnee); // On l'ajoute en 1er pour s'assurer de l'avoir de selectionne
+            foreach (Marque MarqueExistante in Marque.GetListeMarques())
             {
                 string Nom = MarqueExistante.GetNom();
                 if (Nom != NomSousFamilleArticleSelectionnee)
                     MarqueComboBox.Items.Add(MarqueExistante.GetNom());
             }
-            MarqueComboBox.Items.Add(NomMarqueArticleSelectionnee);
             MarqueComboBox.SelectedIndex = 0;
 
             RefArticlesTextBox.Text = ArticleSelectionnee.GetReference();

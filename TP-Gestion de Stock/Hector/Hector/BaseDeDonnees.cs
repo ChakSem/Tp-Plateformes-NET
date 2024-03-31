@@ -476,7 +476,7 @@ namespace Hector
             }
 
             Article.ViderDictionnaireArticles();
-            Marque.ViderDictionnairesMarques();
+            Marque.ViderDictionnaireMarques();
             SousFamille.ViderDictionnaireSousFamilles();
             Famille.ViderDictionnaireFamilles();
         }

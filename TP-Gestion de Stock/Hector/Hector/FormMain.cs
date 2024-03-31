@@ -24,7 +24,6 @@ namespace Hector
 ChargerTreeView();
             Actualiser(false);
             this.KeyPreview = true;
-            this.KeyDown += ListView1_KeyDown;
 
 
         }
@@ -87,12 +86,12 @@ ChargerTreeView();
             TreeView1.Nodes.Add(NoeudMarques);
 
             //On ajoute les sous-familles
-            foreach (Famille FamilleExistante in Famille.GetDictionnaireFamilles())
+            foreach (Famille FamilleExistante in Famille.GetListeFamilles())
             {
                 TreeNode NoeudFamille = new TreeNode(FamilleExistante.GetNom());
                 NoeudFamilles.Nodes.Add(NoeudFamille);
 
-                foreach (SousFamille SousFamilleExistante in SousFamille.GetDictionnaireSousFamilles())
+                foreach (SousFamille SousFamilleExistante in SousFamille.GetListeSousFamilles())
                 {
                     if (SousFamilleExistante.GetFamille().GetNom() == FamilleExistante.GetNom())
                     {
@@ -103,7 +102,7 @@ ChargerTreeView();
             }
 
             //On ajoute les marques
-            foreach (Marque MarqueExistante in Marque.GetDictionnaireMarques())
+            foreach (Marque MarqueExistante in Marque.GetListeMarques())
             {
                 TreeNode NoeudMarque = new TreeNode(MarqueExistante.GetNom());
                 NoeudMarques.Nodes.Add(NoeudMarque);
@@ -125,12 +124,12 @@ ChargerTreeView();
 
                 case "Familles":
                     ListView1.Columns.Clear();
-                    ChargerListViewFamilles(Famille.GetDictionnaireFamilles());
+                    ChargerListViewFamilles(Famille.GetListeFamilles());
                     break;
 
                 case "Marques":
                     ListView1.Columns.Clear();
-                    ChargerListViewMarques(Marque.GetDictionnaireMarques());
+                    ChargerListViewMarques(Marque.GetListeMarques());
                     break;
 
                 default:
@@ -295,6 +294,7 @@ ChargerTreeView();
                 ListView1.Items.Add(NouvelItem);
             }
         }
+
         /// <summary>
         /// Methode qui permet de charger le ListView avec les marques
         /// </summary>
@@ -314,7 +314,6 @@ ChargerTreeView();
                 ListView1.Items.Add(NouvelItem);
             }
         }
-
 
         private void ListView1_ItemActivate(object sender, EventArgs e)
         {
@@ -375,7 +374,7 @@ ChargerTreeView();
                 {
                     Dictionary<string, int> IndicesGroupe = new Dictionary<string, int>();
 
-                    foreach (Famille FamilleExistante in Famille.GetDictionnaireFamilles())
+                    foreach (Famille FamilleExistante in Famille.GetListeFamilles())
                     {
                         int IdFamille = ListView1.Groups.Add(new ListViewGroup(FamilleExistante.GetNom(), HorizontalAlignment.Left));
                         IndicesGroupe.Add(FamilleExistante.GetNom(), IdFamille);
@@ -392,7 +391,7 @@ ChargerTreeView();
                 {
                     Dictionary<string, int> IndicesGroupe = new Dictionary<string, int>();
 
-                    foreach (SousFamille SousFamilleExistante in SousFamille.GetDictionnaireSousFamilles())
+                    foreach (SousFamille SousFamilleExistante in SousFamille.GetListeSousFamilles())
                     {
                         int IdFamille = ListView1.Groups.Add(new ListViewGroup(SousFamilleExistante.GetNom(), HorizontalAlignment.Left));
                         IndicesGroupe.Add(SousFamilleExistante.GetNom(), IdFamille);
@@ -408,7 +407,7 @@ ChargerTreeView();
                 {
                     Dictionary<string, int> IndicesGroupe = new Dictionary<string, int>();
 
-                    foreach (Marque MarqueExistante in Marque.GetDictionnaireMarques())
+                    foreach (Marque MarqueExistante in Marque.GetListeMarques())
                     {
                         int IdFamille = ListView1.Groups.Add(new ListViewGroup(MarqueExistante.GetNom(), HorizontalAlignment.Left));
                         IndicesGroupe.Add(MarqueExistante.GetNom(), IdFamille);
@@ -452,48 +451,6 @@ ChargerTreeView();
         }
 
         /// <summary>
-        /// Permets de supprimer un élément ( article, famille, sous-famille ou marque ).
-        /// </summary>
-        private void ListView1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.F5)
-            {
-               Actualiser(true);
-
-            }
-            else
-            {
-                if (e.KeyCode == Keys.Delete)
-                {
-                    DialogResult Resultat = MessageBox.Show("Voulez-vous vraiment supprimer cette marque ?", "Confirmation suppression marque", MessageBoxButtons.YesNo);
-                    SupprimerElement();
-                }
-
-            }
-        }
-
-        // Méthode pour gérer l'événement KeyPress
-        private void FormMain_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // Utiliser KeyPreview pour que le formulaire reçoive les touches
-
-            if (e.KeyChar == (char)Keys.F5)
-            {
-                //mEssage box pour le debug
-                ImporterDonneesFichierSQLite();
-                ChargerTreeView();
-            }
-            if (e.KeyChar == (char)Keys.Delete)
-            {
-                DialogResult Resultat = MessageBox.Show("Voulez-vous vraiment supprimer cet élément ?", "Confirmation suppression", MessageBoxButtons.YesNo);
-                if (Resultat == DialogResult.Yes)
-                {
-                    SupprimerElement();
-                }
-            }
-        }
-
-        /// <summary>
         /// Permets d'actualiser l'application à partir de la BDD.
         /// </summary>
         public void Actualiser(bool Afficher_MessageBox)
@@ -516,21 +473,7 @@ ChargerTreeView();
             {
                 MessageBox.Show("Actualisation effectuée avec succès.", "Actualisation", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            
-           
-
-
-
-           
         }
-
-            
-
-
-        /// <summary>
-        /// Permets d'actualiser le ListView.
-        /// </summary>
-        /// <param 
 
         /// <summary>
         /// Permets de supprimer un élément ( article, famille, sous-famille ou marque ).
@@ -545,42 +488,79 @@ ChargerTreeView();
                 {
                     MessageBox.Show("Suppression de l'article: " + Item.Text);
                     SupprimerArticle(Item);
-                  
-                    
                 }
+                try
+                {
+                    if (TypeDonneesAffichees == "Familles")
+                    {
+                        Famille FamilleASupprimer = Famille.GetFamilleExistante(Item.SubItems[0].Text);
 
+                        if (FamilleASupprimer.FamilleUtilisee() == false)
+                        {
+                            MessageBox.Show("Suppression de la marque: " + Item.Text);
+                            SupprimerFamille(FamilleASupprimer);
+                        }
+                        else
+                        {
+                            throw new Exception(Exception.ERREUR_OBJET_UTILISEE);
+                        }
+                    }
+                    if (TypeDonneesAffichees == "Marques")
+                    {
+                        Marque MarqueASupprimer = Marque.GetMarqueExistante(Item.SubItems[0].Text);
+
+                        if (MarqueASupprimer.MarqueUtilisee() == false)
+                        {
+                            MessageBox.Show("Suppression de la famille: " + Item.Text);
+                            SupprimerMarque(MarqueASupprimer);
+                        }
+                        else
+                        {
+                            throw new Exception(Exception.ERREUR_OBJET_UTILISEE);
+                        }
+                    }
+                } catch (Exception ExceptionAttrapee)
+                {
+                    ExceptionAttrapee.AfficherMessageErreur();
+                }
             }
-            else
+        }
+
+        public void ModifierElement()
+        {
+            if (ListView1.SelectedItems.Count == 1) // Si un seul élément est selectionne dans le ListView
             {
-                string NomNoeud = TreeView1.SelectedNode.Text;
-                //on affiche le nom du noeud selectionné
-                MessageBox.Show(NomNoeud);
+                ListViewItem Item = ListView1.SelectedItems[0];
 
-                //on regarde au niveau de l'arboréscence pour savoir si on a une famille, une sous famille ou une marque
-                if (TreeView1.SelectedNode.Parent.Text == "Familles")
+                if (TypeDonneesAffichees == "Articles")
                 {
-                    MessageBox.Show("Cece est une famille");
-                    MessageBox.Show("Suppression de la famille: " + NomNoeud);
-
-
-
-                }
-                else
-                {
-                    if (TreeView1.SelectedNode.Parent.Text == "Marques")
+                    Article ArticleSelectionnee = Article.GetArticleExistant(Item.SubItems[0].Text);
+                    if (ArticleSelectionnee != null)
                     {
-                        MessageBox.Show("Cece est une marque");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Cece est une sous famille");
+                        FormModifyArticle NouveauForm = new FormModifyArticle(ArticleSelectionnee);
+                        NouveauForm.ShowDialog();
                     }
                 }
+                if (TypeDonneesAffichees == "Familles")
+                {
+                    Famille FamilleSelectionnee = Famille.GetFamilleExistante(Item.SubItems[0].Text);
+                    if(FamilleSelectionnee != null)
+                    {
+                        FormModifyFamille NouveauForm = new FormModifyFamille(FamilleSelectionnee);
+                        NouveauForm.ShowDialog();
+                    }
+                }
+                if (TypeDonneesAffichees == "Marques")
+                {
+                    Marque MarqueSelectionnee = Marque.GetMarqueExistante(Item.SubItems[0].Text);
+                    if (MarqueSelectionnee != null)
+                    {
+                        FormModifyMarque NouveauForm = new FormModifyMarque(MarqueSelectionnee);
+                        NouveauForm.ShowDialog();
+                    }
+                }
+
             }
-
-
-
-
         }
 
         /// <summary>
@@ -593,39 +573,25 @@ ChargerTreeView();
 
             if (Resultat == DialogResult.Yes)
             {
-                Article ArticleASupprimer = Article.GetListeArticles().Find(Article => Article.GetReference() == Item.Text);
-                string ReferenceArticle = ArticleASupprimer.GetReference();
+                string ReferenceArticle = Item.SubItems[0].Text;
                 Article.SupprimerArticle(ReferenceArticle);
                 Actualiser(false);
 
             }
         }
 
-
         /// <summary>
         /// Permets de supprimer une famille.
         /// </summary>
         /// <param name="Item"></param>
-        public void SupprimerFamille(ListViewItem Item)
+        public void SupprimerFamille(Famille FamilleASupprimer)
         {
-
             DialogResult Resultat = MessageBox.Show("Voulez-vous vraiment supprimer cette famille ?", "Confirmation suppression famille", MessageBoxButtons.YesNo);
 
             if (Resultat == DialogResult.Yes)
             {
-                Famille FamilleASupprimer = Famille.GetDictionnaireFamilles().Find(Famille => Famille.GetNom() == Item.SubItems[1].Text);
-                int ReferenceFamille = FamilleASupprimer.GetRefFamille();
-                //on verifie si la  famille a une sous famille
-
-                if (Famille.GetDictionnaireFamilles().Exists(Famille => Famille.GetRefFamille() == FamilleASupprimer.GetRefFamille()) == true)
-                {
-                    MessageBox.Show("Vous ne pouvez pas supprimer cette famille car des articles appartiennent à cette famille.", "Erreur : famille utilisé par un / des article(s).", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else
-                {
-                    Famille.SupprimerFamille(ReferenceFamille);
-                    ChargerTreeView();
-                }
+                FamilleASupprimer.SupprimerFamille();
+                ChargerTreeView();
             }
         }
 
@@ -633,17 +599,15 @@ ChargerTreeView();
         /// Permets de supprimer une marque.
         /// </summary>
         /// <param name="Item"></param>
-        public void SupprimerMarque(ListViewItem Item)
+        public void SupprimerMarque(Marque MarqueASupprimer)
         {
             DialogResult Resultat = MessageBox.Show("Voulez-vous vraiment supprimer cette marque ?", "Confirmation suppression marque", MessageBoxButtons.YesNo);
 
-            // if (Resultat == DialogResult.Yes)
-            // {
-            //     Marque MarqueASupprimer = Marque.GetDictionnaireMarques().Find(Marque => Marque.GetNom() == Item.SubItems[1].Text);
-            //     MarqueASupprimer.Supprimer();
-            //     ChargerTreeView();
-            // }
-
+            if (Resultat == DialogResult.Yes)
+            {
+                MarqueASupprimer.SupprimerMarque();
+                ChargerTreeView();
+            }
         }
 
         /// <summary>
@@ -662,10 +626,25 @@ ChargerTreeView();
             }
             return false;
         }
+
+        private void ListView1_KeyDown(object sender, KeyEventArgs Event)
+        { 
+            if (Event.KeyCode == Keys.Delete)
+            {
+                SupprimerElement();
+            }
+            if (Event.KeyCode == Keys.Space || Event.KeyCode == Keys.Enter)
+            {
+                ModifierElement();
+            }
+        }
+
+        private void FormMain_KeyDown(object sender, KeyEventArgs Event)
+        {
+            if (Event.KeyCode == Keys.F5)
+            {
+                Actualiser(true);
+            }
+        }
     }
 }
-
-
-
-
-

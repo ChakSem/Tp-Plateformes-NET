@@ -221,7 +221,7 @@ namespace Hector
             Famille = NouvelleFamille;
         }
 
-        public static List<SousFamille> GetDictionnaireSousFamilles()
+        public static List<SousFamille> GetListeSousFamilles()
         {
             List<SousFamille> ListeSousFamilles = new List<SousFamille>();
 
@@ -236,6 +236,46 @@ namespace Hector
         public static void ViderDictionnaireSousFamilles()
         {
             DictionnaireSousFamilles.Clear();
+        }
+
+        public bool SousFamilleUtilisee()
+        {
+            foreach (Article ArticleExistant in Article.GetListeArticles())
+            {
+                if (ArticleExistant.GetSousFamille().GetNom() == Nom)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Méthode qui permet de supprimer  une famille
+        /// </summary>
+        /// <returns>bool</returns>
+
+        public bool SupprimerSousFamille()
+        {
+            try
+            {
+                if (SousFamilleUtilisee() == true)
+                {
+                    throw new Exception(Exception.ERREUR_OBJET_UTILISEE);
+                }
+
+                DictionnaireSousFamilles.Remove(Nom);
+                BaseDeDonnees.GetInstance().SupprimerFamilleBdd(RefSousFamille);
+
+                return true;
+            }
+            catch (Exception Exception)
+            {
+                Exception.AfficherMessageErreur();
+
+                return false;
+            }
         }
     }
 }

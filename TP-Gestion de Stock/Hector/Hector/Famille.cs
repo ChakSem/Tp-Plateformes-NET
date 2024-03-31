@@ -181,7 +181,7 @@ namespace Hector
             }
         }
 
-        public static List<Famille> GetDictionnaireFamilles()
+        public static List<Famille> GetListeFamilles()
         {
             List<Famille> ListeFamilles= new List<Famille>();
 
@@ -198,62 +198,44 @@ namespace Hector
             DictionnaireFamilles.Clear();
         }
 
+        public bool FamilleUtilisee()
+        {
+            foreach (SousFamille SousFamilleExistante in SousFamille.GetListeSousFamilles()) 
+            {
+                if(SousFamilleExistante.GetFamille().GetNom() == Nom)
+                {
+                    return true;
+                }
+            }
 
-//  /// <summary>
-//         /// Méthode qui permet de supprimer un article de la liste
-//         /// </summary>
-//         /// <param name="Reference">La référence de l'article à supprimer</param>
-//         /// <returns> res, la liste des articles dans le terminal </returns>
-//         /// <returns> - true si l'article a été supprimé,
-//         ///           - false si l'article n'a pas été supprimé </returns>
-//         public static bool SupprimerArticle(string Reference)
-//         {
-//             try
-//             {
-//                 if (DictionnaireArticles.ContainsKey(Reference))
-//                 {
-//                     throw new Exception(Exception.ERREUR_REFERENCE_NON_EXISTANTE);
-//                 }
-//                 DictionnaireArticles.Remove(Reference);
-//                 BaseDeDonnees.GetInstance().SupprimerArticleBdd(Reference);
-//                 return true;
-//             }
-//             catch (Exception Exception)
-//             {
-//                 Exception.AfficherMessageErreur();
-//                 return false;
-//             }
+            return false;
+        }
 
-//         }
         /// <summary>
-        /// Méthode qui permet de supprimer  une famille
+        /// Méthode qui permet de supprimer une famille
         /// </summary>
-        /// <param name="ReferenceFamilleASupprimer">La référence de la famille à supprimer</param>
         /// <returns>bool</returns>
 
-        public static bool SupprimerFamille(int ReferenceFamilleASupprimer)
+        public bool SupprimerFamille()
         {
             try
             {
-                // On parcourt la liste des familles pour trouver celle à supprimer
-                foreach (Famille Famille in DictionnaireFamilles.Values)
+                if (FamilleUtilisee() == true)
                 {
-                    if (Famille.GetRefFamille() == ReferenceFamilleASupprimer)
-                    {
-                        DictionnaireFamilles.Remove(Famille.GetNom());
-                        BaseDeDonnees.GetInstance().SupprimerFamilleBdd(ReferenceFamilleASupprimer);
-                        return true;
-                    }
+                    throw new Exception(Exception.ERREUR_OBJET_UTILISEE);
                 }
-                throw new Exception(Exception.ERREUR_REFERENCE_NON_EXISTANTE);
+
+                DictionnaireFamilles.Remove(Nom);
+                BaseDeDonnees.GetInstance().SupprimerFamilleBdd(RefFamille);
+
+                return true;
             }
             catch (Exception Exception)
             {
                 Exception.AfficherMessageErreur();
+
                 return false;
             }
         }
-
-
     }
 }

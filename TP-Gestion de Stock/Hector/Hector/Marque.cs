@@ -10,7 +10,7 @@ namespace Hector
         /// <summary>
         /// Stocke les objets Marque déjà créé 
         /// </summary>
-        private static Dictionary<string, Marque> DictionnairesMarques= new Dictionary<string, Marque>();
+        private static Dictionary<string, Marque> DictionnaireMarques= new Dictionary<string, Marque>();
 
         private string Nom;
         private int RefMarque;
@@ -24,12 +24,12 @@ namespace Hector
         {
             try
             {
-                if (!DictionnairesMarques.ContainsKey(NomParam))
+                if (!DictionnaireMarques.ContainsKey(NomParam))
                 {
                     throw new Exception(Exception.ERREUR_OBJET_INNEXISTANT);
                 }
 
-                return DictionnairesMarques[NomParam];
+                return DictionnaireMarques[NomParam];
             } catch (Exception Exception)
             {
                 Exception.AfficherMessageErreur();
@@ -45,13 +45,13 @@ namespace Hector
         /// <returns> NouvelleMarque </returns>
         public static Marque CreerMarque(string NomParam)
         {
-            if(DictionnairesMarques.ContainsKey(NomParam) )
+            if(DictionnaireMarques.ContainsKey(NomParam) )
             {
-                return DictionnairesMarques[NomParam];
+                return DictionnaireMarques[NomParam];
             } else
             {
                 Marque NouvelleMarque = new Marque(NomParam);
-                DictionnairesMarques.Add(NomParam, NouvelleMarque);
+                DictionnaireMarques.Add(NomParam, NouvelleMarque);
 
                 BaseDeDonnees.GetInstance().AjoutMarqueBdd(NouvelleMarque);
 
@@ -66,10 +66,10 @@ namespace Hector
         /// <returns> NouvelleMarque </returns>
         public static Marque CreerMarqueDepuisSQLite(string NomParam)
         {
-            if (!DictionnairesMarques.ContainsKey(NomParam))
+            if (!DictionnaireMarques.ContainsKey(NomParam))
             {
                 Marque NouvelleMarque = new Marque(NomParam);
-                DictionnairesMarques.Add(NomParam, NouvelleMarque);
+                DictionnaireMarques.Add(NomParam, NouvelleMarque);
 
                 return NouvelleMarque;
             }
@@ -84,17 +84,17 @@ namespace Hector
          /// <returns> NouvelleMarque </returns>
         public static Marque CreerMarqueDepuisCSV(string NomParam)
         {
-            if(!DictionnairesMarques.ContainsKey(NomParam) )
+            if(!DictionnaireMarques.ContainsKey(NomParam) )
             {
                 Marque NouvelleMarque = new Marque(NomParam);
-                DictionnairesMarques.Add(NomParam, NouvelleMarque);
+                DictionnaireMarques.Add(NomParam, NouvelleMarque);
 
                 BaseDeDonnees.GetInstance().AjoutMarqueBdd(NouvelleMarque);
 
                 return NouvelleMarque;
             }
 
-            return DictionnairesMarques[NomParam];
+            return DictionnaireMarques[NomParam];
         }
         private Marque() { }
         private Marque(Marque NouvelleMarque) { }
@@ -141,7 +141,7 @@ namespace Hector
                 {
                     throw new Exception(Exception.ERREUR_REFERENCE_DEJA_DEFINIE);
                 }
-                foreach (Marque MarqueExistante in DictionnairesMarques.Values)
+                foreach (Marque MarqueExistante in DictionnaireMarques.Values)
                 {
                     if (MarqueExistante.GetRefMarque() == NouvelleRefMarque)
                     {
@@ -165,7 +165,7 @@ namespace Hector
         {
             try
             {
-                if (DictionnairesMarques.ContainsKey(NouveauNom))
+                if (DictionnaireMarques.ContainsKey(NouveauNom))
                 {
                     throw new Exception(Exception.ERREUR_NOM_DEJA_ASSIGNEE);
                 }
@@ -181,11 +181,11 @@ namespace Hector
             }
         }
 
-        public static List<Marque> GetDictionnaireMarques()
+        public static List<Marque> GetListeMarques()
         {
             List<Marque> ListeMarques = new List<Marque>();
 
-            foreach (var Couple in DictionnairesMarques)
+            foreach (var Couple in DictionnaireMarques)
             {
                 ListeMarques.Add(Couple.Value);
             }
@@ -193,9 +193,49 @@ namespace Hector
             return ListeMarques;
         }
 
-        public static void ViderDictionnairesMarques()
+        public static void ViderDictionnaireMarques()
         {
-            DictionnairesMarques.Clear();
+            DictionnaireMarques.Clear();
+        }
+
+        public bool MarqueUtilisee()
+        {
+            foreach (Article ArticleExistant in Article.GetListeArticles())
+            {
+                if (ArticleExistant.GetMarque().GetNom() == Nom)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Méthode qui permet de supprimer  une famille
+        /// </summary>
+        /// <returns>bool</returns>
+
+        public bool SupprimerMarque()
+        {
+            try
+            {
+                if (MarqueUtilisee() == true)
+                {
+                    throw new Exception(Exception.ERREUR_OBJET_UTILISEE);
+                }
+
+                DictionnaireMarques.Remove(Nom);
+                BaseDeDonnees.GetInstance().SupprimerFamilleBdd(RefMarque);
+
+                return true;
+            }
+            catch (Exception Exception)
+            {
+                Exception.AfficherMessageErreur();
+
+                return false;
+            }
         }
     }
 }

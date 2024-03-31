@@ -132,7 +132,7 @@ namespace Hector
         public uint SetReference(string NouvelleReference) {
             try
             {
-                if (DictionnaireArticles.ContainsKey(NouvelleReference))
+                if (NouvelleReference != Reference && DictionnaireArticles.ContainsKey(NouvelleReference))
                 {
                     throw new Exception(Exception.ERREUR_REFERENCE_DEJA_ASSIGNEE);
                 }
@@ -171,6 +171,25 @@ namespace Hector
             }
             Console.WriteLine(res); // Affichage dans le terminal
             return res;
+        }
+
+        public static Article GetArticleExistant(string RefArticle)
+        {
+            try
+            {
+                if (!DictionnaireArticles.ContainsKey(RefArticle))
+                {
+                    throw new Exception(Exception.ERREUR_OBJET_INNEXISTANT);
+                }
+
+                return DictionnaireArticles[RefArticle];
+            }
+            catch (Exception Exception)
+            {
+                Exception.AfficherMessageErreur();
+
+                return null;
+            }
         }
 
 
