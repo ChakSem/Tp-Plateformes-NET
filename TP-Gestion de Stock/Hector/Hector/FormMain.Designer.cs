@@ -138,14 +138,15 @@ namespace Hector
             this.TreeView1.Size = new System.Drawing.Size(396, 635);
             this.TreeView1.TabIndex = 0;
             this.TreeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeViewParam_AfterSelect);
+            this.TreeView1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormMain_KeyPress);
             // 
             // ListView1
             // 
             this.ListView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ListView1.HideSelection = false;
             this.ListView1.Location = new System.Drawing.Point(0, 0);
-            this.ListView1.MultiSelect = false;
             this.ListView1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ListView1.MultiSelect = false;
             this.ListView1.Name = "ListView1";
             this.ListView1.Size = new System.Drawing.Size(798, 635);
             this.ListView1.TabIndex = 0;
@@ -163,7 +164,7 @@ namespace Hector
             this.modifierUnObjetToolStripMenuItem,
             this.supprimerLobjetSelectionneToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(236, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(324, 94);
             // 
             // créerUnNouvelIndividuToolStripMenuItem
             // 
@@ -173,47 +174,47 @@ namespace Hector
             this.sousFamilleToolStripMenuItem,
             this.marqueToolStripMenuItem});
             this.créerUnNouvelIndividuToolStripMenuItem.Name = "créerUnNouvelIndividuToolStripMenuItem";
-            this.créerUnNouvelIndividuToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.créerUnNouvelIndividuToolStripMenuItem.Size = new System.Drawing.Size(323, 30);
             this.créerUnNouvelIndividuToolStripMenuItem.Text = "Créer un nouvel individu";
             // 
             // articleToolStripMenuItem
             // 
             this.articleToolStripMenuItem.Name = "articleToolStripMenuItem";
-            this.articleToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.articleToolStripMenuItem.Size = new System.Drawing.Size(196, 30);
             this.articleToolStripMenuItem.Text = "Article";
             this.articleToolStripMenuItem.Click += new System.EventHandler(this.articleToolStripMenuItem_Click);
             // 
             // familleToolStripMenuItem
             // 
             this.familleToolStripMenuItem.Name = "familleToolStripMenuItem";
-            this.familleToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.familleToolStripMenuItem.Size = new System.Drawing.Size(196, 30);
             this.familleToolStripMenuItem.Text = "Famille";
             this.familleToolStripMenuItem.Click += new System.EventHandler(this.familleToolStripMenuItem_Click);
             // 
             // sousFamilleToolStripMenuItem
             // 
             this.sousFamilleToolStripMenuItem.Name = "sousFamilleToolStripMenuItem";
-            this.sousFamilleToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.sousFamilleToolStripMenuItem.Size = new System.Drawing.Size(196, 30);
             this.sousFamilleToolStripMenuItem.Text = "Sous-Famille";
             this.sousFamilleToolStripMenuItem.Click += new System.EventHandler(this.sousFamilleToolStripMenuItem_Click);
             // 
             // marqueToolStripMenuItem
             // 
             this.marqueToolStripMenuItem.Name = "marqueToolStripMenuItem";
-            this.marqueToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.marqueToolStripMenuItem.Size = new System.Drawing.Size(196, 30);
             this.marqueToolStripMenuItem.Text = "Marque";
             this.marqueToolStripMenuItem.Click += new System.EventHandler(this.marqueToolStripMenuItem_Click);
             // 
             // modifierUnObjetToolStripMenuItem
             // 
             this.modifierUnObjetToolStripMenuItem.Name = "modifierUnObjetToolStripMenuItem";
-            this.modifierUnObjetToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.modifierUnObjetToolStripMenuItem.Size = new System.Drawing.Size(323, 30);
             this.modifierUnObjetToolStripMenuItem.Text = "Modifier un l\'objet selectionne";
             // 
             // supprimerLobjetSelectionneToolStripMenuItem
             // 
             this.supprimerLobjetSelectionneToolStripMenuItem.Name = "supprimerLobjetSelectionneToolStripMenuItem";
-            this.supprimerLobjetSelectionneToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.supprimerLobjetSelectionneToolStripMenuItem.Size = new System.Drawing.Size(323, 30);
             this.supprimerLobjetSelectionneToolStripMenuItem.Text = "Supprimer l\'objet selectionne";
             // 
             // FormMain

@@ -235,6 +235,7 @@ namespace Hector
         {
             try
             {
+                // On parcourt la liste des familles pour trouver celle à supprimer
                 foreach (Famille Famille in DictionnaireFamilles.Values)
                 {
                     if (Famille.GetRefFamille() == ReferenceFamilleASupprimer)

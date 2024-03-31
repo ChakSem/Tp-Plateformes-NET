@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 
 namespace Hector
@@ -202,7 +203,8 @@ namespace Hector
         {
             try
             {
-                if (DictionnaireArticles.ContainsKey(Reference))
+                MessageBox.Show("La ref de l'article qui va etre supprimée est le suivant " + Reference);
+                if (!DictionnaireArticles.ContainsKey(Reference))
                 {
                     throw new Exception(Exception.ERREUR_REFERENCE_NON_EXISTANTE);
                 }

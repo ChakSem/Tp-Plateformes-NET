@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,8 +18,15 @@ namespace Hector
         public FormMain()
         {
             InitializeComponent();
-            ImporterDonneesFichierSQLite();
-            ChargerTreeView();
+            // ImporterDonneesFichierSQLite();
+
+            
+ChargerTreeView();
+            Actualiser(false);
+            this.KeyPreview = true;
+            this.KeyDown += ListView1_KeyDown;
+
+
         }
 
         public void ImporterDonneesFichierSQLite()
@@ -41,8 +46,7 @@ namespace Hector
         /// <param name="e"></param>
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            ImporterDonneesFichierSQLite();
-            ChargerTreeView();
+            Actualiser(false);
         }
 
         private void importerToolStripMenuItem_Click(object sender, EventArgs e)
@@ -110,27 +114,27 @@ namespace Hector
         {
             //On recupere le type de noeud selectionné
             string TypeNoeudSelectionne = Event.Node.Text;
-
-            ListView1.Items.Clear();
-
             TreeNode NoeudParent = Event.Node.Parent;
 
             switch (TypeNoeudSelectionne)
             {
                 case "Tous les articles":
-
+                    ListView1.Columns.Clear();
                     ChargerListViewArticles(Article.GetListeArticles());
                     break;
 
                 case "Familles":
+                    ListView1.Columns.Clear();
                     ChargerListViewFamilles(Famille.GetDictionnaireFamilles());
                     break;
 
                 case "Marques":
+                    ListView1.Columns.Clear();
                     ChargerListViewMarques(Marque.GetDictionnaireMarques());
                     break;
 
                 default:
+                    ListView1.Columns.Clear();
                     if (NoeudParent.Text == "Familles")
                     {
                         // Famille selectionnee
@@ -138,6 +142,7 @@ namespace Hector
                     }
                     else
                     {
+                        ListView1.Columns.Clear();
                         if (NoeudParent.Text == "Marques")
                         {
                             // Marque selectionnee
@@ -254,7 +259,7 @@ namespace Hector
         /// Methode qui permet d'ajouter les colonnes correspondantes pour la lecture des familles avec le ListView
         /// <summary>
         public void AjouterColonnesListViewFamilles()
-        { 
+        {
             ListView1.ListViewItemSorter = null;
             TypeDonneesAffichees = "Familles";
 
@@ -320,8 +325,9 @@ namespace Hector
                 if (TypeDonneesAffichees == "Familles")
                 {
                     ChargerListViewArticlesPourUneFamille(Item.SubItems[0].Text);
-                    
-                } else
+
+                }
+                else
                 {
                     if (TypeDonneesAffichees == "Marques")
                     {
@@ -359,7 +365,8 @@ namespace Hector
         {
             ListView1.ListViewItemSorter = new ListViewItemComparer(Event.Column);
 
-            if (TypeDonneesAffichees == "Articles") { 
+            if (TypeDonneesAffichees == "Articles")
+            {
                 ListView1.Groups.Clear();
 
                 string NomColonne = ListView1.Columns[Event.Column].Text;
@@ -444,73 +451,138 @@ namespace Hector
             }
         }
 
-        // /// <summary>
-        // /// Permets de supprimer un élément ( article, famille, sous-famille ou marque ).
-        // /// </summary>
-        // private void ListView1_KeyDown(object sender, KeyEventArgs e)
-        // {
-        //     if (e.KeyCode == Keys.F5)
-        //     {
-        //         ImporterDonneesFichierSQLite();
-        //         ChargerTreeView();
-        //         DialogResult Resultat = MessageBox.Show("Voulez-vous vraiment supprimer cette marque ?", "Confirmation suppression marque", MessageBoxButtons.YesNo);
+        /// <summary>
+        /// Permets de supprimer un élément ( article, famille, sous-famille ou marque ).
+        /// </summary>
+        private void ListView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F5)
+            {
+               Actualiser(true);
 
-        //     }
-        //     else
-        //     {
-        //         if (e.KeyCode == Keys.Delete)
-        //         {
-        //             DialogResult Resultat = MessageBox.Show("Voulez-vous vraiment supprimer cette marque ?", "Confirmation suppression marque", MessageBoxButtons.YesNo)
-        //             SupprimerElement();
-        //         }
-            
-        //     }
-        // }
+            }
+            else
+            {
+                if (e.KeyCode == Keys.Delete)
+                {
+                    DialogResult Resultat = MessageBox.Show("Voulez-vous vraiment supprimer cette marque ?", "Confirmation suppression marque", MessageBoxButtons.YesNo);
+                    SupprimerElement();
+                }
+
+            }
+        }
+
+        // Méthode pour gérer l'événement KeyPress
         private void FormMain_KeyPress(object sender, KeyPressEventArgs e)
         {
-           // Utiliser KeyPreview pour que le formulaire recoive les touches
+            // Utiliser KeyPreview pour que le formulaire reçoive les touches
 
             if (e.KeyChar == (char)Keys.F5)
             {
+                //mEssage box pour le debug
                 ImporterDonneesFichierSQLite();
                 ChargerTreeView();
             }
             if (e.KeyChar == (char)Keys.Delete)
             {
-                SupprimerElement();
+                DialogResult Resultat = MessageBox.Show("Voulez-vous vraiment supprimer cet élément ?", "Confirmation suppression", MessageBoxButtons.YesNo);
+                if (Resultat == DialogResult.Yes)
+                {
+                    SupprimerElement();
+                }
             }
         }
+
+        /// <summary>
+        /// Permets d'actualiser l'application à partir de la BDD.
+        /// </summary>
+        public void Actualiser(bool Afficher_MessageBox)
+        {
+             //private void ListView1_ColumnClick(object sender, ColumnClickEventArgs Event)
+            ImporterDonneesFichierSQLite();
+            ChargerTreeView();
+            //on recupere le dernier noeud selectionné
+            TreeNode NoeudSelectionne = TreeView1.SelectedNode;
+            if (NoeudSelectionne != null)
+            {
+
+                ListView1_ColumnClick(TreeView1, new ColumnClickEventArgs(0));
+            }
+            else
+            {
+                ChargerListViewArticles(Article.GetListeArticles());
+            }
+            if (Afficher_MessageBox)
+            {
+                MessageBox.Show("Actualisation effectuée avec succès.", "Actualisation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            
+           
+
+
+
+           
+        }
+
+            
+
+
+        /// <summary>
+        /// Permets d'actualiser le ListView.
+        /// </summary>
+        /// <param 
 
         /// <summary>
         /// Permets de supprimer un élément ( article, famille, sous-famille ou marque ).
         /// </summary>
         public void SupprimerElement()
         {
-            if (ListView1.SelectedItems.Count == 1)
+            if (ListView1.SelectedItems.Count == 1) // Si un seul élément est selectionne dans le ListView
             {
                 ListViewItem Item = ListView1.SelectedItems[0];
 
                 if (TypeDonneesAffichees == "Articles")
                 {
+                    MessageBox.Show("Suppression de l'article: " + Item.Text);
                     SupprimerArticle(Item);
+                  
+                    
+                }
+
+            }
+            else
+            {
+                string NomNoeud = TreeView1.SelectedNode.Text;
+                //on affiche le nom du noeud selectionné
+                MessageBox.Show(NomNoeud);
+
+                //on regarde au niveau de l'arboréscence pour savoir si on a une famille, une sous famille ou une marque
+                if (TreeView1.SelectedNode.Parent.Text == "Familles")
+                {
+                    MessageBox.Show("Cece est une famille");
+                    MessageBox.Show("Suppression de la famille: " + NomNoeud);
+
+
+
                 }
                 else
                 {
-                    if (TypeDonneesAffichees == "Familles")
+                    if (TreeView1.SelectedNode.Parent.Text == "Marques")
                     {
-
-                        SupprimerFamille(Item);
+                        MessageBox.Show("Cece est une marque");
                     }
                     else
                     {
-                        if (TypeDonneesAffichees == "Marques")
-                        {
-                            SupprimerMarque(Item);
-                        }
+                        MessageBox.Show("Cece est une sous famille");
                     }
                 }
             }
+
+
+
+
         }
+
         /// <summary>
         /// Permets de supprimer un article.
         /// </summary>
@@ -524,7 +596,8 @@ namespace Hector
                 Article ArticleASupprimer = Article.GetListeArticles().Find(Article => Article.GetReference() == Item.Text);
                 string ReferenceArticle = ArticleASupprimer.GetReference();
                 Article.SupprimerArticle(ReferenceArticle);
-                ChargerTreeView();
+                Actualiser(false);
+
             }
         }
 
@@ -556,26 +629,42 @@ namespace Hector
             }
         }
 
-            /// <summary>
-            /// Permets de supprimer une marque.
-            /// </summary>
-            /// <param name="Item"></param>
-            public void SupprimerMarque(ListViewItem Item)
+        /// <summary>
+        /// Permets de supprimer une marque.
+        /// </summary>
+        /// <param name="Item"></param>
+        public void SupprimerMarque(ListViewItem Item)
+        {
+            DialogResult Resultat = MessageBox.Show("Voulez-vous vraiment supprimer cette marque ?", "Confirmation suppression marque", MessageBoxButtons.YesNo);
+
+            // if (Resultat == DialogResult.Yes)
+            // {
+            //     Marque MarqueASupprimer = Marque.GetDictionnaireMarques().Find(Marque => Marque.GetNom() == Item.SubItems[1].Text);
+            //     MarqueASupprimer.Supprimer();
+            //     ChargerTreeView();
+            // }
+
+        }
+
+        /// <summary>
+        /// Permet de savoir si un article possède la famille sélectionné comme famille.
+        /// </summary>
+        /// <returns> bool, indique si la famille est utilisé par un article ou non. </returns>
+        public bool FamilleUtiliseeParArticle()
+        {
+
+            foreach (Article Article in Article.GetListeArticles())
             {
-                DialogResult Resultat = MessageBox.Show("Voulez-vous vraiment supprimer cette marque ?", "Confirmation suppression marque", MessageBoxButtons.YesNo);
-
-                // if (Resultat == DialogResult.Yes)
-                // {
-                //     Marque MarqueASupprimer = Marque.GetDictionnaireMarques().Find(Marque => Marque.GetNom() == Item.SubItems[1].Text);
-                //     MarqueASupprimer.Supprimer();
-                //     ChargerTreeView();
-                // }
-
+                //if (Article.GetSousFamille().GetFamille().GetNom() == Item.SubItems[1].Text)
+                //{
+                return true;
+                //}
             }
+            return false;
+        }
+    }
+}
 
-    
-    }
-    }
 
 
 
