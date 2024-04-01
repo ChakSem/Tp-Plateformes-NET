@@ -105,17 +105,22 @@ namespace Hector
         /// <returns> NouvelleSousFamille </returns>
         public static SousFamille CreerSousFamilleDepuisCSV(string NomParam, Famille FamilleParam)
         {
-            if (NomAttribue(NomParam) == false)
+            if (NomAttribue(NomParam) == true)
             {
-                SousFamille NouvelleSousFamille = new SousFamille(NomParam, FamilleParam);
-                DictionnaireSousFamilles.Add(NomParam, NouvelleSousFamille);
+                SousFamille SousFamilleExistante = DictionnaireSousFamilles[NomParam];
 
-                BaseDeDonnees.GetInstance().AjoutSousFamilleBdd(NouvelleSousFamille);
+                // Si une sous-famille existe déjà pour ce nom (cas de  l'ajout), je la mets à jour comformément à sa famille spécifiée dans le .csv et je la renvoie
+                SousFamilleExistante.SetFamille(FamilleParam);
+                BaseDeDonnees.GetInstance().ModifierSousFamilleBdd(SousFamilleExistante.GetRefSousFamille(), NomParam, FamilleParam.GetRefFamille());
 
-                return NouvelleSousFamille;
+                return SousFamilleExistante;
             }
-            
-            return DictionnaireSousFamilles[NomParam];
+            SousFamille NouvelleSousFamille = new SousFamille(NomParam, FamilleParam);
+            DictionnaireSousFamilles.Add(NomParam, NouvelleSousFamille);
+
+            BaseDeDonnees.GetInstance().AjoutSousFamilleBdd(NouvelleSousFamille);
+
+            return NouvelleSousFamille;
         }
 
         private SousFamille() { }

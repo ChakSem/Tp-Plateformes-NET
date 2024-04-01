@@ -138,7 +138,7 @@ namespace Hector
 
                 }
             }
-            catch (SQLiteException ExceptionSQL)
+            catch (SQLiteException)
             {
                 new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
@@ -183,48 +183,36 @@ namespace Hector
                     string Nom = MarqueParam.GetNom();
                     int RefMarque = MarqueParam.GetRefMarque();
 
-                    string RequeteSQL;
-                    using (SQLiteCommand CommandeSQL = Connexion.CreateCommand())
+                    if (RefMarque == Global.REFERENCE_NON_ASSIGNEE) // Si la réference de la marque n'a pas encore été générée
                     {
-                        // Vérifier si la référence existe déjà
-                        RequeteSQL = "SELECT COUNT(*) FROM Marques WHERE RefMarque = @RefMarque";
-                        CommandeSQL.CommandText = RequeteSQL;
-                        CommandeSQL.Parameters.AddWithValue("@RefMarque", RefMarque);
-                        int count = Convert.ToInt32(CommandeSQL.ExecuteScalar());
+                        string RequeteSQL = "INSERT INTO Marques (Nom) VALUES (@Nom)";
 
-                        if (count == 0) // Si la référence n'existe pas déjà
+                        using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
                         {
-                            if (RefMarque != Global.REFERENCE_NON_ASSIGNEE) // Si la référence de la marque n'a pas encore été générée
-                            {
-                                RequeteSQL = "INSERT INTO Marques (Nom) VALUES (@Nom)";
-                                CommandeSQL.CommandText = RequeteSQL;
-                                CommandeSQL.Parameters.AddWithValue("@Nom", Nom);
-                                CommandeSQL.ExecuteNonQuery();
-
-                                /* On récupère la Référence générée lors de l'insertion */
-                                int RefMarqueGeneree = GetReferenceGeneree(Connexion, "Marques", "RefMarque", Nom);
-                                MarqueParam.DefineRefMarque(RefMarqueGeneree);
-                            }
-                            else
-                            {
-                                RequeteSQL = "INSERT INTO Marques (RefMarque, Nom) VALUES (@RefMarque, @Nom)";
-                                CommandeSQL.CommandText = RequeteSQL;
-                                CommandeSQL.Parameters.AddWithValue("@Nom", Nom);
-                                CommandeSQL.Parameters.AddWithValue("@RefMarque", RefMarque);
-                                CommandeSQL.ExecuteNonQuery();
-                            }
+                            CommandeSQL.Parameters.AddWithValue("@Nom", Nom);
+                            CommandeSQL.ExecuteNonQuery();
                         }
-                        else
+
+                        /* On recupere la Reference generee lors de l'insertion */
+                        int RefMarqueGeneree = GetReferenceGeneree(Connexion, "Marques", "RefMarque", Nom);
+                        MarqueParam.DefineRefMarque(RefMarqueGeneree);
+                    }
+                    else
+                    {
+                        string RequeteSQL = "INSERT INTO Marques (RefMarque, Nom) VALUES (@RefMarque, @Nom)";
+
+                        using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
                         {
-                            throw new Exception(Exception.ERREUR_REFERENCE_DEJA_DEFINIE);
+                            CommandeSQL.Parameters.AddWithValue("@Nom", Nom);
+                            CommandeSQL.Parameters.AddWithValue("@RefMarque", RefMarque);
+                            CommandeSQL.ExecuteNonQuery();
                         }
                     }
                 }
             }
-            catch (Exception ex)
+            catch (SQLiteException)
             {
-                // Gérer l'exception
-                throw new Exception(Exception.ERREUR_REFERENCE_DEJA_DEFINIE);
+                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
         }
 
@@ -274,7 +262,7 @@ namespace Hector
                     }
                 }
             }
-            catch (SQLiteException ExceptionSQL)
+            catch (SQLiteException)
             {
                 new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
@@ -320,7 +308,7 @@ namespace Hector
                     }
                 }
             }
-            catch (SQLiteException ExceptionSQL)
+            catch (SQLiteException)
             {
                 new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
@@ -358,7 +346,7 @@ namespace Hector
                 }
 
             }
-            catch (SQLiteException ExceptionSQL)
+            catch (SQLiteException)
             {
                 new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
@@ -394,7 +382,7 @@ namespace Hector
                     Connexion.Close();
                 }
             }
-            catch (SQLiteException ExceptionSQL)
+            catch (SQLiteException)
             {
                 new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
@@ -434,7 +422,7 @@ namespace Hector
                 }
 
             }
-            catch (SQLiteException ExceptionSQL)
+            catch (SQLiteException)
             {
                 new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
@@ -475,7 +463,7 @@ namespace Hector
                     Connexion.Close();
                 }
             }
-            catch (SQLiteException ExceptionSQL)
+            catch (SQLiteException)
             {
                 new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
@@ -517,7 +505,7 @@ namespace Hector
                 }
 
             }
-            catch (SQLiteException ExceptionSQL)
+            catch (SQLiteException)
             {
                 new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
@@ -567,7 +555,7 @@ namespace Hector
 
                 return Exception.RETOUR_NORMAL;
             }
-            catch (SQLiteException ExceptionSQL)
+            catch (SQLiteException)
             {
                 new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
 
@@ -602,7 +590,7 @@ namespace Hector
 
                 return Exception.RETOUR_NORMAL;
             }
-            catch (SQLiteException ExceptionSQL)
+            catch (SQLiteException)
             {
                 new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
 
@@ -639,7 +627,7 @@ namespace Hector
 
                 return Exception.RETOUR_NORMAL;
             }
-            catch (SQLiteException ExceptionSQL)
+            catch (SQLiteException)
             {
                 new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
 
@@ -674,7 +662,7 @@ namespace Hector
 
                 return Exception.RETOUR_NORMAL;
             }
-            catch (SQLiteException ExceptionSQL)
+            catch (SQLiteException)
             {
                 new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
 
@@ -703,7 +691,7 @@ namespace Hector
                     Connexion.Close();
                 }
             }
-            catch (SQLiteException ExceptionSQL)
+            catch (SQLiteException)
             {
                 new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
@@ -731,7 +719,7 @@ namespace Hector
                     Connexion.Close();
                 }
             }
-            catch (SQLiteException ExceptionSQL)
+            catch (SQLiteException)
             {
                 new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
@@ -759,7 +747,7 @@ namespace Hector
                     Connexion.Close();
                 }
             }
-            catch (SQLiteException ExceptionSQL)
+            catch (SQLiteException)
             {
                 new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
@@ -787,7 +775,7 @@ namespace Hector
                     Connexion.Close();
                 }
             }
-            catch (SQLiteException ExceptionSQL)
+            catch (SQLiteException)
             {
                 new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }

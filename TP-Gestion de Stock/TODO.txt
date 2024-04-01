@@ -1,9 +1,7 @@
 TODO : 
 - Commentaires
-- Afficher anomalie dans l'import
-- Faire en sorte de ne pas remplacer element modifier sqlite par elements du csv (quand meme id)
 - Reset groupe + filtrage quand on passe de articles à autre chose
-- check pour les avertissements
+
 
 
 Fini :
@@ -19,3 +17,6 @@ Fini :
 - Renomme Ecrivain + Check Nommage
 - modification sousfamille
 - Verifier que le form de suppression fonctionne( que cela ne soit pas supprimé dans tout les cas)
+- Afficher anomalie dans l'import
+- Faire en sorte de ne pas remplacer element modifier sqlite par elements du csv (quand meme id)
+- check pour les avertissements

@@ -78,7 +78,7 @@ namespace Hector
             this.Controls.Add(this.FinishButton);
             this.Controls.Add(this.FilePathLabel);
             this.Name = "FormExport";
-            this.Text = "FormExport";
+            this.Text = "Extraire";
             this.ResumeLayout(false);
             this.PerformLayout();
 

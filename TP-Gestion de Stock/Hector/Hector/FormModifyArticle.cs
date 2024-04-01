@@ -55,7 +55,7 @@ namespace Hector
 
                 string NouvelleReference = RefArticlesTextBox.Text;
 
-                if (Article.ReferenceAssignee(NouvelleReference))
+                if (AncienneReference != NouvelleReference && Article.ReferenceAssignee(NouvelleReference))
                 {
                     throw new Exception(Exception.ERREUR_REFERENCE_DEJA_ASSIGNEE);
                 }
@@ -77,8 +77,8 @@ namespace Hector
                 }
 
                 // Tentative de modification dans le fichier .SQLite
-                if (BaseDeDonnees.GetInstance().ModifierArticleBdd(NouvelleReference, NouvelleDescription, PrixHT, Quantite, SousFamilleSelectionnee.GetRefSousFamille(), 
-                    MarqueSelectionne.GetRefMarque(), AncienneReference) == Exception.RETOUR_ERREUR)
+                if (BaseDeDonnees.GetInstance().ModifierArticleBdd(NouvelleReference, NouvelleDescription, PrixHT, Quantite, MarqueSelectionne.GetRefMarque(), 
+                    SousFamilleSelectionnee.GetRefSousFamille(), AncienneReference) == Exception.RETOUR_ERREUR)
                 {
                     return; // L'exception est deja gerer dans BaseDeDonnees
                 }

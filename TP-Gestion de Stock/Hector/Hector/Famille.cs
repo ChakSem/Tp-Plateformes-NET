@@ -86,17 +86,18 @@ namespace Hector
         /// <returns> NouvelleFamille </returns>
         public static Famille CreerFamilleDepuisCSV(string NomParam)
         {
-            if (NomAttribue(NomParam) == false)
+            if (NomAttribue(NomParam) == true)
             {
-                Famille NouvelleFamille = new Famille(NomParam);
-                DictionnaireFamilles.Add(NomParam, NouvelleFamille);
+                Famille FamilleExistante = DictionnaireFamilles[NomParam];
 
-                BaseDeDonnees.GetInstance().AjoutFamilleBdd(NouvelleFamille);
-
-                return NouvelleFamille;
+                return FamilleExistante;
             }
+            Famille NouvelleFamille = new Famille(NomParam);
+            DictionnaireFamilles.Add(NomParam, NouvelleFamille);
 
-            return DictionnaireFamilles[NomParam];
+            BaseDeDonnees.GetInstance().AjoutFamilleBdd(NouvelleFamille);
+
+            return NouvelleFamille;
         }
         private Famille() { }
         private Famille(Famille FamilleParam) { }

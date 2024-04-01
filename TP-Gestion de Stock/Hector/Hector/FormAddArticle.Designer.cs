@@ -30,7 +30,7 @@ namespace Hector
         private void InitializeComponent()
         {
             this.CreateButton = new System.Windows.Forms.Button();
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.BoutonAnnulation = new System.Windows.Forms.Button();
             this.MarqueComboBox = new System.Windows.Forms.ComboBox();
             this.SousFamilleComboBox = new System.Windows.Forms.ComboBox();
             this.PrixHTTextBox = new System.Windows.Forms.TextBox();
@@ -55,15 +55,15 @@ namespace Hector
             this.CreateButton.UseVisualStyleBackColor = true;
             this.CreateButton.Click += new System.EventHandler(this.CreateButton_Click);
             // 
-            // CancelButton
+            // BoutonAnnulation
             // 
-            this.CancelButton.Location = new System.Drawing.Point(216, 156);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton.TabIndex = 15;
-            this.CancelButton.Text = "Annuler";
-            this.CancelButton.UseVisualStyleBackColor = true;
-            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            this.BoutonAnnulation.Location = new System.Drawing.Point(216, 156);
+            this.BoutonAnnulation.Name = "BoutonAnnulation";
+            this.BoutonAnnulation.Size = new System.Drawing.Size(75, 23);
+            this.BoutonAnnulation.TabIndex = 15;
+            this.BoutonAnnulation.Text = "Annuler";
+            this.BoutonAnnulation.UseVisualStyleBackColor = true;
+            this.BoutonAnnulation.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // MarqueComboBox
             // 
@@ -181,7 +181,7 @@ namespace Hector
             this.Controls.Add(this.DescriptionLabel);
             this.Controls.Add(this.RefArticlesTextBox);
             this.Controls.Add(this.RefArticlesLabel);
-            this.Controls.Add(this.CancelButton);
+            this.Controls.Add(this.BoutonAnnulation);
             this.Controls.Add(this.CreateButton);
             this.MaximumSize = new System.Drawing.Size(398, 224);
             this.MinimumSize = new System.Drawing.Size(398, 224);
@@ -194,7 +194,7 @@ namespace Hector
 
         #endregion
         private System.Windows.Forms.Button CreateButton;
-        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button BoutonAnnulation;
         private System.Windows.Forms.ComboBox MarqueComboBox;
         private System.Windows.Forms.ComboBox SousFamilleComboBox;
         private System.Windows.Forms.TextBox PrixHTTextBox;
