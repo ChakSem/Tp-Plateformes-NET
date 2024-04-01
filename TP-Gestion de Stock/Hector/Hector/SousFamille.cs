@@ -32,9 +32,9 @@ namespace Hector
 
                 return DictionnaireSousFamilles[NomParam];
             }
-            catch (Exception Exception)
+            catch (Exception ExceptionAttrapee)
             {
-                Exception.AfficherMessageErreur();
+                ExceptionAttrapee.AfficherMessageErreur();
 
                 return null;
             }
@@ -60,9 +60,9 @@ namespace Hector
 
                     return SousFamilleExistante;
 
-                } catch (Exception Exception)
+                } catch (Exception ExceptionAttrapee)
                 {
-                    Exception.AfficherMessageErreur();
+                    ExceptionAttrapee.AfficherMessageErreur();
 
                     return null;
                 }
@@ -183,9 +183,9 @@ namespace Hector
 
                 return Exception.RETOUR_NORMAL;
             }
-            catch (Exception ExceptionCatched)
+            catch (Exception ExceptionAttrapee)
             {
-                ExceptionCatched.AfficherMessageErreur();
+                ExceptionAttrapee.AfficherMessageErreur();
 
                 return Exception.RETOUR_ERREUR;
             }
@@ -222,9 +222,9 @@ namespace Hector
 
                 RefSousFamille = NouvelleRefSousFamille;
             }
-            catch (Exception ExceptionCatched)
+            catch (Exception ExceptionAttrapee)
             {
-                ExceptionCatched.AfficherMessageErreur();
+                ExceptionAttrapee.AfficherMessageErreur();
             }
         }
 
@@ -306,9 +306,9 @@ namespace Hector
 
                 return Exception.RETOUR_NORMAL;
             }
-            catch (Exception Exception)
+            catch (Exception ExceptionAttrapee)
             {
-                Exception.AfficherMessageErreur();
+                ExceptionAttrapee.AfficherMessageErreur();
 
                 return Exception.RETOUR_ERREUR;
             }

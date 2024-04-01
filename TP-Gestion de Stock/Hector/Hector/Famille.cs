@@ -31,9 +31,9 @@ namespace Hector
 
                 return DictionnaireFamilles[NomParam];
             }
-            catch (Exception Exception)
+            catch (Exception ExceptionAttrapee)
             {
-                Exception.AfficherMessageErreur();
+                ExceptionAttrapee.AfficherMessageErreur();
 
                 return null;
             }
@@ -156,8 +156,8 @@ namespace Hector
                 Nom = NouveauNom;
 
                 return Exception.RETOUR_NORMAL;
-            } catch (Exception ExceptionCatched) {
-                ExceptionCatched.AfficherMessageErreur();
+            } catch (Exception ExceptionAttrapee) {
+                ExceptionAttrapee.AfficherMessageErreur();
 
                 return Exception.RETOUR_ERREUR;
             }
@@ -260,9 +260,9 @@ namespace Hector
 
                 return Exception.RETOUR_NORMAL;
             }
-            catch (Exception Exception)
+            catch (Exception ExceptionAttrapee)
             {
-                Exception.AfficherMessageErreur();
+                ExceptionAttrapee.AfficherMessageErreur();
 
                 return Exception.RETOUR_ERREUR;
             }

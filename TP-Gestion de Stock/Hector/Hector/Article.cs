@@ -47,9 +47,9 @@ namespace Hector
 
                 return NouvelArticle;
             }
-            catch (Exception Exception)
+            catch (Exception ExceptionAttrapee)
             {
-                Exception.AfficherMessageErreur();
+                ExceptionAttrapee.AfficherMessageErreur();
 
                 return null;
             }
@@ -230,9 +230,9 @@ namespace Hector
 
                 return DictionnaireArticles[RefArticle];
             }
-            catch (Exception Exception)
+            catch (Exception ExceptionAttrapee)
             {
-                Exception.AfficherMessageErreur();
+                ExceptionAttrapee.AfficherMessageErreur();
 
                 return null;
             }

@@ -28,7 +28,7 @@ namespace Hector
         /// <param name="e"></param>
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            progressBar1.Value = e.ProgressPercentage;
+            BarreDeProgression.Value = e.ProgressPercentage;
         }
 
         //this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
