@@ -292,8 +292,6 @@ namespace Hector
             ListView1.Columns.Add("Description", 150);
         }
 
-
-
         /// <summary>
         /// Methode qui permet de charger le ListView avec les articles
         /// </summary>
@@ -316,7 +314,6 @@ namespace Hector
                 }
             }
         }
-
 
         /// Methode qui permet de charger le ListView avec les familles
         /// </summary>
@@ -569,10 +566,11 @@ namespace Hector
                         string NomNouvelleSousFamille = ArticleSelectionnee.GetSousFamille().GetNom();
                         string NomNouvelleMarque = ArticleSelectionnee.GetMarque().GetNom();
 
-                        if (TypeFiltre == "" || // Si aucun filtre n'est actif, tout les articles sont affichés
-                            (TypeFiltre == "Marque" && NomMarqueAvantModification == NomNouvelleMarque) || // Si ce sont les Articles d'une Marque qui sont affichés et que la Marque n'a pas changée
-                            (TypeFiltre == "SousFamille" && NomSousFamilleAvantModification == NomNouvelleSousFamille)) // Si ce sont les Articles d'une SousFamille qui sont affichés et que celle-ci n'a pas changée
+                        if (TypeFiltre == "" || // Si aucun filtre n'est actif (si tout les articles sont affichés)
+                            (TypeFiltre == "Marque" && NomMarqueAvantModification == NomNouvelleMarque) || // Si seul les Articles d'une Marque sont affichés et que l'Article appartient toujours à la Marque
+                            (TypeFiltre == "SousFamille" && NomSousFamilleAvantModification == NomNouvelleSousFamille)) // Si seul les Articles d'une SousFamille sont affichés et que l'Article appartient toujours à celle-ci
                         {
+                            // Alors, on met à jour la ligne
                             Item.SubItems[0].Text = ArticleSelectionnee.GetReference();
                             Item.SubItems[1].Text = ArticleSelectionnee.GetDescription();
                             Item.SubItems[2].Text = ArticleSelectionnee.GetSousFamille().GetFamille().GetNom();
@@ -580,9 +578,9 @@ namespace Hector
                             Item.SubItems[4].Text = ArticleSelectionnee.GetMarque().GetNom();
                         } else
                         {
-                            ListView1.Items.Remove(Item); // Sinon on supprime la ligne
+                            // Sinon on la supprime la ligne
+                            ListView1.Items.Remove(Item); 
                         }
-                        
                     }
                 }
                 if (TypeDonneesAffichees == "Familles")
@@ -590,10 +588,15 @@ namespace Hector
                     Famille FamilleSelectionnee = Famille.GetFamilleExistante(Item.SubItems[0].Text);
                     if (FamilleSelectionnee != null)
                     {
+                        TreeNode NoeudAMettreAJour = TrouverNoeudParTexte(TreeView1.Nodes[1], FamilleSelectionnee.GetNom());
+
                         FormModifyFamille NouveauForm = new FormModifyFamille(FamilleSelectionnee);
                         NouveauForm.ShowDialog();
 
-                        Item.SubItems[0].Text = FamilleSelectionnee.GetNom();
+                        string NouveauNom = FamilleSelectionnee.GetNom();
+
+                        Item.SubItems[0].Text = NouveauNom;
+                        NoeudAMettreAJour.Text = NouveauNom;
                     }
                 }
                 if (TypeDonneesAffichees == "Marques")
@@ -601,10 +604,15 @@ namespace Hector
                     Marque MarqueSelectionnee = Marque.GetMarqueExistante(Item.SubItems[0].Text);
                     if (MarqueSelectionnee != null)
                     {
+                        TreeNode NoeudAMettreAJour = TrouverNoeudParTexte(TreeView1.Nodes[2], MarqueSelectionnee.GetNom());
+
                         FormModifyMarque NouveauForm = new FormModifyMarque(MarqueSelectionnee);
                         NouveauForm.ShowDialog();
 
-                        Item.SubItems[0].Text = MarqueSelectionnee.GetNom();
+                        string NouveauNom = MarqueSelectionnee.GetNom();
+
+                        Item.SubItems[0].Text = NouveauNom;
+                        NoeudAMettreAJour.Text = NouveauNom;
                     }
                 }
                 if (TypeDonneesAffichees == "SousFamilles")
@@ -612,19 +620,31 @@ namespace Hector
                     SousFamille SousFamilleSelectionnee = SousFamille.GetSousFamilleExistante(Item.SubItems[0].Text);
                     if (SousFamilleSelectionnee != null)
                     {
-                        string NomFamilleAvantModification = SousFamilleSelectionnee.GetFamille().GetNom();
+                        Famille FamilleParente = SousFamilleSelectionnee.GetFamille();
+
+                        TreeNode NoeudFamille = TrouverNoeudParTexte(TreeView1.Nodes[1], FamilleParente.GetNom());
+                        TreeNode NoeudAMettreAJour = TrouverNoeudParTexte(NoeudFamille, SousFamilleSelectionnee.GetNom());
+
+                        string NomFamilleAvantModification = FamilleParente.GetNom();
 
                         FormModifySousFamille NouveauForm = new FormModifySousFamille(SousFamilleSelectionnee);
                         NouveauForm.ShowDialog();
 
                         /* On vérifie que la famille n'a pas été modifié */
-                        string NomNouvelleFamille = SousFamilleSelectionnee.GetNom();
+                        string NomNouvelleFamille = SousFamilleSelectionnee.GetFamille().GetNom();
+                        string NouveauNom = SousFamilleSelectionnee.GetNom();
+
+                        NoeudAMettreAJour.Text = NouveauNom;
+
                         if (NomFamilleAvantModification == NomNouvelleFamille) {
-                            Item.SubItems[0].Text = SousFamilleSelectionnee.GetNom(); // Si non, on met à jour le nom
+                            Item.SubItems[0].Text = NouveauNom; // Si non, on met à jour le nom
                         } else
                         {
                             ListView1.Items.Remove(Item); // Si oui, on supprime la ligne
-                            // TODO : mise a jour dans le treeview
+                            NoeudFamille.Nodes.Remove(NoeudAMettreAJour);
+
+                            TreeNode NouveauNoeudFamille = TrouverNoeudParTexte(TreeView1.Nodes[1], NomNouvelleFamille);
+                            NouveauNoeudFamille.Nodes.Add(NoeudAMettreAJour);
                         }
                     }
                 }
@@ -879,7 +899,6 @@ namespace Hector
             SupprimerElement();
         }
 
-
         class ListViewItemComparer : IComparer
         {
             private int NumeroColomne;
@@ -895,6 +914,25 @@ namespace Hector
             {
                 return String.Compare(((ListViewItem)x).SubItems[NumeroColomne].Text, ((ListViewItem)y).SubItems[NumeroColomne].Text);
             }
+        }
+
+        private TreeNode TrouverNoeudParTexte(TreeNode NoeudParent, string TexteDuNoeud)
+        {
+            if (NoeudParent.Text == TexteDuNoeud)
+            {
+                return NoeudParent;
+            }
+
+            foreach (TreeNode Noeud in NoeudParent.Nodes)
+            {
+                TreeNode NoeudTrouve = TrouverNoeudParTexte(Noeud, TexteDuNoeud);
+                if (NoeudTrouve != null)
+                {
+                    return NoeudTrouve;
+                }
+            }
+
+            return null;
         }
     }
 }

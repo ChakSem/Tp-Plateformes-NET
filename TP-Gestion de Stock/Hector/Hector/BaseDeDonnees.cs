@@ -201,7 +201,7 @@ namespace Hector
                     }
                     else
                     {
-                        string RequeteSQL = "INSERT INTO Marques (RefMarque, NaNomme) VALUES (@RefMarque, @Nom)";
+                        string RequeteSQL = "INSERT INTO Marques (RefMarque, Nom) VALUES (@RefMarque, @Nom)";
 
                         using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
                         {
@@ -516,7 +516,7 @@ namespace Hector
         }
 
         /// <summary>
-        /// Methode qui permet de mettre à jour les modification d'un article da,s la base de données
+        /// Methode qui permet de mettre à jour les modification d'un article dans la base de données
         /// </summary>
         /// <param name="NouvelleRefArticle"></param>
         /// <param name="NouvelleDescription"></param>
@@ -556,7 +556,6 @@ namespace Hector
             }
             catch (SQLiteException ExceptionSQL)
             {
-                Console.WriteLine(ExceptionSQL.Message);
                 new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
 
                 return Exception.RETOUR_ERREUR;
@@ -564,86 +563,109 @@ namespace Hector
         }
 
         /// <summary>
-        /// Methode qui permet de supprimer une marque de la base de données
+        /// Methode qui permet de modifier une marque de la base de données
         /// </summary>
-        /// <param name="RefMarque">La référence de la marque à supprimer</param>
-        public void ModifierMarqueBdd(int RefMarque)
+        /// <param name="RefMarque"></param>
+        /// <param name="NouveauNom"></param>
+        /// <returns></returns>
+        public uint ModifierMarqueBdd(int RefMarque, string NouveauNom)
         {
             try
             {
                 using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
                 {
                     Connexion.Open();
-
-                    string RequeteSQL = "DELETE FROM Marques WHERE RefMarque = @RefMarque";
+                    string RequeteSQL = "UPDATE Marques SET Nom=@Nom WHERE RefMarque = @RefMarque";
 
                     using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
                     {
+                        CommandeSQL.Parameters.AddWithValue("@Nom", NouveauNom);
                         CommandeSQL.Parameters.AddWithValue("@RefMarque", RefMarque);
+
                         CommandeSQL.ExecuteNonQuery();
                     }
                     Connexion.Close();
                 }
+
+                return Exception.RETOUR_NORMAL;
             }
             catch (SQLiteException ExceptionSQL)
             {
                 new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+
+                return Exception.RETOUR_ERREUR;
             }
         }
 
         /// <summary>
-        /// Methode qui permet de supprimer une sous-famille de la base de données
+        /// Methode qui permet de modifier une sous-famille de la base de données
         /// </summary>
-        /// <param name="RefSousFamille">La référence de la sous-famille à supprimer</param>
-        public void ModifierSousFamilleBdd(int RefSousFamille)
+        /// <param name="RefSousFamille"></param>
+        /// <param name="NouveauNom"></param>
+        /// <param name="RefFamille"></param>
+        /// <returns></returns>
+        public uint ModifierSousFamilleBdd(int RefSousFamille, string NouveauNom, int RefFamille)
         {
             try
             {
                 using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
                 {
                     Connexion.Open();
-
-                    string RequeteSQL = "DELETE FROM SousFamilles WHERE RefSousFamille = @RefSousFamille";
-
-                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
-                    {
-                        CommandeSQL.Parameters.AddWithValue("@RefSousFamille", RefSousFamille);
-                        CommandeSQL.ExecuteNonQuery();
-                    }
-                    Connexion.Close();
-                }
-            }
-            catch (SQLiteException ExceptionSQL)
-            {
-                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
-            }
-        }
-
-        /// <summary>
-        /// Methode qui permet de supprimer une famille de la base de données
-        /// </summary>
-        /// <param name="RefFamille">La référence de la famille à supprimer</param>
-        public void ModifierFamilleBdd(int RefFamille)
-        {
-            try
-            {
-                using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
-                {
-                    Connexion.Open();
-
-                    string RequeteSQL = "DELETE FROM Familles WHERE RefFamille = @RefFamille";
+                    string RequeteSQL = "UPDATE SousFamilles SET Nom=@Nom, RefFamille = @RefFamille WHERE RefSousFamille = @RefSousFamille";
 
                     using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
                     {
+                        CommandeSQL.Parameters.AddWithValue("@Nom", NouveauNom);
                         CommandeSQL.Parameters.AddWithValue("@RefFamille", RefFamille);
+                        CommandeSQL.Parameters.AddWithValue("@RefSousFamille", RefSousFamille);
+
                         CommandeSQL.ExecuteNonQuery();
                     }
                     Connexion.Close();
                 }
+
+                return Exception.RETOUR_NORMAL;
             }
             catch (SQLiteException ExceptionSQL)
             {
                 new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+
+                return Exception.RETOUR_ERREUR;
+            }
+        }
+
+        /// <summary>
+        /// Methode qui permet de modifier une famille de la base de données
+        /// </summary>
+        /// <param name="RefFamille"></param>
+        /// <param name="NouveauNom"></param>
+        /// <returns></returns>
+        public uint ModifierFamilleBdd(int RefFamille, string NouveauNom)
+        {
+            try
+            {
+                using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+                {
+                    Connexion.Open();
+                    string RequeteSQL = "UPDATE Familles SET Nom=@Nom WHERE RefFamille = @RefFamille";
+
+                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                    {
+                        CommandeSQL.Parameters.AddWithValue("@Nom", NouveauNom);
+                        CommandeSQL.Parameters.AddWithValue("@RefFamille", RefFamille);
+
+                        CommandeSQL.ExecuteNonQuery();
+                    }
+                    Connexion.Close();
+                }
+
+                return Exception.RETOUR_NORMAL;
+            }
+            catch (SQLiteException ExceptionSQL)
+            {
+                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+
+                return Exception.RETOUR_ERREUR;
             }
         }
 

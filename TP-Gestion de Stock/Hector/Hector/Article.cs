@@ -35,7 +35,7 @@ namespace Hector
         {
             try
             {
-                if (DictionnaireArticles.ContainsKey(NouvelleReference))
+                if (ReferenceAssignee(NouvelleReference) == true)
                 {
                     throw new Exception(Exception.ERREUR_REFERENCE_DEJA_ASSIGNEE);
                 }
@@ -67,7 +67,7 @@ namespace Hector
         /// <returns>NouvelArticle</returns>
         public static Article CreerArticleDepuisSQLite(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT, uint NouvelleQuantite)
         {
-            if (!DictionnaireArticles.ContainsKey(NouvelleReference))
+            if (ReferenceAssignee(NouvelleReference) == false)
             { 
                 Article NouvelArticle = new Article(NouvelleDescription, NouvelleReference, NouvelleMarque, NouvelleSousFamille, NouveauPrixHT, NouvelleQuantite);
                 DictionnaireArticles.Add(NouvelleReference, NouvelArticle);
@@ -90,7 +90,7 @@ namespace Hector
         /// <returns>NouvelArticle</returns>
         public static Article CreerArticleDepuisCSV(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT, uint NouvelleQuantite)
         {
-            if (!DictionnaireArticles.ContainsKey(NouvelleReference))
+            if (ReferenceAssignee(NouvelleReference) == false)
             {
                 Article NouvelArticle = new Article(NouvelleDescription, NouvelleReference, NouvelleMarque, NouvelleSousFamille, NouveauPrixHT, NouvelleQuantite);
                 DictionnaireArticles.Add(NouvelleReference, NouvelArticle);
@@ -138,10 +138,13 @@ namespace Hector
         public uint SetReference(string NouvelleReference) {
             try
             {
-                if (NouvelleReference != Reference && DictionnaireArticles.ContainsKey(NouvelleReference))
+                if (NouvelleReference != Reference && ReferenceAssignee(NouvelleReference))
                 {
                     throw new Exception(Exception.ERREUR_REFERENCE_DEJA_ASSIGNEE);
                 }
+                DictionnaireArticles.Remove(Reference);
+                DictionnaireArticles.Add(NouvelleReference, this);
+
                 Reference = NouvelleReference;
 
                 return Exception.RETOUR_NORMAL;
@@ -183,7 +186,7 @@ namespace Hector
         /// Permet de vérifier si une réference est déjà assignée à un Article
         /// </summary>
         /// <param name="RefArticle"></param>
-        /// <returns>   - true : Si au un Article avec cette réference existe
+        /// <returns>   - true : Si un Article avec cette réference existe
         ///             - false : Sinon </returns>
         public static bool ReferenceAssignee(string RefArticle)
         {
