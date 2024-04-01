@@ -68,7 +68,7 @@ namespace Hector
         public static Article CreerArticleDepuisSQLite(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT, uint NouvelleQuantite)
         {
             if (ReferenceAssignee(NouvelleReference) == false)
-            { 
+            {
                 Article NouvelArticle = new Article(NouvelleDescription, NouvelleReference, NouvelleMarque, NouvelleSousFamille, NouveauPrixHT, NouvelleQuantite);
                 DictionnaireArticles.Add(NouvelleReference, NouvelArticle);
 
@@ -91,14 +91,17 @@ namespace Hector
         public static Article CreerArticleDepuisCSV(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT, uint NouvelleQuantite)
         {
             try
-            if (ReferenceAssignee(NouvelleReference) == false)
             {
-                if (!DictionnaireArticles.ContainsKey(NouvelleReference))
+                if (ReferenceAssignee(NouvelleReference) == true)
                 {
-                    Article NouvelArticle = new Article(NouvelleDescription, NouvelleReference, NouvelleMarque, NouvelleSousFamille, NouveauPrixHT, NouvelleQuantite);
-                    DictionnaireArticles.Add(NouvelleReference, NouvelArticle);
-                    BaseDeDonnees.GetInstance().AjoutArticleBdd(NouvelArticle);
-                    return NouvelArticle;
+                    if (!DictionnaireArticles.ContainsKey(NouvelleReference))
+                    {
+                        Article NouvelArticle = new Article(NouvelleDescription, NouvelleReference, NouvelleMarque, NouvelleSousFamille, NouveauPrixHT, NouvelleQuantite);
+                        DictionnaireArticles.Add(NouvelleReference, NouvelArticle);
+                        BaseDeDonnees.GetInstance().AjoutArticleBdd(NouvelArticle);
+                        return NouvelArticle;
+                    }
+                    return null;
                 }
                 return null;
             }

@@ -214,29 +214,20 @@ namespace Hector
                                 CommandeSQL.ExecuteNonQuery();
                             }
                         }
-
-                        /* On recupere la Reference generee lors de l'insertion */
-                        int RefMarqueGeneree = GetReferenceGeneree(Connexion, "Marques", "RefMarque", Nom);
-                        MarqueParam.DefineRefMarque(RefMarqueGeneree);
-                    }
-                    else
-                    {
-                        string RequeteSQL = "INSERT INTO Marques (RefMarque, Nom) VALUES (@RefMarque, @Nom)";
-
-                        using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                        else
                         {
-
                             throw new Exception(Exception.ERREUR_REFERENCE_DEJA_DEFINIE);
                         }
                     }
                 }
             }
-            catch (SQLiteException ExceptionSQL)
+            catch (Exception ex)
             {
-                throw new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD);
-               
+                // Gérer l'exception
+                throw new Exception(Exception.ERREUR_REFERENCE_DEJA_DEFINIE);
             }
         }
+
 
 
 
