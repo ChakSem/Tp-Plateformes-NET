@@ -30,7 +30,7 @@ namespace Hector
         private void InitializeComponent()
         {
             this.CancelButton = new System.Windows.Forms.Button();
-            this.CreateButton = new System.Windows.Forms.Button();
+            this.ModifierButton = new System.Windows.Forms.Button();
             this.NomMarqueTextBox = new System.Windows.Forms.TextBox();
             this.NomMarqueLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -45,15 +45,15 @@ namespace Hector
             this.CancelButton.UseVisualStyleBackColor = true;
             this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
-            // CreateButton
+            // ModifierButton
             // 
-            this.CreateButton.Location = new System.Drawing.Point(157, 56);
-            this.CreateButton.Name = "CreateButton";
-            this.CreateButton.Size = new System.Drawing.Size(75, 23);
-            this.CreateButton.TabIndex = 28;
-            this.CreateButton.Text = "Créer";
-            this.CreateButton.UseVisualStyleBackColor = true;
-            this.CreateButton.Click += new System.EventHandler(this.CreateButton_Click);
+            this.ModifierButton.Location = new System.Drawing.Point(157, 56);
+            this.ModifierButton.Name = "ModifierButton";
+            this.ModifierButton.Size = new System.Drawing.Size(75, 23);
+            this.ModifierButton.TabIndex = 28;
+            this.ModifierButton.Text = "Modifier";
+            this.ModifierButton.UseVisualStyleBackColor = true;
+            this.ModifierButton.Click += new System.EventHandler(this.BouttonModifier_Click);
             // 
             // NomMarqueTextBox
             // 
@@ -79,11 +79,11 @@ namespace Hector
             this.Controls.Add(this.NomMarqueTextBox);
             this.Controls.Add(this.NomMarqueLabel);
             this.Controls.Add(this.CancelButton);
-            this.Controls.Add(this.CreateButton);
+            this.Controls.Add(this.ModifierButton);
             this.MaximumSize = new System.Drawing.Size(250, 130);
             this.MinimumSize = new System.Drawing.Size(250, 130);
             this.Name = "FormModifyMarque";
-            this.Text = "Créer une nouvelle Marque";
+            this.Text = "Modifier une Marque";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -92,7 +92,7 @@ namespace Hector
         #endregion
 
         private System.Windows.Forms.Button CancelButton;
-        private System.Windows.Forms.Button CreateButton;
+        private System.Windows.Forms.Button ModifierButton;
         private System.Windows.Forms.TextBox NomMarqueTextBox;
         private System.Windows.Forms.Label NomMarqueLabel;
     }

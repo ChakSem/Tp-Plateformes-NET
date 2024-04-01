@@ -22,13 +22,28 @@ namespace Hector
 
         private void ModifyButton_Click(object sender, EventArgs e)
         {
-            if (FamilleSelectionnee.SetNom(NomFamilleTextBox.Text) == Exception.RETOUR_ERREUR)
+            try
             {
-                return;
-            }
+                string NouveauNom = NomFamilleTextBox.Text;
 
-            MessageBox.Show("Modifier avec succes", "Tout bon", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            this.Close();
+                if (Marque.NomAttribue(NouveauNom) == true)
+                {
+                    throw new Exception(Exception.ERREUR_NOM_DEJA_ASSIGNEE);
+                }
+
+                if (BaseDeDonnees.GetInstance().ModifierFamilleBdd(FamilleSelectionnee.GetRefFamille(), NouveauNom) == Exception.RETOUR_ERREUR)
+                {
+                    return;
+                }
+                FamilleSelectionnee.SetNom(NouveauNom);
+
+                MessageBox.Show("Modifier avec succes", "Tout bon", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
+            catch (Exception ExceptionAttrapee)
+            {
+                ExceptionAttrapee.AfficherMessageErreur();
+            }
         }
 
         private void CancelButton_Click(object sender, EventArgs e)

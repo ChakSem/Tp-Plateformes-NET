@@ -6,6 +6,7 @@ TODO :
 - Faire en sorte de ne pas remplacer element modifier sqlite par elements du csv (quand meme id)
 - modification sousfamille
 - Verifier que le form de suppression fonctionne( que cela ne soit pas supprimé dans tout les cas)
+- Reset groupe + filtrage quand on passe de articles à autre chose
 
 
 Fini :

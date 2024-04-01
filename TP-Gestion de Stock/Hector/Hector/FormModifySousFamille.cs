@@ -34,16 +34,30 @@ namespace Hector
 
         private void ModifyButton_Click(object sender, EventArgs e)
         {
-            Famille FamilleSelectionnee = Famille.GetFamilleExistante(FamilleComboBox.Text);
-
-            if(SousFamilleSelectionnee.SetNom(NomSousFamilleTextBox.Text) == Exception.RETOUR_ERREUR)
+            try
             {
-                return;
-            }
-            SousFamilleSelectionnee.SetFamille(FamilleSelectionnee);
+                string NouveauNom = NomSousFamilleTextBox.Text;
 
-            MessageBox.Show("Modifier avec succes", "Tout bon", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            this.Close();
+                if (Marque.NomAttribue(NouveauNom) == true)
+                {
+                    throw new Exception(Exception.ERREUR_NOM_DEJA_ASSIGNEE);
+                }
+                Famille FamilleSelectionnee = Famille.GetFamilleExistante(FamilleComboBox.Text);
+
+                if (BaseDeDonnees.GetInstance().ModifierSousFamilleBdd(SousFamilleSelectionnee.GetRefSousFamille(), NouveauNom, FamilleSelectionnee.GetRefFamille()) == Exception.RETOUR_ERREUR)
+                {
+                    return;
+                }
+                SousFamilleSelectionnee.SetFamille(FamilleSelectionnee);
+                SousFamilleSelectionnee.SetNom(NouveauNom);
+
+                MessageBox.Show("Modifier avec succes", "Tout bon", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
+            catch (Exception ExceptionAttrapee)
+            {
+                ExceptionAttrapee.AfficherMessageErreur();
+            }
         }
 
         private void CancelButton_Click(object sender, EventArgs e)

@@ -24,7 +24,7 @@ namespace Hector
         {
             try
             {
-                if (!DictionnaireMarques.ContainsKey(NomParam))
+                if (NomAttribue(NomParam) == false)
                 {
                     throw new Exception(Exception.ERREUR_OBJET_INNEXISTANT);
                 }
@@ -45,7 +45,7 @@ namespace Hector
         /// <returns> NouvelleMarque </returns>
         public static Marque CreerMarque(string NomParam)
         {
-            if(DictionnaireMarques.ContainsKey(NomParam) )
+            if(NomAttribue(NomParam) == true)
             {
                 return DictionnaireMarques[NomParam];
             } else
@@ -66,7 +66,7 @@ namespace Hector
         /// <returns> NouvelleMarque </returns>
         public static Marque CreerMarqueDepuisSQLite(string NomParam)
         {
-            if (!DictionnaireMarques.ContainsKey(NomParam))
+            if (NomAttribue(NomParam) == false)
             {
                 Marque NouvelleMarque = new Marque(NomParam);
                 DictionnaireMarques.Add(NomParam, NouvelleMarque);
@@ -84,7 +84,7 @@ namespace Hector
          /// <returns> NouvelleMarque </returns>
         public static Marque CreerMarqueDepuisCSV(string NomParam)
         {
-            if(!DictionnaireMarques.ContainsKey(NomParam) )
+            if(NomAttribue(NomParam) == false)
             {
                 Marque NouvelleMarque = new Marque(NomParam);
                 DictionnaireMarques.Add(NomParam, NouvelleMarque);
@@ -158,6 +158,22 @@ namespace Hector
         }
 
         /// <summary>
+        /// Verifie que le NouveauNom est un nom disponible
+        /// </summary>
+        /// <param name="NouveauNom"></param>
+        /// <returns>   - true : Si une Marque avec cette réference existe
+        ///             - false : Sinon </returns>
+        public static bool NomAttribue(string NouveauNom)
+        {
+            if (DictionnaireMarques.ContainsKey(NouveauNom))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Accesseur en écriture de l'attribut Nom
         /// </summary>
         /// <param name="NouveauNom">Le Nom que l'on souhaite définir</param>
@@ -166,10 +182,13 @@ namespace Hector
         {
             try
             {
-                if (DictionnaireMarques.ContainsKey(NouveauNom))
+                if (Nom != NouveauNom && NomAttribue(NouveauNom))
                 {
                     throw new Exception(Exception.ERREUR_NOM_DEJA_ASSIGNEE);
                 }
+                DictionnaireMarques.Remove(Nom);
+                DictionnaireMarques.Add(NouveauNom, this);
+
                 Nom = NouveauNom;
 
                 return Exception.RETOUR_NORMAL;

@@ -25,7 +25,7 @@ namespace Hector
         {
             try
             {
-                if (!DictionnaireSousFamilles.ContainsKey(NomParam))
+                if (NomAttribue(NomParam) == false)
                 {
                     throw new Exception(Exception.ERREUR_OBJET_INNEXISTANT);
                 }
@@ -48,7 +48,7 @@ namespace Hector
         /// <returns> NouvelleSousFamille </returns>
         public static SousFamille CreerSousFamille(string NomParam, Famille FamilleParam)
         {
-            if (DictionnaireSousFamilles.ContainsKey(NomParam))
+            if (NomAttribue(NomParam) == true)
             {
                 try
                 {
@@ -86,7 +86,7 @@ namespace Hector
         /// <returns> NouvelleSousFamille </returns>
         public static SousFamille CreerSousFamilleDepuisSQLite(string NomParam, Famille FamilleParam)
         {
-            if (!DictionnaireSousFamilles.ContainsKey(NomParam))
+            if (NomAttribue(NomParam) == false)
             {
                 SousFamille NouvelleSousFamille = new SousFamille(NomParam, FamilleParam);
                 DictionnaireSousFamilles.Add(NomParam, NouvelleSousFamille);
@@ -105,7 +105,7 @@ namespace Hector
         /// <returns> NouvelleSousFamille </returns>
         public static SousFamille CreerSousFamilleDepuisCSV(string NomParam, Famille FamilleParam)
         {
-            if (!DictionnaireSousFamilles.ContainsKey(NomParam))
+            if (NomAttribue(NomParam) == false)
             {
                 SousFamille NouvelleSousFamille = new SousFamille(NomParam, FamilleParam);
                 DictionnaireSousFamilles.Add(NomParam, NouvelleSousFamille);
@@ -143,6 +143,22 @@ namespace Hector
         }
 
         /// <summary>
+        /// Verifie que le NouveauNom est un nom disponible
+        /// </summary>
+        /// <param name="NouveauNom"></param>
+        /// <returns>   - true : Si une SousFamille avec ce nom existe
+        ///             - false : Sinon </returns>
+        public static bool NomAttribue(string NouveauNom)
+        {
+            if (DictionnaireSousFamilles.ContainsKey(NouveauNom))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Accesseur en écriture de l'attribut Nom
         /// </summary>
         /// <param name="NouveauNom">Le Nom que l'on souhaite définir</param>
@@ -151,10 +167,13 @@ namespace Hector
         {
             try
             {
-                if (DictionnaireSousFamilles.ContainsKey(NouveauNom))
+                if (Nom != NouveauNom && NomAttribue(NouveauNom) == true)
                 {
                     throw new Exception(Exception.ERREUR_NOM_DEJA_ASSIGNEE);
                 }
+                DictionnaireSousFamilles.Remove(Nom);
+                DictionnaireSousFamilles.Add(NouveauNom, this);
+
                 Nom = NouveauNom;
 
                 return Exception.RETOUR_NORMAL;
