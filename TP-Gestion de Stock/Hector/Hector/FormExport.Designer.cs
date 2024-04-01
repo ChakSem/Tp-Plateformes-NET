@@ -30,7 +30,6 @@ namespace Hector
         private void InitializeComponent()
         {
             this.SelectFile = new System.Windows.Forms.Button();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.FinishButton = new System.Windows.Forms.Button();
             this.FilePathLabel = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -78,7 +77,7 @@ namespace Hector
             this.Controls.Add(this.FinishButton);
             this.Controls.Add(this.FilePathLabel);
             this.Name = "FormExport";
-            this.Text = "FormExport";
+            this.Text = "Extraire";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -87,7 +86,6 @@ namespace Hector
         #endregion
 
         private System.Windows.Forms.Button SelectFile;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Button FinishButton;
         private System.Windows.Forms.Label FilePathLabel;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;

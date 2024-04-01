@@ -11,11 +11,7 @@ namespace Hector
         private BaseDeDonnees BDD;
         private Parseur Parseur;
         private string CheminCsvAImpoter;
-        private List<Article> ArticlesAImporter;
 
-        private int NombreArticleAvantImport;
-        private int NombreArticleApresImport;
-        private int NombreArticleAjoutee;
         /// <summary>
         /// Constructeur de la classe FormImport
         /// </summary>
@@ -32,7 +28,7 @@ namespace Hector
         /// <param name="e"></param>
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            progressBar1.Value = e.ProgressPercentage;
+            BarreDeProgression.Value = e.ProgressPercentage;
         }
 
         //this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
@@ -111,12 +107,12 @@ namespace Hector
         {
             BackgroundWorker BarreDeProgression = sender as BackgroundWorker; // On récupère le worker
 
-            //Si la case Ecrasement est cochée, on vide la base de données
+            // Si l'import est lancé en ecrasement, la base de donnée SQLite est vidée
             if (CheckBoxEcrasement.Checked)
             {
                 BDD.ViderDonnees();
             }
-            //Si la case Ajout est cochée, on lit les données de la base de données
+            // Sinon, si l'import est lancé en ajout, les données de la base de donnée SQLite sont chargées de nouveau
             if (CheckBoxAjout.Checked)
             {
                 BaseDeDonnees BDD = BaseDeDonnees.GetInstance();
@@ -127,22 +123,15 @@ namespace Hector
                 BDD.LireArticlesBdd();
             }
 
-             // On crée et recupere les objets Article à importer dans la BDD ( et on cree les objets Marque, Familles et SousFamilles qui n'existent pas encore )
+            // On crée et recupere les objets Article à importer dans la BDD ( et on cree les objets Marque, Familles et SousFamilles qui n'existent pas encore )
 
-            NombreArticleAvantImport = BDD.LireNombreArticlesBdd();
-            MessageBox.Show("Nb avant import"+NombreArticleAvantImport);
-            /*
-                 
-            int NombreArticleDansFichier = ArticlesAImporter.Count;*/
+            Parseur.Parse(CheminCsvAImpoter, BarreDeProgression);
 
-            uint NombreArticleAjoutesAvecSucces = Parseur.Parse(CheminCsvAImpoter, BarreDeProgression);
-            
-            NombreArticleApresImport = BDD.LireNombreArticlesBdd();
-            NombreArticleAjoutee = NombreArticleApresImport - NombreArticleAvantImport;
+            int NombreArticleTotal = Article.GetListeArticles().Count;
 
-            MessageBox.Show("L'intégration des données a été effectuée avec succès.\n\n" +
-                "Vous avez ajouté " + NombreArticleAjoutee + " article(s) dans la base de données. \n" +
-                "Il y a maintenant " + NombreArticleApresImport + " article(s) dans la base de données.", "Succès de l'intégration", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("L'intégration des données a été effectuée avec succès.\n\n" + "Vous avez ajouté " + Parseur.NOMBRE_ARTICLES_CREE + 
+                " nouveaux article(s) dans la base de données. \n" + Parseur.NOMBRE_ARTICLES_MIS_A_JOUR + " articles ont été mis à jour \n" + 
+                "Il y a desormais " + NombreArticleTotal + " articles dans la BDD", "Succès de l'intégration", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

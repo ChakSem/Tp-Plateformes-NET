@@ -10,12 +10,15 @@ namespace Hector
 {
     class Parseur
     {
+        public static uint NOMBRE_ARTICLES_CREE;
+        public static uint NOMBRE_ARTICLES_MIS_A_JOUR;
+
         /// <summary>
         /// Methode qui permet de parser un fichier csv
         /// </summary>
         /// <param name="path"> Le chemin du fichier csv </param>
         /// <returns> La liste des Article </returns>
-        public static uint Parse(string path, BackgroundWorker BarreDeProgression)
+        public static void Parse(string path, BackgroundWorker BarreDeProgression)
         {
             uint NombreArticlesCrees = 0;
 
@@ -23,17 +26,19 @@ namespace Hector
             {
                 if (path == "")
                 {
-                    // On retourne une liste vide si le chemin est vide
                     throw new Exception(Exception.ERREUR_CHEMIN_VIDE);
                 }
-                // On crée une liste d'Articles
 
-                // On lit le fichier ligne par ligne
+                // On initie les variables correspondants à l'évolution du nombre d'articles au cours de la méthode Parse
+                Parseur.NOMBRE_ARTICLES_CREE = 0;
+                Parseur.NOMBRE_ARTICLES_MIS_A_JOUR = 0;
+
                 string[] lines = System.IO.File.ReadAllLines(path, Encoding.GetEncoding("iso-8859-1"));
                 int NombreDeLignes = lines.Length;
                 for (int i = 1; i < NombreDeLignes; i++)// On commence à 1 pour ne pas prendre en compte la première ligne
                 {
                     string[] values = lines[i].Split(';');
+
                     string Description = values[0];
                     string Reference = values[1];
 
@@ -54,12 +59,9 @@ namespace Hector
                     BarreDeProgression.ReportProgress((int)(((i+1) / (double)NombreDeLignes) * 100));
                 }
 
-                return NombreArticlesCrees;
             } catch (Exception Exception)
             {
                 Exception.AfficherMessageErreur();
-
-                return NombreArticlesCrees;
             }
         }
 

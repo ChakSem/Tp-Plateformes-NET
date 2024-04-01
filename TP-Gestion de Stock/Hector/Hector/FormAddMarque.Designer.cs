@@ -29,21 +29,21 @@ namespace Hector
         /// </summary>
         private void InitializeComponent()
         {
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.BoutonAnnulation = new System.Windows.Forms.Button();
             this.CreateButton = new System.Windows.Forms.Button();
             this.NomMarqueTextBox = new System.Windows.Forms.TextBox();
             this.NomMarqueLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // CancelButton
+            // BoutonAnnulation
             // 
-            this.CancelButton.Location = new System.Drawing.Point(76, 56);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton.TabIndex = 25;
-            this.CancelButton.Text = "Annuler";
-            this.CancelButton.UseVisualStyleBackColor = true;
-            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            this.BoutonAnnulation.Location = new System.Drawing.Point(76, 56);
+            this.BoutonAnnulation.Name = "BoutonAnnulation";
+            this.BoutonAnnulation.Size = new System.Drawing.Size(75, 23);
+            this.BoutonAnnulation.TabIndex = 25;
+            this.BoutonAnnulation.Text = "Annuler";
+            this.BoutonAnnulation.UseVisualStyleBackColor = true;
+            this.BoutonAnnulation.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // CreateButton
             // 
@@ -76,7 +76,7 @@ namespace Hector
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(232, 85);
-            this.Controls.Add(this.CancelButton);
+            this.Controls.Add(this.BoutonAnnulation);
             this.Controls.Add(this.CreateButton);
             this.Controls.Add(this.NomMarqueTextBox);
             this.Controls.Add(this.NomMarqueLabel);
@@ -91,7 +91,7 @@ namespace Hector
 
         #endregion
 
-        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button BoutonAnnulation;
         private System.Windows.Forms.Button CreateButton;
         private System.Windows.Forms.TextBox NomMarqueTextBox;
         private System.Windows.Forms.Label NomMarqueLabel;

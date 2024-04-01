@@ -31,7 +31,7 @@ namespace Hector
         {
             this.FamilleComboBox = new System.Windows.Forms.ComboBox();
             this.FamilleLabel = new System.Windows.Forms.Label();
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.BoutonAnnulation = new System.Windows.Forms.Button();
             this.CreateButton = new System.Windows.Forms.Button();
             this.NomSousFamilleTextBox = new System.Windows.Forms.TextBox();
             this.NomSousFamilleLabel = new System.Windows.Forms.Label();
@@ -54,15 +54,15 @@ namespace Hector
             this.FamilleLabel.TabIndex = 36;
             this.FamilleLabel.Text = "Famille";
             // 
-            // CancelButton
+            // BoutonAnnulation
             // 
-            this.CancelButton.Location = new System.Drawing.Point(76, 76);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton.TabIndex = 35;
-            this.CancelButton.Text = "Annuler";
-            this.CancelButton.UseVisualStyleBackColor = true;
-            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            this.BoutonAnnulation.Location = new System.Drawing.Point(76, 76);
+            this.BoutonAnnulation.Name = "BoutonAnnulation";
+            this.BoutonAnnulation.Size = new System.Drawing.Size(75, 23);
+            this.BoutonAnnulation.TabIndex = 35;
+            this.BoutonAnnulation.Text = "Annuler";
+            this.BoutonAnnulation.UseVisualStyleBackColor = true;
+            this.BoutonAnnulation.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // CreateButton
             // 
@@ -97,7 +97,7 @@ namespace Hector
             this.ClientSize = new System.Drawing.Size(232, 105);
             this.Controls.Add(this.FamilleComboBox);
             this.Controls.Add(this.FamilleLabel);
-            this.Controls.Add(this.CancelButton);
+            this.Controls.Add(this.BoutonAnnulation);
             this.Controls.Add(this.CreateButton);
             this.Controls.Add(this.NomSousFamilleTextBox);
             this.Controls.Add(this.NomSousFamilleLabel);
@@ -114,7 +114,7 @@ namespace Hector
 
         private System.Windows.Forms.ComboBox FamilleComboBox;
         private System.Windows.Forms.Label FamilleLabel;
-        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button BoutonAnnulation;
         private System.Windows.Forms.Button CreateButton;
         private System.Windows.Forms.TextBox NomSousFamilleTextBox;
         private System.Windows.Forms.Label NomSousFamilleLabel;

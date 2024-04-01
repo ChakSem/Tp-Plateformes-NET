@@ -84,17 +84,18 @@ namespace Hector
          /// <returns> NouvelleMarque </returns>
         public static Marque CreerMarqueDepuisCSV(string NomParam)
         {
-            if(NomAttribue(NomParam) == false)
+            if (NomAttribue(NomParam) == true)
             {
-                Marque NouvelleMarque = new Marque(NomParam);
-                DictionnaireMarques.Add(NomParam, NouvelleMarque);
+                Marque MarqueExistante = DictionnaireMarques[NomParam];
 
-                BaseDeDonnees.GetInstance().AjoutMarqueBdd(NouvelleMarque);
-
-                return NouvelleMarque;
+                return MarqueExistante;
             }
+            Marque NouvelleMarque = new Marque(NomParam);
+            DictionnaireMarques.Add(NomParam, NouvelleMarque);
 
-            return DictionnaireMarques[NomParam];
+            BaseDeDonnees.GetInstance().AjoutMarqueBdd(NouvelleMarque);
+
+            return NouvelleMarque;
         }
         private Marque() { }
         private Marque(Marque NouvelleMarque) { }

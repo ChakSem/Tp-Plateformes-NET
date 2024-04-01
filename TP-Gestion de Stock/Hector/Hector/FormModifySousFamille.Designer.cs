@@ -29,7 +29,7 @@ namespace Hector
         /// </summary>
         private void InitializeComponent()
         {
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.BoutonAnnulation = new System.Windows.Forms.Button();
             this.ModifyButton = new System.Windows.Forms.Button();
             this.FamilleComboBox = new System.Windows.Forms.ComboBox();
             this.FamilleLabel = new System.Windows.Forms.Label();
@@ -37,15 +37,15 @@ namespace Hector
             this.NomSousFamilleLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // CancelButton
+            // BoutonAnnulation
             // 
-            this.CancelButton.Location = new System.Drawing.Point(76, 76);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton.TabIndex = 29;
-            this.CancelButton.Text = "Annuler";
-            this.CancelButton.UseVisualStyleBackColor = true;
-            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            this.BoutonAnnulation.Location = new System.Drawing.Point(76, 76);
+            this.BoutonAnnulation.Name = "BoutonAnnulation";
+            this.BoutonAnnulation.Size = new System.Drawing.Size(75, 23);
+            this.BoutonAnnulation.TabIndex = 29;
+            this.BoutonAnnulation.Text = "Annuler";
+            this.BoutonAnnulation.UseVisualStyleBackColor = true;
+            this.BoutonAnnulation.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // ModifyButton
             // 
@@ -99,7 +99,7 @@ namespace Hector
             this.Controls.Add(this.FamilleLabel);
             this.Controls.Add(this.NomSousFamilleTextBox);
             this.Controls.Add(this.NomSousFamilleLabel);
-            this.Controls.Add(this.CancelButton);
+            this.Controls.Add(this.BoutonAnnulation);
             this.Controls.Add(this.ModifyButton);
             this.MaximumSize = new System.Drawing.Size(250, 150);
             this.MinimumSize = new System.Drawing.Size(250, 150);
@@ -112,7 +112,7 @@ namespace Hector
 
         #endregion
 
-        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button BoutonAnnulation;
         private System.Windows.Forms.Button ModifyButton;
         private System.Windows.Forms.ComboBox FamilleComboBox;
         private System.Windows.Forms.Label FamilleLabel;

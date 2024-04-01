@@ -47,9 +47,9 @@ namespace Hector
 
                 return NouvelArticle;
             }
-            catch (Exception Exception)
+            catch (Exception ExceptionAttrapee)
             {
-                Exception.AfficherMessageErreur();
+                ExceptionAttrapee.AfficherMessageErreur();
 
                 return null;
             }
@@ -90,25 +90,32 @@ namespace Hector
         /// <returns>NouvelArticle</returns>
         public static Article CreerArticleDepuisCSV(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT, uint NouvelleQuantite)
         {
-            try
+            if (ReferenceAssignee(NouvelleReference) == true)
             {
-                if (ReferenceAssignee(NouvelleReference) == true)
-                {
-                    if (!DictionnaireArticles.ContainsKey(NouvelleReference))
-                    {
-                        Article NouvelArticle = new Article(NouvelleDescription, NouvelleReference, NouvelleMarque, NouvelleSousFamille, NouveauPrixHT, NouvelleQuantite);
-                        DictionnaireArticles.Add(NouvelleReference, NouvelArticle);
-                        BaseDeDonnees.GetInstance().AjoutArticleBdd(NouvelArticle);
-                        return NouvelArticle;
-                    }
-                    return null;
-                }
-                return null;
+                Article ArticleExistant = DictionnaireArticles[NouvelleReference];
+
+                // Si une sous-famille existe déjà pour ce nom (cas de  l'ajout), je la mets à jour comformément à sa famille spécifiée dans le .csv et je la renvoie
+                ArticleExistant.SetDescription(NouvelleDescription);
+                ArticleExistant.SetMarque(NouvelleMarque);
+                ArticleExistant.SetSousFamille(NouvelleSousFamille);
+                ArticleExistant.SetPrixHT(NouveauPrixHT);
+                ArticleExistant.SetQuantite(NouvelleQuantite);
+
+                BaseDeDonnees.GetInstance().ModifierArticleBdd(NouvelleReference, NouvelleDescription, NouveauPrixHT, NouvelleQuantite, NouvelleMarque.GetRefMarque()
+                    , NouvelleSousFamille.GetRefSousFamille(), NouvelleReference);
+
+                Parseur.NOMBRE_ARTICLES_MIS_A_JOUR++;
+
+                return ArticleExistant;
             }
-            catch (Exception Exception)
-            {
-                throw new Exception(Exception.ARTICLE_DEJA_EXISTANT);
-            }
+
+            Article NouvelArticle = new Article(NouvelleDescription, NouvelleReference, NouvelleMarque, NouvelleSousFamille, NouveauPrixHT, NouvelleQuantite);
+            DictionnaireArticles.Add(NouvelleReference, NouvelArticle);
+            BaseDeDonnees.GetInstance().AjoutArticleBdd(NouvelArticle);
+
+            Parseur.NOMBRE_ARTICLES_CREE++;
+
+            return NouvelArticle;
         }
 
         private Article() { }
@@ -223,9 +230,9 @@ namespace Hector
 
                 return DictionnaireArticles[RefArticle];
             }
-            catch (Exception Exception)
+            catch (Exception ExceptionAttrapee)
             {
-                Exception.AfficherMessageErreur();
+                ExceptionAttrapee.AfficherMessageErreur();
 
                 return null;
             }

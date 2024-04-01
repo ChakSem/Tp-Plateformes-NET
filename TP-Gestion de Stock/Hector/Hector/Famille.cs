@@ -31,9 +31,9 @@ namespace Hector
 
                 return DictionnaireFamilles[NomParam];
             }
-            catch (Exception Exception)
+            catch (Exception ExceptionAttrapee)
             {
-                Exception.AfficherMessageErreur();
+                ExceptionAttrapee.AfficherMessageErreur();
 
                 return null;
             }
@@ -86,17 +86,18 @@ namespace Hector
         /// <returns> NouvelleFamille </returns>
         public static Famille CreerFamilleDepuisCSV(string NomParam)
         {
-            if (NomAttribue(NomParam) == false)
+            if (NomAttribue(NomParam) == true)
             {
-                Famille NouvelleFamille = new Famille(NomParam);
-                DictionnaireFamilles.Add(NomParam, NouvelleFamille);
+                Famille FamilleExistante = DictionnaireFamilles[NomParam];
 
-                BaseDeDonnees.GetInstance().AjoutFamilleBdd(NouvelleFamille);
-
-                return NouvelleFamille;
+                return FamilleExistante;
             }
+            Famille NouvelleFamille = new Famille(NomParam);
+            DictionnaireFamilles.Add(NomParam, NouvelleFamille);
 
-            return DictionnaireFamilles[NomParam];
+            BaseDeDonnees.GetInstance().AjoutFamilleBdd(NouvelleFamille);
+
+            return NouvelleFamille;
         }
         private Famille() { }
         private Famille(Famille FamilleParam) { }
@@ -155,8 +156,8 @@ namespace Hector
                 Nom = NouveauNom;
 
                 return Exception.RETOUR_NORMAL;
-            } catch (Exception ExceptionCatched) {
-                ExceptionCatched.AfficherMessageErreur();
+            } catch (Exception ExceptionAttrapee) {
+                ExceptionAttrapee.AfficherMessageErreur();
 
                 return Exception.RETOUR_ERREUR;
             }
@@ -259,9 +260,9 @@ namespace Hector
 
                 return Exception.RETOUR_NORMAL;
             }
-            catch (Exception Exception)
+            catch (Exception ExceptionAttrapee)
             {
-                Exception.AfficherMessageErreur();
+                ExceptionAttrapee.AfficherMessageErreur();
 
                 return Exception.RETOUR_ERREUR;
             }

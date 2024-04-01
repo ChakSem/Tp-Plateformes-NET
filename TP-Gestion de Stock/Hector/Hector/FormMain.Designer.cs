@@ -47,7 +47,6 @@ namespace Hector
             this.marqueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modifierUnObjetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.supprimerLobjetSelectionneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -159,7 +158,7 @@ namespace Hector
             this.modifierUnObjetToolStripMenuItem,
             this.supprimerLobjetSelectionneToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(236, 92);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(229, 70);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // créerUnNouvelIndividuToolStripMenuItem
@@ -170,7 +169,7 @@ namespace Hector
             this.sousFamilleToolStripMenuItem,
             this.marqueToolStripMenuItem});
             this.créerUnNouvelIndividuToolStripMenuItem.Name = "créerUnNouvelIndividuToolStripMenuItem";
-            this.créerUnNouvelIndividuToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.créerUnNouvelIndividuToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this.créerUnNouvelIndividuToolStripMenuItem.Text = "Créer un nouvel individu";
             // 
             // articleToolStripMenuItem
@@ -204,14 +203,14 @@ namespace Hector
             // modifierUnObjetToolStripMenuItem
             // 
             this.modifierUnObjetToolStripMenuItem.Name = "modifierUnObjetToolStripMenuItem";
-            this.modifierUnObjetToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
-            this.modifierUnObjetToolStripMenuItem.Text = "Modifier un l\'objet selectionne";
+            this.modifierUnObjetToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+            this.modifierUnObjetToolStripMenuItem.Text = "Modifier l\'objet selectionne";
             this.modifierUnObjetToolStripMenuItem.Click += new System.EventHandler(this.modifierUnObjetToolStripMenuItem_Click);
             // 
             // supprimerLobjetSelectionneToolStripMenuItem
             // 
             this.supprimerLobjetSelectionneToolStripMenuItem.Name = "supprimerLobjetSelectionneToolStripMenuItem";
-            this.supprimerLobjetSelectionneToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.supprimerLobjetSelectionneToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this.supprimerLobjetSelectionneToolStripMenuItem.Text = "Supprimer l\'objet selectionne";
             this.supprimerLobjetSelectionneToolStripMenuItem.Click += new System.EventHandler(this.supprimerLobjetSelectionneToolStripMenuItem_Click);
             // 
@@ -257,7 +256,6 @@ namespace Hector
         private System.Windows.Forms.ToolStripMenuItem familleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sousFamilleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem marqueToolStripMenuItem;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ToolStripMenuItem modifierUnObjetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem supprimerLobjetSelectionneToolStripMenuItem;
     }

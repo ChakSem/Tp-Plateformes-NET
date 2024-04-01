@@ -32,14 +32,11 @@ namespace Hector
             this.SelectFile = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.FilePathLabel = new System.Windows.Forms.Label();
-            this.ProgressBar = new System.Windows.Forms.ProgressBar();
+            this.BarreDeProgression = new System.Windows.Forms.ProgressBar();
             this.CheckBoxAjout = new System.Windows.Forms.CheckBox();
             this.CheckBoxEcrasement = new System.Windows.Forms.CheckBox();
             this.FinishButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
-            this.backgroundWorker3 = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // SelectFile
@@ -65,20 +62,20 @@ namespace Hector
             this.FilePathLabel.TabIndex = 4;
             this.FilePathLabel.Text = "./";
             // 
-            // ProgressBar
+            // BarreDeProgression
             // 
-            this.ProgressBar.Location = new System.Drawing.Point(0, 143);
-            this.ProgressBar.Margin = new System.Windows.Forms.Padding(3, 3, 3, 4);
-            this.ProgressBar.Name = "ProgressBar";
-            this.ProgressBar.Size = new System.Drawing.Size(384, 28);
-            this.ProgressBar.TabIndex = 5;
+            this.BarreDeProgression.Location = new System.Drawing.Point(0, 122);
+            this.BarreDeProgression.Margin = new System.Windows.Forms.Padding(3, 3, 3, 4);
+            this.BarreDeProgression.Name = "BarreDeProgression";
+            this.BarreDeProgression.Size = new System.Drawing.Size(384, 44);
+            this.BarreDeProgression.TabIndex = 5;
             // 
             // CheckBoxAjout
             // 
             this.CheckBoxAjout.AutoSize = true;
             this.CheckBoxAjout.Checked = true;
             this.CheckBoxAjout.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckBoxAjout.Location = new System.Drawing.Point(26, 110);
+            this.CheckBoxAjout.Location = new System.Drawing.Point(27, 83);
             this.CheckBoxAjout.Name = "CheckBoxAjout";
             this.CheckBoxAjout.Size = new System.Drawing.Size(96, 17);
             this.CheckBoxAjout.TabIndex = 6;
@@ -89,7 +86,7 @@ namespace Hector
             // CheckBoxEcrasement
             // 
             this.CheckBoxEcrasement.AutoSize = true;
-            this.CheckBoxEcrasement.Location = new System.Drawing.Point(225, 110);
+            this.CheckBoxEcrasement.Location = new System.Drawing.Point(226, 83);
             this.CheckBoxEcrasement.Name = "CheckBoxEcrasement";
             this.CheckBoxEcrasement.Size = new System.Drawing.Size(128, 17);
             this.CheckBoxEcrasement.TabIndex = 7;
@@ -112,25 +109,15 @@ namespace Hector
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(16, 70);
-            this.progressBar1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(335, 34);
-            this.progressBar1.TabIndex = 9;
-            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
-            // 
             // FormImport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(380, 179);
-            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.FinishButton);
             this.Controls.Add(this.CheckBoxEcrasement);
             this.Controls.Add(this.CheckBoxAjout);
-            this.Controls.Add(this.ProgressBar);
+            this.Controls.Add(this.BarreDeProgression);
             this.Controls.Add(this.FilePathLabel);
             this.Controls.Add(this.SelectFile);
             this.MaximumSize = new System.Drawing.Size(396, 218);
@@ -148,13 +135,10 @@ namespace Hector
         private System.Windows.Forms.Button SelectFile;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Label FilePathLabel;
-        private System.Windows.Forms.ProgressBar ProgressBar;
+        private System.Windows.Forms.ProgressBar BarreDeProgression;
         private System.Windows.Forms.CheckBox CheckBoxAjout;
         private System.Windows.Forms.CheckBox CheckBoxEcrasement;
         private System.Windows.Forms.Button FinishButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.ProgressBar progressBar1;
-        private System.ComponentModel.BackgroundWorker backgroundWorker2;
-        private System.ComponentModel.BackgroundWorker backgroundWorker3;
     }
 }
