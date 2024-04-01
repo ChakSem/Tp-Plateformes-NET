@@ -1,12 +1,9 @@
 TODO : 
 - Commentaires
-- CRUD => Gerer modification aussi sur la BDD SQLite
 - Afficher anomalie dans l'import
-- Renomme Ecrivain + Check Nommage
 - Faire en sorte de ne pas remplacer element modifier sqlite par elements du csv (quand meme id)
-- modification sousfamille
-- Verifier que le form de suppression fonctionne( que cela ne soit pas supprimé dans tout les cas)
 - Reset groupe + filtrage quand on passe de articles à autre chose
+- check pour les avertissements
 
 
 Fini :
@@ -18,3 +15,7 @@ Fini :
 - Actualiser avant import par ajout
 - Gerer Clique Droit
 - Commentaires formmain
+- CRUD => Gerer modification aussi sur la BDD SQLite
+- Renomme Ecrivain + Check Nommage
+- modification sousfamille
+- Verifier que le form de suppression fonctionne( que cela ne soit pas supprimé dans tout les cas)
