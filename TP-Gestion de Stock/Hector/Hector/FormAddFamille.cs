@@ -16,6 +16,11 @@ namespace Hector
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Méthode permettant de créer une famille
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CreateButton_Click(object sender, EventArgs e)
         {
             if(NomFamilleTextBox.Text != "")
@@ -33,7 +38,11 @@ namespace Hector
                 MessageBox.Show("Le champ Nom est vide", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
+        /// <summary>
+        /// Méthode permettant de fermer la fenêtre
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CancelButton_Click(object sender, EventArgs e)
         {
             this.Close();

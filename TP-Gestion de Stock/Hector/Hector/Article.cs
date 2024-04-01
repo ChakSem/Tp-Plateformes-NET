@@ -68,12 +68,12 @@ namespace Hector
         public static Article CreerArticleDepuisSQLite(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT, uint NouvelleQuantite)
         {
             if (!DictionnaireArticles.ContainsKey(NouvelleReference))
-            { 
+            {
                 Article NouvelArticle = new Article(NouvelleDescription, NouvelleReference, NouvelleMarque, NouvelleSousFamille, NouveauPrixHT, NouvelleQuantite);
                 DictionnaireArticles.Add(NouvelleReference, NouvelArticle);
 
                 return NouvelArticle;
-            } 
+            }
 
             return null;
         }
@@ -90,17 +90,21 @@ namespace Hector
         /// <returns>NouvelArticle</returns>
         public static Article CreerArticleDepuisCSV(string NouvelleDescription, string NouvelleReference, Marque NouvelleMarque, SousFamille NouvelleSousFamille, double NouveauPrixHT, uint NouvelleQuantite)
         {
-            if (!DictionnaireArticles.ContainsKey(NouvelleReference))
+            try
             {
-                Article NouvelArticle = new Article(NouvelleDescription, NouvelleReference, NouvelleMarque, NouvelleSousFamille, NouveauPrixHT, NouvelleQuantite);
-                DictionnaireArticles.Add(NouvelleReference, NouvelArticle);
-
-                BaseDeDonnees.GetInstance().AjoutArticleBdd(NouvelArticle);
-
-                return NouvelArticle;
+                if (!DictionnaireArticles.ContainsKey(NouvelleReference))
+                {
+                    Article NouvelArticle = new Article(NouvelleDescription, NouvelleReference, NouvelleMarque, NouvelleSousFamille, NouveauPrixHT, NouvelleQuantite);
+                    DictionnaireArticles.Add(NouvelleReference, NouvelArticle);
+                    BaseDeDonnees.GetInstance().AjoutArticleBdd(NouvelArticle);
+                    return NouvelArticle;
+                }
+                return null;
             }
-
-            return null;
+            catch (Exception Exception)
+            {
+                throw new Exception(Exception.ARTICLE_DEJA_EXISTANT);
+            }
         }
 
         private Article() { }
@@ -135,7 +139,8 @@ namespace Hector
         /// </summary>
         /// <param name="NouvelleReference"> Reference que l'on veut définir </param>
         /// <returns> Une valeur indiquant si la modification a réussie </returns>
-        public uint SetReference(string NouvelleReference) {
+        public uint SetReference(string NouvelleReference)
+        {
             try
             {
                 if (NouvelleReference != Reference && DictionnaireArticles.ContainsKey(NouvelleReference))

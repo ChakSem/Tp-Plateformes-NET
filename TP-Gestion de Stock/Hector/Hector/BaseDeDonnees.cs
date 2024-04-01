@@ -115,16 +115,15 @@ namespace Hector
                 using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
                 {
                     Connexion.Open();
-
-                    string Description = ArticleParam.GetDescription();
                     string RefArticle = ArticleParam.GetReference();
+                    string Description = ArticleParam.GetDescription();
                     double PrixHT = ArticleParam.GetPrixHT();
                     uint Quantite = ArticleParam.GetQuantite();
                     int RefMarque = ArticleParam.GetMarque().GetRefMarque();
                     int RefSousFamille = ArticleParam.GetSousFamille().GetRefSousFamille();
 
                     string RequeteSQL = "INSERT INTO Articles (Description, RefArticle, PrixHT, Quantite, RefMarque, RefSousFamille) VALUES (@Description, @RefArticle, @PrixHT, @Quantite, @RefMarque, @RefSousFamille)";
-
+                    //On ajoute l'article à la BDD
                     using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
                     {
                         CommandeSQL.Parameters.AddWithValue("@Description", Description);
@@ -135,6 +134,8 @@ namespace Hector
                         CommandeSQL.Parameters.AddWithValue("@RefSousFamille", RefSousFamille);
                         CommandeSQL.ExecuteScalar();
                     }
+                    Connexion.Close();
+
                 }
             }
             catch (SQLiteException ExceptionSQL)
@@ -171,9 +172,6 @@ namespace Hector
             }
         }
 
-        /// <summary>
-        /// Permets d'ajouter les Marques d'une liste à la BDD.
-        /// </summary>
         public void AjoutMarqueBdd(Marque MarqueParam)
         {
             try
@@ -185,38 +183,53 @@ namespace Hector
                     string Nom = MarqueParam.GetNom();
                     int RefMarque = MarqueParam.GetRefMarque();
 
-                    if (RefMarque != Global.REFERENCE_NON_ASSIGNEE) // Si la réference de la marque n'a pas encore été générée
+                    string RequeteSQL;
+                    using (SQLiteCommand CommandeSQL = Connexion.CreateCommand())
                     {
-                        string RequeteSQL = "INSERT INTO Marques (Nom) VALUES (@Nom)";
+                        // Vérifier si la référence existe déjà
+                        RequeteSQL = "SELECT COUNT(*) FROM Marques WHERE RefMarque = @RefMarque";
+                        CommandeSQL.CommandText = RequeteSQL;
+                        CommandeSQL.Parameters.AddWithValue("@RefMarque", RefMarque);
+                        int count = Convert.ToInt32(CommandeSQL.ExecuteScalar());
 
-                        using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                        if (count == 0) // Si la référence n'existe pas déjà
                         {
-                            CommandeSQL.Parameters.AddWithValue("@Nom", Nom);
-                            CommandeSQL.ExecuteScalar();
+                            if (RefMarque != Global.REFERENCE_NON_ASSIGNEE) // Si la référence de la marque n'a pas encore été générée
+                            {
+                                RequeteSQL = "INSERT INTO Marques (Nom) VALUES (@Nom)";
+                                CommandeSQL.CommandText = RequeteSQL;
+                                CommandeSQL.Parameters.AddWithValue("@Nom", Nom);
+                                CommandeSQL.ExecuteNonQuery();
+
+                                /* On récupère la Référence générée lors de l'insertion */
+                                int RefMarqueGeneree = GetReferenceGeneree(Connexion, "Marques", "RefMarque", Nom);
+                                MarqueParam.DefineRefMarque(RefMarqueGeneree);
+                            }
+                            else
+                            {
+                                RequeteSQL = "INSERT INTO Marques (RefMarque, Nom) VALUES (@RefMarque, @Nom)";
+                                CommandeSQL.CommandText = RequeteSQL;
+                                CommandeSQL.Parameters.AddWithValue("@Nom", Nom);
+                                CommandeSQL.Parameters.AddWithValue("@RefMarque", RefMarque);
+                                CommandeSQL.ExecuteNonQuery();
+                            }
                         }
-
-                        /* On recupere la Reference generee lors de l'insertion */
-                        int RefMarqueGeneree = GetReferenceGeneree(Connexion, "Marques", "RefMarque", Nom);
-                        MarqueParam.DefineRefMarque(RefMarqueGeneree);
-                    }
-                    else
-                    {
-                        string RequeteSQL = "INSERT INTO Marques (RefMarque, NaNomme) VALUES (@RefMarque, @Nom)";
-
-                        using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                        else
                         {
-                            CommandeSQL.Parameters.AddWithValue("@Nom", Nom);
-                            CommandeSQL.Parameters.AddWithValue("@RefMarque", RefMarque);
-                            CommandeSQL.ExecuteNonQuery();
+
+                            throw new Exception(Exception.ERREUR_REFERENCE_DEJA_DEFINIE);
                         }
                     }
                 }
             }
             catch (SQLiteException ExceptionSQL)
             {
-                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+                throw new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD);
+               
             }
         }
+
+
 
         /// <summary>
         /// Permets d'ajouter les SousFamilles d'une liste à la BDD.
