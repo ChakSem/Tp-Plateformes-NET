@@ -379,7 +379,72 @@ namespace Hector
                 {
                     ChargerListViewArticlesPourUneMarque(Item.SubItems[0].Text); // On affiche les articles correspondant à la marque selectionnée
                 }
+                if (TypeDonneesAffichees == "Description")
+                {
+                    ChargerListViewArticlesPourUneDescription();
+                }
             }
+        }
+        /// <summary>
+        /// Permets de trier la liste view en groupes selon la première lettre de la description de l'article.
+        /// </summary>
+        public void ChargerListViewArticlesPourUneDescription()
+        {
+            for (char Lettre = 'A'; Lettre <= 'Z'; Lettre++)
+            {
+                // On crée le groupe correspondant à la lettre.
+                ListViewGroup Groupe = new ListViewGroup(Convert.ToString(Lettre).ToUpper(), HorizontalAlignment.Left);
+                ListView1.Groups.Add(Groupe);
+
+                foreach (ListViewItem Item in ListView1.Items)
+                {
+                    // On ajoute l'item si sa première lettre est la lettre actuelle.
+                    if (ExtractionPremierCaractere(Item.SubItems[1].Text) == Lettre)
+                    {
+                        ListViewItem Item_Temp = new ListViewItem(Item.SubItems[0].Text, Groupe);
+                        ListView1.Items.Add(Item_Temp);
+                        Item_Temp.SubItems.Add(Item.SubItems[1].Text);
+                        ListView1.Items.Remove(Item);
+
+                    }
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Permets d'obtenir la première alphabétique d'un string.
+        /// </summary>
+        /// <param name="Chaine"> Chaine de caractère où l'on veut chercher la première lettre alphabétique. </param>
+        /// <returns> char, la première lettre de la chaine de caractère. </returns>
+        public char ExtractionPremierCaractere(string Chaine)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Chaine))
+                {
+                    throw new Exception(Exception.ERREUR_CHAINE_VIDE);
+                }
+                else
+                {
+                    foreach (char Caractere in Chaine)
+                    {
+                        // Vérifier si le caractère est une lettre et que ce n'est pas le x de "6x Marqueurs - Velleda - 1781bis"
+                        if (char.IsLetter(Caractere) && Convert.ToString(Caractere) != "x")
+                        {
+                            char PremierCaractere = char.ToUpper(Caractere);
+                            return PremierCaractere;
+                        }
+                    }
+                }
+            }
+            catch (Exception Exception)
+            {
+                Exception.AfficherMessageErreur();
+            }
+            return ' ';
+
+
         }
 
 
@@ -397,7 +462,7 @@ namespace Hector
                 ListView1.Groups.Clear();
 
                 string NomColonne = ListView1.Columns[Event.Column].Text;
-
+                // Si on clique sur la colonne Familles 
                 if (NomColonne == "Familles")
                 {
                     Dictionary<string, int> IndicesGroupe = new Dictionary<string, int>();
@@ -414,7 +479,7 @@ namespace Hector
                         Ligne.Group = ListView1.Groups[IndicesGroupe[Ligne.SubItems[2].Text]];
                     }
                 }
-
+                // Si on clique sur la colonne Sous-familles
                 if (NomColonne == "Sous-familles")
                 {
                     Dictionary<string, int> IndicesGroupe = new Dictionary<string, int>();
@@ -430,7 +495,7 @@ namespace Hector
                         Ligne.Group = ListView1.Groups[IndicesGroupe[Ligne.SubItems[3].Text]];
                     }
                 }
-
+                // Si on clique sur la colonne Marques
                 if (NomColonne == "Marques")
                 {
                     Dictionary<string, int> IndicesGroupe = new Dictionary<string, int>();
@@ -449,12 +514,13 @@ namespace Hector
             }
         }
 
+
         /// <summary>
         /// Permets d'actualiser l'application à partir de la BDD.
         /// </summary>
         public void Actualiser(bool Afficher_MessageBox)
         {
-             //private void ListView1_ColumnClick(object sender, ColumnClickEventArgs Event)
+            //private void ListView1_ColumnClick(object sender, ColumnClickEventArgs Event)
             ImporterDonneesFichierSQLite();
             ChargerTreeView();
             //on recupere le dernier noeud selectionné
@@ -535,10 +601,9 @@ namespace Hector
                         {
                             throw new Exception(Exception.ERREUR_OBJET_UTILISEE);
                         }
-
-
                     }
-                } catch (Exception ExceptionAttrapee)
+                }
+                catch (Exception ExceptionAttrapee)
                 {
                     ExceptionAttrapee.AfficherMessageErreur();
                 }
@@ -580,10 +645,11 @@ namespace Hector
                             Item.SubItems[2].Text = ArticleSelectionnee.GetSousFamille().GetFamille().GetNom();
                             Item.SubItems[3].Text = ArticleSelectionnee.GetSousFamille().GetNom();
                             Item.SubItems[4].Text = ArticleSelectionnee.GetMarque().GetNom();
-                        } else
+                        }
+                        else
                         {
                             // Sinon on la supprime la ligne
-                            ListView1.Items.Remove(Item); 
+                            ListView1.Items.Remove(Item);
                         }
                     }
                 }
@@ -639,12 +705,14 @@ namespace Hector
 
                         /* On vérifie que la famille n'a pas été modifié */
                         string NomNouvelleFamille = SousFamilleSelectionnee.GetNom();
-                        if (NomFamilleAvantModification == NomNouvelleFamille) {
+                        if (NomFamilleAvantModification == NomNouvelleFamille)
+                        {
                             Item.SubItems[0].Text = SousFamilleSelectionnee.GetNom(); // Si non, on met à jour le nom
-                        } else
+                        }
+                        else
                         {
                             ListView1.Items.Remove(Item); // Si oui, on supprime la ligne
-                            // TODO : mise a jour dans le treeview
+                                                          // TODO : mise a jour dans le treeview
                         }
                     }
                 }
@@ -780,7 +848,7 @@ namespace Hector
         /// <param name="sender"></param>
         /// <param name="Event"></param>
         private void ListView1_KeyDown(object sender, KeyEventArgs Event)
-        { 
+        {
             if (Event.KeyCode == Keys.Delete)
             {
                 SupprimerElement();
@@ -920,7 +988,13 @@ namespace Hector
                 return String.Compare(((ListViewItem)ObjetParam1).SubItems[NumeroColomne].Text, ((ListViewItem)ObjetParam2).SubItems[NumeroColomne].Text);
             }
         }
-
+        /// <summary>
+        /// Methode qui permet de trouver un noeud par son texte
+        /// </summary>
+        /// <param name="NoeudParent"></param>
+        /// <param name="TexteDuNoeud"></param>
+        /// <returns> - TreeNode : le noeud trouvé </returns>
+        /// <returns> - null : si le noeud n'a pas été trouvé </returns>
         private TreeNode TrouverNoeudParTexte(TreeNode NoeudParent, string TexteDuNoeud)
         {
             if (NoeudParent.Text == TexteDuNoeud)

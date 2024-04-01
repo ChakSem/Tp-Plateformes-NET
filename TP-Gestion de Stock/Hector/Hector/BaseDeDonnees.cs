@@ -228,9 +228,6 @@ namespace Hector
             }
         }
 
-
-
-
         /// <summary>
         /// Permets d'ajouter les SousFamilles d'une liste à la BDD.
         /// </summary>

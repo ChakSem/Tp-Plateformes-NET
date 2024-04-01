@@ -31,6 +31,7 @@ namespace Hector
         public const uint ERREUR_REFERENCE_NON_EXISTANTE = 12;
         public const uint ERREUR_OBJET_UTILISEE = 13;
         public const uint ARTICLE_DEJA_EXISTANT = 14;
+        public const uint ERREUR_CHAINE_VIDE = 15;
 
 
         private uint CodeErreur;
@@ -110,6 +111,9 @@ namespace Hector
                     break;
                 case ERREUR_OBJET_UTILISEE:
                     MessageErreur = "Cet objet ne peut etre supprime, il est utilse par un autre objet";
+                    break;
+                case ERREUR_CHAINE_VIDE:
+                    MessageErreur = "La chaîne de caracteres est vide";
                     break;
                 default:
                     MessageErreur = "Une erreur inconnue est survenue";
