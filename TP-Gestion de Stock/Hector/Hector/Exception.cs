@@ -27,22 +27,35 @@ namespace Hector
         public const uint ERREUR_CHEMIN_VIDE = 8;
         public const uint ERREUR_OBJET_DEJA_EXISTANT = 9;
         public const uint ERREUR_PARSING_DOUBLE = 10;
-        public const uint ERREUR_PARSING_UINT = 11;
+        public const uint ERREUR_PARSING_UINT = 11; 
         public const uint ERREUR_REFERENCE_NON_EXISTANTE = 12;
         public const uint ERREUR_OBJET_UTILISEE = 13;
+        public const uint ARTICLE_DEJA_EXISTANT = 14;
 
 
         private uint CodeErreur;
+        /// <summary>
+        /// Acceseur en lecture du code d'erreur
+        /// </summary>
+        /// <returns></returns>
         public uint GetCodeErreur()
         {
             return CodeErreur;
         }
 
+        /// <summary>
+        /// Acceseur en écriture du code d'erreur
+        /// </summary>
+        /// <param name="CodeErreurParam"></param>
         public void SetCodeErreur(uint CodeErreurParam)
         {
             CodeErreur = CodeErreurParam;
         }
 
+        /// <summary>
+        /// Constructeur de la classe Exception
+        /// </summary>
+        /// <param name="NouveauCodeErreur"></param>
         public Exception(uint NouveauCodeErreur)
         {
             CodeErreur = NouveauCodeErreur;

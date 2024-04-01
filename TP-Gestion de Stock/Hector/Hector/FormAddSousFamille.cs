@@ -11,6 +11,9 @@ namespace Hector
 {
     public partial class FormAddSousFamille : Form
     {
+        /// <summary>
+        /// Constructeur de la classe FormAddSousFamille
+        /// </summary>
         public FormAddSousFamille()
         {
             InitializeComponent();
@@ -22,7 +25,12 @@ namespace Hector
 
             FamilleComboBox.SelectedIndex = 0;
         }
-
+        
+        /// <summary>
+        /// Méthode permettant de créer une sous-famille
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CreateButton_Click(object sender, EventArgs e)
         {
             if (NomSousFamilleTextBox.Text != "" && FamilleComboBox.Items.Count > 0)
@@ -45,7 +53,11 @@ namespace Hector
                     MessageBox.Show("Aucune Famille n'est selectionne", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
+        /// <summary>
+        /// Méthode permettant de fermer la fenêtre
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CancelButton_Click(object sender, EventArgs e)
         {
             this.Close();

@@ -10,7 +10,10 @@ using System.Windows.Forms;
 namespace Hector
 {
     public partial class FormAddArticle : Form
-    {
+    {   
+        /// <summary>
+        /// Constructeur de la classe FormAddArticle
+        /// </summary>
         public FormAddArticle()
         {
             InitializeComponent();
@@ -27,7 +30,11 @@ namespace Hector
             }
             MarqueComboBox.SelectedIndex = 0;
         }
-
+        /// <summary>
+        /// Méthode permettant de créer un article
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CreateButton_Click(object sender, EventArgs e)
         {
             try
@@ -98,7 +105,11 @@ namespace Hector
                 ExceptionAttrapee.AfficherMessageErreur();
             }
         }
-
+        /// <summary>
+        /// Méthode permettant de fermer la fenêtre
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CancelButton_Click(object sender, EventArgs e)
         {
             this.Close();

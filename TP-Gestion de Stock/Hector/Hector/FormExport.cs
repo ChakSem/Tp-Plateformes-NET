@@ -12,12 +12,18 @@ namespace Hector
     public partial class FormExport : Form
     {
         private string CheminCsvAExporter;
-
+        /// <summary>
+        /// Constructeur de la classe FormExport
+        /// </summary>
         public FormExport()
         {
             InitializeComponent();
         }
-
+        /// <summary>
+        /// Méthode permettant de fermer la fenêtre
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SelectFile_Click(object sender, EventArgs e)
         {
 

@@ -16,14 +16,20 @@ namespace Hector
         private int NombreArticleAvantImport;
         private int NombreArticleApresImport;
         private int NombreArticleAjoutee;
-
+        /// <summary>
+        /// Constructeur de la classe FormImport
+        /// </summary>
         public FormImport()
         {
             InitializeComponent();
             Parseur = new Parseur(); // Initialisation de Parseur
             backgroundWorker1.ProgressChanged += backgroundWorker1_ProgressChanged;
         }
-
+        /// <summary>
+        /// Méthode permettant de mettre à jour la barre de progression
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             progressBar1.Value = e.ProgressPercentage;
@@ -34,23 +40,40 @@ namespace Hector
         {
             //this.progressBar1.Value = 0;
         }
-
+        /// <summary>
+        /// Méthode permettant de cocher la case Ajout si la case Ecrasement est cochée
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CheckBoxEcrasement_CheckedChanged(object sender, EventArgs e)
         {
             CheckBoxAjout.Checked = !CheckBoxEcrasement.Checked;
         }
-
+        /// <summary>
+        /// Méthode permettant de cocher la case Ecrasement si la case Ajout est cochée
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CheckBoxAjout_CheckedChanged(object sender, EventArgs e)
         {
             CheckBoxEcrasement.Checked = !CheckBoxAjout.Checked;
         }
-
+        /// <summary>
+        /// Méthode permettant d'importer un fichier CSV en cliquant sur le bouton Importer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ImportButton(object sender, EventArgs e)
         {
             CheminCsvAImpoter = ImportCsvFile(sender, e);
             FilePathLabel.Text = CheminCsvAImpoter;
         }
-
+        /// <summary>
+        /// Méthode permettant d'importer un fichier CSV
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
         private string ImportCsvFile(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -60,6 +83,11 @@ namespace Hector
             return openFileDialog.FileName;
         }
 
+        /// <summary>
+        /// Méthode permettant de terminer l'importation en cliquant sur le bouton Terminer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FinishButton_Click(object sender, EventArgs e)
         {
             if (!backgroundWorker1.IsBusy)
@@ -74,12 +102,21 @@ namespace Hector
             }
         }
 
+        /// <summary>
+        /// Méthode permettant de vider la base de données en cliquant sur le bouton Vider
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker BarreDeProgression = sender as BackgroundWorker; // On récupère le worker
 
-            /* Si on ouvre en ecrasement, on vide la BDD */
-            BDD.ViderDonnees();
+            //Si la case Ecrasement est cochée, on vide la base de données
+            if (CheckBoxEcrasement.Checked)
+            {
+                BDD.ViderDonnees();
+            }
+            //Si la case Ajout est cochée, on lit les données de la base de données
             if (CheckBoxAjout.Checked)
             {
                 BaseDeDonnees BDD = BaseDeDonnees.GetInstance();
@@ -92,7 +129,10 @@ namespace Hector
 
              // On crée et recupere les objets Article à importer dans la BDD ( et on cree les objets Marque, Familles et SousFamilles qui n'existent pas encore )
 
-            NombreArticleAvantImport = BDD.LireNombreArticlesBdd();/*
+            NombreArticleAvantImport = BDD.LireNombreArticlesBdd();
+            MessageBox.Show("Nb avant import"+NombreArticleAvantImport);
+            /*
+                 
             int NombreArticleDansFichier = ArticlesAImporter.Count;*/
 
             uint NombreArticleAjoutesAvecSucces = Parseur.Parse(CheminCsvAImpoter, BarreDeProgression);

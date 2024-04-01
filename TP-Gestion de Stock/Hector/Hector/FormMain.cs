@@ -18,7 +18,9 @@ namespace Hector
 
         string Filtre;
         string TypeFiltre;
-
+        /// <summary>
+        /// Constructeur de la classe FormMain
+        /// </summary>
         public FormMain()
         {
             InitializeComponent();
@@ -551,10 +553,12 @@ namespace Hector
             if (ListView1.SelectedItems.Count == 1) // Si un seul élément est selectionne dans le ListView, on ouvre l'interface de modification de cet objet
             {
                 ListViewItem Item = ListView1.SelectedItems[0];
-
+                // Si on modifie un article
                 if (TypeDonneesAffichees == "Articles")
                 {
                     Article ArticleSelectionnee = Article.GetArticleExistant(Item.SubItems[0].Text);
+
+                    // On ouvre la fenêtre de modification de l'article
                     if (ArticleSelectionnee != null)
                     {
                         string NomSousFamilleAvantModification = ArticleSelectionnee.GetSousFamille().GetNom();
@@ -566,9 +570,9 @@ namespace Hector
                         string NomNouvelleSousFamille = ArticleSelectionnee.GetSousFamille().GetNom();
                         string NomNouvelleMarque = ArticleSelectionnee.GetMarque().GetNom();
 
-                        if (TypeFiltre == "" || // Si aucun filtre n'est actif (si tout les articles sont affichés)
-                            (TypeFiltre == "Marque" && NomMarqueAvantModification == NomNouvelleMarque) || // Si seul les Articles d'une Marque sont affichés et que l'Article appartient toujours à la Marque
-                            (TypeFiltre == "SousFamille" && NomSousFamilleAvantModification == NomNouvelleSousFamille)) // Si seul les Articles d'une SousFamille sont affichés et que l'Article appartient toujours à celle-ci
+                        if (TypeFiltre == "" || // Si aucun filtre n'est actif, tout les articles sont affichés
+                            (TypeFiltre == "Marque" && NomMarqueAvantModification == NomNouvelleMarque) || // Si ce sont les Articles d'une Marque qui sont affichés et que la Marque n'a pas changée
+                            (TypeFiltre == "SousFamille" && NomSousFamilleAvantModification == NomNouvelleSousFamille)) // Si ce sont les Articles d'une SousFamille qui sont affichés et que celle-ci n'a pas changée
                         {
                             // Alors, on met à jour la ligne
                             Item.SubItems[0].Text = ArticleSelectionnee.GetReference();
@@ -583,6 +587,7 @@ namespace Hector
                         }
                     }
                 }
+                // Si on modifie une famille
                 if (TypeDonneesAffichees == "Familles")
                 {
                     Famille FamilleSelectionnee = Famille.GetFamilleExistante(Item.SubItems[0].Text);
@@ -599,6 +604,7 @@ namespace Hector
                         NoeudAMettreAJour.Text = NouveauNom;
                     }
                 }
+                // Si on modifie une marque
                 if (TypeDonneesAffichees == "Marques")
                 {
                     Marque MarqueSelectionnee = Marque.GetMarqueExistante(Item.SubItems[0].Text);
@@ -615,6 +621,7 @@ namespace Hector
                         NoeudAMettreAJour.Text = NouveauNom;
                     }
                 }
+                // Si on modifie une sous-famille
                 if (TypeDonneesAffichees == "SousFamilles")
                 {
                     SousFamille SousFamilleSelectionnee = SousFamille.GetSousFamilleExistante(Item.SubItems[0].Text);
@@ -631,20 +638,13 @@ namespace Hector
                         NouveauForm.ShowDialog();
 
                         /* On vérifie que la famille n'a pas été modifié */
-                        string NomNouvelleFamille = SousFamilleSelectionnee.GetFamille().GetNom();
-                        string NouveauNom = SousFamilleSelectionnee.GetNom();
-
-                        NoeudAMettreAJour.Text = NouveauNom;
-
+                        string NomNouvelleFamille = SousFamilleSelectionnee.GetNom();
                         if (NomFamilleAvantModification == NomNouvelleFamille) {
-                            Item.SubItems[0].Text = NouveauNom; // Si non, on met à jour le nom
+                            Item.SubItems[0].Text = SousFamilleSelectionnee.GetNom(); // Si non, on met à jour le nom
                         } else
                         {
                             ListView1.Items.Remove(Item); // Si oui, on supprime la ligne
-                            NoeudFamille.Nodes.Remove(NoeudAMettreAJour);
-
-                            TreeNode NouveauNoeudFamille = TrouverNoeudParTexte(TreeView1.Nodes[1], NomNouvelleFamille);
-                            NouveauNoeudFamille.Nodes.Add(NoeudAMettreAJour);
+                            // TODO : mise a jour dans le treeview
                         }
                     }
                 }
@@ -652,7 +652,7 @@ namespace Hector
         }
 
         /// <summary>
-        /// Permets de supprimer un article.
+        /// Méthode qui permets de supprimer un article.
         /// </summary>
         /// <param name="Item"></param>
         public void SupprimerArticle(ListViewItem Item)
@@ -667,7 +667,7 @@ namespace Hector
         }
 
         /// <summary>
-        /// Permets de supprimer une sous-famille
+        /// Méthode qui permet de supprimer une sous-famille
         /// </summary>
         /// <param name="SousFamilleASupprimer"> SousFamille à supprimer </param>
         public void SupprimerSousFamille(SousFamille SousFamilleASupprimer)
@@ -763,7 +763,7 @@ namespace Hector
         }
 
         /// <summary>
-        /// 
+        /// Evenement lié à l'export de données
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -775,7 +775,7 @@ namespace Hector
 
 
         /// <summary>
-        /// Evenements pour les raccourcis suppression et modification
+        /// Evenements pour les raccourcis suppression (activé par Suppr) et modification (activé par Espace ou Entrée)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="Event"></param>
@@ -910,9 +910,14 @@ namespace Hector
             {
                 NumeroColomne = column;
             }
-            public int Compare(object x, object y)
+            /// <summary
+            /// </summary>
+            /// <param name="ObjetParam1"></param>
+            /// <param name="ObjetParam2"></param> 
+            /// <returns></returns>
+            public int Compare(object ObjetParam1, object ObjetParam2)
             {
-                return String.Compare(((ListViewItem)x).SubItems[NumeroColomne].Text, ((ListViewItem)y).SubItems[NumeroColomne].Text);
+                return String.Compare(((ListViewItem)ObjetParam1).SubItems[NumeroColomne].Text, ((ListViewItem)ObjetParam2).SubItems[NumeroColomne].Text);
             }
         }
 
