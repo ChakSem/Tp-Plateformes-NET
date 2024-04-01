@@ -49,6 +49,18 @@ namespace Hector
         {
             try
             {
+                string ReferenceAvantModification = ArticleSelectionnee.GetReference(); // On sauvegarde la reference pour pouvoir mettre à jour dans la base de données même si elle modifiée
+
+                string AncienneReference = ArticleSelectionnee.GetReference();
+
+                string NouvelleReference = RefArticlesTextBox.Text;
+
+                if (Article.ReferenceAssignee(NouvelleReference))
+                {
+                    throw new Exception(Exception.ERREUR_REFERENCE_DEJA_ASSIGNEE);
+                }
+
+                string NouvelleDescription = DescriptionTextBox.Text;
                 SousFamille SousFamilleSelectionnee = SousFamille.GetSousFamilleExistante(SousFamilleComboBox.Text);
                 Marque MarqueSelectionne = Marque.GetMarqueExistante(MarqueComboBox.Text);
 
@@ -64,12 +76,15 @@ namespace Hector
                     throw new Exception(Exception.ERREUR_PARSING_UINT);
                 }
 
-                if (ArticleSelectionnee.SetReference(RefArticlesTextBox.Text) == Exception.RETOUR_ERREUR)
+                // Tentative de modification dans le fichier .SQLite
+                if (BaseDeDonnees.GetInstance().ModifierArticleBdd(NouvelleReference, NouvelleDescription, PrixHT, Quantite, SousFamilleSelectionnee.GetRefSousFamille(), 
+                    MarqueSelectionne.GetRefMarque(), AncienneReference) == Exception.RETOUR_ERREUR)
                 {
-                    return;
+                    return; // L'exception est deja gerer dans BaseDeDonnees
                 }
 
-                ArticleSelectionnee.SetDescription(DescriptionTextBox.Text);
+                ArticleSelectionnee.SetReference(NouvelleReference);
+                ArticleSelectionnee.SetDescription(NouvelleDescription);
                 ArticleSelectionnee.SetMarque(MarqueSelectionne);
                 ArticleSelectionnee.SetSousFamille(SousFamilleSelectionnee);
                 ArticleSelectionnee.SetPrixHT(PrixHT);
@@ -77,7 +92,6 @@ namespace Hector
 
                 MessageBox.Show("Modifier avec succes", "Tout bon", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
-                
             } catch (Exception ExceptionAttrapee)
             {
                 ExceptionAttrapee.AfficherMessageErreur();

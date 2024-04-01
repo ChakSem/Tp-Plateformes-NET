@@ -7,13 +7,20 @@ using System.Threading.Tasks;
 
 namespace Hector
 {
+    /// <summary>
+    /// Classe gérant la communication avec le fichier .sqlite
+    /// </summary>
     class BaseDeDonnees
     {
-        private string CheminBdd;
         private string ChaineDeConnexion;
+        private string CheminAbsolu;
 
-        private static BaseDeDonnees Instance;
+        private static BaseDeDonnees Instance; // Cette classe a été définie en singleton pour ne pas avoir à réinitialiser les chemins à chaque appel
 
+        /// <summary>
+        /// Méthode gérant l'ouverture d'une instance, ou renvoie l'instante déjà ouverte, si cette méthode a déjà été appelée 
+        /// </summary>
+        /// <returns></returns>
         public static BaseDeDonnees GetInstance()
         {
             if (Instance == null)
@@ -24,27 +31,39 @@ namespace Hector
             return Instance;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private BaseDeDonnees()
         {
-            CheminBdd = "";
+            CheminAbsolu = "";
             ChaineDeConnexion = "";
             GetCheminBaseDeDonnee();
+
+            Console.WriteLine(CheminAbsolu);
         }
 
         private BaseDeDonnees(BaseDeDonnees BaseDeDonneesParam) { }
 
         /// <summary>
+        /// Accesseur en lecture du chemin de la base de données
+        /// </summary>
+        /// <returns> CheminAbsolu </returns>
+        public string GetCheminAbsolu()
+        {
+            return CheminAbsolu;
+        }
+
+        /// <summary>
         /// Methode pour lire le nombre d'article dans la base de données
         /// </summary>
         /// <returns> Le nombre d'article dans la base de données </returns>
-
         public int LireNombreArticlesBdd()
         {
             int NombreArticles = 0;
 
             using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
             {
-                
                 //Debug
                 Connexion.Open();
 
@@ -61,27 +80,13 @@ namespace Hector
         }
 
         /// <summary>
-        /// Getter qui permet d'acceder au chemin de la base de données
+        /// Permets de génerer le chemin absolu du fichier Hector.SQLite
         /// </summary>
-        /// <returns> Le chemin de la base de données </returns>
-        public string LireCheminBdd()
-        {
-            if (CheminBdd == null)
-            {
-                GetCheminBaseDeDonnee();
-            }
-            return CheminBdd;
-        }
-
-        /// <summary>
-        /// Permets d'obtenir le chemin de la base de données et de l'associer à l'attribut de l'objet base de données.
-        /// </summary>
-        /// <exception cref="A DEFINIR">Le fichier de base de données n'a pas été trouvé.</exception>
         public void GetCheminBaseDeDonnee()
         {
-            string DossierSolution = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+            string CheminProjet = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
             string NomBDD = "Hector.SQLite";
-            string CheminComplet = Path.Combine(DossierSolution, NomBDD);
+            string CheminComplet = Path.Combine(CheminProjet, NomBDD);
 
             try
             {
@@ -89,9 +94,8 @@ namespace Hector
                 {
                     throw new Exception(Exception.ERREUR_FICHIER_NON_TROUVE);
                 }
-                this.CheminBdd = CheminComplet;
+                this.CheminAbsolu = CheminComplet;
                 ChaineDeConnexion = @"Data Source= " + CheminComplet;
-
             }
 
             catch (Exception Exception)
@@ -101,81 +105,55 @@ namespace Hector
         }
 
         /// <summary>
-        /// 
+        /// Permets d'ajouter un article à la BDD
         /// </summary>
-        /// <returns> ChaineDeConnexion </returns>
-        public string LireChaineDeConnexion()
+        /// <param name="ArticleParam">Article à ajouter</param>
+        public void AjoutArticleBdd(Article ArticleParam)
         {
             try
             {
-                if (ChaineDeConnexion == null)
+                using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
                 {
-                    throw new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD);
-                }
+                    Connexion.Open();
 
-                return ChaineDeConnexion;
-            }
-            catch (Exception Exception)
-            {
-                Exception.AfficherMessageErreur();
+                    string Description = ArticleParam.GetDescription();
+                    string RefArticle = ArticleParam.GetReference();
+                    double PrixHT = ArticleParam.GetPrixHT();
+                    uint Quantite = ArticleParam.GetQuantite();
+                    int RefMarque = ArticleParam.GetMarque().GetRefMarque();
+                    int RefSousFamille = ArticleParam.GetSousFamille().GetRefSousFamille();
 
-                return null;
-            }
-        }
+                    string RequeteSQL = "INSERT INTO Articles (Description, RefArticle, PrixHT, Quantite, RefMarque, RefSousFamille) VALUES (@Description, @RefArticle, @PrixHT, @Quantite, @RefMarque, @RefSousFamille)";
 
-        /// <summary>
-        /// Permets de modifier la chaine de connexion de la base de données.
-        /// </summary>
-        /// <param name="NewConnectionString">La nouvelle chaine de connexion</param>
-        public void SetChaineDeConnexion(string NouvelleChaineDeConnexion)
-        {
-            ChaineDeConnexion = NouvelleChaineDeConnexion;
-        }
-
-        /// <summary>
-        /// Permets d'ajouter un article à la BDD.
-        /// </summary>
-        /// <param name="Article">Article à ajouter</param>
-        /// <exception cref="A DEFINIR">L'ajout de l'article a échoué.</exception>
-        public void AjoutArticleBdd(Article ArticleParam)
-        {
-            using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
-            {
-                //System.ArgumentException : 'Data Source cannot be empty.  Use :memory: to open an in-memory database'
-                Connexion.Open();
-
-                string Description = ArticleParam.GetDescription();
-                string RefArticle = ArticleParam.GetReference();
-                double PrixHT = ArticleParam.GetPrixHT();
-                uint Quantite = ArticleParam.GetQuantite();
-                int RefMarque = ArticleParam.GetMarque().GetRefMarque();
-                int RefSousFamille = ArticleParam.GetSousFamille().GetRefSousFamille();
-
-                string RequeteSQL = "INSERT INTO Articles (Description, RefArticle, PrixHT, Quantite, RefMarque, RefSousFamille) VALUES (@Description, @RefArticle, @PrixHT, @Quantite, @RefMarque, @RefSousFamille)";
-
-                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
-                {
-                    CommandeSQL.Parameters.AddWithValue("@Description", Description);
-                    CommandeSQL.Parameters.AddWithValue("@RefArticle", RefArticle);
-                    CommandeSQL.Parameters.AddWithValue("@PrixHT", PrixHT);
-                    CommandeSQL.Parameters.AddWithValue("@Quantite", Quantite);
-                    CommandeSQL.Parameters.AddWithValue("@RefMarque", RefMarque);
-                    CommandeSQL.Parameters.AddWithValue("@RefSousFamille", RefSousFamille);
-                    CommandeSQL.ExecuteScalar();
+                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                    {
+                        CommandeSQL.Parameters.AddWithValue("@Description", Description);
+                        CommandeSQL.Parameters.AddWithValue("@RefArticle", RefArticle);
+                        CommandeSQL.Parameters.AddWithValue("@PrixHT", PrixHT);
+                        CommandeSQL.Parameters.AddWithValue("@Quantite", Quantite);
+                        CommandeSQL.Parameters.AddWithValue("@RefMarque", RefMarque);
+                        CommandeSQL.Parameters.AddWithValue("@RefSousFamille", RefSousFamille);
+                        CommandeSQL.ExecuteScalar();
+                    }
                 }
             }
+            catch (SQLiteException ExceptionSQL)
+            {
+                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+            }
         }
 
         /// <summary>
-        /// Permet de recuperer la Reference lorsqu'une Marque, une Famille, ou une SousFamille est inseree dans la base de donnee
+        /// Permet de recuperer la reference, genérée après qu'une Marque, une Famille, ou une SousFamille est inseree dans la base de donnee
         /// </summary>
-        /// <param name="Connection"></param>
+        /// <param name="Connexion"> Connexion SQLiteConnection ouverte </param>
         /// <param name="Table"></param>
+        /// <param name="IntituleReference"></param>
         /// <param name="Nom"></param>
         /// <returns></returns>
-        private int GetReferenceGeneree(SQLiteConnection Connexion, string Table, string NomReference, string Nom)
+        private int GetReferenceGeneree(SQLiteConnection Connexion, string Table, string IntituleReference, string Nom)
         {
-            string RequeteSQL = $"SELECT {NomReference} FROM {Table} WHERE Nom = @Nom";
+            string RequeteSQL = $"SELECT {IntituleReference} FROM {Table} WHERE Nom = @Nom";
 
             using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
             {
@@ -188,7 +166,7 @@ namespace Hector
                 }
                 else
                 {
-                    return -1;
+                    return Global.REFERENCE_NON_ASSIGNEE;
                 }
             }
         }
@@ -198,39 +176,45 @@ namespace Hector
         /// </summary>
         public void AjoutMarqueBdd(Marque MarqueParam)
         {
-            using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+            try
             {
-                Connexion.Open();
-
-                string Nom = MarqueParam.GetNom();
-                int RefMarque = MarqueParam.GetRefMarque();
-
-                if (RefMarque != -1)
+                using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
                 {
-                    string RequeteSQL = "INSERT INTO Marques (RefMarque, NaNomme) VALUES (@RefMarque, @Nom)";
+                    Connexion.Open();
 
-                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                    string Nom = MarqueParam.GetNom();
+                    int RefMarque = MarqueParam.GetRefMarque();
+
+                    if (RefMarque != Global.REFERENCE_NON_ASSIGNEE) // Si la réference de la marque n'a pas encore été générée
                     {
-                        CommandeSQL.Parameters.AddWithValue("@Nom", Nom);
-                        CommandeSQL.Parameters.AddWithValue("@RefMarque", RefMarque);
-                        CommandeSQL.ExecuteNonQuery();
+                        string RequeteSQL = "INSERT INTO Marques (Nom) VALUES (@Nom)";
+
+                        using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                        {
+                            CommandeSQL.Parameters.AddWithValue("@Nom", Nom);
+                            CommandeSQL.ExecuteScalar();
+                        }
+
+                        /* On recupere la Reference generee lors de l'insertion */
+                        int RefMarqueGeneree = GetReferenceGeneree(Connexion, "Marques", "RefMarque", Nom);
+                        MarqueParam.DefineRefMarque(RefMarqueGeneree);
+                    }
+                    else
+                    {
+                        string RequeteSQL = "INSERT INTO Marques (RefMarque, NaNomme) VALUES (@RefMarque, @Nom)";
+
+                        using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                        {
+                            CommandeSQL.Parameters.AddWithValue("@Nom", Nom);
+                            CommandeSQL.Parameters.AddWithValue("@RefMarque", RefMarque);
+                            CommandeSQL.ExecuteNonQuery();
+                        }
                     }
                 }
-                else
-                {
-                    string RequeteSQL = "INSERT INTO Marques (Nom) VALUES (@Nom)";
-
-                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
-                    {
-                        CommandeSQL.Parameters.AddWithValue("@Nom", Nom);
-                        CommandeSQL.ExecuteScalar();
-                    }
-
-                    /* On recupere la Reference generee lors de l'insertion */
-                    int RefMarqueGeneree = GetReferenceGeneree(Connexion, "Marques", "RefMarque", Nom);
-                    MarqueParam.DefineRefMarque(RefMarqueGeneree);
-
-                }
+            }
+            catch (SQLiteException ExceptionSQL)
+            {
+                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
         }
 
@@ -239,40 +223,47 @@ namespace Hector
         /// </summary>
         public void AjoutSousFamilleBdd(SousFamille SousFamilleParam)
         {
-            using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+            try
             {
-                Connexion.Open();
-
-                string Nom = SousFamilleParam.GetNom();
-                int RefSousFamille = SousFamilleParam.GetRefSousFamille();
-                int RefFamille = SousFamilleParam.GetFamille().GetRefFamille();
-
-                if (RefSousFamille != -1)
+                using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
                 {
-                    string RequeteSQL = "INSERT INTO SousFamilles (RefSousFamille, Nom, RefFamille) VALUES (@RefSousFamille, @Nom)";
+                    Connexion.Open();
 
-                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                    string Nom = SousFamilleParam.GetNom();
+                    int RefSousFamille = SousFamilleParam.GetRefSousFamille();
+                    int RefFamille = SousFamilleParam.GetFamille().GetRefFamille();
+
+                    if (RefSousFamille == Global.REFERENCE_NON_ASSIGNEE) // Si la réference de la sous-famille n'a pas encore été générée
                     {
-                        CommandeSQL.Parameters.AddWithValue("@Nom", Nom);
-                        CommandeSQL.Parameters.AddWithValue("@RefSousFamille", RefSousFamille);
-                        CommandeSQL.ExecuteNonQuery();
+                        string RequeteSQL = "INSERT INTO SousFamilles (Nom, RefFamille) VALUES (@Nom, @RefFamille)";
+
+                        using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                        {
+                            CommandeSQL.Parameters.AddWithValue("@Nom", Nom);
+                            CommandeSQL.Parameters.AddWithValue("@RefFamille", RefFamille);
+                            CommandeSQL.ExecuteNonQuery();
+                        }
+
+                        /* On recupere la Reference generee lors de l'insertion */
+                        int RefSousFamilleGeneree = GetReferenceGeneree(Connexion, "SousFamilles", "RefSousFamille", Nom);
+                        SousFamilleParam.DefineRefSousFamille(RefSousFamilleGeneree);
+                    }
+                    else
+                    {
+                        string RequeteSQL = "INSERT INTO SousFamilles (RefSousFamille, Nom, RefFamille) VALUES (@RefSousFamille, @Nom)";
+
+                        using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                        {
+                            CommandeSQL.Parameters.AddWithValue("@Nom", Nom);
+                            CommandeSQL.Parameters.AddWithValue("@RefSousFamille", RefSousFamille);
+                            CommandeSQL.ExecuteNonQuery();
+                        }
                     }
                 }
-                else
-                {
-                    string RequeteSQL = "INSERT INTO SousFamilles (Nom, RefFamille) VALUES (@Nom, @RefFamille)";
-
-                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
-                    {
-                        CommandeSQL.Parameters.AddWithValue("@Nom", Nom);
-                        CommandeSQL.Parameters.AddWithValue("@RefFamille", RefFamille);
-                        CommandeSQL.ExecuteNonQuery();
-                    }
-
-                    /* On recupere la Reference generee lors de l'insertion */
-                    int RefSousFamilleGeneree = GetReferenceGeneree(Connexion, "SousFamilles", "RefSousFamille", Nom);
-                    SousFamilleParam.DefineRefSousFamille(RefSousFamilleGeneree);
-                }
+            }
+            catch (SQLiteException ExceptionSQL)
+            {
+                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
         }
 
@@ -281,38 +272,44 @@ namespace Hector
         /// </summary>
         public void AjoutFamilleBdd(Famille FamilleParam)
         {
-            using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+            try { 
+                using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+                {
+                    Connexion.Open();
+
+                    string Nom = FamilleParam.GetNom();
+                    int RefFamille = FamilleParam.GetRefFamille();
+
+                    if (RefFamille == Global.REFERENCE_NON_ASSIGNEE) // Si la réference de la famille n'a pas encore été générée
+                    {
+                        string RequeteSQL = "INSERT INTO Familles (Nom) VALUES (@Nom)";
+
+                        using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                        {
+                            CommandeSQL.Parameters.AddWithValue("@Nom", Nom);
+                            CommandeSQL.ExecuteNonQuery();
+                        }
+
+                        /* On recupere la Reference generee lors de l'insertion */
+                        int RefFamilleGeneree = GetReferenceGeneree(Connexion, "Familles", "RefFamille", Nom);
+                        FamilleParam.DefineRefFamille(RefFamilleGeneree);
+                    }
+                    else
+                    {
+                        string RequeteSQL = "INSERT INTO Familles (RefFamille, Name) VALUES (@RefFamille, @Name)";
+
+                        using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                        {
+                            CommandeSQL.Parameters.AddWithValue("@Nom", Nom);
+                            CommandeSQL.Parameters.AddWithValue("@RefFamille", RefFamille);
+                            CommandeSQL.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+            catch (SQLiteException ExceptionSQL)
             {
-                Connexion.Open();
-
-                string Nom = FamilleParam.GetNom();
-                int RefFamille = FamilleParam.GetRefFamille();
-
-                if (RefFamille != -1)
-                {
-                    string RequeteSQL = "INSERT INTO Familles (RefFamille, Name) VALUES (@RefFamille, @Name)";
-
-                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
-                    {
-                        CommandeSQL.Parameters.AddWithValue("@Nom", Nom);
-                        CommandeSQL.Parameters.AddWithValue("@RefFamille", RefFamille);
-                        CommandeSQL.ExecuteNonQuery();
-                    }
-                }
-                else
-                {
-                    string RequeteSQL = "INSERT INTO Familles (Nom) VALUES (@Nom)";
-
-                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
-                    {
-                        CommandeSQL.Parameters.AddWithValue("@Nom", Nom);
-                        CommandeSQL.ExecuteNonQuery();
-                    }
-
-                    /* On recupere la Reference generee lors de l'insertion */
-                    int RefFamilleGeneree = GetReferenceGeneree(Connexion, "Familles", "RefFamille", Nom);
-                    FamilleParam.DefineRefFamille(RefFamilleGeneree);
-                }
+                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
         }
 
@@ -321,28 +318,36 @@ namespace Hector
         /// </summary>
         public void LireMarquesBdd()
         {
-            using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+            try
             {
-                Connexion.Open();
-
-                string RequeteSQL = "SELECT RefMarque, Nom FROM Marques";
-
-                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
                 {
-                    using (SQLiteDataReader LecteurDonneeSQL = CommandeSQL.ExecuteReader())
+                    Connexion.Open();
+
+                    string RequeteSQL = "SELECT RefMarque, Nom FROM Marques";
+
+                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
                     {
-                        while (LecteurDonneeSQL.Read())
+                        using (SQLiteDataReader LecteurDonneeSQL = CommandeSQL.ExecuteReader())
                         {
-                            string Nom = LecteurDonneeSQL.GetString(1);
-                            Marque NouvelleMarque = Marque.CreerMarqueDepuisSQLite(Nom);
+                            while (LecteurDonneeSQL.Read())
+                            {
+                                string Nom = LecteurDonneeSQL.GetString(1);
+                                Marque NouvelleMarque = Marque.CreerMarqueDepuisSQLite(Nom);
 
-                            if(NouvelleMarque != null)
-                                NouvelleMarque.DefineRefMarque(LecteurDonneeSQL.GetInt32(0));
+                                if(NouvelleMarque != null)
+                                    NouvelleMarque.DefineRefMarque(LecteurDonneeSQL.GetInt32(0));
 
+                            }
                         }
                     }
+                    Connexion.Close();
                 }
-                Connexion.Close();
+
+            }
+            catch (SQLiteException ExceptionSQL)
+            {
+                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
         }
 
@@ -351,27 +356,34 @@ namespace Hector
         /// </summary>
         public void LireFamillesBdd()
         {
-            using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+            try
             {
-                Connexion.Open();
-
-                string RequeteSQL = "SELECT RefFamille, Nom FROM Familles";
-
-                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
                 {
-                    using (SQLiteDataReader LecteurDonneeSQL = CommandeSQL.ExecuteReader())
-                    {
-                        while (LecteurDonneeSQL.Read())
-                        {
-                            string Nom = LecteurDonneeSQL.GetString(1);
-                            Famille NouvelleFamille = Famille.CreerFamilleDepuisSQLite(Nom);
+                    Connexion.Open();
 
-                            if (NouvelleFamille != null)
-                                NouvelleFamille.DefineRefFamille(LecteurDonneeSQL.GetInt32(0));
+                    string RequeteSQL = "SELECT RefFamille, Nom FROM Familles";
+
+                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                    {
+                        using (SQLiteDataReader LecteurDonneeSQL = CommandeSQL.ExecuteReader())
+                        {
+                            while (LecteurDonneeSQL.Read())
+                            {
+                                string Nom = LecteurDonneeSQL.GetString(1);
+                                Famille NouvelleFamille = Famille.CreerFamilleDepuisSQLite(Nom);
+
+                                if (NouvelleFamille != null)
+                                    NouvelleFamille.DefineRefFamille(LecteurDonneeSQL.GetInt32(0));
+                            }
                         }
                     }
+                    Connexion.Close();
                 }
-                Connexion.Close();
+            }
+            catch (SQLiteException ExceptionSQL)
+            {
+                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
         }
 
@@ -380,30 +392,38 @@ namespace Hector
         /// </summary>
         public void LireSousFamillesBdd()
         {
-            using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+            try
             {
-                Connexion.Open();
-
-                string RequeteSQL = "SELECT s.RefSousFamille, s.Nom, f.Nom FROM SousFamilles s JOIN Familles f ON s.RefFamille = f.RefFamille"; 
-
-                using (SQLiteCommand Command_ReadSubFamilies = new SQLiteCommand(RequeteSQL, Connexion))
+                using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
                 {
-                    using (SQLiteDataReader LecteurDonneeSQL = Command_ReadSubFamilies.ExecuteReader())
-                    {
-                        while (LecteurDonneeSQL.Read())
-                        {
-                            int RefSousFamille = LecteurDonneeSQL.GetInt32(0);
-                            string Nom = LecteurDonneeSQL.GetString(1);
-                            string NomFamille = LecteurDonneeSQL.GetString(2);
-                            Famille FamilleExistante = Famille.GetFamilleExistante(NomFamille);
-                            SousFamille NouvelleSousFamille = SousFamille.CreerSousFamilleDepuisSQLite(Nom, FamilleExistante);
+                    Connexion.Open();
 
-                            if (NouvelleSousFamille != null)
-                                NouvelleSousFamille.DefineRefSousFamille(RefSousFamille);
+                    string RequeteSQL = "SELECT s.RefSousFamille, s.Nom, f.Nom FROM SousFamilles s JOIN Familles f ON s.RefFamille = f.RefFamille"; 
+
+                    using (SQLiteCommand Command_ReadSubFamilies = new SQLiteCommand(RequeteSQL, Connexion))
+                    {
+                        using (SQLiteDataReader LecteurDonneeSQL = Command_ReadSubFamilies.ExecuteReader())
+                        {
+                            while (LecteurDonneeSQL.Read())
+                            {
+                                int RefSousFamille = LecteurDonneeSQL.GetInt32(0);
+                                string Nom = LecteurDonneeSQL.GetString(1);
+                                string NomFamille = LecteurDonneeSQL.GetString(2);
+                                Famille FamilleExistante = Famille.GetFamilleExistante(NomFamille);
+                                SousFamille NouvelleSousFamille = SousFamille.CreerSousFamilleDepuisSQLite(Nom, FamilleExistante);
+
+                                if (NouvelleSousFamille != null)
+                                    NouvelleSousFamille.DefineRefSousFamille(RefSousFamille);
+                            }
                         }
                     }
+                    Connexion.Close();
                 }
-                Connexion.Close();
+
+            }
+            catch (SQLiteException ExceptionSQL)
+            {
+                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
         }
 
@@ -412,66 +432,81 @@ namespace Hector
         /// </summary>
         public void LireArticlesBdd()
         {
-            using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+            try
             {
-                Connexion.Open();
-
-                string RequeteSQL = "SELECT a.Description, a.RefArticle, a.PrixHT, a.Quantite, s.Nom, m.Nom FROM Articles a " +
-                "JOIN Marques m ON a.RefMarque = m.RefMarque JOIN SousFamilles s ON a.RefSousFamille = s.RefSousFamille";
-
-
-                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
                 {
-                    using (SQLiteDataReader LecteurDonneeSQL = CommandeSQL.ExecuteReader())
-                    {
-                        while (LecteurDonneeSQL.Read())
-                        {
-                            string Description = LecteurDonneeSQL.GetString(0);
-                            string RefArticle = LecteurDonneeSQL.GetString(1);
-                            double PrixHT = LecteurDonneeSQL.GetDouble(2);
-                            uint Quantite = (uint)LecteurDonneeSQL.GetInt32(3);
-                            SousFamille SousFamilleExistante = SousFamille.GetSousFamilleExistante(LecteurDonneeSQL.GetString(4));
-                            Marque MarqueExistante = Marque.GetMarqueExistante(LecteurDonneeSQL.GetString(5));
+                    Connexion.Open();
 
-                            Article NouvelArticle = Article.CreerArticleDepuisSQLite(Description, RefArticle, MarqueExistante, SousFamilleExistante, PrixHT, Quantite);
+                    string RequeteSQL = "SELECT a.Description, a.RefArticle, a.PrixHT, a.Quantite, s.Nom, m.Nom FROM Articles a " +
+                    "JOIN Marques m ON a.RefMarque = m.RefMarque JOIN SousFamilles s ON a.RefSousFamille = s.RefSousFamille";
+
+
+                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                    {
+                        using (SQLiteDataReader LecteurDonneeSQL = CommandeSQL.ExecuteReader())
+                        {
+                            while (LecteurDonneeSQL.Read())
+                            {
+                                string Description = LecteurDonneeSQL.GetString(0);
+                                string RefArticle = LecteurDonneeSQL.GetString(1);
+                                double PrixHT = LecteurDonneeSQL.GetDouble(2);
+                                uint Quantite = (uint)LecteurDonneeSQL.GetInt32(3);
+                                SousFamille SousFamilleExistante = SousFamille.GetSousFamilleExistante(LecteurDonneeSQL.GetString(4));
+                                Marque MarqueExistante = Marque.GetMarqueExistante(LecteurDonneeSQL.GetString(5));
+
+                                Article NouvelArticle = Article.CreerArticleDepuisSQLite(Description, RefArticle, MarqueExistante, SousFamilleExistante, PrixHT, Quantite);
+                            }
                         }
                     }
+                    Connexion.Close();
                 }
-                Connexion.Close();
+            }
+            catch (SQLiteException ExceptionSQL)
+            {
+                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
         }
 
         public void ViderDonnees()
         {
-            using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+            try
             {
-                Connexion.Open();
-
-                string RequeteSQL = "DELETE FROM Articles";
-                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
                 {
-                    CommandeSQL.ExecuteNonQuery();
+                    Connexion.Open();
+
+                    string RequeteSQL = "DELETE FROM Articles";
+                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                    {
+                        CommandeSQL.ExecuteNonQuery();
+                    }
+
+                    RequeteSQL = "DELETE FROM Marques";
+                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                    {
+                        CommandeSQL.ExecuteNonQuery();
+                    }
+
+                    RequeteSQL = "DELETE FROM SousFamilles";
+                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                    {
+                        CommandeSQL.ExecuteNonQuery();
+                    }
+
+                    RequeteSQL = "DELETE FROM Familles";
+                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                    { 
+                        CommandeSQL.ExecuteNonQuery();
+                    }
+
+                    Connexion.Close();
                 }
 
-                RequeteSQL = "DELETE FROM Marques";
-                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
-                {
-                    CommandeSQL.ExecuteNonQuery();
-                }
-
-                RequeteSQL = "DELETE FROM SousFamilles";
-                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
-                {
-                    CommandeSQL.ExecuteNonQuery();
-                }
-
-                RequeteSQL = "DELETE FROM Familles";
-                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
-                { 
-                    CommandeSQL.ExecuteNonQuery();
-                }
-
-                Connexion.Close();
+            }
+            catch (SQLiteException ExceptionSQL)
+            {
+                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
 
             Article.ViderDictionnaireArticles();
@@ -481,24 +516,50 @@ namespace Hector
         }
 
         /// <summary>
-        /// Methode qui permet de suppimer un article de la base de données
+        /// Methode qui permet de mettre à jour les modification d'un article da,s la base de données
         /// </summary>
-        /// <param name="RefArticle">La référence de l'article à supprimer</param>
-        /// <exception cref="A DEFINIR">La suppression de l'article a échoué.</exception>
-        
-        public void SupprimerArticleBdd(string RefArticle)
+        /// <param name="NouvelleRefArticle"></param>
+        /// <param name="NouvelleDescription"></param>
+        /// <param name="NouveauPrixHT"></param>
+        /// <param name="NouvelleQuantite"></param>
+        /// <param name="NouvelleRefMarque"></param>
+        /// <param name="NouvelleRefSousFamille"></param>
+        /// <param name="ReferenceAvantModification"> Reference avant modification, pour pouvoir mettre à jour même si la reference change </param>
+        /// <returns></returns>
+        public uint ModifierArticleBdd(string NouvelleRefArticle, string NouvelleDescription, double NouveauPrixHT, uint NouvelleQuantite, int NouvelleRefMarque, 
+            int NouvelleRefSousFamille, string ReferenceAvantModification)
         {
-            using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+            try
             {
-                Connexion.Open();
-                string RequeteSQL = "DELETE FROM Articles WHERE RefArticle = @RefArticle";
-
-                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
                 {
-                    CommandeSQL.Parameters.AddWithValue("@RefArticle", RefArticle);
-                    CommandeSQL.ExecuteNonQuery();
+                    Connexion.Open();
+                    string RequeteSQL = "UPDATE Articles SET RefArticle = @RefArticle, Description = @Description, PrixHT = @PrixHT, Quantite = @Quantite, RefMarque = @RefMarque, " +
+                        "RefSousFamille = @RefSousFamille WHERE RefArticle = @RefArticleAvantModification";
+
+                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                    {
+                        CommandeSQL.Parameters.AddWithValue("@RefArticle", NouvelleRefArticle);
+                        CommandeSQL.Parameters.AddWithValue("@Description", NouvelleDescription);
+                        CommandeSQL.Parameters.AddWithValue("@PrixHT", NouveauPrixHT);
+                        CommandeSQL.Parameters.AddWithValue("@Quantite", NouvelleQuantite);
+                        CommandeSQL.Parameters.AddWithValue("@RefMarque", NouvelleRefMarque);
+                        CommandeSQL.Parameters.AddWithValue("@RefSousFamille", NouvelleRefSousFamille);
+                        CommandeSQL.Parameters.AddWithValue("@RefArticleAvantModification", ReferenceAvantModification);
+
+                        CommandeSQL.ExecuteNonQuery();
+                    }
+                    Connexion.Close();
                 }
-                Connexion.Close();
+
+                return Exception.RETOUR_NORMAL;
+            }
+            catch (SQLiteException ExceptionSQL)
+            {
+                Console.WriteLine(ExceptionSQL.Message);
+                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+
+                return Exception.RETOUR_ERREUR;
             }
         }
 
@@ -506,22 +567,27 @@ namespace Hector
         /// Methode qui permet de supprimer une marque de la base de données
         /// </summary>
         /// <param name="RefMarque">La référence de la marque à supprimer</param>
-        /// <exception cref="A DEFINIR">La suppression de la marque a échoué.</exception>
-        
-        public void SupprimerMarqueBdd(int RefMarque)
+        public void ModifierMarqueBdd(int RefMarque)
         {
-            using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+            try
             {
-                Connexion.Open();
-
-                string RequeteSQL = "DELETE FROM Marques WHERE RefMarque = @RefMarque";
-
-                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
                 {
-                    CommandeSQL.Parameters.AddWithValue("@RefMarque", RefMarque);
-                    CommandeSQL.ExecuteNonQuery();
+                    Connexion.Open();
+
+                    string RequeteSQL = "DELETE FROM Marques WHERE RefMarque = @RefMarque";
+
+                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                    {
+                        CommandeSQL.Parameters.AddWithValue("@RefMarque", RefMarque);
+                        CommandeSQL.ExecuteNonQuery();
+                    }
+                    Connexion.Close();
                 }
-                Connexion.Close();
+            }
+            catch (SQLiteException ExceptionSQL)
+            {
+                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
         }
 
@@ -529,22 +595,27 @@ namespace Hector
         /// Methode qui permet de supprimer une sous-famille de la base de données
         /// </summary>
         /// <param name="RefSousFamille">La référence de la sous-famille à supprimer</param>
-        /// <exception cref="A DEFINIR">La suppression de la sous-famille a échoué.</exception>
-        
-        public void SupprimerSousFamilleBdd(int RefSousFamille)
+        public void ModifierSousFamilleBdd(int RefSousFamille)
         {
-            using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+            try
             {
-                Connexion.Open();
-
-                string RequeteSQL = "DELETE FROM SousFamilles WHERE RefSousFamille = @RefSousFamille";
-
-                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
                 {
-                    CommandeSQL.Parameters.AddWithValue("@RefSousFamille", RefSousFamille);
-                    CommandeSQL.ExecuteNonQuery();
+                    Connexion.Open();
+
+                    string RequeteSQL = "DELETE FROM SousFamilles WHERE RefSousFamille = @RefSousFamille";
+
+                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                    {
+                        CommandeSQL.Parameters.AddWithValue("@RefSousFamille", RefSousFamille);
+                        CommandeSQL.ExecuteNonQuery();
+                    }
+                    Connexion.Close();
                 }
-                Connexion.Close();
+            }
+            catch (SQLiteException ExceptionSQL)
+            {
+                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
         }
 
@@ -552,24 +623,139 @@ namespace Hector
         /// Methode qui permet de supprimer une famille de la base de données
         /// </summary>
         /// <param name="RefFamille">La référence de la famille à supprimer</param>
-        /// <exception cref="A DEFINIR">La suppression de la famille a échoué.</exception>
+        public void ModifierFamilleBdd(int RefFamille)
+        {
+            try
+            {
+                using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+                {
+                    Connexion.Open();
+
+                    string RequeteSQL = "DELETE FROM Familles WHERE RefFamille = @RefFamille";
+
+                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                    {
+                        CommandeSQL.Parameters.AddWithValue("@RefFamille", RefFamille);
+                        CommandeSQL.ExecuteNonQuery();
+                    }
+                    Connexion.Close();
+                }
+            }
+            catch (SQLiteException ExceptionSQL)
+            {
+                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+            }
+        }
+
+        /// <summary>
+        /// Methode qui permet de suppimer un article de la base de données
+        /// </summary>
+        /// <param name="RefArticle">La référence de l'article à supprimer</param>
+        public void SupprimerArticleBdd(string RefArticle)
+        {
+            try
+            {
+                using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+                {
+                    Connexion.Open();
+                    string RequeteSQL = "DELETE FROM Articles WHERE RefArticle = @RefArticle";
+
+                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                    {
+                        CommandeSQL.Parameters.AddWithValue("@RefArticle", RefArticle);
+                        CommandeSQL.ExecuteNonQuery();
+                    }
+                    Connexion.Close();
+                }
+            }
+            catch (SQLiteException ExceptionSQL)
+            {
+                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+            }
+        }
+
+        /// <summary>
+        /// Methode qui permet de supprimer une marque de la base de données
+        /// </summary>
+        /// <param name="RefMarque">La référence de la marque à supprimer</param>
+        public void SupprimerMarqueBdd(int RefMarque)
+        {
+            try
+            {
+                using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+                {
+                    Connexion.Open();
+
+                    string RequeteSQL = "DELETE FROM Marques WHERE RefMarque = @RefMarque";
+
+                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                    {
+                        CommandeSQL.Parameters.AddWithValue("@RefMarque", RefMarque);
+                        CommandeSQL.ExecuteNonQuery();
+                    }
+                    Connexion.Close();
+                }
+            }
+            catch (SQLiteException ExceptionSQL)
+            {
+                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+            }
+        }
+
+        /// <summary>
+        /// Methode qui permet de supprimer une sous-famille de la base de données
+        /// </summary>
+        /// <param name="RefSousFamille">La référence de la sous-famille à supprimer</param>
+        public void SupprimerSousFamilleBdd(int RefSousFamille)
+        {
+            try
+            {
+                using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+                {
+                    Connexion.Open();
+
+                    string RequeteSQL = "DELETE FROM SousFamilles WHERE RefSousFamille = @RefSousFamille";
+
+                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                    {
+                        CommandeSQL.Parameters.AddWithValue("@RefSousFamille", RefSousFamille);
+                        CommandeSQL.ExecuteNonQuery();
+                    }
+                    Connexion.Close();
+                }
+            }
+            catch (SQLiteException ExceptionSQL)
+            {
+                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+            }
+        }
+
+        /// <summary>
+        /// Methode qui permet de supprimer une famille de la base de données
+        /// </summary>
+        /// <param name="RefFamille">La référence de la famille à supprimer</param>
         public void SupprimerFamilleBdd(int RefFamille)
         {
-            using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+            try
             {
-                Connexion.Open();
-
-                string RequeteSQL = "DELETE FROM Familles WHERE RefFamille = @RefFamille";
-
-                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
                 {
-                    CommandeSQL.Parameters.AddWithValue("@RefFamille", RefFamille);
-                    CommandeSQL.ExecuteNonQuery();
+                    Connexion.Open();
+
+                    string RequeteSQL = "DELETE FROM Familles WHERE RefFamille = @RefFamille";
+
+                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                    {
+                        CommandeSQL.Parameters.AddWithValue("@RefFamille", RefFamille);
+                        CommandeSQL.ExecuteNonQuery();
+                    }
+                    Connexion.Close();
                 }
-                Connexion.Close();
+            }
+            catch (SQLiteException ExceptionSQL)
+            {
+                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
             }
         }
     }
-
-
 }

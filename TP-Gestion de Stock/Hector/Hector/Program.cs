@@ -5,6 +5,11 @@ using System.Windows.Forms;
 
 namespace Hector
 {
+    public class Global
+    {
+        public const int REFERENCE_NON_ASSIGNEE = -1;
+    }
+
     static class Program
     {
         /// <summary>

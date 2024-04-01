@@ -6,11 +6,16 @@ using System.Threading.Tasks;
 
 namespace Hector
 {
+    /// <summary>
+    /// Classe permettant de gérer les fenêtres d'erreurs
+    /// </summary>
     class Exception : System.Exception
     {
+        // Code de renvoi, utilisé par les méthodes qui indique si elles ont réussis à s'éxecuter ou si une exception a été levée
         public const uint RETOUR_NORMAL = 0;
         public const uint RETOUR_ERREUR = 1;
 
+        // Codes d'erreur
         public const uint ERREUR_REFERENCE_DEJA_ASSIGNEE = 0;
         public const uint ERREUR_NOM_DEJA_ASSIGNEE = 1;
         public const uint ERREUR_FAMILLE_NE_CORRESPOND_PAS = 2;
@@ -43,9 +48,12 @@ namespace Hector
             CodeErreur = NouveauCodeErreur;
         }
 
+        /// <summary>
+        /// Méthode gérant l'ouverture de la fenêtre associée au code d'erreur définie
+        /// </summary>
         public void AfficherMessageErreur()
         {
-            string MessageErreur = "";
+            string MessageErreur;
             switch (CodeErreur)
             {
                 case ERREUR_REFERENCE_DEJA_ASSIGNEE:

@@ -130,7 +130,7 @@ namespace Hector
         {
             Nom = NouveauNom;
             Famille = FamilleParam;
-            RefSousFamille = -1; // RefSousFamille non genere
+            RefSousFamille = Global.REFERENCE_NON_ASSIGNEE; // Sera modifiée lorsque la sous-famille sera saisie dans la base de donnée
         }
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace Hector
         {
             try
             {
-                if(RefSousFamille != -1)
+                if(RefSousFamille != Global.REFERENCE_NON_ASSIGNEE) // Si la réference a été générée (la sous-famille a été ajouté à la base de donnée)
                 {
                     throw new Exception(Exception.ERREUR_REFERENCE_DEJA_DEFINIE);
                 }

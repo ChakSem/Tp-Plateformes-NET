@@ -180,6 +180,22 @@ namespace Hector
         }
 
         /// <summary>
+        /// Permet de vérifier si une réference est déjà assignée à un Article
+        /// </summary>
+        /// <param name="RefArticle"></param>
+        /// <returns>   - true : Si au un Article avec cette réference existe
+        ///             - false : Sinon </returns>
+        public static bool ReferenceAssignee(string RefArticle)
+        {
+            if (DictionnaireArticles.ContainsKey(RefArticle))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Renvoi l'article correspondant à la réference passée en paramètre
         /// </summary>
         /// <param name="RefArticle"> Réference de l'article souhaité </param>
@@ -188,7 +204,7 @@ namespace Hector
         {
             try
             {
-                if (!DictionnaireArticles.ContainsKey(RefArticle))
+                if (!ReferenceAssignee(RefArticle))
                 {
                     throw new Exception(Exception.ERREUR_OBJET_INNEXISTANT);
                 }

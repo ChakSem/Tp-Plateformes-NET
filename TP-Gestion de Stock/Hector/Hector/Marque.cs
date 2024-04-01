@@ -107,7 +107,7 @@ namespace Hector
         private Marque(string NomParam)
         {
             Nom = NomParam;
-            RefMarque = -1;
+            RefMarque = Global.REFERENCE_NON_ASSIGNEE; // Sera modifiée lorsque la marque sera saisie dans la base de donnée
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace Hector
         {
             try
             {
-                if (RefMarque != -1)
+                if (RefMarque != Global.REFERENCE_NON_ASSIGNEE) // Si la réference a été générée (la sous-famille a été ajouté à la base de donnée)
                 {
                     throw new Exception(Exception.ERREUR_REFERENCE_DEJA_DEFINIE);
                 }
@@ -182,6 +182,10 @@ namespace Hector
             }
         }
 
+        /// <summary>
+        /// Renvoie une liste correspondant au dictionnaire DictionnaireMarques
+        /// </summary>
+        /// <returns> DictionnaireSousFamilles.ToList() </returns>
         public static List<Marque> GetListeMarques()
         {
             List<Marque> ListeMarques = new List<Marque>();
@@ -194,11 +198,19 @@ namespace Hector
             return ListeMarques;
         }
 
+        /// <summary>
+        /// Vide le dictionnaire DictionnaireMarques
+        /// </summary>
         public static void ViderDictionnaireMarques()
         {
             DictionnaireMarques.Clear();
         }
 
+        /// <summary>
+        /// Indique si un Article appartient à la Marque
+        /// </summary>
+        /// <returns>   - true : Si au moins un Article appartient à cette marque
+        ///             - false : Sinon </returns>
         public bool MarqueUtilisee()
         {
             foreach (Article ArticleExistant in Article.GetListeArticles())

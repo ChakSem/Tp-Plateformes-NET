@@ -569,10 +569,9 @@ namespace Hector
                         string NomNouvelleSousFamille = ArticleSelectionnee.GetSousFamille().GetNom();
                         string NomNouvelleMarque = ArticleSelectionnee.GetMarque().GetNom();
 
-                        /* Si un filtre (SousFamille ou Marque) est actif, on verifie que l'article n'a été modifié vis à vis de ce filtre */
-                        if (TypeFiltre == "" || 
-                            (TypeFiltre == "Marque" && NomMarqueAvantModification == NomNouvelleMarque) ||
-                            (TypeFiltre == "SousFamille" && NomSousFamilleAvantModification == NomNouvelleSousFamille))
+                        if (TypeFiltre == "" || // Si aucun filtre n'est actif, tout les articles sont affichés
+                            (TypeFiltre == "Marque" && NomMarqueAvantModification == NomNouvelleMarque) || // Si ce sont les Articles d'une Marque qui sont affichés et que la Marque n'a pas changée
+                            (TypeFiltre == "SousFamille" && NomSousFamilleAvantModification == NomNouvelleSousFamille)) // Si ce sont les Articles d'une SousFamille qui sont affichés et que celle-ci n'a pas changée
                         {
                             Item.SubItems[0].Text = ArticleSelectionnee.GetReference();
                             Item.SubItems[1].Text = ArticleSelectionnee.GetDescription();
