@@ -379,10 +379,6 @@ namespace Hector
                 {
                     ChargerListViewArticlesPourUneMarque(Item.SubItems[0].Text); // On affiche les articles correspondant à la marque selectionnée
                 }
-                if (TypeDonneesAffichees == "Description")
-                {
-                    ChargerListViewArticlesPourUneDescription();
-                }
             }
         }
         /// <summary>
@@ -447,7 +443,6 @@ namespace Hector
 
         }
 
-
         /// <summary>
         /// Evenement lors du clique sur une colomne du tree view, pour le tri et les groupe
         /// </summary>
@@ -510,6 +505,52 @@ namespace Hector
                     {
                         Ligne.Group = ListView1.Groups[IndicesGroupe[Ligne.SubItems[4].Text]];
                     }
+                }
+
+                // Si on clique sur la colonne Marques
+                if (NomColonne == "Description")
+                {
+                    Dictionary<string, int> IndicesGroupe = new Dictionary<string, int>();
+
+                    for (char Chiffre = '0'; Chiffre <= '9'; Chiffre++)
+                    {
+                        int IdFamille = ListView1.Groups.Add(new ListViewGroup(Chiffre.ToString(), HorizontalAlignment.Left));
+                        IndicesGroupe.Add(Chiffre.ToString(), IdFamille);
+                    }
+                    for (char Lettre = 'A'; Lettre <= 'Z'; Lettre++)
+                    {
+                        int IdFamille = ListView1.Groups.Add(new ListViewGroup(Lettre.ToString(), HorizontalAlignment.Left));
+                        IndicesGroupe.Add(Lettre.ToString(), IdFamille);
+                    }
+
+                    foreach (ListViewItem Ligne in ListView1.Items)
+                    {
+                        string PremiereLettre = Ligne.SubItems[1].Text[0].ToString().ToUpper();
+                        Console.WriteLine(PremiereLettre);
+                        Ligne.Group = ListView1.Groups[IndicesGroupe[PremiereLettre]];
+                    }
+                }
+            }
+            else
+            {
+                Dictionary<string, int> IndicesGroupe = new Dictionary<string, int>();
+
+                for (char Chiffre = '0'; Chiffre <= '9'; Chiffre++)
+                {
+                    int IdFamille = ListView1.Groups.Add(new ListViewGroup(Chiffre.ToString(), HorizontalAlignment.Left));
+                    IndicesGroupe.Add(Chiffre.ToString(), IdFamille);
+                }
+                for (char Lettre = 'A'; Lettre <= 'Z'; Lettre++)
+                {
+                    int IdFamille = ListView1.Groups.Add(new ListViewGroup(Lettre.ToString(), HorizontalAlignment.Left));
+                    IndicesGroupe.Add(Lettre.ToString(), IdFamille);
+                }
+
+                foreach (ListViewItem Ligne in ListView1.Items)
+                {
+                    string PremiereLettre = Ligne.SubItems[0].Text[0].ToString().ToUpper();
+                    Console.WriteLine(PremiereLettre);
+                    Ligne.Group = ListView1.Groups[IndicesGroupe[PremiereLettre]];
                 }
             }
         }
@@ -757,7 +798,6 @@ namespace Hector
                 }
             }
         }
-
 
         /// <summary>
         /// Permets de supprimer une famille
