@@ -437,10 +437,17 @@ namespace Hector
                 }
                 else
                 {
+                    bool ChiffreDetecte = false;
+
                     foreach (char Caractere in Chaine)
                     {
-                        // Vérifier si le caractère est une lettre et que ce n'est pas le x de "6x Marqueurs - Velleda - 1781bis"
-                        if (char.IsLetter(Caractere) && Convert.ToString(Caractere) != "x" || Convert.ToString(Caractere) == "x" || Convert.ToString(Caractere) == "X")
+                        if (char.IsDigit(Caractere))
+                        {
+                            ChiffreDetecte = true;
+                            continue;
+                        }
+
+                        if (char.IsLetter(Caractere) && !(Caractere == 'x' && ChiffreDetecte))
                         {
                             char PremierCaractere = char.ToUpper(Caractere);
                             return PremierCaractere;
