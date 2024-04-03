@@ -399,7 +399,14 @@ namespace Hector
         /// </summary>
         public void ChargerListViewArticlesPourUneDescription() // TODO : Refaire, trop de boucles
         {
-            for (char Lettre = 'A'; Lettre <= 'Z'; Lettre++)
+            // Nettoyer les groupes existants
+            ListView1.Groups.Clear();
+
+            // Dictionnaire pour stocker les groupes
+            Dictionary<char, ListViewGroup> groupes = new Dictionary<char, ListViewGroup>();
+
+            // Créer les groupes pour chaque lettre de l'alphabet
+            for (char lettre = 'A'; lettre <= 'Z'; lettre++)
             {
                 // On crée le groupe correspondant à la lettre.
                 ListViewGroup Groupe = new ListViewGroup(Convert.ToString(Lettre).ToUpper(), HorizontalAlignment.Left);
@@ -524,6 +531,9 @@ namespace Hector
                 // Si on clique sur la colonne Description
                 if (NomColonne == "Description")
                 {
+                    ChargerListViewArticlesPourUneDescription();
+                }
+
                     Dictionary<string, int> IndicesGroupe = new Dictionary<string, int>(); // On crée un dictionnaire qui attribura un id à chaque lettre pour pouvoir grouper les articles en fonction de leur 1ère lettre
 
                     // On ajoute chaque lettre une à une au dictionnaire
