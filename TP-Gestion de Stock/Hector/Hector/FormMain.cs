@@ -397,32 +397,28 @@ namespace Hector
         /// <summary>
         /// Permets de trier la liste view en groupes selon la première lettre de la description de l'article.
         /// </summary>
-        public void ChargerListViewArticlesPourUneDescription() // TODO : Refaire, trop de boucles
+        public void CreerGroupesPourUneDescription(int IndiceColonne)
         {
             // Nettoyer les groupes existants
             ListView1.Groups.Clear();
 
             // Dictionnaire pour stocker les groupes
-            Dictionary<char, ListViewGroup> groupes = new Dictionary<char, ListViewGroup>();
+            Dictionary<char, int> IndicesGroupe = new Dictionary<char, int>();
 
             // Créer les groupes pour chaque lettre de l'alphabet
-            for (char lettre = 'A'; lettre <= 'Z'; lettre++)
+            ListViewGroup Groupe;
+            for (char Lettre = 'A'; Lettre <= 'Z'; Lettre++)
             {
                 // On crée le groupe correspondant à la lettre.
-                ListViewGroup Groupe = new ListViewGroup(Convert.ToString(Lettre).ToUpper(), HorizontalAlignment.Left);
-                ListView1.Groups.Add(Groupe);
+                Groupe = new ListViewGroup(Convert.ToString(Lettre).ToUpper(), HorizontalAlignment.Left);
+                int IdLettre = ListView1.Groups.Add(Groupe);
+                IndicesGroupe.Add(Lettre, IdLettre);
+            }
 
-                foreach (ListViewItem Item in ListView1.Items)
-                {
-                    // On ajoute l'item si sa première lettre est la lettre actuelle.
-                    if (ExtractionPremierCaractere(Item.SubItems[1].Text) == Lettre)
-                    {
-                        ListViewItem Item_Temp = new ListViewItem(Item.SubItems[0].Text, Groupe);
-                        ListView1.Items.Add(Item_Temp);
-                        Item_Temp.SubItems.Add(Item.SubItems[1].Text);
-                        ListView1.Items.Remove(Item);
-                    }
-                }
+            foreach (ListViewItem Ligne in ListView1.Items)
+            {
+                char PremiereLettre = ExtractionPremierCaractere(Ligne.SubItems[IndiceColonne].Text);
+                Ligne.Group = ListView1.Groups[IndicesGroupe[PremiereLettre]];
             }
         }
 
@@ -531,45 +527,12 @@ namespace Hector
                 // Si on clique sur la colonne Description
                 if (NomColonne == "Description")
                 {
-                    ChargerListViewArticlesPourUneDescription();
-                }
-
-                    Dictionary<string, int> IndicesGroupe = new Dictionary<string, int>(); // On crée un dictionnaire qui attribura un id à chaque lettre pour pouvoir grouper les articles en fonction de leur 1ère lettre
-
-                    // On ajoute chaque lettre une à une au dictionnaire
-                    for (char Lettre = 'A'; Lettre <= 'Z'; Lettre++)
-                    {
-                        int IdFamille = ListView1.Groups.Add(new ListViewGroup(Lettre.ToString(), HorizontalAlignment.Left));
-                        IndicesGroupe.Add(Lettre.ToString(), IdFamille);
-                    }
-
-                    // Pour chaque article affiché, on l'ajoute au groupe crée pour sa 1ère lettre
-                    foreach (ListViewItem Ligne in ListView1.Items)
-                    {
-                        string PremiereLettre = Ligne.SubItems[1].Text[0].ToString().ToUpper();
-                        Console.WriteLine(PremiereLettre);
-                        Ligne.Group = ListView1.Groups[IndicesGroupe[PremiereLettre]];
-                    }
+                    CreerGroupesPourUneDescription(1);
                 }
             }
             else
             {
-                Dictionary<string, int> IndicesGroupe = new Dictionary<string, int>(); // On crée un dictionnaire qui attribura un id à chaque lettre pour pouvoir grouper les objets en fonction de la 1ère lettre de leur description
-
-                // On ajoute chaque lettre une à une au dictionnaire
-                for (char Lettre = 'A'; Lettre <= 'Z'; Lettre++)
-                {
-                    int IdFamille = ListView1.Groups.Add(new ListViewGroup(Lettre.ToString(), HorizontalAlignment.Left));
-                    IndicesGroupe.Add(Lettre.ToString(), IdFamille);
-                }
-
-                // Pour chaque objet affiché, on l'ajoute au groupe crée pour sa 1ère lettre
-                foreach (ListViewItem Ligne in ListView1.Items)
-                {
-                    string PremiereLettre = Ligne.SubItems[0].Text[0].ToString().ToUpper();
-                    Console.WriteLine(PremiereLettre);
-                    Ligne.Group = ListView1.Groups[IndicesGroupe[PremiereLettre]];
-                }
+                CreerGroupesPourUneDescription(0);
             }
         }
 
