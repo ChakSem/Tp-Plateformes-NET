@@ -444,7 +444,7 @@ namespace Hector
                         if (char.IsDigit(Caractere))
                         {
                             ChiffreDetecte = true;
-                            continue;
+                            continue; // On passe au caractère suivant
                         }
 
                         if (char.IsLetter(Caractere) && !(Caractere == 'x' && ChiffreDetecte))
