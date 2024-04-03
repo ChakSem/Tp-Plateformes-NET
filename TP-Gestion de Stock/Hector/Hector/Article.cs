@@ -267,8 +267,14 @@ namespace Hector
         /// </summary>
         public void SupprimerArticle()
         {
-            DictionnaireArticles.Remove(Reference);
-            BaseDeDonnees.GetInstance().SupprimerArticleBdd(Reference);
+            try
+            {
+                BaseDeDonnees.GetInstance().SupprimerArticleBdd(Reference);
+                DictionnaireArticles.Remove(Reference);
+            } catch (Exception ExceptionAttrapee)
+            {
+                ExceptionAttrapee.AfficherMessageErreur();
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 TODO : 
 - Commentaires
 - Reset groupe + filtrage quand on passe de articles à autre chose
-
+- Gerer annulation de la supression de la ligne si la supprssion echoue
 
 
 Fini :

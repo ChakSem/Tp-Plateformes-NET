@@ -17,7 +17,7 @@ namespace Hector
         private Famille Famille;
 
         /// <summary>
-        /// Permet d'obtenir un objet SousFamille à patir de son nom
+        /// Permet de recuperer un objet Famille à patir de son nom
         /// </summary>
         /// <param name="NomParam"> Nom de la SousFamille que l'on veut </param>
         /// <returns> SousFamille </returns>
@@ -41,24 +41,28 @@ namespace Hector
         }
 
         /// <summary>
-        /// Méthode permettant de récupérer un objet SousFamille avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
+        /// Permet de recuperer un objet SousFamille à patir de son nom
+        /// Le crée s'il n'existe pas déjà
         /// </summary>
         /// <param name="NomParam">Nom de la SousFamille que l'on souhaite</param>
         /// <param name="FamilleParam">Famille de la SousFamille</param>
-        /// <returns> NouvelleSousFamille </returns>
+        /// <returns>   SousFamille, si l'objet existe deja
+        ///             null, s'il existe mais que sa Famille n'est pas FamilleParam  
+        ///             NouvelleSousFamille, sinon </returns>
         public static SousFamille CreerSousFamille(string NomParam, Famille FamilleParam)
         {
             if (NomAttribue(NomParam) == true)
             {
                 try
                 {
+                    // On vérifie que la sous-famille existante est bien liée à FamilleParam
                     SousFamille SousFamilleExistante = DictionnaireSousFamilles[NomParam];
                     if (FamilleParam.GetNom() != SousFamilleExistante.GetFamille().GetNom())
                     {
-                        throw new Exception(Exception.ERREUR_FAMILLE_NE_CORRESPOND_PAS);
+                        throw new Exception(Exception.ERREUR_FAMILLE_NE_CORRESPOND_PAS); // Si la sous-famille n'est pas liée à FamilleParam, une exception est levée
                     }
 
-                    return SousFamilleExistante;
+                    return SousFamilleExistante; // Sinon on renvoit l'objet existant
 
                 } catch (Exception ExceptionAttrapee)
                 {
@@ -77,11 +81,12 @@ namespace Hector
                 return NouvelleSousFamille;
             }
         }
-        
+
         /// <summary>
-        /// Méthode permettant de récupérer un objet SousFamille avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
+        /// Méthode permettant de récupérer crée un objet SousFamille avec NomParam en tant qu'attribut Nom, si aucunes Famille n'existent déjà avec ce nom
+        /// Méthode utilisée lors de la récupération des données du fichier SQLite
         /// </summary>
-        /// <param name="NomParam">Nom de la SousFamille que l'on souhaite</param>
+        /// <param name="NomParam" >Nom de la SousFamille que l'on souhaite créer </param>
         /// <param name="FamilleParam">Famille de la SousFamille</param>
         /// <returns> NouvelleSousFamille </returns>
         public static SousFamille CreerSousFamilleDepuisSQLite(string NomParam, Famille FamilleParam)
@@ -96,9 +101,11 @@ namespace Hector
 
             return null;
         }
-        
+
         /// <summary>
-        /// Méthode permettant de récupérer un objet SousFamille avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
+        /// Méthode permettant de crée un objet SousFamille avec NomParam en tant qu'attribut Nom et FamilleParam en tant qu'attribut Famille
+        /// Si un objet portant ce nom existe déjà, le met à jour
+        /// Utilisé lors du parsing de l'objet .csv
         /// </summary>
         /// <param name="NomParam">Nom de la SousFamille que l'on souhaite</param>
         /// <param name="FamilleParam">Famille de la SousFamille</param>
@@ -109,7 +116,7 @@ namespace Hector
             {
                 SousFamille SousFamilleExistante = DictionnaireSousFamilles[NomParam];
 
-                // Si une sous-famille existe déjà pour ce nom (cas de  l'ajout), je la mets à jour comformément à sa famille spécifiée dans le .csv et je la renvoie
+                // Si une sous-famille existe déjà pour ce nom (cas de  l'ajout),on la mets à jour comformément à sa famille spécifiée dans le .csv et on la renvoie
                 SousFamilleExistante.SetFamille(FamilleParam);
                 BaseDeDonnees.GetInstance().ModifierSousFamilleBdd(SousFamilleExistante.GetRefSousFamille(), NomParam, FamilleParam.GetRefFamille());
 
@@ -123,13 +130,15 @@ namespace Hector
             return NouvelleSousFamille;
         }
 
+        // Constructeurs par défaut et de recopie passés en privé, seul le constructeur de confort doit être utilisé
         private SousFamille() { }
         private SousFamille(SousFamille SousFamilleParam) { }
 
         /// <summary>
-        /// Constructeur utilisé par la méthode CreateSousFamille
+        /// Constructeur de confort de la classe SousFamille
+        /// Utilisée par la méthode CreerSousFamille
         /// </summary>
-        /// <param name="NomParam">Nom de la SousFamille que l'on souhaite</param>
+        /// <param name="NouveauNom">Nom de la SousFamille que l'on souhaite</param>
         /// <param name="FamilleParam">Famille de la SousFamille</param>
         private SousFamille(string NouveauNom, Famille FamilleParam)
         {
@@ -172,10 +181,12 @@ namespace Hector
         {
             try
             {
+                // On vérifie que NouveauNom n'est pas déjà attribué
                 if (Nom != NouveauNom && NomAttribue(NouveauNom) == true)
                 {
                     throw new Exception(Exception.ERREUR_NOM_DEJA_ASSIGNEE);
                 }
+                // On met à jour le dictionnaire en conséquence
                 DictionnaireSousFamilles.Remove(Nom);
                 DictionnaireSousFamilles.Add(NouveauNom, this);
 
@@ -201,17 +212,19 @@ namespace Hector
         }
 
         /// <summary>
-        /// Accesseur en écriture de l'attribut RefSousFamille, appelée lorsque l'objet est inserée, de sorte à rapporter la reference ainsi generee dans l'objet
+        /// Accesseur en écriture de l'attribut RefSousFamille, appelée lorsque l'objet est inserée, de sorte à repporter la réference ainsi generée dans l'objet
         /// </summary>
-        /// <param name="NouvelleRefSousFamille">La reference autogeneree</param>
+        /// <param name="NouvelleRefSousFamille"> La réference autogénérée par la base de données </param>
         public void DefineRefSousFamille(int NouvelleRefSousFamille)
         {
             try
             {
-                if(RefSousFamille != Global.REFERENCE_NON_ASSIGNEE) // Si la réference a été générée (la sous-famille a été ajouté à la base de donnée)
+                if(RefSousFamille != Global.REFERENCE_NON_ASSIGNEE) // Si la réference a déjà été générée (la sous-famille a déjà été ajouté à la base de donnée)
                 {
                     throw new Exception(Exception.ERREUR_REFERENCE_DEJA_DEFINIE);
                 }
+
+                // On vérifie l'unicité des réferences
                 foreach (SousFamille SousFamilleExistante in DictionnaireSousFamilles.Values)
                 {
                     if (SousFamilleExistante.GetRefSousFamille() == NouvelleRefSousFamille)
@@ -249,7 +262,7 @@ namespace Hector
         /// <summary>
         /// Renvoie une liste correspondant au dictionnaire DictionnaireSousFamilles
         /// </summary>
-        /// <returns></returns>
+        /// <returns> DictionnaireSousFamilles.ToList() </returns>
         public static List<SousFamille> GetListeSousFamilles()
         {
             List<SousFamille> ListeSousFamilles = new List<SousFamille>();
@@ -291,18 +304,20 @@ namespace Hector
         /// <summary>
         /// Méthode qui permet de supprimer  une famille
         /// </summary>
-        /// <returns> Une valeur indiquant si la modification a réussie </returns>
+        /// <returns> Une valeur indiquant si la supression a réussie </returns>
         public uint SupprimerSousFamille()
         {
             try
             {
+                // On vérifie qu'aucuns articles n'appartient à cette famille
                 if (SousFamilleUtilisee() == true)
                 {
                     throw new Exception(Exception.ERREUR_OBJET_UTILISEE);
                 }
+                // On supprime la sous-famille de la base de donnée, une exception est levée si la requête DELETE échoue
+                BaseDeDonnees.GetInstance().SupprimerFamilleBdd(RefSousFamille);
 
                 DictionnaireSousFamilles.Remove(Nom);
-                BaseDeDonnees.GetInstance().SupprimerFamilleBdd(RefSousFamille);
 
                 return Exception.RETOUR_NORMAL;
             }

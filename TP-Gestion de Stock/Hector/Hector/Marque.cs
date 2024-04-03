@@ -16,9 +16,9 @@ namespace Hector
         private int RefMarque;
 
         /// <summary>
-        /// Permet d'obtenir un objet Marque à patir de son nom
+        /// Permet de recuperer un objet Famille à patir de son nom
         /// </summary>
-        /// <param name="NomParam"> Nom de la Marque que l'on veut </param>
+        /// <param name="NomParam"> Nom de la Marque de l'objet que l'on veut </param>
         /// <returns> Marque </returns>
         public static Marque GetMarqueExistante(string NomParam)
         {
@@ -39,10 +39,12 @@ namespace Hector
         }
 
         /// <summary>
-        /// Méthode permettant de récupérer un objet Marque avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
+        /// Méthode permettant de récupérer un objet Marque avec NomParam en tant qu'attribut Nom
+        /// Le crée s'il n'existe pas déjà
         /// </summary>
         /// <param name="NomParam">Nom de la Marque que l'on souhaite</param>
-        /// <returns> NouvelleMarque </returns>
+        /// <returns>   Marque, si l'objet existe deja
+        ///             NouvelleMarque, sinon </returns>
         public static Marque CreerMarque(string NomParam)
         {
             if(NomAttribue(NomParam) == true)
@@ -58,11 +60,12 @@ namespace Hector
                 return NouvelleMarque;
             }
         }
-        
+
         /// <summary>
-        /// Méthode permettant de récupérer un objet Marque avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
+        /// Méthode permettant de récupérer crée un objet Marque avec NomParam en tant qu'attribut Nom, si aucunes Marque n'existent déjà avec ce nom
+        /// Méthode utilisée lors de la récupération des données du fichier SQLite
         /// </summary>
-        /// <param name="NomParam">Nom de la Marque que l'on souhaite</param>
+        /// <param name="NomParam"> Nom de la Marque que l'on souhaite créer </param>
         /// <returns> NouvelleMarque </returns>
         public static Marque CreerMarqueDepuisSQLite(string NomParam)
         {
@@ -76,17 +79,20 @@ namespace Hector
 
             return null;
         }
-        
+
         /// <summary>
-         /// Méthode permettant de récupérer un objet Marque avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
-         /// </summary>
-         /// <param name="NomParam">Nom de la Marque que l'on souhaite</param>
-         /// <returns> NouvelleMarque </returns>
+        /// Méthode permettant de crée un objet Marque avec NomParam en tant qu'attribut Nom
+        /// Si un objet portant ce nom existe déjà, le met à jour
+        /// Utilisé lors du parsing de l'objet .csv
+        /// </summary>
+        /// <param name="NomParam">Nom de la Marque que l'on souhaite</param>
+        /// <returns> NouvelleMarque </returns>
         public static Marque CreerMarqueDepuisCSV(string NomParam)
         {
             if (NomAttribue(NomParam) == true)
             {
                 Marque MarqueExistante = DictionnaireMarques[NomParam];
+                // Aucunes modifications, puisque Marque ne possède qu'un nom
 
                 return MarqueExistante;
             }
@@ -97,12 +103,15 @@ namespace Hector
 
             return NouvelleMarque;
         }
+
+        // Constructeurs par défaut et de recopie passés en privé, seul le constructeur de confort doit être utilisé
         private Marque() { }
         private Marque(Marque NouvelleMarque) { }
 
 
         /// <summary>
-        /// Constructeur utilisé par la méthode CreateMarque
+        /// Constructeur de confort de la classe Marque
+        /// Utilisée par la méthode CreerMarque
         /// </summary>
         /// <param name="NomParam">Nom de la Marque que l'on souhaite</param>
         private Marque(string NomParam)
@@ -118,44 +127,6 @@ namespace Hector
         public string GetNom()
         {
             return Nom;
-        }
-
-
-        /// <summary>
-        /// Accesseur en lecture de l'attribut RefMarque
-        /// </summary>
-        /// <returns> RefMarque </returns>
-        public int GetRefMarque()
-        {
-            return RefMarque;
-        }
-
-        /// <summary>
-        /// Accesseur en écriture de l'attribut RefMarque, appelée lorsque l'objet est inserée, de sorte à rapporter la reference ainsi generee dans l'objet
-        /// </summary>
-        /// <param name="NouvelleRefMarque">La reference autogeneree</param>
-        public void DefineRefMarque(int NouvelleRefMarque)
-        {
-            try
-            {
-                if (RefMarque != Global.REFERENCE_NON_ASSIGNEE) // Si la réference a été générée (la sous-famille a été ajouté à la base de donnée)
-                {
-                    throw new Exception(Exception.ERREUR_REFERENCE_DEJA_DEFINIE);
-                }
-                foreach (Marque MarqueExistante in DictionnaireMarques.Values)
-                {
-                    if (MarqueExistante.GetRefMarque() == NouvelleRefMarque)
-                    {
-                        throw new Exception(Exception.ERREUR_REFERENCE_AUTOGENEREE_DEJA_ASSIGNEE);
-                    }
-                }
-
-                RefMarque = NouvelleRefMarque;
-            }
-            catch (Exception ExceptionCatched)
-            {
-                ExceptionCatched.AfficherMessageErreur();
-            }
         }
 
         /// <summary>
@@ -183,10 +154,12 @@ namespace Hector
         {
             try
             {
+                // On vérifie que NouveauNom n'est pas déjà attribué
                 if (Nom != NouveauNom && NomAttribue(NouveauNom))
                 {
                     throw new Exception(Exception.ERREUR_NOM_DEJA_ASSIGNEE);
                 }
+                // On met à jour le dictionnaire en conséquence
                 DictionnaireMarques.Remove(Nom);
                 DictionnaireMarques.Add(NouveauNom, this);
 
@@ -194,11 +167,50 @@ namespace Hector
 
                 return Exception.RETOUR_NORMAL;
             }
-            catch (Exception ExceptionCatched)
+            catch (Exception ExceptionAttrapee)
             {
-                ExceptionCatched.AfficherMessageErreur();
+                ExceptionAttrapee.AfficherMessageErreur();
 
                 return Exception.RETOUR_ERREUR;
+            }
+        }
+
+        /// <summary>
+        /// Accesseur en lecture de l'attribut RefMarque
+        /// </summary>
+        /// <returns> RefMarque </returns>
+        public int GetRefMarque()
+        {
+            return RefMarque;
+        }
+
+        /// <summary>
+        /// Accesseur en écriture de l'attribut RefMarque, appelée lorsque l'objet est inserée, de sorte à rapporter la réference ainsi generée dans l'objet
+        /// </summary>
+        /// <param name="NouvelleRefMarque">La reference autogénérée par la base de données</param>
+        public void DefineRefMarque(int NouvelleRefMarque)
+        {
+            try
+            {
+                if (RefMarque != Global.REFERENCE_NON_ASSIGNEE) // Si la réference a déjà été définie (la marque a déjà été ajouté à la base de donnée)
+                {
+                    throw new Exception(Exception.ERREUR_REFERENCE_DEJA_DEFINIE);
+                }
+
+                // On vérifie l'unicité des réferences
+                foreach (Marque MarqueExistante in DictionnaireMarques.Values)
+                {
+                    if (MarqueExistante.GetRefMarque() == NouvelleRefMarque)
+                    {
+                        throw new Exception(Exception.ERREUR_REFERENCE_AUTOGENEREE_DEJA_ASSIGNEE);
+                    }
+                }
+
+                RefMarque = NouvelleRefMarque;
+            }
+            catch (Exception ExceptionAttrapee)
+            {
+                ExceptionAttrapee.AfficherMessageErreur();
             }
         }
 
@@ -253,19 +265,21 @@ namespace Hector
         {
             try
             {
+                // On vérifie qu'aucuns articles n'appartient à cette famille
                 if (MarqueUtilisee() == true)
                 {
                     throw new Exception(Exception.ERREUR_OBJET_UTILISEE);
                 }
+                // On supprime la famille de la base de donnée, une exception est levée si la requête DELETE échoue
+                BaseDeDonnees.GetInstance().SupprimerFamilleBdd(RefMarque);
 
                 DictionnaireMarques.Remove(Nom);
-                BaseDeDonnees.GetInstance().SupprimerFamilleBdd(RefMarque);
 
                 return Exception.RETOUR_NORMAL;
             }
-            catch (Exception Exception)
+            catch (Exception ExceptionAttrapee)
             {
-                Exception.AfficherMessageErreur();
+                ExceptionAttrapee.AfficherMessageErreur();
 
                 return Exception.RETOUR_ERREUR;
             }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SQLite;
 
 namespace Hector
 {
@@ -16,9 +17,9 @@ namespace Hector
         private int RefFamille;
 
         /// <summary>
-        /// Permet d'obtenir un objet Famille à patir de son nom
+        /// Permet de recuperer un objet Famille à patir de son nom
         /// </summary>
-        /// <param name="NomParam"> Nom de la Famille que l'on veut </param>
+        /// <param name="NomParam"> Nom de la Famille de l'objet que l'on veut </param>
         /// <returns> Famille </returns>
         public static Famille GetFamilleExistante(string NomParam)
         {
@@ -40,10 +41,12 @@ namespace Hector
         }
 
         /// <summary>
-        /// Méthode permettant de récupérer un objet Famille avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
+        /// Méthode permettant de récupérer un objet Famille à partir de son Nom
+        /// Le crée s'il n'existe pas déjà
         /// </summary>
         /// <param name="NomParam">Nom de la Famille que l'on souhaite</param>
-        /// <returns> NouvelleFamille </returns>
+        /// <returns>   Famille, si l'objet existe deja
+        ///             NouvelleFamille, sinon </returns>
         public static Famille CreerFamille(string NomParam)
         {
             if (NomAttribue(NomParam) == true)
@@ -62,9 +65,10 @@ namespace Hector
         }
 
         /// <summary>
-        /// Méthode permettant de récupérer un objet Famille avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
+        /// Méthode permettant de récupérer crée un objet Famille avec NomParam en tant qu'attribut Nom, si aucunes Famille n'existent déjà avec ce nom
+        /// Méthode utilisée lors de la récupération des données du fichier SQLite
         /// </summary>
-        /// <param name="NomParam">Nom de la Famille que l'on souhaite</param>
+        /// <param name="NomParam"> Nom de la Famille que l'on souhaite créer </param>
         /// <returns> NouvelleFamille </returns>
         public static Famille CreerFamilleDepuisSQLite(string NomParam)
         {
@@ -80,15 +84,19 @@ namespace Hector
         }
 
         /// <summary>
-        /// Méthode permettant de récupérer un objet Famille avec NomParam en tant qu'attribut Nom. Le crée s'il n'existe pas déjà
+        /// Méthode permettant de crée un objet Famille avec NomParam en tant qu'attribut Nom
+        /// Si un objet portant ce nom existe déjà, le met à jour
+        /// Utilisé lors du parsing de l'objet .csv
         /// </summary>
-        /// <param name="NomParam">Nom de la Famille que l'on souhaite</param>
-        /// <returns> NouvelleFamille </returns>
+        /// <param name="NomParam"> Nom de la Famille que l'on souhaite </param>
+        /// <returns>   NouvelleFamille, si aucune Famille avec ce nom n'existe déjà
+        ///             FamilleExistante, sinon </returns>
         public static Famille CreerFamilleDepuisCSV(string NomParam)
         {
             if (NomAttribue(NomParam) == true)
             {
                 Famille FamilleExistante = DictionnaireFamilles[NomParam];
+                // Aucunes modifications, puisque Famille ne possède qu'un nom
 
                 return FamilleExistante;
             }
@@ -99,17 +107,20 @@ namespace Hector
 
             return NouvelleFamille;
         }
+
+        // Constructeurs par défaut et de recopie passés en privé, seul le constructeur de confort doit être utilisé
         private Famille() { }
         private Famille(Famille FamilleParam) { }
 
         /// <summary>
-        /// Constructeur de confort de la classe Famille
+        /// Constructeur de confort de la classe Famille 
+        /// Utilisée par la méthode CreerFamille
         /// </summary>
         /// <param name="NouveauNom"></param>
         private Famille(string NouveauNom)
         {
             Nom = NouveauNom;
-            RefFamille = Global.REFERENCE_NON_ASSIGNEE; // Sera modifiée lorsque la famille sera saisie dans la base de donnée
+            RefFamille = Global.REFERENCE_NON_ASSIGNEE; // Sera modifiéee lorsque la famille sera saisie dans la base de donnée
         }
 
         /// <summary>
@@ -121,8 +132,8 @@ namespace Hector
             return Nom;
         }
 
-        // <summary>
-        /// Verifie que le NouveauNom est un nom disponible
+        /// <summary>
+        /// Verifie que le NouveauNom n'est pas déjà attribuée à une Famille
         /// </summary>
         /// <param name="NouveauNom"></param>
         /// <returns>   - true : Si une Famille avec ce nom existe
@@ -146,10 +157,12 @@ namespace Hector
         {
             try
             {
+                // On vérifie que NouveauNom n'est pas déjà attribué
                 if (Nom != NouveauNom && NomAttribue(NouveauNom))
                 {
                     throw new Exception(Exception.ERREUR_NOM_DEJA_ASSIGNEE);
                 }
+                // On met à jour le dictionnaire en conséquence
                 DictionnaireFamilles.Remove(Nom);
                 DictionnaireFamilles.Add(NouveauNom, this);
 
@@ -173,17 +186,19 @@ namespace Hector
         }
 
         /// <summary>
-        /// Accesseur en écriture de l'attribut RefFamille, appelée lorsque l'objet est inserée, de sorte à rapporter la reference ainsi generee dans l'objet
+        /// Accesseur en écriture de l'attribut RefFamille, appelée lorsque l'objet est inserée, de sorte à repporter la réference ainsi generée dans l'objet
         /// </summary>
-        /// <param name="NouvelleRefFamille">La reference autogeneree</param>
+        /// <param name="NouvelleRefFamille"> La réference autogénérée par la base de données </param>
         public void DefineRefFamille(int NouvelleRefFamille)
         {
             try
             {
-                if (RefFamille != Global.REFERENCE_NON_ASSIGNEE) // Si la réference a été générée (la sous-famille a été ajouté à la base de donnée)
+                if (RefFamille != Global.REFERENCE_NON_ASSIGNEE) // Si la réference a déjà été définie (la famille a déjà été ajouté à la base de donnée)
                 {
                     throw new Exception(Exception.ERREUR_REFERENCE_DEJA_DEFINIE);
                 }
+
+                // On vérifie l'unicité des réferences
                 foreach (Famille FamilleExistante in DictionnaireFamilles.Values)
                 {
                     if (FamilleExistante.GetRefFamille() == NouvelleRefFamille)
@@ -203,7 +218,7 @@ namespace Hector
         /// <summary>
         /// Renvoie une liste correspondant au dictionnaire DictionnaireFamilles
         /// </summary>
-        /// <returns></returns>
+        /// <returns> DictionnaireFamilles.ToList() </returns>
         public static List<Famille> GetListeFamilles()
         {
             List<Famille> ListeFamilles= new List<Famille>();
@@ -250,13 +265,15 @@ namespace Hector
         {
             try
             {
+                // On vérifie qu'aucunes sous-familles n'appartient à cette famille
                 if (FamilleUtilisee() == true)
                 {
                     throw new Exception(Exception.ERREUR_OBJET_UTILISEE);
                 }
+                // On supprime la famille de la base de donnée, une exception est levée si la requête DELETE échoue
+                BaseDeDonnees.GetInstance().SupprimerFamilleBdd(RefFamille);
 
                 DictionnaireFamilles.Remove(Nom);
-                BaseDeDonnees.GetInstance().SupprimerFamilleBdd(RefFamille);
 
                 return Exception.RETOUR_NORMAL;
             }

@@ -523,7 +523,7 @@ namespace Hector
         /// <param name="NouvelleRefMarque"></param>
         /// <param name="NouvelleRefSousFamille"></param>
         /// <param name="ReferenceAvantModification"> Reference avant modification, pour pouvoir mettre à jour même si la reference change </param>
-        /// <returns></returns>
+        /// <returns> Une valeur indiquant si la modification a réussie </returns>
         public uint ModifierArticleBdd(string NouvelleRefArticle, string NouvelleDescription, double NouveauPrixHT, uint NouvelleQuantite, int NouvelleRefMarque, 
             int NouvelleRefSousFamille, string ReferenceAvantModification)
         {
@@ -565,7 +565,7 @@ namespace Hector
         /// </summary>
         /// <param name="RefMarque"></param>
         /// <param name="NouveauNom"></param>
-        /// <returns></returns>
+        /// <returns> Une valeur indiquant si la modification a réussie </returns>
         public uint ModifierMarqueBdd(int RefMarque, string NouveauNom)
         {
             try
@@ -601,7 +601,7 @@ namespace Hector
         /// <param name="RefSousFamille"></param>
         /// <param name="NouveauNom"></param>
         /// <param name="RefFamille"></param>
-        /// <returns></returns>
+        /// <returns> Une valeur indiquant si la modification a réussie </returns>
         public uint ModifierSousFamilleBdd(int RefSousFamille, string NouveauNom, int RefFamille)
         {
             try
@@ -637,7 +637,7 @@ namespace Hector
         /// </summary>
         /// <param name="RefFamille"></param>
         /// <param name="NouveauNom"></param>
-        /// <returns></returns>
+        /// <returns> Une valeur indiquant si la modification a réussie </returns>
         public uint ModifierFamilleBdd(int RefFamille, string NouveauNom)
         {
             try
@@ -690,7 +690,7 @@ namespace Hector
             }
             catch (SQLiteException)
             {
-                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+                throw new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD);
             }
         }
 
@@ -718,7 +718,7 @@ namespace Hector
             }
             catch (SQLiteException)
             {
-                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+                throw new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD);
             }
         }
 
@@ -746,7 +746,7 @@ namespace Hector
             }
             catch (SQLiteException)
             {
-                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+                throw new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD);
             }
         }
 
@@ -754,6 +754,7 @@ namespace Hector
         /// Methode qui permet de supprimer une famille de la base de données
         /// </summary>
         /// <param name="RefFamille">La référence de la famille à supprimer</param>
+        /// <exception cref="Exception"> Exception.ERREUR_CONNECTION_A_LA_BDD </exception>
         public void SupprimerFamilleBdd(int RefFamille)
         {
             try
@@ -774,7 +775,7 @@ namespace Hector
             }
             catch (SQLiteException)
             {
-                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+                throw new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD);
             }
         }
     }
