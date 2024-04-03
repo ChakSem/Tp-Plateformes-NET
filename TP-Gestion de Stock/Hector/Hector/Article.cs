@@ -265,15 +265,20 @@ namespace Hector
         /// <summary>
         /// Méthode permettant de gérer la suppression d'un Article
         /// </summary>
-        public void SupprimerArticle()
+        /// <returns> Une valeur indiquant si la modification a réussie </returns>
+        public uint SupprimerArticle()
         {
             try
             {
                 BaseDeDonnees.GetInstance().SupprimerArticleBdd(Reference);
                 DictionnaireArticles.Remove(Reference);
+
+                return Exception.RETOUR_NORMAL;
             } catch (Exception ExceptionAttrapee)
             {
                 ExceptionAttrapee.AfficherMessageErreur();
+
+                return Exception.RETOUR_ERREUR;
             }
         }
     }

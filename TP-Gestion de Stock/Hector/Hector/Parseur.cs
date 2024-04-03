@@ -14,10 +14,10 @@ namespace Hector
         public static uint NOMBRE_ARTICLES_MIS_A_JOUR;
 
         /// <summary>
-        /// Methode qui permet de parser un fichier csv
+        /// Methode qui permet de récuperer les articles depuis un fichier .csv
         /// </summary>
-        /// <param name="path"> Le chemin du fichier csv </param>
-        /// <returns> La liste des Article </returns>
+        /// <param name="path"></param>
+        /// <param name="BarreDeProgression"></param>
         public static void Parse(string path, BackgroundWorker BarreDeProgression)
         {
             uint NombreArticlesCrees = 0;
@@ -65,6 +65,10 @@ namespace Hector
             }
         }
 
+        /// <summary>
+        /// Extrait les données dans le fichie csv spécifié en paramètre
+        /// </summary>
+        /// <param name="CheminDExportation"></param>
         public static void ExtraireDonnees(string CheminDExportation) {
 
             Encoding Encodage = Encoding.UTF8;
@@ -88,7 +92,7 @@ namespace Hector
         /// Permet de lire la Quantite dans la Description de l'objet Article
         /// </summary>
         /// <param name="Description">Description de l'Article</param>
-        /// <returns>Quantite</returns>
+        /// <returns> Quantite </returns>
         private static uint ExtraireQuantite(string Description)
         {
             string RegexQuantite = @"^\d+";
@@ -103,7 +107,6 @@ namespace Hector
 
             return 1;
         }
-        
     }
 }
 

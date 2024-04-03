@@ -32,7 +32,7 @@ namespace Hector
         }
 
         /// <summary>
-        /// 
+        /// Constructeur par défaut
         /// </summary>
         private BaseDeDonnees()
         {
@@ -62,21 +62,29 @@ namespace Hector
         {
             int NombreArticles = 0;
 
-            using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
+            try
             {
-                //Debug
-                Connexion.Open();
-
-                string RequeteSQL = "SELECT COUNT(*) FROM Articles";
-
-                using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                using (SQLiteConnection Connexion = new SQLiteConnection(ChaineDeConnexion))
                 {
-                    NombreArticles = Convert.ToInt32(CommandeSQL.ExecuteScalar());
-                }
-                Connexion.Close();
-            }
+                    Connexion.Open();
 
-            return NombreArticles;
+                    string RequeteSQL = "SELECT COUNT(*) FROM Articles";
+
+                    using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
+                    {
+                        NombreArticles = Convert.ToInt32(CommandeSQL.ExecuteScalar());
+                    }
+                    Connexion.Close();
+                }
+
+                return NombreArticles;
+            } 
+            catch (SQLiteException)
+            {
+                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+
+                return NombreArticles;
+            }
         }
 
         /// <summary>
@@ -123,7 +131,7 @@ namespace Hector
                     int RefSousFamille = ArticleParam.GetSousFamille().GetRefSousFamille();
 
                     string RequeteSQL = "INSERT INTO Articles (Description, RefArticle, PrixHT, Quantite, RefMarque, RefSousFamille) VALUES (@Description, @RefArticle, @PrixHT, @Quantite, @RefMarque, @RefSousFamille)";
-                    //On ajoute l'article à la BDD
+                    
                     using (SQLiteCommand CommandeSQL = new SQLiteCommand(RequeteSQL, Connexion))
                     {
                         CommandeSQL.Parameters.AddWithValue("@Description", Description);
@@ -135,7 +143,6 @@ namespace Hector
                         CommandeSQL.ExecuteScalar();
                     }
                     Connexion.Close();
-
                 }
             }
             catch (SQLiteException)
@@ -145,7 +152,7 @@ namespace Hector
         }
 
         /// <summary>
-        /// Permet de recuperer la reference, genérée après qu'une Marque, une Famille, ou une SousFamille est inseree dans la base de donnee
+        /// Permet de récuperer la reference, genérée après qu'une Marque, une Famille, ou une SousFamille est inseree dans la base de donnee
         /// </summary>
         /// <param name="Connexion"> Connexion SQLiteConnection ouverte </param>
         /// <param name="Table"></param>
@@ -172,6 +179,10 @@ namespace Hector
             }
         }
 
+        /// <summary>
+        /// Permets d'ajouter une marque à la BDD
+        /// </summary>
+        /// <param name="MarqueParam"></param>
         public void AjoutMarqueBdd(Marque MarqueParam)
         {
             try
@@ -217,7 +228,7 @@ namespace Hector
         }
 
         /// <summary>
-        /// Permets d'ajouter les SousFamilles d'une liste à la BDD.
+        /// Permets d'ajouter une SousFamilles à la BDD.
         /// </summary>
         public void AjoutSousFamilleBdd(SousFamille SousFamilleParam)
         {
@@ -266,7 +277,7 @@ namespace Hector
         }
 
         /// <summary>
-        /// Permets d'ajouter les Familles d'une liste à la BDD.
+        /// Permets d'ajouter une Familles à la BDD.
         /// </summary>
         public void AjoutFamilleBdd(Famille FamilleParam)
         {
@@ -312,7 +323,7 @@ namespace Hector
         }
 
         /// <summary>
-        /// Permets de lire la liste des Marques
+        /// Permets de charger les Marques depuis la base de données
         /// </summary>
         public void LireMarquesBdd()
         {
@@ -350,7 +361,7 @@ namespace Hector
         }
 
         /// <summary>
-        /// Permets de lire la liste des Familles
+        /// Permets de charger les Familles depuis la base de données
         /// </summary>
         public void LireFamillesBdd()
         {
@@ -386,7 +397,7 @@ namespace Hector
         }
 
         /// <summary>
-        /// Permets de lire la liste des sous-familles.
+        /// Permets de charger les SousFamilles depuis la base de données
         /// </summary>
         public void LireSousFamillesBdd()
         {
@@ -426,7 +437,7 @@ namespace Hector
         }
 
         /// <summary>
-        /// Permets de lire la liste des articles.
+        /// Permets de charger les Articles depuis la base de données
         /// </summary>
         public void LireArticlesBdd()
         {
@@ -466,6 +477,9 @@ namespace Hector
             }
         }
 
+        /// <summary>
+        /// Supprime l'ensemble des élements de la base de données SQLite puis l'ensemble des objets stockés dans le programme
+        /// </summary>
         public void ViderDonnees()
         {
             try
@@ -514,7 +528,7 @@ namespace Hector
         }
 
         /// <summary>
-        /// Methode qui permet de mettre à jour les modification d'un article dans la base de données
+        /// Methode qui permet de mettre à jour les modifications d'un article dans la base de données
         /// </summary>
         /// <param name="NouvelleRefArticle"></param>
         /// <param name="NouvelleDescription"></param>
@@ -561,7 +575,7 @@ namespace Hector
         }
 
         /// <summary>
-        /// Methode qui permet de modifier une marque de la base de données
+        /// Methode qui permet de mettre à jour les modifications d'une marque dans la base de données
         /// </summary>
         /// <param name="RefMarque"></param>
         /// <param name="NouveauNom"></param>
@@ -596,7 +610,7 @@ namespace Hector
         }
 
         /// <summary>
-        /// Methode qui permet de modifier une sous-famille de la base de données
+        /// Methode qui permet de mettre à jour les modifications d'une sous-famille dans la base de données
         /// </summary>
         /// <param name="RefSousFamille"></param>
         /// <param name="NouveauNom"></param>
@@ -633,7 +647,7 @@ namespace Hector
         }
 
         /// <summary>
-        /// Methode qui permet de modifier une famille de la base de données
+        /// Methode qui permet de mettre à jour les modifications d'une famille dans la base de données
         /// </summary>
         /// <param name="RefFamille"></param>
         /// <param name="NouveauNom"></param>
