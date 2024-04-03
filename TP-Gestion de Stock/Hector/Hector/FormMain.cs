@@ -440,7 +440,7 @@ namespace Hector
                     foreach (char Caractere in Chaine)
                     {
                         // Vérifier si le caractère est une lettre et que ce n'est pas le x de "6x Marqueurs - Velleda - 1781bis"
-                        if (char.IsLetter(Caractere) && Convert.ToString(Caractere) != "x")
+                        if (char.IsLetter(Caractere) && Convert.ToString(Caractere) != "x" || Convert.ToString(Caractere) == "x" || Convert.ToString(Caractere) == "X")
                         {
                             char PremierCaractere = char.ToUpper(Caractere);
                             return PremierCaractere;
