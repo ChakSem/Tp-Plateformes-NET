@@ -395,23 +395,31 @@ namespace Hector
         /// </summary>
         public void ChargerListViewArticlesPourUneDescription()
         {
-            for (char Lettre = 'A'; Lettre <= 'Z'; Lettre++)
+            // Nettoyer les groupes existants
+            ListView1.Groups.Clear();
+
+            // Dictionnaire pour stocker les groupes
+            Dictionary<char, ListViewGroup> groupes = new Dictionary<char, ListViewGroup>();
+
+            // Créer les groupes pour chaque lettre de l'alphabet
+            for (char lettre = 'A'; lettre <= 'Z'; lettre++)
             {
-                // On crée le groupe correspondant à la lettre.
-                ListViewGroup Groupe = new ListViewGroup(Convert.ToString(Lettre).ToUpper(), HorizontalAlignment.Left);
-                ListView1.Groups.Add(Groupe);
+                // Créer le groupe correspondant à la lettre
+                ListViewGroup groupe = new ListViewGroup(lettre.ToString(), HorizontalAlignment.Left);
+                ListView1.Groups.Add(groupe);
+                groupes.Add(lettre, groupe);
+            }
 
-                foreach (ListViewItem Item in ListView1.Items)
+            // Parcourir chaque élément de la ListView pour attribuer le groupe approprié
+            foreach (ListViewItem item in ListView1.Items)
+            {
+                char premiereLettre = ExtractionPremierCaractere(item.SubItems[1].Text);
+
+                // Vérifier si la première lettre est une lettre de l'alphabet
+                if (char.IsLetter(premiereLettre))
                 {
-                    // On ajoute l'item si sa première lettre est la lettre actuelle.
-                    if (ExtractionPremierCaractere(Item.SubItems[1].Text) == Lettre)
-                    {
-                        ListViewItem Item_Temp = new ListViewItem(Item.SubItems[0].Text, Groupe);
-                        ListView1.Items.Add(Item_Temp);
-                        Item_Temp.SubItems.Add(Item.SubItems[1].Text);
-                        ListView1.Items.Remove(Item);
-
-                    }
+                    // Attribuer le groupe correspondant à l'élément
+                    item.Group = groupes[char.ToUpper(premiereLettre)];
                 }
             }
         }
@@ -511,30 +519,12 @@ namespace Hector
                         Ligne.Group = ListView1.Groups[IndicesGroupe[Ligne.SubItems[4].Text]];
                     }
                 }
-
-                // Si on clique sur la colonne Marques
+                // Si on clique sur la colonne Description
                 if (NomColonne == "Description")
                 {
-                    Dictionary<string, int> IndicesGroupe = new Dictionary<string, int>();
-
-                    for (char Chiffre = '0'; Chiffre <= '9'; Chiffre++)
-                    {
-                        int IdFamille = ListView1.Groups.Add(new ListViewGroup(Chiffre.ToString(), HorizontalAlignment.Left));
-                        IndicesGroupe.Add(Chiffre.ToString(), IdFamille);
-                    }
-                    for (char Lettre = 'A'; Lettre <= 'Z'; Lettre++)
-                    {
-                        int IdFamille = ListView1.Groups.Add(new ListViewGroup(Lettre.ToString(), HorizontalAlignment.Left));
-                        IndicesGroupe.Add(Lettre.ToString(), IdFamille);
-                    }
-
-                    foreach (ListViewItem Ligne in ListView1.Items)
-                    {
-                        string PremiereLettre = Ligne.SubItems[1].Text[0].ToString().ToUpper();
-                        Console.WriteLine(PremiereLettre);
-                        Ligne.Group = ListView1.Groups[IndicesGroupe[PremiereLettre]];
-                    }
+                    ChargerListViewArticlesPourUneDescription();
                 }
+
             }
             else
             {
