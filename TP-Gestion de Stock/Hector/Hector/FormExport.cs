@@ -19,6 +19,9 @@ namespace Hector
         {
             InitializeComponent();
         }
+
+
+
         /// <summary>
         /// Méthode permettant de fermer la fenêtre
         /// </summary>
@@ -26,19 +29,33 @@ namespace Hector
         /// <param name="e"></param>
         private void SelectFile_Click(object sender, EventArgs e)
         {
-
-            SaveFileDialog SaveFileDialog = new SaveFileDialog();
-            SaveFileDialog.Filter = "Fichiers CSV|*.csv";
-            SaveFileDialog.Title = "Selectionnez le chemin où sauvegarder";
-            SaveFileDialog.ShowDialog();
-            CheminCsvAExporter = SaveFileDialog.FileName;
-
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Fichiers CSV|*.csv";
+            openFileDialog.Title = "Selectionnez le fichier à importer";
+            openFileDialog.ShowDialog();
+            CheminCsvAExporter = openFileDialog.FileName;
             if (CheminCsvAExporter != null)
             {
                 CheminLabel.Text = CheminCsvAExporter;
-
-                Parseur.ExtraireDonnees(CheminCsvAExporter);
             }
+
+    
+        }
+
+
+        private void BoutonExtraire_Click(object sender, EventArgs e)
+        {
+            if (CheminCsvAExporter != null)
+            {
+                Parseur.ExtraireDonnees(CheminCsvAExporter);
+                MessageBox.Show("Exportation réussie");
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Veuillez sélectionner un fichier à exporter");
+            }
+
         }
     }
 }
