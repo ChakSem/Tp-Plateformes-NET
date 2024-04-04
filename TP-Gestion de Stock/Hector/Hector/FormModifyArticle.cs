@@ -39,7 +39,7 @@ namespace Hector
             }
             MarqueComboBox.SelectedIndex = 0;
 
-            RefArticlesTextBox.Text = ArticleSelectionnee.GetReference();
+            RefArticleTextBox.Text = ArticleSelectionnee.GetReference();
             DescriptionTextBox.Text = ArticleSelectionnee.GetDescription();
             PrixHTTextBox.Text = ArticleSelectionnee.GetPrixHT().ToString();
             QuantiteTextBox.Text = ArticleSelectionnee.GetQuantite().ToString();
@@ -53,7 +53,7 @@ namespace Hector
 
                 string AncienneReference = ArticleSelectionnee.GetReference();
 
-                string NouvelleReference = RefArticlesTextBox.Text;
+                string NouvelleReference = RefArticleTextBox.Text;
 
                 if (AncienneReference != NouvelleReference && Article.ReferenceAssignee(NouvelleReference))
                 {

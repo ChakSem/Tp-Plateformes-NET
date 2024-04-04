@@ -29,7 +29,7 @@ namespace Hector
         /// </summary>
         private void InitializeComponent()
         {
-            this.CreateButton = new System.Windows.Forms.Button();
+            this.BoutonCreer = new System.Windows.Forms.Button();
             this.BoutonAnnulation = new System.Windows.Forms.Button();
             this.MarqueComboBox = new System.Windows.Forms.ComboBox();
             this.SousFamilleComboBox = new System.Windows.Forms.ComboBox();
@@ -45,15 +45,15 @@ namespace Hector
             this.RefArticlesLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // CreateButton
+            // BoutonCreer
             // 
-            this.CreateButton.Location = new System.Drawing.Point(297, 156);
-            this.CreateButton.Name = "CreateButton";
-            this.CreateButton.Size = new System.Drawing.Size(75, 23);
-            this.CreateButton.TabIndex = 14;
-            this.CreateButton.Text = "Créer";
-            this.CreateButton.UseVisualStyleBackColor = true;
-            this.CreateButton.Click += new System.EventHandler(this.CreateButton_Click);
+            this.BoutonCreer.Location = new System.Drawing.Point(297, 156);
+            this.BoutonCreer.Name = "BoutonCreer";
+            this.BoutonCreer.Size = new System.Drawing.Size(75, 23);
+            this.BoutonCreer.TabIndex = 14;
+            this.BoutonCreer.Text = "Créer";
+            this.BoutonCreer.UseVisualStyleBackColor = true;
+            this.BoutonCreer.Click += new System.EventHandler(this.CreateButton_Click);
             // 
             // BoutonAnnulation
             // 
@@ -68,7 +68,7 @@ namespace Hector
             // MarqueComboBox
             // 
             this.MarqueComboBox.FormattingEnabled = true;
-            this.MarqueComboBox.Location = new System.Drawing.Point(93, 77);
+            this.MarqueComboBox.Location = new System.Drawing.Point(76, 77);
             this.MarqueComboBox.Name = "MarqueComboBox";
             this.MarqueComboBox.Size = new System.Drawing.Size(121, 21);
             this.MarqueComboBox.TabIndex = 39;
@@ -76,14 +76,14 @@ namespace Hector
             // SousFamilleComboBox
             // 
             this.SousFamilleComboBox.FormattingEnabled = true;
-            this.SousFamilleComboBox.Location = new System.Drawing.Point(93, 41);
+            this.SousFamilleComboBox.Location = new System.Drawing.Point(76, 41);
             this.SousFamilleComboBox.Name = "SousFamilleComboBox";
             this.SousFamilleComboBox.Size = new System.Drawing.Size(121, 21);
             this.SousFamilleComboBox.TabIndex = 38;
             // 
             // PrixHTTextBox
             // 
-            this.PrixHTTextBox.Location = new System.Drawing.Point(93, 117);
+            this.PrixHTTextBox.Location = new System.Drawing.Point(76, 117);
             this.PrixHTTextBox.Name = "PrixHTTextBox";
             this.PrixHTTextBox.Size = new System.Drawing.Size(100, 20);
             this.PrixHTTextBox.TabIndex = 37;
@@ -150,7 +150,7 @@ namespace Hector
             // 
             // RefArticlesTextBox
             // 
-            this.RefArticlesTextBox.Location = new System.Drawing.Point(93, 6);
+            this.RefArticlesTextBox.Location = new System.Drawing.Point(76, 6);
             this.RefArticlesTextBox.Name = "RefArticlesTextBox";
             this.RefArticlesTextBox.Size = new System.Drawing.Size(100, 20);
             this.RefArticlesTextBox.TabIndex = 29;
@@ -182,7 +182,7 @@ namespace Hector
             this.Controls.Add(this.RefArticlesTextBox);
             this.Controls.Add(this.RefArticlesLabel);
             this.Controls.Add(this.BoutonAnnulation);
-            this.Controls.Add(this.CreateButton);
+            this.Controls.Add(this.BoutonCreer);
             this.MaximumSize = new System.Drawing.Size(398, 224);
             this.MinimumSize = new System.Drawing.Size(398, 224);
             this.Name = "FormAddArticle";
@@ -193,7 +193,7 @@ namespace Hector
         }
 
         #endregion
-        private System.Windows.Forms.Button CreateButton;
+        private System.Windows.Forms.Button BoutonCreer;
         private System.Windows.Forms.Button BoutonAnnulation;
         private System.Windows.Forms.ComboBox MarqueComboBox;
         private System.Windows.Forms.ComboBox SousFamilleComboBox;

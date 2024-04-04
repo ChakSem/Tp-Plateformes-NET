@@ -35,7 +35,7 @@ namespace Hector
 
             if (CheminCsvAExporter != null)
             {
-                FilePathLabel.Text = CheminCsvAExporter;
+                CheminLabel.Text = CheminCsvAExporter;
 
                 Parseur.ExtraireDonnees(CheminCsvAExporter);
             }

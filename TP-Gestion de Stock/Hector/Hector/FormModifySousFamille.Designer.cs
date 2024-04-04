@@ -30,7 +30,7 @@ namespace Hector
         private void InitializeComponent()
         {
             this.BoutonAnnulation = new System.Windows.Forms.Button();
-            this.ModifyButton = new System.Windows.Forms.Button();
+            this.BoutonModifier = new System.Windows.Forms.Button();
             this.FamilleComboBox = new System.Windows.Forms.ComboBox();
             this.FamilleLabel = new System.Windows.Forms.Label();
             this.NomSousFamilleTextBox = new System.Windows.Forms.TextBox();
@@ -47,15 +47,15 @@ namespace Hector
             this.BoutonAnnulation.UseVisualStyleBackColor = true;
             this.BoutonAnnulation.Click += new System.EventHandler(this.CancelButton_Click);
             // 
-            // ModifyButton
+            // BoutonModifier
             // 
-            this.ModifyButton.Location = new System.Drawing.Point(157, 76);
-            this.ModifyButton.Name = "ModifyButton";
-            this.ModifyButton.Size = new System.Drawing.Size(75, 23);
-            this.ModifyButton.TabIndex = 28;
-            this.ModifyButton.Text = "Modifier";
-            this.ModifyButton.UseVisualStyleBackColor = true;
-            this.ModifyButton.Click += new System.EventHandler(this.ModifyButton_Click);
+            this.BoutonModifier.Location = new System.Drawing.Point(157, 76);
+            this.BoutonModifier.Name = "BoutonModifier";
+            this.BoutonModifier.Size = new System.Drawing.Size(75, 23);
+            this.BoutonModifier.TabIndex = 28;
+            this.BoutonModifier.Text = "Modifier";
+            this.BoutonModifier.UseVisualStyleBackColor = true;
+            this.BoutonModifier.Click += new System.EventHandler(this.ModifyButton_Click);
             // 
             // FamilleComboBox
             // 
@@ -100,7 +100,7 @@ namespace Hector
             this.Controls.Add(this.NomSousFamilleTextBox);
             this.Controls.Add(this.NomSousFamilleLabel);
             this.Controls.Add(this.BoutonAnnulation);
-            this.Controls.Add(this.ModifyButton);
+            this.Controls.Add(this.BoutonModifier);
             this.MaximumSize = new System.Drawing.Size(250, 150);
             this.MinimumSize = new System.Drawing.Size(250, 150);
             this.Name = "FormModifySousFamille";
@@ -113,7 +113,7 @@ namespace Hector
         #endregion
 
         private System.Windows.Forms.Button BoutonAnnulation;
-        private System.Windows.Forms.Button ModifyButton;
+        private System.Windows.Forms.Button BoutonModifier;
         private System.Windows.Forms.ComboBox FamilleComboBox;
         private System.Windows.Forms.Label FamilleLabel;
         private System.Windows.Forms.TextBox NomSousFamilleTextBox;

@@ -32,7 +32,7 @@ namespace Hector
             this.FamilleComboBox = new System.Windows.Forms.ComboBox();
             this.FamilleLabel = new System.Windows.Forms.Label();
             this.BoutonAnnulation = new System.Windows.Forms.Button();
-            this.CreateButton = new System.Windows.Forms.Button();
+            this.BoutonCreer = new System.Windows.Forms.Button();
             this.NomSousFamilleTextBox = new System.Windows.Forms.TextBox();
             this.NomSousFamilleLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -64,15 +64,15 @@ namespace Hector
             this.BoutonAnnulation.UseVisualStyleBackColor = true;
             this.BoutonAnnulation.Click += new System.EventHandler(this.CancelButton_Click);
             // 
-            // CreateButton
+            // BoutonCreer
             // 
-            this.CreateButton.Location = new System.Drawing.Point(157, 76);
-            this.CreateButton.Name = "CreateButton";
-            this.CreateButton.Size = new System.Drawing.Size(75, 23);
-            this.CreateButton.TabIndex = 34;
-            this.CreateButton.Text = "Créer";
-            this.CreateButton.UseVisualStyleBackColor = true;
-            this.CreateButton.Click += new System.EventHandler(this.CreateButton_Click);
+            this.BoutonCreer.Location = new System.Drawing.Point(157, 76);
+            this.BoutonCreer.Name = "BoutonCreer";
+            this.BoutonCreer.Size = new System.Drawing.Size(75, 23);
+            this.BoutonCreer.TabIndex = 34;
+            this.BoutonCreer.Text = "Créer";
+            this.BoutonCreer.UseVisualStyleBackColor = true;
+            this.BoutonCreer.Click += new System.EventHandler(this.CreateButton_Click);
             // 
             // NomSousFamilleTextBox
             // 
@@ -98,7 +98,7 @@ namespace Hector
             this.Controls.Add(this.FamilleComboBox);
             this.Controls.Add(this.FamilleLabel);
             this.Controls.Add(this.BoutonAnnulation);
-            this.Controls.Add(this.CreateButton);
+            this.Controls.Add(this.BoutonCreer);
             this.Controls.Add(this.NomSousFamilleTextBox);
             this.Controls.Add(this.NomSousFamilleLabel);
             this.MaximumSize = new System.Drawing.Size(248, 144);
@@ -115,7 +115,7 @@ namespace Hector
         private System.Windows.Forms.ComboBox FamilleComboBox;
         private System.Windows.Forms.Label FamilleLabel;
         private System.Windows.Forms.Button BoutonAnnulation;
-        private System.Windows.Forms.Button CreateButton;
+        private System.Windows.Forms.Button BoutonCreer;
         private System.Windows.Forms.TextBox NomSousFamilleTextBox;
         private System.Windows.Forms.Label NomSousFamilleLabel;
     }

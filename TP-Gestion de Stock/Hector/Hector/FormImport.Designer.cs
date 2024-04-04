@@ -29,38 +29,38 @@ namespace Hector
         /// </summary>
         private void InitializeComponent()
         {
-            this.SelectFile = new System.Windows.Forms.Button();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.FilePathLabel = new System.Windows.Forms.Label();
+            this.SelectionFichier = new System.Windows.Forms.Button();
+            this.ObjetBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.CheminLabel = new System.Windows.Forms.Label();
             this.BarreDeProgression = new System.Windows.Forms.ProgressBar();
             this.CheckBoxAjout = new System.Windows.Forms.CheckBox();
             this.CheckBoxEcrasement = new System.Windows.Forms.CheckBox();
-            this.FinishButton = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.BoutonImporter = new System.Windows.Forms.Button();
+            this.ObjetOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
-            // SelectFile
+            // SelectionFichier
             // 
-            this.SelectFile.Location = new System.Drawing.Point(16, 12);
-            this.SelectFile.Name = "SelectFile";
-            this.SelectFile.Size = new System.Drawing.Size(118, 23);
-            this.SelectFile.TabIndex = 0;
-            this.SelectFile.Text = "Ouvrir le fichier .csv";
-            this.SelectFile.UseVisualStyleBackColor = true;
-            this.SelectFile.Click += new System.EventHandler(this.ImportButton);
+            this.SelectionFichier.Location = new System.Drawing.Point(16, 12);
+            this.SelectionFichier.Name = "SelectionFichier";
+            this.SelectionFichier.Size = new System.Drawing.Size(118, 23);
+            this.SelectionFichier.TabIndex = 0;
+            this.SelectionFichier.Text = "Ouvrir le fichier .csv";
+            this.SelectionFichier.UseVisualStyleBackColor = true;
+            this.SelectionFichier.Click += new System.EventHandler(this.ImportButton);
             // 
-            // backgroundWorker1
+            // ObjetBackgroundWorker
             // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.ObjetBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             // 
-            // FilePathLabel
+            // CheminLabel
             // 
-            this.FilePathLabel.AutoSize = true;
-            this.FilePathLabel.Location = new System.Drawing.Point(23, 55);
-            this.FilePathLabel.Name = "FilePathLabel";
-            this.FilePathLabel.Size = new System.Drawing.Size(15, 13);
-            this.FilePathLabel.TabIndex = 4;
-            this.FilePathLabel.Text = "./";
+            this.CheminLabel.AutoSize = true;
+            this.CheminLabel.Location = new System.Drawing.Point(23, 55);
+            this.CheminLabel.Name = "CheminLabel";
+            this.CheminLabel.Size = new System.Drawing.Size(15, 13);
+            this.CheminLabel.TabIndex = 4;
+            this.CheminLabel.Text = "./";
             // 
             // BarreDeProgression
             // 
@@ -94,32 +94,32 @@ namespace Hector
             this.CheckBoxEcrasement.UseVisualStyleBackColor = true;
             this.CheckBoxEcrasement.CheckedChanged += new System.EventHandler(this.CheckBoxEcrasement_CheckedChanged);
             // 
-            // FinishButton
+            // BoutonImporter
             // 
-            this.FinishButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.FinishButton.Location = new System.Drawing.Point(0, 156);
-            this.FinishButton.Name = "FinishButton";
-            this.FinishButton.Size = new System.Drawing.Size(380, 23);
-            this.FinishButton.TabIndex = 8;
-            this.FinishButton.Text = "Démarrer";
-            this.FinishButton.UseVisualStyleBackColor = true;
-            this.FinishButton.Click += new System.EventHandler(this.FinishButton_Click);
+            this.BoutonImporter.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.BoutonImporter.Location = new System.Drawing.Point(0, 156);
+            this.BoutonImporter.Name = "BoutonImporter";
+            this.BoutonImporter.Size = new System.Drawing.Size(380, 23);
+            this.BoutonImporter.TabIndex = 8;
+            this.BoutonImporter.Text = "Démarrer l\'importation";
+            this.BoutonImporter.UseVisualStyleBackColor = true;
+            this.BoutonImporter.Click += new System.EventHandler(this.FinishButton_Click);
             // 
-            // openFileDialog1
+            // ObjetOpenFileDialog
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this.ObjetOpenFileDialog.FileName = "openFileDialog1";
             // 
             // FormImport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(380, 179);
-            this.Controls.Add(this.FinishButton);
+            this.Controls.Add(this.BoutonImporter);
             this.Controls.Add(this.CheckBoxEcrasement);
             this.Controls.Add(this.CheckBoxAjout);
             this.Controls.Add(this.BarreDeProgression);
-            this.Controls.Add(this.FilePathLabel);
-            this.Controls.Add(this.SelectFile);
+            this.Controls.Add(this.CheminLabel);
+            this.Controls.Add(this.SelectionFichier);
             this.MaximumSize = new System.Drawing.Size(396, 218);
             this.MinimumSize = new System.Drawing.Size(396, 218);
             this.Name = "FormImport";
@@ -132,13 +132,13 @@ namespace Hector
 
         #endregion
 
-        private System.Windows.Forms.Button SelectFile;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.Label FilePathLabel;
+        private System.Windows.Forms.Button SelectionFichier;
+        private System.ComponentModel.BackgroundWorker ObjetBackgroundWorker;
+        private System.Windows.Forms.Label CheminLabel;
         private System.Windows.Forms.ProgressBar BarreDeProgression;
         private System.Windows.Forms.CheckBox CheckBoxAjout;
         private System.Windows.Forms.CheckBox CheckBoxEcrasement;
-        private System.Windows.Forms.Button FinishButton;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Button BoutonImporter;
+        private System.Windows.Forms.OpenFileDialog ObjetOpenFileDialog;
     }
 }

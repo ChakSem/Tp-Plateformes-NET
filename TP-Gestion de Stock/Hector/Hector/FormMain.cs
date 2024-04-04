@@ -59,7 +59,7 @@ namespace Hector
         /// </summary>
         private void ChargerTreeView()
         {
-            TreeView1.Nodes.Clear();
+            ObjetTreeView.Nodes.Clear();
 
             // On crée les noeuds racines
             TreeNode NoeudTousLesArticles = new TreeNode("Tous les articles");
@@ -67,9 +67,9 @@ namespace Hector
             TreeNode NoeudMarques = new TreeNode("Marques");
 
             // On ajoute les noeuds racines au TreeView
-            TreeView1.Nodes.Add(NoeudTousLesArticles);
-            TreeView1.Nodes.Add(NoeudFamilles);
-            TreeView1.Nodes.Add(NoeudMarques);
+            ObjetTreeView.Nodes.Add(NoeudTousLesArticles);
+            ObjetTreeView.Nodes.Add(NoeudFamilles);
+            ObjetTreeView.Nodes.Add(NoeudMarques);
 
             // On ajoute les noeuds familles
             foreach (Famille FamilleExistante in Famille.GetListeFamilles())
@@ -109,7 +109,7 @@ namespace Hector
             TreeNode NoeudParent = NoeudSelectionne.Parent;
 
             IndiceColonne = -1; // On réinitlaise l'indice de la colonne selectionnée
-            ListView1.Groups.Clear(); // On réinitialises les groupes
+            ObjetListView.Groups.Clear(); // On réinitialises les groupes
 
             switch (TypeNoeudSelectionne)
             {
@@ -118,7 +118,7 @@ namespace Hector
                     Filtre = "";
                     TypeFiltre = "";
 
-                    ListView1.Columns.Clear();
+                    ObjetListView.Columns.Clear();
                     ChargerListViewArticles(Article.GetListeArticles());
 
                     break;
@@ -128,7 +128,7 @@ namespace Hector
                     Filtre = "";
                     TypeFiltre = "";
 
-                    ListView1.Columns.Clear();
+                    ObjetListView.Columns.Clear();
                     ChargerListViewFamilles(Famille.GetListeFamilles());
 
                     break;
@@ -138,13 +138,13 @@ namespace Hector
                     Filtre = "";
                     TypeFiltre = "";
 
-                    ListView1.Columns.Clear();
+                    ObjetListView.Columns.Clear();
                     ChargerListViewMarques(Marque.GetListeMarques());
 
                     break;
 
                 default:
-                    ListView1.Columns.Clear();
+                    ObjetListView.Columns.Clear();
                     if (NoeudParent.Text == "Familles")
                     {
                         // On fixe les filtres sur la Famille cliquée
@@ -156,7 +156,7 @@ namespace Hector
                     }
                     else
                     {
-                        ListView1.Columns.Clear();
+                        ObjetListView.Columns.Clear();
                         if (NoeudParent.Text == "Marques")
                         {
                             // On fixe les filtres sur la Marque cliquée
@@ -187,12 +187,14 @@ namespace Hector
         /// <param name="e"></param>
         private void ListView1_ItemActivate(object sender, EventArgs e)
         {
-            IndiceColonne = -1; // On réinitlaise l'indice de la colonne selectionnée
-            ListView1.Groups.Clear(); // On réinitialises les groupes
+            ObjetTreeView.SelectedNode = null; // On réinitialise le noeud du treeview selectionnée pour re-cliquer dessus
 
-            if (ListView1.SelectedItems.Count == 1) // On vérifie qu'un seul élement est selectionné
+            IndiceColonne = -1; // On réinitlaise l'indice de la colonne selectionnée
+            ObjetListView.Groups.Clear(); // On réinitialises les groupes
+
+            if (ObjetListView.SelectedItems.Count == 1) // On vérifie qu'un seul élement est selectionné
             {
-                ListViewItem Item = ListView1.SelectedItems[0];
+                ListViewItem Item = ObjetListView.SelectedItems[0];
 
                 Filtre = Item.SubItems[0].Text;
                 if (TypeDonneesAffichees == "SousFamilles")
@@ -274,8 +276,8 @@ namespace Hector
         private void ChargerListSousFamilles()
         {
             //On vide le ListView
-            ListView1.Columns.Clear();
-            ListView1.Items.Clear();
+            ObjetListView.Columns.Clear();
+            ObjetListView.Items.Clear();
             AjouterColonnesListViewSousFamilles();
 
             List<SousFamille> ListeSousFamilles = SousFamille.GetListeSousFamilles();
@@ -285,7 +287,7 @@ namespace Hector
                 if (SousFamilleExistante.GetFamille().GetNom() == Filtre)
                 {
                     ListViewItem NouvelItem = new ListViewItem(SousFamilleExistante.GetNom());
-                    ListView1.Items.Add(NouvelItem);
+                    ObjetListView.Items.Add(NouvelItem);
                 }
             }
         }
@@ -295,14 +297,14 @@ namespace Hector
         /// <summary
         public void AjouterColonnesListViewArticles()
         {
-            ListView1.ListViewItemSorter = null;
+            ObjetListView.ListViewItemSorter = null;
             TypeDonneesAffichees = "Articles";
 
-            ListView1.Columns.Add("RefArticle", 60);
-            ListView1.Columns.Add("Description", 200);
-            ListView1.Columns.Add("Familles", 100);
-            ListView1.Columns.Add("Sous-familles", 100);
-            ListView1.Columns.Add("Marques", 90);
+            ObjetListView.Columns.Add("RefArticle", 60);
+            ObjetListView.Columns.Add("Description", 200);
+            ObjetListView.Columns.Add("Familles", 100);
+            ObjetListView.Columns.Add("Sous-familles", 100);
+            ObjetListView.Columns.Add("Marques", 90);
         }
 
         /// <summary>
@@ -310,10 +312,10 @@ namespace Hector
         /// <summary>
         public void AjouterColonnesListViewSousFamilles()
         {
-            ListView1.ListViewItemSorter = null;
+            ObjetListView.ListViewItemSorter = null;
             TypeDonneesAffichees = "SousFamilles";
 
-            ListView1.Columns.Add("Description", 150);
+            ObjetListView.Columns.Add("Description", 150);
         }
 
         /// <summary>
@@ -321,10 +323,10 @@ namespace Hector
         /// <summary>
         public void AjouterColonnesListViewFamilles()
         {
-            ListView1.ListViewItemSorter = null;
+            ObjetListView.ListViewItemSorter = null;
             TypeDonneesAffichees = "Familles";
 
-            ListView1.Columns.Add("Description", 150);
+            ObjetListView.Columns.Add("Description", 150);
         }
 
         /// <summary>
@@ -332,10 +334,10 @@ namespace Hector
         /// <summary>
         public void AjouterColonnesListViewMarques()
         {
-            ListView1.ListViewItemSorter = null;
+            ObjetListView.ListViewItemSorter = null;
             TypeDonneesAffichees = "Marques";
 
-            ListView1.Columns.Add("Description", 150);
+            ObjetListView.Columns.Add("Description", 150);
         }
 
         /// <summary>
@@ -345,8 +347,8 @@ namespace Hector
         private void ChargerListViewArticles(List<Article> ListeArticles)
         {
             // On vide le ListView
-            ListView1.Columns.Clear();
-            ListView1.Items.Clear();
+            ObjetListView.Columns.Clear();
+            ObjetListView.Items.Clear();
 
             // On met à jour les colonnes
             AjouterColonnesListViewArticles();
@@ -359,7 +361,7 @@ namespace Hector
                 NouvelItem.SubItems.Add(ArticleExistante.GetSousFamille().GetFamille().GetNom());
                 NouvelItem.SubItems.Add(ArticleExistante.GetSousFamille().GetNom());
                 NouvelItem.SubItems.Add(ArticleExistante.GetMarque().GetNom());
-                ListView1.Items.Add(NouvelItem);
+                ObjetListView.Items.Add(NouvelItem);
             }
         }
 
@@ -370,15 +372,15 @@ namespace Hector
         private void ChargerListViewFamilles(List<Famille> ListeFamilles)
         {
             //On vide le ListView
-            ListView1.Columns.Clear();
-            ListView1.Items.Clear();
+            ObjetListView.Columns.Clear();
+            ObjetListView.Items.Clear();
             AjouterColonnesListViewFamilles();
 
             //On ajoute les familles
             foreach (Famille FamilleExistante in ListeFamilles)
             {
                 ListViewItem NouvelItem = new ListViewItem(FamilleExistante.GetNom());
-                ListView1.Items.Add(NouvelItem);
+                ObjetListView.Items.Add(NouvelItem);
             }
         }
 
@@ -389,15 +391,15 @@ namespace Hector
         private void ChargerListViewMarques(List<Marque> ListeMarques)
         {
             // On vide le ListView
-            ListView1.Columns.Clear();
-            ListView1.Items.Clear();
+            ObjetListView.Columns.Clear();
+            ObjetListView.Items.Clear();
             AjouterColonnesListViewMarques();
 
             // On ajoute les marques
             foreach (Marque MarqueExistante in ListeMarques)
             {
                 ListViewItem NouvelItem = new ListViewItem(MarqueExistante.GetNom());
-                ListView1.Items.Add(NouvelItem);
+                ObjetListView.Items.Add(NouvelItem);
             }
         }
         
@@ -415,14 +417,14 @@ namespace Hector
             {
                 // On crée le groupe correspondant à la lettre.
                 Groupe = new ListViewGroup(Convert.ToString(Lettre).ToUpper(), HorizontalAlignment.Left);
-                int IdLettre = ListView1.Groups.Add(Groupe);
+                int IdLettre = ObjetListView.Groups.Add(Groupe);
                 IndicesGroupe.Add(Lettre, IdLettre);
             }
 
-            foreach (ListViewItem Ligne in ListView1.Items)
+            foreach (ListViewItem Ligne in ObjetListView.Items)
             {
                 char PremiereLettre = ExtractionPremierCaractere(Ligne.SubItems[IndiceColonne].Text);
-                Ligne.Group = ListView1.Groups[IndicesGroupe[PremiereLettre]];
+                Ligne.Group = ObjetListView.Groups[IndicesGroupe[PremiereLettre]];
             }
         }
 
@@ -479,15 +481,15 @@ namespace Hector
         /// <param name="Event"></param>
         private void ListView1_ColumnClick(object sender, ColumnClickEventArgs Event)
         {
-            ListView1.ListViewItemSorter = new ListViewItemComparer(Event.Column);
+            ObjetListView.ListViewItemSorter = new ListViewItemComparer(Event.Column);
 
             IndiceColonne = Event.Column; // On sauvegarde l'indice de la colonne cliquée
-            ListView1.Groups.Clear(); // On réinitialise les groupes
+            ObjetListView.Groups.Clear(); // On réinitialise les groupes
 
             // Cas où les données affichées sont des articles
             if (TypeDonneesAffichees == "Articles")
             {
-                string NomColonne = ListView1.Columns[Event.Column].Text;
+                string NomColonne = ObjetListView.Columns[Event.Column].Text;
                 // Si on clique sur la colonne Familles 
                 if (NomColonne == "Familles")
                 {
@@ -496,14 +498,14 @@ namespace Hector
                     // On ajoute chaque famille une à une au dictionnaire
                     foreach (Famille FamilleExistante in Famille.GetListeFamilles())
                     {
-                        int IdFamille = ListView1.Groups.Add(new ListViewGroup(FamilleExistante.GetNom(), HorizontalAlignment.Left));
+                        int IdFamille = ObjetListView.Groups.Add(new ListViewGroup(FamilleExistante.GetNom(), HorizontalAlignment.Left));
                         IndicesGroupe.Add(FamilleExistante.GetNom(), IdFamille);
                     }
 
                     // Pour chaque article affiché, on l'ajoute au groupe crée pour sa famille
-                    foreach (ListViewItem Ligne in ListView1.Items)
+                    foreach (ListViewItem Ligne in ObjetListView.Items)
                     {
-                        Ligne.Group = ListView1.Groups[IndicesGroupe[Ligne.SubItems[IndiceColonne].Text]];
+                        Ligne.Group = ObjetListView.Groups[IndicesGroupe[Ligne.SubItems[IndiceColonne].Text]];
                     }
                 }
                 // Si on clique sur la colonne Sous-familles
@@ -514,14 +516,14 @@ namespace Hector
                     // On ajoute chaque sous-famille une à une au dictionnaire
                     foreach (SousFamille SousFamilleExistante in SousFamille.GetListeSousFamilles())
                     {
-                        int IdFamille = ListView1.Groups.Add(new ListViewGroup(SousFamilleExistante.GetNom(), HorizontalAlignment.Left));
+                        int IdFamille = ObjetListView.Groups.Add(new ListViewGroup(SousFamilleExistante.GetNom(), HorizontalAlignment.Left));
                         IndicesGroupe.Add(SousFamilleExistante.GetNom(), IdFamille);
                     }
 
                     // Pour chaque article affiché, on l'ajoute au groupe crée pour sa sous-famille
-                    foreach (ListViewItem Ligne in ListView1.Items)
+                    foreach (ListViewItem Ligne in ObjetListView.Items)
                     {
-                        Ligne.Group = ListView1.Groups[IndicesGroupe[Ligne.SubItems[IndiceColonne].Text]];
+                        Ligne.Group = ObjetListView.Groups[IndicesGroupe[Ligne.SubItems[IndiceColonne].Text]];
                     }
                 }
                 // Si on clique sur la colonne Marques
@@ -532,14 +534,14 @@ namespace Hector
                     // On ajoute chaque marque une à une au dictionnaire
                     foreach (Marque MarqueExistante in Marque.GetListeMarques())
                     {
-                        int IdFamille = ListView1.Groups.Add(new ListViewGroup(MarqueExistante.GetNom(), HorizontalAlignment.Left));
+                        int IdFamille = ObjetListView.Groups.Add(new ListViewGroup(MarqueExistante.GetNom(), HorizontalAlignment.Left));
                         IndicesGroupe.Add(MarqueExistante.GetNom(), IdFamille);
                     }
 
                     // Pour chaque  article affiché, on l'ajoute au groupe crée pour sa marque
-                    foreach (ListViewItem Ligne in ListView1.Items)
+                    foreach (ListViewItem Ligne in ObjetListView.Items)
                     {
-                        Ligne.Group = ListView1.Groups[IndicesGroupe[Ligne.SubItems[IndiceColonne].Text]];
+                        Ligne.Group = ObjetListView.Groups[IndicesGroupe[Ligne.SubItems[IndiceColonne].Text]];
                     }
                 }
 
@@ -563,9 +565,9 @@ namespace Hector
             String IdItem = null; // On stocke la ref (ou la description) de la ligne selectionne avant l'actualisation
             int IndiceColonneAvantActualisation = IndiceColonne;
 
-            if (ListView1.SelectedItems.Count > 0)
+            if (ObjetListView.SelectedItems.Count > 0)
             {
-                IdItem = ListView1.SelectedItems[0].Text;
+                IdItem = ObjetListView.SelectedItems[0].Text;
             }
 
             ImporterDonneesFichierSQLite();
@@ -574,13 +576,13 @@ namespace Hector
             // On refait la dernière selection qui a été faites
             if (NoeudSelectionne != null)
             {
-                TreeViewParam_AfterSelect(TreeView1, new TreeViewEventArgs(NoeudSelectionne, TreeViewAction.ByMouse));
+                TreeViewParam_AfterSelect(ObjetTreeView, new TreeViewEventArgs(NoeudSelectionne, TreeViewAction.ByMouse));
             }
 
             // On remet la selection sur l'élément qui été selectionnée dans le listView avant l'actualisation (s'il existe toujours)
             if (IdItem != null)
             {
-                foreach (ListViewItem item in ListView1.Items)
+                foreach (ListViewItem item in ObjetListView.Items)
                 {
                     if (item.Text == IdItem)
                     {
@@ -593,7 +595,7 @@ namespace Hector
             // On refait le tri / groupement qui était fait avant l'actualisation
             if (IndiceColonneAvantActualisation > -1)
             {
-                ListView1_ColumnClick(ListView1, new ColumnClickEventArgs(IndiceColonneAvantActualisation));
+                ListView1_ColumnClick(ObjetListView, new ColumnClickEventArgs(IndiceColonneAvantActualisation));
             }
 
             if (Afficher_MessageBox)
@@ -607,15 +609,15 @@ namespace Hector
         /// </summary>
         public void SupprimerElement()
         {
-            if (ListView1.SelectedItems.Count == 1) // Si un seul élément est selectionne dans le ListView
+            if (ObjetListView.SelectedItems.Count == 1) // Si un seul élément est selectionne dans le ListView
             {
-                ListViewItem Item = ListView1.SelectedItems[0];
+                ListViewItem Item = ObjetListView.SelectedItems[0];
 
                 if (TypeDonneesAffichees == "Articles")
                 {
                     if (SupprimerArticle(Item) == Exception.RETOUR_NORMAL)
                     {
-                        ListView1.Items.Remove(Item); // On efface la ligne si l'élement a pu être correctement supprimé
+                        ObjetListView.Items.Remove(Item); // On efface la ligne si l'élement a pu être correctement supprimé
                     }
                 }
                 try
@@ -628,7 +630,7 @@ namespace Hector
                         {
                             if (SupprimerFamille(FamilleASupprimer) == Exception.RETOUR_NORMAL)
                             {
-                                ListView1.Items.Remove(Item);
+                                ObjetListView.Items.Remove(Item);
                             }
                         }
                         else
@@ -644,7 +646,7 @@ namespace Hector
                         {
                             if (SupprimerSousFamille(SousFamilleASupprimer) == Exception.RETOUR_NORMAL)
                             {
-                                ListView1.Items.Remove(Item);
+                                ObjetListView.Items.Remove(Item);
                             }
                         }
                         else
@@ -660,7 +662,7 @@ namespace Hector
                         {
                             if (SupprimerMarque(MarqueASupprimer) == Exception.RETOUR_NORMAL)
                             {
-                                ListView1.Items.Remove(Item);
+                                ObjetListView.Items.Remove(Item);
                             }
                         }
                         else
@@ -681,9 +683,9 @@ namespace Hector
         /// </summary>
         public void ModifierElement()
         {
-            if (ListView1.SelectedItems.Count == 1) // Si un seul élément est selectionne dans le ListView, on ouvre l'interface de modification de cet objet
+            if (ObjetListView.SelectedItems.Count == 1) // Si un seul élément est selectionne dans le ListView, on ouvre l'interface de modification de cet objet
             {
-                ListViewItem Item = ListView1.SelectedItems[0];
+                ListViewItem Item = ObjetListView.SelectedItems[0];
                 // Si on modifie un article
                 if (TypeDonneesAffichees == "Articles")
                 {
@@ -715,7 +717,7 @@ namespace Hector
                         else
                         {
                             // Sinon on la supprime la ligne
-                            ListView1.Items.Remove(Item);
+                            ObjetListView.Items.Remove(Item);
                         }
                     }
                 }
@@ -725,7 +727,7 @@ namespace Hector
                     Famille FamilleSelectionnee = Famille.GetFamilleExistante(Item.SubItems[0].Text);
                     if (FamilleSelectionnee != null)
                     {
-                        TreeNode NoeudAMettreAJour = TrouverNoeudParTexte(TreeView1.Nodes[1], FamilleSelectionnee.GetNom());
+                        TreeNode NoeudAMettreAJour = TrouverNoeudParTexte(ObjetTreeView.Nodes[1], FamilleSelectionnee.GetNom());
 
                         FormModifyFamille NouveauForm = new FormModifyFamille(FamilleSelectionnee);
                         NouveauForm.ShowDialog();
@@ -742,7 +744,7 @@ namespace Hector
                     Marque MarqueSelectionnee = Marque.GetMarqueExistante(Item.SubItems[0].Text);
                     if (MarqueSelectionnee != null)
                     {
-                        TreeNode NoeudAMettreAJour = TrouverNoeudParTexte(TreeView1.Nodes[2], MarqueSelectionnee.GetNom());
+                        TreeNode NoeudAMettreAJour = TrouverNoeudParTexte(ObjetTreeView.Nodes[2], MarqueSelectionnee.GetNom());
 
                         FormModifyMarque NouveauForm = new FormModifyMarque(MarqueSelectionnee);
                         NouveauForm.ShowDialog();
@@ -761,7 +763,7 @@ namespace Hector
                     {
                         Famille FamilleParente = SousFamilleSelectionnee.GetFamille();
 
-                        TreeNode NoeudFamille = TrouverNoeudParTexte(TreeView1.Nodes[1], FamilleParente.GetNom());
+                        TreeNode NoeudFamille = TrouverNoeudParTexte(ObjetTreeView.Nodes[1], FamilleParente.GetNom());
                         TreeNode NoeudAMettreAJour = TrouverNoeudParTexte(NoeudFamille, SousFamilleSelectionnee.GetNom());
 
                         string NomFamilleAvantModification = FamilleParente.GetNom();
@@ -777,7 +779,7 @@ namespace Hector
                         }
                         else
                         {
-                            ListView1.Items.Remove(Item); // Si oui, on supprime la ligne
+                            ObjetListView.Items.Remove(Item); // Si oui, on supprime la ligne
                         }
                     }
                 }
@@ -820,7 +822,7 @@ namespace Hector
                     {
                         if (node.Text == SousFamilleASupprimer.GetNom())
                         {
-                            TreeView1.Nodes.Remove(node);
+                            ObjetTreeView.Nodes.Remove(node);
                             return Exception.RETOUR_NORMAL;
                         }
                     }
@@ -848,7 +850,7 @@ namespace Hector
                     {
                         if (node.Text == FamilleASupprimer.GetNom())
                         {
-                            TreeView1.Nodes.Remove(node);
+                            ObjetTreeView.Nodes.Remove(node);
                             return Exception.RETOUR_NORMAL;
                         }
                     }
@@ -876,7 +878,7 @@ namespace Hector
                     {
                         if (node.Text == MarqueASupprimer.GetNom())
                         {
-                            TreeView1.Nodes.Remove(node);
+                            ObjetTreeView.Nodes.Remove(node);
                             return Exception.RETOUR_NORMAL;
                         }
                     }
@@ -958,16 +960,16 @@ namespace Hector
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
             // Si un objet dans le list view est selectionné, on affiche les champs modification et suppression du menu contextuel
-            if (ListView1.SelectedItems.Count == 1)
+            if (ObjetListView.SelectedItems.Count == 1)
             {
-                contextMenuStrip1.Items[1].Enabled = true;
-                contextMenuStrip1.Items[2].Enabled = true;
+                ObjetContextMenuStrip.Items[1].Enabled = true;
+                ObjetContextMenuStrip.Items[2].Enabled = true;
             }
             // Sinon on les grise
             else
             {
-                contextMenuStrip1.Items[1].Enabled = false;
-                contextMenuStrip1.Items[2].Enabled = false;
+                ObjetContextMenuStrip.Items[1].Enabled = false;
+                ObjetContextMenuStrip.Items[2].Enabled = false;
             }
         }
 
@@ -978,7 +980,7 @@ namespace Hector
         /// <param name="e"></param>
         private void ListView1_Leave(object sender, EventArgs e)
         {
-            ListView1.SelectedItems.Clear();
+            ObjetListView.SelectedItems.Clear();
         }
 
         /// <summary>
@@ -1109,6 +1111,5 @@ namespace Hector
                 ModifierElement();
             }
         }
-
     }
 }

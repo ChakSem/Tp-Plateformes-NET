@@ -30,7 +30,7 @@ namespace Hector
         private void InitializeComponent()
         {
             this.BoutonAnnulation = new System.Windows.Forms.Button();
-            this.ModifyButton = new System.Windows.Forms.Button();
+            this.BoutonModifier = new System.Windows.Forms.Button();
             this.MarqueComboBox = new System.Windows.Forms.ComboBox();
             this.SousFamilleComboBox = new System.Windows.Forms.ComboBox();
             this.PrixHTTextBox = new System.Windows.Forms.TextBox();
@@ -41,8 +41,8 @@ namespace Hector
             this.SousFamilleLabel = new System.Windows.Forms.Label();
             this.DescriptionTextBox = new System.Windows.Forms.TextBox();
             this.DescriptionLabel = new System.Windows.Forms.Label();
-            this.RefArticlesTextBox = new System.Windows.Forms.TextBox();
-            this.RefArticlesLabel = new System.Windows.Forms.Label();
+            this.RefArticleTextBox = new System.Windows.Forms.TextBox();
+            this.RefArticleLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // BoutonAnnulation
@@ -55,15 +55,15 @@ namespace Hector
             this.BoutonAnnulation.UseVisualStyleBackColor = true;
             this.BoutonAnnulation.Click += new System.EventHandler(this.CancelButton_Click);
             // 
-            // ModifyButton
+            // BoutonModifier
             // 
-            this.ModifyButton.Location = new System.Drawing.Point(297, 156);
-            this.ModifyButton.Name = "ModifyButton";
-            this.ModifyButton.Size = new System.Drawing.Size(75, 23);
-            this.ModifyButton.TabIndex = 28;
-            this.ModifyButton.Text = "Modifier";
-            this.ModifyButton.UseVisualStyleBackColor = true;
-            this.ModifyButton.Click += new System.EventHandler(this.ModifyButton_Click);
+            this.BoutonModifier.Location = new System.Drawing.Point(297, 156);
+            this.BoutonModifier.Name = "BoutonModifier";
+            this.BoutonModifier.Size = new System.Drawing.Size(75, 23);
+            this.BoutonModifier.TabIndex = 28;
+            this.BoutonModifier.Text = "Modifier";
+            this.BoutonModifier.UseVisualStyleBackColor = true;
+            this.BoutonModifier.Click += new System.EventHandler(this.ModifyButton_Click);
             // 
             // MarqueComboBox
             // 
@@ -148,21 +148,21 @@ namespace Hector
             this.DescriptionLabel.TabIndex = 42;
             this.DescriptionLabel.Text = "Description";
             // 
-            // RefArticlesTextBox
+            // RefArticleTextBox
             // 
-            this.RefArticlesTextBox.Location = new System.Drawing.Point(86, 4);
-            this.RefArticlesTextBox.Name = "RefArticlesTextBox";
-            this.RefArticlesTextBox.Size = new System.Drawing.Size(100, 20);
-            this.RefArticlesTextBox.TabIndex = 41;
+            this.RefArticleTextBox.Location = new System.Drawing.Point(86, 4);
+            this.RefArticleTextBox.Name = "RefArticleTextBox";
+            this.RefArticleTextBox.Size = new System.Drawing.Size(100, 20);
+            this.RefArticleTextBox.TabIndex = 41;
             // 
-            // RefArticlesLabel
+            // RefArticleLabel
             // 
-            this.RefArticlesLabel.AutoSize = true;
-            this.RefArticlesLabel.Location = new System.Drawing.Point(5, 7);
-            this.RefArticlesLabel.Name = "RefArticlesLabel";
-            this.RefArticlesLabel.Size = new System.Drawing.Size(58, 13);
-            this.RefArticlesLabel.TabIndex = 40;
-            this.RefArticlesLabel.Text = "RefArticles";
+            this.RefArticleLabel.AutoSize = true;
+            this.RefArticleLabel.Location = new System.Drawing.Point(5, 7);
+            this.RefArticleLabel.Name = "RefArticleLabel";
+            this.RefArticleLabel.Size = new System.Drawing.Size(58, 13);
+            this.RefArticleLabel.TabIndex = 40;
+            this.RefArticleLabel.Text = "RefArticles";
             // 
             // FormModifyArticle
             // 
@@ -179,10 +179,10 @@ namespace Hector
             this.Controls.Add(this.SousFamilleLabel);
             this.Controls.Add(this.DescriptionTextBox);
             this.Controls.Add(this.DescriptionLabel);
-            this.Controls.Add(this.RefArticlesTextBox);
-            this.Controls.Add(this.RefArticlesLabel);
+            this.Controls.Add(this.RefArticleTextBox);
+            this.Controls.Add(this.RefArticleLabel);
             this.Controls.Add(this.BoutonAnnulation);
-            this.Controls.Add(this.ModifyButton);
+            this.Controls.Add(this.BoutonModifier);
             this.MaximumSize = new System.Drawing.Size(400, 230);
             this.MinimumSize = new System.Drawing.Size(400, 230);
             this.Name = "FormModifyArticle";
@@ -195,7 +195,7 @@ namespace Hector
         #endregion
 
         private System.Windows.Forms.Button BoutonAnnulation;
-        private System.Windows.Forms.Button ModifyButton;
+        private System.Windows.Forms.Button BoutonModifier;
         private System.Windows.Forms.ComboBox MarqueComboBox;
         private System.Windows.Forms.ComboBox SousFamilleComboBox;
         private System.Windows.Forms.TextBox PrixHTTextBox;
@@ -206,7 +206,7 @@ namespace Hector
         private System.Windows.Forms.Label SousFamilleLabel;
         private System.Windows.Forms.TextBox DescriptionTextBox;
         private System.Windows.Forms.Label DescriptionLabel;
-        private System.Windows.Forms.TextBox RefArticlesTextBox;
-        private System.Windows.Forms.Label RefArticlesLabel;
+        private System.Windows.Forms.TextBox RefArticleTextBox;
+        private System.Windows.Forms.Label RefArticleLabel;
     }
 }

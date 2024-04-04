@@ -19,7 +19,7 @@ namespace Hector
         {
             InitializeComponent();
             Parseur = new Parseur(); // Initialisation de Parseur
-            backgroundWorker1.ProgressChanged += backgroundWorker1_ProgressChanged;
+            ObjetBackgroundWorker.ProgressChanged += backgroundWorker1_ProgressChanged;
         }
         /// <summary>
         /// Méthode permettant de mettre à jour la barre de progression
@@ -62,7 +62,7 @@ namespace Hector
         private void ImportButton(object sender, EventArgs e)
         {
             CheminCsvAImpoter = ImportCsvFile(sender, e);
-            FilePathLabel.Text = CheminCsvAImpoter;
+            CheminLabel.Text = CheminCsvAImpoter;
         }
         /// <summary>
         /// Méthode permettant d'importer un fichier CSV
@@ -86,14 +86,14 @@ namespace Hector
         /// <param name="e"></param>
         private void FinishButton_Click(object sender, EventArgs e)
         {
-            if (!backgroundWorker1.IsBusy)
+            if (!ObjetBackgroundWorker.IsBusy)
             {
                 BDD = BaseDeDonnees.GetInstance();
 
-                backgroundWorker1.WorkerReportsProgress = true;
-                backgroundWorker1.DoWork -= backgroundWorker1_DoWork;
-                backgroundWorker1.DoWork += backgroundWorker1_DoWork;
-                backgroundWorker1.RunWorkerAsync();
+                ObjetBackgroundWorker.WorkerReportsProgress = true;
+                ObjetBackgroundWorker.DoWork -= backgroundWorker1_DoWork;
+                ObjetBackgroundWorker.DoWork += backgroundWorker1_DoWork;
+                ObjetBackgroundWorker.RunWorkerAsync();
 
             }
         }

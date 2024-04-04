@@ -30,7 +30,7 @@ namespace Hector
         private void InitializeComponent()
         {
             this.BoutonAnnulation = new System.Windows.Forms.Button();
-            this.ModifierButton = new System.Windows.Forms.Button();
+            this.BoutonModifier = new System.Windows.Forms.Button();
             this.NomMarqueTextBox = new System.Windows.Forms.TextBox();
             this.NomMarqueLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -45,15 +45,15 @@ namespace Hector
             this.BoutonAnnulation.UseVisualStyleBackColor = true;
             this.BoutonAnnulation.Click += new System.EventHandler(this.CancelButton_Click);
             // 
-            // ModifierButton
+            // BoutonModifier
             // 
-            this.ModifierButton.Location = new System.Drawing.Point(157, 56);
-            this.ModifierButton.Name = "ModifierButton";
-            this.ModifierButton.Size = new System.Drawing.Size(75, 23);
-            this.ModifierButton.TabIndex = 28;
-            this.ModifierButton.Text = "Modifier";
-            this.ModifierButton.UseVisualStyleBackColor = true;
-            this.ModifierButton.Click += new System.EventHandler(this.BouttonModifier_Click);
+            this.BoutonModifier.Location = new System.Drawing.Point(157, 56);
+            this.BoutonModifier.Name = "BoutonModifier";
+            this.BoutonModifier.Size = new System.Drawing.Size(75, 23);
+            this.BoutonModifier.TabIndex = 28;
+            this.BoutonModifier.Text = "Modifier";
+            this.BoutonModifier.UseVisualStyleBackColor = true;
+            this.BoutonModifier.Click += new System.EventHandler(this.BouttonModifier_Click);
             // 
             // NomMarqueTextBox
             // 
@@ -79,7 +79,7 @@ namespace Hector
             this.Controls.Add(this.NomMarqueTextBox);
             this.Controls.Add(this.NomMarqueLabel);
             this.Controls.Add(this.BoutonAnnulation);
-            this.Controls.Add(this.ModifierButton);
+            this.Controls.Add(this.BoutonModifier);
             this.MaximumSize = new System.Drawing.Size(250, 130);
             this.MinimumSize = new System.Drawing.Size(250, 130);
             this.Name = "FormModifyMarque";
@@ -92,7 +92,7 @@ namespace Hector
         #endregion
 
         private System.Windows.Forms.Button BoutonAnnulation;
-        private System.Windows.Forms.Button ModifierButton;
+        private System.Windows.Forms.Button BoutonModifier;
         private System.Windows.Forms.TextBox NomMarqueTextBox;
         private System.Windows.Forms.Label NomMarqueLabel;
     }
