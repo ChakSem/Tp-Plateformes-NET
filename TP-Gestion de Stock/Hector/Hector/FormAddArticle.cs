@@ -10,15 +10,27 @@ using System.Windows.Forms;
 namespace Hector
 {
     public partial class FormAddArticle : Form
-    {   
+    {
+        private Article NouvelArticle;
+
+        /// <summary>
+        /// Accesseur en lecture de l'Article crée
+        /// </summary>
+        /// <returns> NouvelArticle </returns>
+        public Article GetArticle()
+        {
+            return NouvelArticle;
+        }
+
         /// <summary>
         /// Constructeur de la classe FormAddArticle
         /// </summary>
         public FormAddArticle()
         {
             InitializeComponent();
+            NouvelArticle = null;
 
-            foreach(SousFamille SousFamilleExistante in SousFamille.GetListeSousFamilles())
+            foreach (SousFamille SousFamilleExistante in SousFamille.GetListeSousFamilles())
             {
                 SousFamilleComboBox.Items.Add(SousFamilleExistante.GetNom());
             }
@@ -30,6 +42,7 @@ namespace Hector
             }
             MarqueComboBox.SelectedIndex = 0;
         }
+
         /// <summary>
         /// Méthode permettant de créer un article
         /// </summary>
@@ -58,7 +71,7 @@ namespace Hector
                         throw new Exception(Exception.ERREUR_PARSING_UINT);
                     }
 
-                    Article NouvelArticle = Article.CreerArticle(DescriptionTextBox.Text, RefArticlesTextBox.Text, MarqueSelectionne, SousFamilleSelectionnee,
+                    NouvelArticle = Article.CreerArticle(DescriptionTextBox.Text, RefArticlesTextBox.Text, MarqueSelectionne, SousFamilleSelectionnee,
                         PrixHT, Quantite);
 
                     if (NouvelArticle != null)

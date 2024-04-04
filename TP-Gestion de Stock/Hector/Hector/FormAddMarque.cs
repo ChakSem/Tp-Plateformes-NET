@@ -11,6 +11,16 @@ namespace Hector
 {
     public partial class FormAddMarque : Form
     {
+        private Marque NouvelleMarque;
+
+        /// <summary>
+        /// Accesseur en lecture de la Marque crée
+        /// </summary>
+        /// <returns> NouvelleMarque </returns>
+        public Marque GetMarque()
+        {
+            return NouvelleMarque;
+        }
 
         /// <summary>
         /// Constructeur de la classe FormAddMarque
@@ -18,7 +28,9 @@ namespace Hector
         public FormAddMarque()
         {
             InitializeComponent();
+            NouvelleMarque = null;
         }
+
         /// <summary>
         /// Méthode permettant de créer une marque
         /// </summary>
@@ -28,7 +40,7 @@ namespace Hector
         {
             if (NomMarqueTextBox.Text != "")
             {
-                Marque NouvelleMarque = Marque.CreerMarque(NomMarqueTextBox.Text);
+                NouvelleMarque = Marque.CreerMarque(NomMarqueTextBox.Text);
 
                 if (NouvelleMarque != null)
                 {

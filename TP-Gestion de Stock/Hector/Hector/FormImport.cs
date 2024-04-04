@@ -94,7 +94,6 @@ namespace Hector
                 ObjetBackgroundWorker.DoWork -= backgroundWorker1_DoWork;
                 ObjetBackgroundWorker.DoWork += backgroundWorker1_DoWork;
                 ObjetBackgroundWorker.RunWorkerAsync();
-
             }
         }
 

@@ -11,12 +11,24 @@ namespace Hector
 {
     public partial class FormAddSousFamille : Form
     {
+        private SousFamille NouvelleSousFamillee;
+
+        /// <summary>
+        /// Accesseur en lecture de la SousFamille crée
+        /// </summary>
+        /// <returns> NouvelleSousFamillee </returns>
+        public SousFamille GetSousFamille()
+        {
+            return NouvelleSousFamillee;
+        }
+
         /// <summary>
         /// Constructeur de la classe FormAddSousFamille
         /// </summary>
         public FormAddSousFamille()
         {
             InitializeComponent();
+            NouvelleSousFamillee = null;
 
             foreach (Famille FamilleExistante in Famille.GetListeFamilles())
             {
@@ -36,7 +48,7 @@ namespace Hector
             if (NomSousFamilleTextBox.Text != "" && FamilleComboBox.Items.Count > 0)
             {
                 Famille FamilleSelectionnee = Famille.GetFamilleExistante(FamilleComboBox.Text);
-                SousFamille NouvelleSousFamillee = SousFamille.CreerSousFamille(NomSousFamilleTextBox.Text, FamilleSelectionnee);
+                NouvelleSousFamillee = SousFamille.CreerSousFamille(NomSousFamilleTextBox.Text, FamilleSelectionnee);
 
                 if (NouvelleSousFamillee != null)
                 {

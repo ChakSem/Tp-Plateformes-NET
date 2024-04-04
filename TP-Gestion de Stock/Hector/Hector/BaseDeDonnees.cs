@@ -81,7 +81,7 @@ namespace Hector
             } 
             catch (SQLiteException)
             {
-                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+                new Exception(Exception.ERREUR_SQLITE).AfficherMessageErreur();
 
                 return NombreArticles;
             }
@@ -147,7 +147,7 @@ namespace Hector
             }
             catch (SQLiteException)
             {
-                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+                new Exception(Exception.ERREUR_SQLITE).AfficherMessageErreur();
             }
         }
 
@@ -223,7 +223,7 @@ namespace Hector
             }
             catch (SQLiteException)
             {
-                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+                new Exception(Exception.ERREUR_SQLITE).AfficherMessageErreur();
             }
         }
 
@@ -272,7 +272,7 @@ namespace Hector
             }
             catch (SQLiteException)
             {
-                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+                new Exception(Exception.ERREUR_SQLITE).AfficherMessageErreur();
             }
         }
 
@@ -318,7 +318,7 @@ namespace Hector
             }
             catch (SQLiteException)
             {
-                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+                new Exception(Exception.ERREUR_SQLITE).AfficherMessageErreur();
             }
         }
 
@@ -356,7 +356,7 @@ namespace Hector
             }
             catch (SQLiteException)
             {
-                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+                new Exception(Exception.ERREUR_SQLITE).AfficherMessageErreur();
             }
         }
 
@@ -392,7 +392,7 @@ namespace Hector
             }
             catch (SQLiteException)
             {
-                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+                new Exception(Exception.ERREUR_SQLITE).AfficherMessageErreur();
             }
         }
 
@@ -432,7 +432,7 @@ namespace Hector
             }
             catch (SQLiteException)
             {
-                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+                new Exception(Exception.ERREUR_SQLITE).AfficherMessageErreur();
             }
         }
 
@@ -473,7 +473,7 @@ namespace Hector
             }
             catch (SQLiteException)
             {
-                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+                new Exception(Exception.ERREUR_SQLITE).AfficherMessageErreur();
             }
         }
 
@@ -518,7 +518,7 @@ namespace Hector
             }
             catch (SQLiteException)
             {
-                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+                new Exception(Exception.ERREUR_SQLITE).AfficherMessageErreur();
             }
 
             Article.ViderDictionnaireArticles();
@@ -568,7 +568,7 @@ namespace Hector
             }
             catch (SQLiteException)
             {
-                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+                new Exception(Exception.ERREUR_SQLITE).AfficherMessageErreur();
 
                 return Exception.RETOUR_ERREUR;
             }
@@ -603,7 +603,7 @@ namespace Hector
             }
             catch (SQLiteException)
             {
-                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+                new Exception(Exception.ERREUR_SQLITE).AfficherMessageErreur();
 
                 return Exception.RETOUR_ERREUR;
             }
@@ -640,7 +640,7 @@ namespace Hector
             }
             catch (SQLiteException)
             {
-                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+                new Exception(Exception.ERREUR_SQLITE).AfficherMessageErreur();
 
                 return Exception.RETOUR_ERREUR;
             }
@@ -675,7 +675,7 @@ namespace Hector
             }
             catch (SQLiteException)
             {
-                new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD).AfficherMessageErreur();
+                new Exception(Exception.ERREUR_SQLITE).AfficherMessageErreur();
 
                 return Exception.RETOUR_ERREUR;
             }
@@ -704,7 +704,7 @@ namespace Hector
             }
             catch (SQLiteException)
             {
-                throw new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD);
+                throw new Exception(Exception.ERREUR_SQLITE);
             }
         }
 
@@ -732,7 +732,7 @@ namespace Hector
             }
             catch (SQLiteException)
             {
-                throw new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD);
+                throw new Exception(Exception.ERREUR_SQLITE);
             }
         }
 
@@ -760,7 +760,7 @@ namespace Hector
             }
             catch (SQLiteException)
             {
-                throw new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD);
+                throw new Exception(Exception.ERREUR_SQLITE);
             }
         }
 
@@ -789,7 +789,7 @@ namespace Hector
             }
             catch (SQLiteException)
             {
-                throw new Exception(Exception.ERREUR_CONNECTION_A_LA_BDD);
+                throw new Exception(Exception.ERREUR_SQLITE);
             }
         }
     }

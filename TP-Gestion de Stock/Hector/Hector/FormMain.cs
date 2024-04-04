@@ -37,8 +37,8 @@ namespace Hector
             IndiceColonne = -1; // On initlaise l'indice de la colonne selectionnée
 
             // On initlaise les attributs de filtre
-            Filtre = null;
-            TypeFiltre = null;
+            Filtre = "";
+            TypeFiltre = "";
         }
 
         /// <summary>
@@ -354,13 +354,13 @@ namespace Hector
             AjouterColonnesListViewArticles();
 
             // On ajoute les articles un par un
-            foreach (Article ArticleExistante in ListeArticles)
+            foreach (Article ArticleExistant in ListeArticles)
             {
-                ListViewItem NouvelItem = new ListViewItem(ArticleExistante.GetReference());
-                NouvelItem.SubItems.Add(ArticleExistante.GetDescription().ToString());
-                NouvelItem.SubItems.Add(ArticleExistante.GetSousFamille().GetFamille().GetNom());
-                NouvelItem.SubItems.Add(ArticleExistante.GetSousFamille().GetNom());
-                NouvelItem.SubItems.Add(ArticleExistante.GetMarque().GetNom());
+                ListViewItem NouvelItem = new ListViewItem(ArticleExistant.GetReference());
+                NouvelItem.SubItems.Add(ArticleExistant.GetDescription().ToString());
+                NouvelItem.SubItems.Add(ArticleExistant.GetSousFamille().GetFamille().GetNom());
+                NouvelItem.SubItems.Add(ArticleExistant.GetSousFamille().GetNom());
+                NouvelItem.SubItems.Add(ArticleExistant.GetMarque().GetNom());
                 ObjetListView.Items.Add(NouvelItem);
             }
         }
@@ -424,6 +424,7 @@ namespace Hector
             foreach (ListViewItem Ligne in ObjetListView.Items)
             {
                 char PremiereLettre = ExtractionPremierCaractere(Ligne.SubItems[IndiceColonne].Text);
+                Console.WriteLine(PremiereLettre);
                 Ligne.Group = ObjetListView.Groups[IndicesGroupe[PremiereLettre]];
             }
         }
@@ -443,9 +444,10 @@ namespace Hector
                 }
                 else
                 {
+                    string ChaineNormalisee = Chaine.Normalize(NormalizationForm.FormD); // On normalise pour retirer les accents
                     bool ChiffreDetecte = false;
 
-                    foreach (char Caractere in Chaine)
+                    foreach (char Caractere in ChaineNormalisee)
                     {
                         if (char.IsDigit(Caractere))
                         {
@@ -992,6 +994,31 @@ namespace Hector
         {
             FormAddArticle NouveauFormAddArticle = new FormAddArticle();
             NouveauFormAddArticle.ShowDialog();
+
+            Article NouvelArticle = NouveauFormAddArticle.GetArticle();
+
+            // Si l'article est crée, on l'ajoute s'il respecte les filtres
+            if (NouvelArticle != null && TypeDonneesAffichees == "Articles")
+            {
+                if (TypeFiltre == ""
+                    || (TypeFiltre == "Famille" && Filtre == NouvelArticle.GetSousFamille().GetFamille().GetNom())
+                    || (TypeFiltre == "SousFamille" && Filtre == NouvelArticle.GetSousFamille().GetNom())
+                    || (TypeFiltre == "Marque" && Filtre == NouvelArticle.GetMarque().GetNom()))
+                {
+                    ListViewItem NouvelItem = new ListViewItem(NouvelArticle.GetReference());
+                    NouvelItem.SubItems.Add(NouvelArticle.GetDescription().ToString());
+                    NouvelItem.SubItems.Add(NouvelArticle.GetSousFamille().GetFamille().GetNom());
+                    NouvelItem.SubItems.Add(NouvelArticle.GetSousFamille().GetNom());
+                    NouvelItem.SubItems.Add(NouvelArticle.GetMarque().GetNom());
+                    ObjetListView.Items.Add(NouvelItem);
+
+                    // On refait le tri / groupement pour que le nouvel Article le respecte
+                    if (IndiceColonne > -1)
+                    {
+                        ListView1_ColumnClick(ObjetListView, new ColumnClickEventArgs(IndiceColonne));
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -1003,6 +1030,21 @@ namespace Hector
         {
             FormAddFamille NouveauFormAddFamille = new FormAddFamille();
             NouveauFormAddFamille.ShowDialog();
+
+            Famille NouvelleFamille = NouveauFormAddFamille.GetFamille();
+
+            // Si la famille est crée
+            if (NouvelleFamille != null && TypeDonneesAffichees == "Familles")
+            {
+                ListViewItem NouvelItem = new ListViewItem(NouvelleFamille.GetNom());
+                ObjetListView.Items.Add(NouvelItem);
+
+                // On refait le tri / groupement pour que la nouvelle famile le respecte
+                if (IndiceColonne > -1)
+                {
+                    ListView1_ColumnClick(ObjetListView, new ColumnClickEventArgs(IndiceColonne));
+                }
+            }
         }
 
         /// <summary>
@@ -1014,6 +1056,25 @@ namespace Hector
         {
             FormAddSousFamille NouveauFormAddSousFamille = new FormAddSousFamille();
             NouveauFormAddSousFamille.ShowDialog();
+
+            SousFamille SousNouvelleFamille = NouveauFormAddSousFamille.GetSousFamille();
+
+            // Si la famille est crée, on l'ajoute si elle respecte les filtres
+            if (SousNouvelleFamille != null && TypeDonneesAffichees == "SousFamilles")
+            {
+                if (TypeFiltre == ""
+                    || (TypeFiltre == "Famille" && Filtre == SousNouvelleFamille.GetFamille().GetNom()))
+                    {
+                    ListViewItem NouvelItem = new ListViewItem(SousNouvelleFamille.GetNom());
+                    ObjetListView.Items.Add(NouvelItem);
+
+                    // On refait le tri / groupement pour que la nouvelle sous-famile le respecte
+                    if (IndiceColonne > -1)
+                    {
+                        ListView1_ColumnClick(ObjetListView, new ColumnClickEventArgs(IndiceColonne));
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -1025,6 +1086,21 @@ namespace Hector
         {
             FormAddMarque NouveauFormAddMarque = new FormAddMarque();
             NouveauFormAddMarque.ShowDialog();
+
+            Marque NouvelleMarque = NouveauFormAddMarque.GetMarque();
+
+            // Si la famille est crée
+            if (NouvelleMarque != null && TypeDonneesAffichees == "Marques")
+            {
+                ListViewItem NouvelItem = new ListViewItem(NouvelleMarque.GetNom());
+                ObjetListView.Items.Add(NouvelItem);
+
+                // On refait le tri / groupement pour que la nouvelle marque le respecte
+                if (IndiceColonne > -1)
+                {
+                    ListView1_ColumnClick(ObjetListView, new ColumnClickEventArgs(IndiceColonne));
+                }
+            }
         }
 
         /// <summary>

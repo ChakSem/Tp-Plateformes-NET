@@ -1,6 +1,6 @@
 TODO : 
-- Refaire tri inversé dans actualisation
 - gérer double-clic sur marque, sous-famille et famille
+
 
 
 Fini :
@@ -19,3 +19,5 @@ Fini :
 - Afficher anomalie dans l'import
 - Faire en sorte de ne pas remplacer element modifier sqlite par elements du csv (quand meme id)
 - check pour les avertissements
+- AJouter ligne apres creation
+- Refaire tri inversé dans actualisation

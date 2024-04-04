@@ -11,9 +11,24 @@ namespace Hector
 {
     public partial class FormAddFamille : Form
     {
+        private Famille NouvelleFamille;
+
+        /// <summary>
+        /// Accesseur en lecture de la Famille crée
+        /// </summary>
+        /// <returns> NouvelleFamille </returns>
+        public Famille GetFamille()
+        {
+            return NouvelleFamille;
+        }
+
+        /// <summary>
+        /// Constructeur de la classe FormAddFamille
+        /// </summary>
         public FormAddFamille()
         {
             InitializeComponent();
+            NouvelleFamille = null;
         }
 
         /// <summary>
@@ -25,7 +40,7 @@ namespace Hector
         {
             if(NomFamilleTextBox.Text != "")
             {
-                Famille NouvelleFamille = Famille.CreerFamille(NomFamilleTextBox.Text);
+                NouvelleFamille = Famille.CreerFamille(NomFamilleTextBox.Text);
 
                 if (NouvelleFamille != null)
                 {
