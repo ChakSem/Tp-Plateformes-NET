@@ -1,7 +1,6 @@
 TODO : 
-- Commentaires
-- Erreur l. 826
-- Refaire ChargerListViewArticlesPourUneDescription
+- Refaire tri inversé dans actualisation
+- gérer double-clic sur marque, sous-famille et famille
 
 
 Fini :

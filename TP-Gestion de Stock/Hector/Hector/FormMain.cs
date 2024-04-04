@@ -16,10 +16,9 @@ namespace Hector
         string TypeDonneesAffichees;
         TreeNode NoeudSelectionne;
 
+        int IndiceColonne;
+
         string Filtre;
-
-
-
         string TypeFiltre;
 
         /// <summary>
@@ -35,6 +34,11 @@ namespace Hector
             Actualiser(false);
             this.KeyPreview = true;
 
+            IndiceColonne = -1; // On initlaise l'indice de la colonne selectionnée
+
+            // On initlaise les attributs de filtre
+            Filtre = null;
+            TypeFiltre = null;
         }
 
         /// <summary>
@@ -103,6 +107,9 @@ namespace Hector
             NoeudSelectionne = Event.Node;
             string TypeNoeudSelectionne = NoeudSelectionne.Text;
             TreeNode NoeudParent = NoeudSelectionne.Parent;
+
+            IndiceColonne = -1; // On réinitlaise l'indice de la colonne selectionnée
+            ListView1.Groups.Clear(); // On réinitialises les groupes
 
             switch (TypeNoeudSelectionne)
             {
@@ -174,6 +181,39 @@ namespace Hector
         }
 
         /// <summary>
+        /// Appelée lorsqu'un objet du list view est cliqué
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ListView1_ItemActivate(object sender, EventArgs e)
+        {
+            IndiceColonne = -1; // On réinitlaise l'indice de la colonne selectionnée
+            ListView1.Groups.Clear(); // On réinitialises les groupes
+
+            if (ListView1.SelectedItems.Count == 1) // On vérifie qu'un seul élement est selectionné
+            {
+                ListViewItem Item = ListView1.SelectedItems[0];
+
+                Filtre = Item.SubItems[0].Text;
+                if (TypeDonneesAffichees == "SousFamilles")
+                {
+                    TypeFiltre = "SousFamille";
+                    ChargerListViewArticlesPourUneSousFamille(); // On affiche les articles correspondant à la sous-famille selectionnée
+                }
+                if (TypeDonneesAffichees == "Familles")
+                {
+                    TypeFiltre = "Famille";
+                    ChargerListViewArticlesPourUneFamille(); // On affiche les articles correspondant à la famille selectionnée
+                }
+                if (TypeDonneesAffichees == "Marques")
+                {
+                    TypeFiltre = "Marque";
+                    ChargerListViewArticlesPourUneMarque(); // On affiche les articles correspondant à la marque selectionnée
+                }
+            }
+        }
+
+        /// <summary>
         /// Methode qui permet de charger des articles dans le ListView, pour la SousFamille dont le Nom est stockée dans Filtre
         /// </summary>
         private void ChargerListViewArticlesPourUneSousFamille()
@@ -209,7 +249,6 @@ namespace Hector
 
             ChargerListViewArticles(ListeArticles);
         }
-
 
         /// <summary>
         /// Methode qui permet de charger des articles dans le ListView, pour la Marque dont le Nom est stockée dans Filtre
@@ -266,7 +305,6 @@ namespace Hector
             ListView1.Columns.Add("Marques", 90);
         }
 
-
         /// <summary>
         /// Methode qui permet d'ajouter les colonnes correspondantes à l'affichage de sous-familles
         /// <summary>
@@ -288,7 +326,6 @@ namespace Hector
 
             ListView1.Columns.Add("Description", 150);
         }
-
 
         /// <summary>
         /// Methode qui permet d'ajouter les colonnes correspondantes à l'affichage de marques
@@ -351,57 +388,24 @@ namespace Hector
         /// <param name="ListeMarques"></param>
         private void ChargerListViewMarques(List<Marque> ListeMarques)
         {
-            //On vide le ListView
+            // On vide le ListView
             ListView1.Columns.Clear();
             ListView1.Items.Clear();
             AjouterColonnesListViewMarques();
 
-            //On ajoute les marques
+            // On ajoute les marques
             foreach (Marque MarqueExistante in ListeMarques)
             {
                 ListViewItem NouvelItem = new ListViewItem(MarqueExistante.GetNom());
                 ListView1.Items.Add(NouvelItem);
             }
         }
-
-        /// <summary>
-        /// Appelée lorsqu'un objet du list view est cliqué
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ListView1_ItemActivate(object sender, EventArgs e)
-        {
-            if (ListView1.SelectedItems.Count == 1) // On vérifie qu'un seul élement est selectionné
-            {
-                ListViewItem Item = ListView1.SelectedItems[0];
-
-                Filtre = Item.SubItems[0].Text;
-                if (TypeDonneesAffichees == "SousFamilles")
-                {
-                    TypeFiltre = "SousFamille";
-                    ChargerListViewArticlesPourUneSousFamille(); // On affiche les articles correspondant à la sous-famille selectionnée
-                }
-                if (TypeDonneesAffichees == "Familles")
-                {
-                    TypeFiltre = "Famille";
-                    ChargerListViewArticlesPourUneFamille(); // On affiche les articles correspondant à la famille selectionnée
-                }
-                if (TypeDonneesAffichees == "Marques")
-                {
-                    TypeFiltre = "Marque";
-                    ChargerListViewArticlesPourUneMarque(); // On affiche les articles correspondant à la marque selectionnée
-                }
-            }
-        }
-
+        
         /// <summary>
         /// Permets de trier la liste view en groupes selon la première lettre de la description de l'article.
         /// </summary>
-        public void CreerGroupesPourUneDescription(int IndiceColonne)
+        public void CreerGroupesPourUneDescription()
         {
-            // Nettoyer les groupes existants
-            ListView1.Groups.Clear();
-
             // Dictionnaire pour stocker les groupes
             Dictionary<char, int> IndicesGroupe = new Dictionary<char, int>();
 
@@ -423,7 +427,7 @@ namespace Hector
         }
 
         /// <summary>
-        /// Permets d'obtenir la première alphabétique d'un string.
+        /// Permets d'obtenir la première lettre d'une description, en tenant pas en compte les quantités
         /// </summary>
         /// <param name="Chaine"> Chaine de caractère où l'on veut chercher la première lettre alphabétique. </param>
         /// <returns> char, la première lettre de la chaine de caractère. </returns>
@@ -447,10 +451,16 @@ namespace Hector
                             continue; // On passe au caractère suivant
                         }
 
+                        // On vérifie que  le caractere lu est une lettre et qu'il ne correspond pas à un x de quantité (par ex : "6x Marqueurs - Velleda - 1781bis")
                         if (char.IsLetter(Caractere) && !(Caractere == 'x' && ChiffreDetecte))
                         {
                             char PremierCaractere = char.ToUpper(Caractere);
                             return PremierCaractere;
+                        } 
+                        // Si le caractère x n'a pas été choisi, alors cela veut dire qu'il était précédé par un chiffre, on réinitialise donc le booléen
+                        if (Caractere == 'x')
+                        {
+                            ChiffreDetecte = false;
                         }
                     }
                 }
@@ -470,6 +480,8 @@ namespace Hector
         private void ListView1_ColumnClick(object sender, ColumnClickEventArgs Event)
         {
             ListView1.ListViewItemSorter = new ListViewItemComparer(Event.Column);
+
+            IndiceColonne = Event.Column; // On sauvegarde l'indice de la colonne cliquée
             ListView1.Groups.Clear(); // On réinitialise les groupes
 
             // Cas où les données affichées sont des articles
@@ -481,82 +493,109 @@ namespace Hector
                 {
                     Dictionary<string, int> IndicesGroupe = new Dictionary<string, int>(); // On crée un dictionnaire qui attribura un id à chaque famille pour pouvoir les grouper
 
+                    // On ajoute chaque famille une à une au dictionnaire
                     foreach (Famille FamilleExistante in Famille.GetListeFamilles())
                     {
                         int IdFamille = ListView1.Groups.Add(new ListViewGroup(FamilleExistante.GetNom(), HorizontalAlignment.Left));
                         IndicesGroupe.Add(FamilleExistante.GetNom(), IdFamille);
                     }
 
+                    // Pour chaque article affiché, on l'ajoute au groupe crée pour sa famille
                     foreach (ListViewItem Ligne in ListView1.Items)
                     {
-                        Ligne.Group = ListView1.Groups[IndicesGroupe[Ligne.SubItems[2].Text]];
+                        Ligne.Group = ListView1.Groups[IndicesGroupe[Ligne.SubItems[IndiceColonne].Text]];
                     }
                 }
                 // Si on clique sur la colonne Sous-familles
                 if (NomColonne == "Sous-familles")
                 {
-                    Dictionary<string, int> IndicesGroupe = new Dictionary<string, int>();
+                    Dictionary<string, int> IndicesGroupe = new Dictionary<string, int>(); // On crée un dictionnaire qui attribura un id à chaque sous-famille pour pouvoir grouper les articles en fonction
 
+                    // On ajoute chaque sous-famille une à une au dictionnaire
                     foreach (SousFamille SousFamilleExistante in SousFamille.GetListeSousFamilles())
                     {
                         int IdFamille = ListView1.Groups.Add(new ListViewGroup(SousFamilleExistante.GetNom(), HorizontalAlignment.Left));
                         IndicesGroupe.Add(SousFamilleExistante.GetNom(), IdFamille);
                     }
 
+                    // Pour chaque article affiché, on l'ajoute au groupe crée pour sa sous-famille
                     foreach (ListViewItem Ligne in ListView1.Items)
                     {
-                        Ligne.Group = ListView1.Groups[IndicesGroupe[Ligne.SubItems[3].Text]];
+                        Ligne.Group = ListView1.Groups[IndicesGroupe[Ligne.SubItems[IndiceColonne].Text]];
                     }
                 }
                 // Si on clique sur la colonne Marques
                 if (NomColonne == "Marques")
                 {
-                    Dictionary<string, int> IndicesGroupe = new Dictionary<string, int>();
+                    Dictionary<string, int> IndicesGroupe = new Dictionary<string, int>(); // On crée un dictionnaire qui attribura un id à chaque marque pour pouvoir grouper les articles en fonction
 
+                    // On ajoute chaque marque une à une au dictionnaire
                     foreach (Marque MarqueExistante in Marque.GetListeMarques())
                     {
                         int IdFamille = ListView1.Groups.Add(new ListViewGroup(MarqueExistante.GetNom(), HorizontalAlignment.Left));
                         IndicesGroupe.Add(MarqueExistante.GetNom(), IdFamille);
                     }
 
+                    // Pour chaque  article affiché, on l'ajoute au groupe crée pour sa marque
                     foreach (ListViewItem Ligne in ListView1.Items)
                     {
-                        Ligne.Group = ListView1.Groups[IndicesGroupe[Ligne.SubItems[4].Text]];
+                        Ligne.Group = ListView1.Groups[IndicesGroupe[Ligne.SubItems[IndiceColonne].Text]];
                     }
                 }
 
                 // Si on clique sur la colonne Marques
                 if (NomColonne == "Description")
                 {
-                    CreerGroupesPourUneDescription(1);
+                    CreerGroupesPourUneDescription();
                 }
             }
             else
             {
-                CreerGroupesPourUneDescription(0);
+                CreerGroupesPourUneDescription();
             }
         }
-
 
         /// <summary>
         /// Permets d'actualiser l'application à partir de la BDD.
         /// </summary>
         public void Actualiser(bool Afficher_MessageBox)
         {
-            //private void ListView1_ColumnClick(object sender, ColumnClickEventArgs Event)
+            String IdItem = null; // On stocke la ref (ou la description) de la ligne selectionne avant l'actualisation
+            int IndiceColonneAvantActualisation = IndiceColonne;
+
+            if (ListView1.SelectedItems.Count > 0)
+            {
+                IdItem = ListView1.SelectedItems[0].Text;
+            }
+
             ImporterDonneesFichierSQLite();
-            ChargerTreeView();
-            //on recupere le dernier noeud selectionné
-            TreeNode NoeudSelectionne = TreeView1.SelectedNode;
+            ChargerTreeView(); // On met à jour le treeview
+
+            // On refait la dernière selection qui a été faites
             if (NoeudSelectionne != null)
             {
+                TreeViewParam_AfterSelect(TreeView1, new TreeViewEventArgs(NoeudSelectionne, TreeViewAction.ByMouse));
+            }
 
-                ListView1_ColumnClick(TreeView1, new ColumnClickEventArgs(0));
-            }
-            else
+            // On remet la selection sur l'élément qui été selectionnée dans le listView avant l'actualisation (s'il existe toujours)
+            if (IdItem != null)
             {
-                ChargerListViewArticles(Article.GetListeArticles());
+                foreach (ListViewItem item in ListView1.Items)
+                {
+                    if (item.Text == IdItem)
+                    {
+                        item.Selected = true;
+                        break;
+                    }
+                }
             }
+
+            // On refait le tri / groupement qui était fait avant l'actualisation
+            if (IndiceColonneAvantActualisation > -1)
+            {
+                ListView1_ColumnClick(ListView1, new ColumnClickEventArgs(IndiceColonneAvantActualisation));
+            }
+
             if (Afficher_MessageBox)
             {
                 MessageBox.Show("Actualisation effectuée avec succès.", "Actualisation", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -574,9 +613,10 @@ namespace Hector
 
                 if (TypeDonneesAffichees == "Articles")
                 {
-                    SupprimerArticle(Item);
-
-                    ListView1.Items.Remove(Item);
+                    if (SupprimerArticle(Item) == Exception.RETOUR_NORMAL)
+                    {
+                        ListView1.Items.Remove(Item); // On efface la ligne si l'élement a pu être correctement supprimé
+                    }
                 }
                 try
                 {
@@ -586,9 +626,10 @@ namespace Hector
 
                         if (FamilleASupprimer.FamilleUtilisee() == false)
                         {
-                            SupprimerFamille(FamilleASupprimer);
-
-                            ListView1.Items.Remove(Item);
+                            if (SupprimerFamille(FamilleASupprimer) == Exception.RETOUR_NORMAL)
+                            {
+                                ListView1.Items.Remove(Item);
+                            }
                         }
                         else
                         {
@@ -601,9 +642,10 @@ namespace Hector
 
                         if (SousFamilleASupprimer.SousFamilleUtilisee() == false)
                         {
-                            SupprimerSousFamille(SousFamilleASupprimer);
-
-                            ListView1.Items.Remove(Item);
+                            if (SupprimerSousFamille(SousFamilleASupprimer) == Exception.RETOUR_NORMAL)
+                            {
+                                ListView1.Items.Remove(Item);
+                            }
                         }
                         else
                         {
@@ -616,9 +658,10 @@ namespace Hector
 
                         if (MarqueASupprimer.MarqueUtilisee() == false)
                         {
-                            SupprimerMarque(MarqueASupprimer);
-
-                            ListView1.Items.Remove(Item);
+                            if (SupprimerMarque(MarqueASupprimer) == Exception.RETOUR_NORMAL)
+                            {
+                                ListView1.Items.Remove(Item);
+                            }
                         }
                         else
                         {
@@ -726,7 +769,7 @@ namespace Hector
                         FormModifySousFamille NouveauForm = new FormModifySousFamille(SousFamilleSelectionnee);
                         NouveauForm.ShowDialog();
 
-                        /* On vérifie que la famille n'a pas été modifié */
+                        // On vérifie que la famille n'a pas été modifié
                         string NomNouvelleFamille = SousFamilleSelectionnee.GetNom();
                         if (NomFamilleAvantModification == NomNouvelleFamille)
                         {
@@ -735,7 +778,6 @@ namespace Hector
                         else
                         {
                             ListView1.Items.Remove(Item); // Si oui, on supprime la ligne
-                                                          // TODO : mise a jour dans le treeview
                         }
                     }
                 }
@@ -746,87 +788,102 @@ namespace Hector
         /// Méthode qui permets de supprimer un article.
         /// </summary>
         /// <param name="Item"></param>
-        public void SupprimerArticle(ListViewItem Item)
+        /// <returns> Une valeur indiquant si la suppression a réussie </returns>
+        public uint SupprimerArticle(ListViewItem Item)
         {
             DialogResult Resultat = MessageBox.Show("Voulez-vous vraiment supprimer cet article ?", "Confirmation suppression article", MessageBoxButtons.YesNo);
 
             if (Resultat == DialogResult.Yes)
             {
                 string ReferenceArticle = Item.SubItems[0].Text;
-                Article.GetArticleExistant(ReferenceArticle).SupprimerArticle();
+                return Article.GetArticleExistant(ReferenceArticle).SupprimerArticle();
             }
+
+            return Exception.RETOUR_ERREUR; // On renvoie RETOUR_ERREUR pour indiquer que la suppression n'a pas été effectuée (que ce soit dû à une erreur ou non)
         }
 
         /// <summary>
         /// Méthode qui permet de supprimer une sous-famille
         /// </summary>
         /// <param name="SousFamilleASupprimer"> SousFamille à supprimer </param>
-        public void SupprimerSousFamille(SousFamille SousFamilleASupprimer)
+        /// <returns> Une valeur indiquant si la suppression a réussie </returns>
+        public uint SupprimerSousFamille(SousFamille SousFamilleASupprimer)
         {
             DialogResult Resultat = MessageBox.Show("Voulez-vous vraiment supprimer cette sous-famille ?", "Confirmation suppression sous-famille", MessageBoxButtons.YesNo);
 
             if (Resultat == DialogResult.Yes)
             {
-                SousFamilleASupprimer.SupprimerSousFamille();
-            }
-
-            /* On cherche le noeud du tree view qui correspond à la sous-famille supprimée */
-            foreach (TreeNode node in NoeudSelectionne.Nodes)
-            {
-                if (node.Text == SousFamilleASupprimer.GetNom())
+                if (SousFamilleASupprimer.SupprimerSousFamille() == Exception.RETOUR_NORMAL)
                 {
-                    TreeView1.Nodes.Remove(node);
-                    break;
+                    // On cherche le noeud du tree view qui correspond à la sous-famille supprimée
+                    foreach (TreeNode node in NoeudSelectionne.Nodes)
+                    {
+                        if (node.Text == SousFamilleASupprimer.GetNom())
+                        {
+                            TreeView1.Nodes.Remove(node);
+                            return Exception.RETOUR_NORMAL;
+                        }
+                    }
                 }
             }
+
+            return Exception.RETOUR_ERREUR; // On renvoie RETOUR_ERREUR pour indiquer que la suppression n'a pas été effectuée (que ce soit dû à une erreur ou non)
         }
 
         /// <summary>
         /// Permets de supprimer une famille
         /// </summary>
         /// <param name="FamilleASupprimer"> Famille à supprimer </param>
-        public void SupprimerFamille(Famille FamilleASupprimer)
+        /// <returns> Une valeur indiquant si la suppression a réussie </returns>
+        public uint SupprimerFamille(Famille FamilleASupprimer)
         {
             DialogResult Resultat = MessageBox.Show("Voulez-vous vraiment supprimer cette famille ?", "Confirmation suppression famille", MessageBoxButtons.YesNo);
 
             if (Resultat == DialogResult.Yes)
             {
-                FamilleASupprimer.SupprimerFamille();
-            }
-
-            /* On cherche le noeud du tree view qui correspond à la famille supprimée */
-            foreach (TreeNode node in NoeudSelectionne.Nodes)
-            {
-                if (node.Text == FamilleASupprimer.GetNom())
+                if (FamilleASupprimer.SupprimerFamille() == Exception.RETOUR_NORMAL)
                 {
-                    TreeView1.Nodes["Familles"].Nodes.Remove(node); // PROBLEME ICI
-                    break;
+                    // On cherche le noeud du tree view qui correspond à la famille supprimée
+                    foreach (TreeNode node in NoeudSelectionne.Nodes)
+                    {
+                        if (node.Text == FamilleASupprimer.GetNom())
+                        {
+                            TreeView1.Nodes.Remove(node);
+                            return Exception.RETOUR_NORMAL;
+                        }
+                    }
                 }
             }
+
+            return Exception.RETOUR_ERREUR; // On renvoie RETOUR_ERREUR pour indiquer que la suppression n'a pas été effectuée (que ce soit dû à une erreur ou non)
         }
 
         /// <summary>
         /// Permets de supprimer une marque
         /// </summary>
         /// <param name="MarqueASupprimer"> Marque à supprimer </param>
-        public void SupprimerMarque(Marque MarqueASupprimer)
+        /// <returns> Une valeur indiquant si la suppression a réussie </returns>
+        public uint SupprimerMarque(Marque MarqueASupprimer)
         {
             DialogResult Resultat = MessageBox.Show("Voulez-vous vraiment supprimer cette marque ?", "Confirmation suppression marque", MessageBoxButtons.YesNo);
 
             if (Resultat == DialogResult.Yes)
             {
-                MarqueASupprimer.SupprimerMarque();
-            }
-
-            /* On cherche le noeud du tree view qui correspond à la marque supprimée */
-            foreach (TreeNode node in NoeudSelectionne.Nodes)
-            {
-                if (node.Text == MarqueASupprimer.GetNom())
+                if (MarqueASupprimer.SupprimerMarque() == Exception.RETOUR_NORMAL)
                 {
-                    TreeView1.Nodes.Remove(node);
-                    break;
+                    // On cherche le noeud du tree view qui correspond à la marque supprimée
+                    foreach (TreeNode node in NoeudSelectionne.Nodes)
+                    {
+                        if (node.Text == MarqueASupprimer.GetNom())
+                        {
+                            TreeView1.Nodes.Remove(node);
+                            return Exception.RETOUR_NORMAL;
+                        }
+                    }
                 }
             }
+
+            return Exception.RETOUR_ERREUR; // On renvoie RETOUR_ERREUR pour indiquer que la suppression n'a pas été effectuée (que ce soit dû à une erreur ou non)
         }
 
         /// <summary>
@@ -863,7 +920,6 @@ namespace Hector
             FormExport.ShowDialog();
         }
 
-
         /// <summary>
         /// Evenements pour les raccourcis suppression (activé par Suppr) et modification (activé par Espace ou Entrée)
         /// </summary>
@@ -882,7 +938,7 @@ namespace Hector
         }
 
         /// <summary>
-        /// Evenements pour le raccourci actualisation
+        /// Evenements pour le raccourci actualisation (F5)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="Event"></param>
@@ -901,13 +957,13 @@ namespace Hector
         /// <param name="e"></param>
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
-            /* Si un objet dans le list view est selctionné, on affiche la modification et la suppression */
+            // Si un objet dans le list view est selectionné, on affiche les champs modification et suppression du menu contextuel
             if (ListView1.SelectedItems.Count == 1)
             {
                 contextMenuStrip1.Items[1].Enabled = true;
                 contextMenuStrip1.Items[2].Enabled = true;
             }
-            /* Sinon on les cache*/
+            // Sinon on les grise
             else
             {
                 contextMenuStrip1.Items[1].Enabled = false;
@@ -916,7 +972,7 @@ namespace Hector
         }
 
         /// <summary>
-        /// Evenement lorsque la souris sort du list view, déselectionne les elements du list view (pour que contextMenuStrip1_Opening fonctionne correctement
+        /// Evenement lorsque la souris sort du list view, déselectionne les elements du list view (pour que champs modification et suppression du menu contextuel ne s'affiche pas)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -989,6 +1045,9 @@ namespace Hector
             SupprimerElement();
         }
 
+        /// <summary>
+        /// Permet de gérer le tri des lignes lors d'un clic sur l'une des colonnes du list view
+        /// </summary>
         class ListViewItemComparer : IComparer
         {
             private int NumeroColomne;
@@ -1010,11 +1069,12 @@ namespace Hector
                 return String.Compare(((ListViewItem)ObjetParam1).SubItems[NumeroColomne].Text, ((ListViewItem)ObjetParam2).SubItems[NumeroColomne].Text);
             }
         }
+
         /// <summary>
         /// Methode qui permet de trouver un noeud par son texte
         /// </summary>
-        /// <param name="NoeudParent"></param>
-        /// <param name="TexteDuNoeud"></param>
+        /// <param name="NoeudParent"> Noeud à partir duquel il faut chercher </param>
+        /// <param name="TexteDuNoeud"> Texte du Noeud recherché </param>
         /// <returns> - TreeNode : le noeud trouvé </returns>
         /// <returns> - null : si le noeud n'a pas été trouvé </returns>
         private TreeNode TrouverNoeudParTexte(TreeNode NoeudParent, string TexteDuNoeud)
@@ -1036,6 +1096,11 @@ namespace Hector
             return null;
         }
 
+        /// <summary>
+        /// Evenements pour le raccourci modification (DoubleClic)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ListView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             // On regarde si c'est un clic droit.
