@@ -129,5 +129,6 @@ namespace Hector
                 " nouveaux article(s) dans la base de données. \n" + Parseur.NOMBRE_ARTICLES_MIS_A_JOUR + " articles ont été mis à jour \n" + 
                 "Il y a desormais " + NombreArticleTotal + " articles dans la BDD", "Succès de l'intégration", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
     }
 }

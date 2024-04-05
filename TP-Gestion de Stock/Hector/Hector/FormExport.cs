@@ -65,6 +65,7 @@ namespace Hector
             {
                 ExceptionAttrapee.AfficherMessageErreur();
             }
+
         }
     }
 }

@@ -37,9 +37,10 @@ namespace Hector
             // 
             // SelectionFichier
             // 
-            this.SelectionFichier.Location = new System.Drawing.Point(15, 6);
+            this.SelectionFichier.Location = new System.Drawing.Point(12, 9);
+            this.SelectionFichier.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.SelectionFichier.Name = "SelectionFichier";
-            this.SelectionFichier.Size = new System.Drawing.Size(173, 23);
+            this.SelectionFichier.Size = new System.Drawing.Size(548, 43);
             this.SelectionFichier.TabIndex = 9;
             this.SelectionFichier.Text = "Sauvgarder dans un fichier .csv";
             this.SelectionFichier.UseVisualStyleBackColor = true;
@@ -48,9 +49,10 @@ namespace Hector
             // BoutonExtraire
             // 
             this.BoutonExtraire.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.BoutonExtraire.Location = new System.Drawing.Point(0, 86);
+            this.BoutonExtraire.Location = new System.Drawing.Point(0, 109);
+            this.BoutonExtraire.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.BoutonExtraire.Name = "BoutonExtraire";
-            this.BoutonExtraire.Size = new System.Drawing.Size(382, 23);
+            this.BoutonExtraire.Size = new System.Drawing.Size(573, 59);
             this.BoutonExtraire.TabIndex = 14;
             this.BoutonExtraire.Text = "Extraire";
             this.BoutonExtraire.UseVisualStyleBackColor = true;
@@ -71,7 +73,7 @@ namespace Hector
             // 
             // FormExport
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(382, 109);
             this.Controls.Add(this.CheminTextBox);
