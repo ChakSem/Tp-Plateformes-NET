@@ -36,7 +36,7 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void CreateButton_Click(object sender, EventArgs e)
+        private void BoutonCreer_Click(object sender, EventArgs e)
         {
             if (NomMarqueTextBox.Text != "")
             {
@@ -57,7 +57,7 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void CancelButton_Click(object sender, EventArgs e)
+        private void BoutonAnnulation_Click(object sender, EventArgs e)
         {
             this.Close();
         }

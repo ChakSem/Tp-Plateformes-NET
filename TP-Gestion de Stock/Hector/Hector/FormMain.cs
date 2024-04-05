@@ -7,19 +7,26 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
+using System.Configuration;
+using System.Windows;
 
 
 namespace Hector
 {
     public partial class FormMain : Form
     {
-        string TypeDonneesAffichees;
-        TreeNode NoeudSelectionne;
+        private string TypeDonneesAffichees;
+        private TreeNode NoeudSelectionne;
 
-        int IndiceColonne;
+        private int IndiceColonne;
 
-        string Filtre;
-        string TypeFiltre;
+        private string Filtre;
+        private string TypeFiltre;
+
+        private int NombreFamilles;
+        private int NombreSousFamilles;
+        private int NombreMarques;
+        private int NombreArticles;
 
         /// <summary>
         /// Constructeur de la classe FormMain
@@ -42,7 +49,47 @@ namespace Hector
         }
 
         /// <summary>
-        /// Permet de mettre à jour les données depuis les données déjà présente dans le fichier .sqlite
+        /// Méthode permettant d'actualiser le nombre de familles affichées dans le StatusStrip
+        /// </summary>
+        /// <param name="NombreParam"> Nouveau nombre de familles </param>
+        public void SetNombreFamilles(int NombreParam)
+        {
+            NombreFamilles = NombreParam;
+            FamillesToolStripStatusLabel.Text = NombreFamilles.ToString();
+        }
+
+        /// <summary>
+        /// Méthode permettant d'actualiser le nombre de sous-familles affichées dans le StatusStrip
+        /// </summary>
+        /// <param name="NombreParam"> Nouveau nombre de sous-familles </param>
+        public void SetNombreSousFamilles(int NombreParam)
+        {
+            NombreSousFamilles = NombreParam;
+            SousFamillesLabelToolStripStatusLabel.Text = NombreSousFamilles.ToString();
+        }
+
+        /// <summary>
+        /// Méthode permettant d'actualiser le nombre de marques affichées dans le StatusStrip
+        /// </summary>
+        /// <param name="NombreParam"> Nouveau nombre de marques </param>
+        public void SetNombreMarques(int NombreParam)
+        {
+            NombreMarques = NombreParam;
+            MarquesToolStripStatusLabel.Text = NombreMarques.ToString();
+        }
+
+        /// <summary>
+        /// Méthode permettant d'actualiser le nombre d'articles affichées dans le StatusStrip
+        /// </summary>
+        /// <param name="NombreParam"> Nouveau nombre d'articles </param>
+        public void SetNombreArticles(int NombreParam)
+        {
+            NombreArticles = NombreParam;
+            ArticlesToolStripStatusLabel.Text = NombreArticles.ToString();
+        }
+
+        /// <summary>
+        /// Permet de mettre à jour les données depuis les données déjà présente dans le fichier .SQLite
         /// </summary>
         public void ImporterDonneesFichierSQLite()
         {
@@ -52,6 +99,11 @@ namespace Hector
             BDD.LireFamillesBdd();
             BDD.LireSousFamillesBdd();
             BDD.LireArticlesBdd();
+
+            SetNombreFamilles(Famille.GetListeFamilles().Count);
+            SetNombreSousFamilles(SousFamille.GetListeSousFamilles().Count);
+            SetNombreMarques(Marque.GetListeMarques().Count);
+            SetNombreArticles(Article.GetListeArticles().Count);
         }
 
         /// <summary>
@@ -101,7 +153,7 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="Event"></param>
-        private void TreeViewParam_AfterSelect(object sender, TreeViewEventArgs Event)
+        private void ObjetTreeView_AfterSelect(object sender, TreeViewEventArgs Event)
         {
             // On récupere le type de noeud selectionné
             NoeudSelectionne = Event.Node;
@@ -185,7 +237,7 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ListView1_ItemActivate(object sender, EventArgs e)
+        private void ObjetListView_ItemActivate(object sender, EventArgs e)
         {
             ObjetTreeView.SelectedNode = null; // On réinitialise le noeud du treeview selectionnée pour re-cliquer dessus
 
@@ -481,7 +533,7 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="Event"></param>
-        private void ListView1_ColumnClick(object sender, ColumnClickEventArgs Event)
+        private void ObjetListView_ColumnClick(object sender, ColumnClickEventArgs Event)
         {
             ObjetListView.ListViewItemSorter = new ListViewItemComparer(Event.Column);
 
@@ -578,7 +630,7 @@ namespace Hector
             // On refait la dernière selection qui a été faites
             if (NoeudSelectionne != null)
             {
-                TreeViewParam_AfterSelect(ObjetTreeView, new TreeViewEventArgs(NoeudSelectionne, TreeViewAction.ByMouse));
+                ObjetTreeView_AfterSelect(ObjetTreeView, new TreeViewEventArgs(NoeudSelectionne, TreeViewAction.ByMouse));
             }
 
             // On remet la selection sur l'élément qui été selectionnée dans le listView avant l'actualisation (s'il existe toujours)
@@ -597,7 +649,7 @@ namespace Hector
             // On refait le tri / groupement qui était fait avant l'actualisation
             if (IndiceColonneAvantActualisation > -1)
             {
-                ListView1_ColumnClick(ObjetListView, new ColumnClickEventArgs(IndiceColonneAvantActualisation));
+                ObjetListView_ColumnClick(ObjetListView, new ColumnClickEventArgs(IndiceColonneAvantActualisation));
             }
 
             if (Afficher_MessageBox)
@@ -619,6 +671,7 @@ namespace Hector
                 {
                     if (SupprimerArticle(Item) == Exception.RETOUR_NORMAL)
                     {
+                        SetNombreArticles(NombreArticles - 1); // On met à jour le nombre d'articles
                         ObjetListView.Items.Remove(Item); // On efface la ligne si l'élement a pu être correctement supprimé
                     }
                 }
@@ -632,6 +685,7 @@ namespace Hector
                         {
                             if (SupprimerFamille(FamilleASupprimer) == Exception.RETOUR_NORMAL)
                             {
+                                SetNombreFamilles(NombreFamilles - 1); // On met à jour le nombre de familles
                                 ObjetListView.Items.Remove(Item);
                             }
                         }
@@ -648,6 +702,7 @@ namespace Hector
                         {
                             if (SupprimerSousFamille(SousFamilleASupprimer) == Exception.RETOUR_NORMAL)
                             {
+                                SetNombreSousFamilles(NombreSousFamilles - 1); // On met à jour le nombre de sous-familles
                                 ObjetListView.Items.Remove(Item);
                             }
                         }
@@ -664,6 +719,7 @@ namespace Hector
                         {
                             if (SupprimerMarque(MarqueASupprimer) == Exception.RETOUR_NORMAL)
                             {
+                                SetNombreMarques(NombreMarques - 1); // On met à jour le nombre de marques
                                 ObjetListView.Items.Remove(Item);
                             }
                         }
@@ -895,7 +951,7 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        private void ActualiserToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Actualiser(false);
         }
@@ -905,7 +961,7 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void importerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ImporterToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormImport FormImport = new FormImport();
             FormImport.ShowDialog();
@@ -918,7 +974,7 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void exporterToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExporterToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormExport FormExport = new FormExport();
             FormExport.ShowDialog();
@@ -929,7 +985,7 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="Event"></param>
-        private void ListView1_KeyDown(object sender, KeyEventArgs Event)
+        private void ObjetListView_KeyDown(object sender, KeyEventArgs Event)
         {
             if (Event.KeyCode == Keys.Delete)
             {
@@ -959,7 +1015,7 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        private void ObjetContextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             // Si un objet dans le list view est selectionné, on affiche les champs modification et suppression du menu contextuel
             if (ObjetListView.SelectedItems.Count == 1)
@@ -980,7 +1036,7 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ListView1_Leave(object sender, EventArgs e)
+        private void ObjetListView_Leave(object sender, EventArgs e)
         {
             ObjetListView.SelectedItems.Clear();
         }
@@ -990,20 +1046,24 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void articleToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CreerArticleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormAddArticle NouveauFormAddArticle = new FormAddArticle();
             NouveauFormAddArticle.ShowDialog();
 
             Article NouvelArticle = NouveauFormAddArticle.GetArticle();
 
-            // Si l'article est crée, on l'ajoute s'il respecte les filtres
-            if (NouvelArticle != null && TypeDonneesAffichees == "Articles")
+            // Si l'article est crée
+            if (NouvelArticle != null)
             {
-                if (TypeFiltre == ""
+                SetNombreArticles(NombreArticles + 1); // On met à jour le nombre d'articles
+
+                // Si les données affichées sont des articles et l'article crée respecte les filtres, on l'affiche
+                if (TypeDonneesAffichees == "Articles" && 
+                    (TypeFiltre == ""
                     || (TypeFiltre == "Famille" && Filtre == NouvelArticle.GetSousFamille().GetFamille().GetNom())
                     || (TypeFiltre == "SousFamille" && Filtre == NouvelArticle.GetSousFamille().GetNom())
-                    || (TypeFiltre == "Marque" && Filtre == NouvelArticle.GetMarque().GetNom()))
+                    || (TypeFiltre == "Marque" && Filtre == NouvelArticle.GetMarque().GetNom())))
                 {
                     ListViewItem NouvelItem = new ListViewItem(NouvelArticle.GetReference());
                     NouvelItem.SubItems.Add(NouvelArticle.GetDescription().ToString());
@@ -1015,7 +1075,7 @@ namespace Hector
                     // On refait le tri / groupement pour que le nouvel Article le respecte
                     if (IndiceColonne > -1)
                     {
-                        ListView1_ColumnClick(ObjetListView, new ColumnClickEventArgs(IndiceColonne));
+                        ObjetListView_ColumnClick(ObjetListView, new ColumnClickEventArgs(IndiceColonne));
                     }
                 }
             }
@@ -1026,7 +1086,7 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void familleToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CreerFamilleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormAddFamille NouveauFormAddFamille = new FormAddFamille();
             NouveauFormAddFamille.ShowDialog();
@@ -1034,15 +1094,24 @@ namespace Hector
             Famille NouvelleFamille = NouveauFormAddFamille.GetFamille();
 
             // Si la famille est crée
-            if (NouvelleFamille != null && TypeDonneesAffichees == "Familles")
+            if (NouvelleFamille != null)
             {
-                ListViewItem NouvelItem = new ListViewItem(NouvelleFamille.GetNom());
-                ObjetListView.Items.Add(NouvelItem);
+                SetNombreFamilles(NombreFamilles + 1); // On met à jour le nombre de familles
 
-                // On refait le tri / groupement pour que la nouvelle famile le respecte
-                if (IndiceColonne > -1)
+                // On ajoute un noeud correspondant au TreeView
+                ObjetTreeView.Nodes[1].Nodes.Add(new TreeNode(NouvelleFamille.GetNom()));
+
+                // Si les données affichées sont des familles, on l'affiche
+                if (TypeDonneesAffichees == "Familles")
                 {
-                    ListView1_ColumnClick(ObjetListView, new ColumnClickEventArgs(IndiceColonne));
+                    ListViewItem NouvelItem = new ListViewItem(NouvelleFamille.GetNom());
+                    ObjetListView.Items.Add(NouvelItem);
+
+                    // On refait le tri / groupement pour que la nouvelle famile le respecte
+                    if (IndiceColonne > -1)
+                    {
+                        ObjetListView_ColumnClick(ObjetListView, new ColumnClickEventArgs(IndiceColonne));
+                    }
                 }
             }
         }
@@ -1052,26 +1121,33 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void sousFamilleToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CreerSousFamilleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormAddSousFamille NouveauFormAddSousFamille = new FormAddSousFamille();
             NouveauFormAddSousFamille.ShowDialog();
 
-            SousFamille SousNouvelleFamille = NouveauFormAddSousFamille.GetSousFamille();
+            SousFamille NouvelleSousFamille = NouveauFormAddSousFamille.GetSousFamille();
 
-            // Si la famille est crée, on l'ajoute si elle respecte les filtres
-            if (SousNouvelleFamille != null && TypeDonneesAffichees == "SousFamilles")
+            // Si la famille est crée, on l'ajoute 
+            if (NouvelleSousFamille != null)
             {
-                if (TypeFiltre == ""
-                    || (TypeFiltre == "Famille" && Filtre == SousNouvelleFamille.GetFamille().GetNom()))
+                SetNombreSousFamilles(NombreSousFamilles + 1); // On met à jour le nombre de sous-familles
+
+                // On ajoute un noeud correspondant au TreeView
+                TreeNode NoeudParent = TrouverNoeudParTexte(ObjetTreeView.Nodes[1], NouvelleSousFamille.GetFamille().GetNom());
+                NoeudParent.Nodes.Add(new TreeNode(NouvelleSousFamille.GetNom()));
+
+                // Si les données affichées sont des sous-familles et la sous-familles crée respecte le filtre, on l'affiche
+                if (TypeDonneesAffichees == "SousFamilles" 
+                    && (TypeFiltre == "" || (TypeFiltre == "Famille" && Filtre == NouvelleSousFamille.GetFamille().GetNom())))
                     {
-                    ListViewItem NouvelItem = new ListViewItem(SousNouvelleFamille.GetNom());
+                    ListViewItem NouvelItem = new ListViewItem(NouvelleSousFamille.GetNom());
                     ObjetListView.Items.Add(NouvelItem);
 
                     // On refait le tri / groupement pour que la nouvelle sous-famile le respecte
                     if (IndiceColonne > -1)
                     {
-                        ListView1_ColumnClick(ObjetListView, new ColumnClickEventArgs(IndiceColonne));
+                        ObjetListView_ColumnClick(ObjetListView, new ColumnClickEventArgs(IndiceColonne));
                     }
                 }
             }
@@ -1082,7 +1158,7 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void marqueToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CreerMarqueToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormAddMarque NouveauFormAddMarque = new FormAddMarque();
             NouveauFormAddMarque.ShowDialog();
@@ -1090,15 +1166,24 @@ namespace Hector
             Marque NouvelleMarque = NouveauFormAddMarque.GetMarque();
 
             // Si la famille est crée
-            if (NouvelleMarque != null && TypeDonneesAffichees == "Marques")
+            if (NouvelleMarque != null)
             {
-                ListViewItem NouvelItem = new ListViewItem(NouvelleMarque.GetNom());
-                ObjetListView.Items.Add(NouvelItem);
+                SetNombreMarques(NombreMarques + 1); // On met à jour le nombre de marques
 
-                // On refait le tri / groupement pour que la nouvelle marque le respecte
-                if (IndiceColonne > -1)
-                {
-                    ListView1_ColumnClick(ObjetListView, new ColumnClickEventArgs(IndiceColonne));
+                // On ajoute un noeud correspondant au TreeView
+                ObjetTreeView.Nodes[2].Nodes.Add(new TreeNode(NouvelleMarque.GetNom()));
+
+                // Si les données affichées sont des marques, on l'affiche
+                if (TypeDonneesAffichees == "Marques") 
+                { 
+                    ListViewItem NouvelItem = new ListViewItem(NouvelleMarque.GetNom());
+                    ObjetListView.Items.Add(NouvelItem);
+
+                    // On refait le tri / groupement pour que la nouvelle marque le respecte
+                    if (IndiceColonne > -1)
+                    {
+                        ObjetListView_ColumnClick(ObjetListView, new ColumnClickEventArgs(IndiceColonne));
+                    }
                 }
             }
         }
@@ -1108,7 +1193,7 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void modifierUnObjetToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ModifierUnObjetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ModifierElement();
         }
@@ -1118,7 +1203,7 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void supprimerLobjetSelectionneToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SupprimerLobjetSelectionneToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SupprimerElement();
         }
@@ -1179,12 +1264,74 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ListView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void ObjetListView_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             // On regarde si c'est un clic droit.
             if (e.Button == MouseButtons.Left)
             {
                 ModifierElement();
+            }
+        }
+
+        /// <summary>
+        /// Méthode permettant de gérer la sauvegarde de la taille et de la position de la fenetre à la fermeture de l'application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            // Sauvegarde des positions et tailles dans le fichier App.config
+            config.AppSettings.Settings["Gauche"].Value = Left.ToString();
+            config.AppSettings.Settings["Haut"].Value = Top.ToString();
+            config.AppSettings.Settings["Longueur"].Value = Width.ToString();
+            config.AppSettings.Settings["Hauteur"].Value = Height.ToString();
+
+            // Sauvegarde de l'état maximisé du form
+            config.AppSettings.Settings["EtatMaximise"].Value = this.WindowState == FormWindowState.Maximized ? "True" : "False";
+
+            config.Save(ConfigurationSaveMode.Modified);
+        }
+
+        /// <summary>
+        /// Méthode permettant de charger la taille et de la position de la fenetre à la dernière session
+        /// Appelée à l'ouverture de l'application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FormMain_Load(object sender, EventArgs e)
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            // Recuperation des données sauvegardées lors de la dernière session
+            int Gauche = int.Parse(config.AppSettings.Settings["Gauche"].Value);
+            int Haut = int.Parse(config.AppSettings.Settings["Haut"].Value);
+            int Longueur = int.Parse(config.AppSettings.Settings["Longueur"].Value);
+            int Hauteur = int.Parse(config.AppSettings.Settings["Hauteur"].Value);
+            bool EtatMaximise = bool.Parse(config.AppSettings.Settings["EtatMaximise"].Value);
+
+            if (EtatMaximise)
+            {
+                // Si la fenetre etait maximisee, on l'ouvre simplement maximisee
+                this.WindowState = FormWindowState.Maximized;
+            }
+            else
+            {
+                Rectangle Ecran = Screen.GetWorkingArea(this);
+
+                // Sinon on définit la position et la taille de la fenêtre
+                Width = Longueur;
+                Height = Hauteur;
+                Left = Gauche;
+                Top = Haut;
+
+                // On vérifie que la fenetre ne sort pas de l'écran
+                if (!Ecran.Contains(this.Bounds))
+                {
+                    Left = Math.Max(Ecran.Left, Math.Min(Ecran.Right - Longueur, Gauche));
+                    Top = Math.Max(Ecran.Top, Math.Min(Ecran.Bottom - Hauteur, Haut));
+                }
             }
         }
     }

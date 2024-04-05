@@ -45,7 +45,7 @@ namespace Hector
             this.BoutonAnnulation.TabIndex = 29;
             this.BoutonAnnulation.Text = "Annuler";
             this.BoutonAnnulation.UseVisualStyleBackColor = true;
-            this.BoutonAnnulation.Click += new System.EventHandler(this.CancelButton_Click);
+            this.BoutonAnnulation.Click += new System.EventHandler(this.BoutonAnnulation_Click);
             // 
             // BoutonModifier
             // 
@@ -55,7 +55,7 @@ namespace Hector
             this.BoutonModifier.TabIndex = 28;
             this.BoutonModifier.Text = "Modifier";
             this.BoutonModifier.UseVisualStyleBackColor = true;
-            this.BoutonModifier.Click += new System.EventHandler(this.ModifyButton_Click);
+            this.BoutonModifier.Click += new System.EventHandler(this.BoutonModifier_Click);
             // 
             // FamilleComboBox
             // 

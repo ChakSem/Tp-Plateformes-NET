@@ -31,12 +31,12 @@ namespace Hector
         {
             this.SelectionFichier = new System.Windows.Forms.Button();
             this.ObjetBackgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.CheminLabel = new System.Windows.Forms.Label();
             this.BarreDeProgression = new System.Windows.Forms.ProgressBar();
             this.CheckBoxAjout = new System.Windows.Forms.CheckBox();
             this.CheckBoxEcrasement = new System.Windows.Forms.CheckBox();
             this.BoutonImporter = new System.Windows.Forms.Button();
             this.ObjetOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.CheminTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // SelectionFichier
@@ -47,20 +47,11 @@ namespace Hector
             this.SelectionFichier.TabIndex = 0;
             this.SelectionFichier.Text = "Ouvrir le fichier .csv";
             this.SelectionFichier.UseVisualStyleBackColor = true;
-            this.SelectionFichier.Click += new System.EventHandler(this.ImportButton);
+            this.SelectionFichier.Click += new System.EventHandler(this.SelectionFichier_Click);
             // 
             // ObjetBackgroundWorker
             // 
-            this.ObjetBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            // 
-            // CheminLabel
-            // 
-            this.CheminLabel.AutoSize = true;
-            this.CheminLabel.Location = new System.Drawing.Point(23, 55);
-            this.CheminLabel.Name = "CheminLabel";
-            this.CheminLabel.Size = new System.Drawing.Size(15, 13);
-            this.CheminLabel.TabIndex = 4;
-            this.CheminLabel.Text = "./";
+            this.ObjetBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ObjetBackgroundWorker_DoWork);
             // 
             // BarreDeProgression
             // 
@@ -103,22 +94,31 @@ namespace Hector
             this.BoutonImporter.TabIndex = 8;
             this.BoutonImporter.Text = "Démarrer l\'importation";
             this.BoutonImporter.UseVisualStyleBackColor = true;
-            this.BoutonImporter.Click += new System.EventHandler(this.FinishButton_Click);
+            this.BoutonImporter.Click += new System.EventHandler(this.BoutonImporter_Click);
             // 
             // ObjetOpenFileDialog
             // 
             this.ObjetOpenFileDialog.FileName = "openFileDialog1";
+            // 
+            // CheminTextBox
+            // 
+            this.CheminTextBox.Location = new System.Drawing.Point(27, 41);
+            this.CheminTextBox.Name = "CheminTextBox";
+            this.CheminTextBox.ReadOnly = true;
+            this.CheminTextBox.Size = new System.Drawing.Size(327, 20);
+            this.CheminTextBox.TabIndex = 30;
+            this.CheminTextBox.Text = "./";
             // 
             // FormImport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(380, 179);
+            this.Controls.Add(this.CheminTextBox);
             this.Controls.Add(this.BoutonImporter);
             this.Controls.Add(this.CheckBoxEcrasement);
             this.Controls.Add(this.CheckBoxAjout);
             this.Controls.Add(this.BarreDeProgression);
-            this.Controls.Add(this.CheminLabel);
             this.Controls.Add(this.SelectionFichier);
             this.MaximumSize = new System.Drawing.Size(396, 218);
             this.MinimumSize = new System.Drawing.Size(396, 218);
@@ -134,11 +134,11 @@ namespace Hector
 
         private System.Windows.Forms.Button SelectionFichier;
         private System.ComponentModel.BackgroundWorker ObjetBackgroundWorker;
-        private System.Windows.Forms.Label CheminLabel;
         private System.Windows.Forms.ProgressBar BarreDeProgression;
         private System.Windows.Forms.CheckBox CheckBoxAjout;
         private System.Windows.Forms.CheckBox CheckBoxEcrasement;
         private System.Windows.Forms.Button BoutonImporter;
         private System.Windows.Forms.OpenFileDialog ObjetOpenFileDialog;
+        private System.Windows.Forms.TextBox CheminTextBox;
     }
 }

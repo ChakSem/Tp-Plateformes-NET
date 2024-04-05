@@ -31,11 +31,19 @@ namespace Hector
         {
             this.components = new System.ComponentModel.Container();
             this.ObjetMenuStrip = new System.Windows.Forms.MenuStrip();
-            this.fichierToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FichierToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ActualiserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ImporterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExporterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ObjetStatusStrip = new System.Windows.Forms.StatusStrip();
+            this.LabelFamilleToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.FamillesToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.SousFamilleLabelToolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.SousFamillesLabelToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.MarqueLabelToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.MarquesToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ArticleLabelToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ArticlesToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.ObjetTreeView = new System.Windows.Forms.TreeView();
             this.ObjetListView = new System.Windows.Forms.ListView();
@@ -48,6 +56,7 @@ namespace Hector
             this.ModifierUnObjetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SupprimerLobjetSelectionneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ObjetMenuStrip.SuspendLayout();
+            this.ObjetStatusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -59,52 +68,109 @@ namespace Hector
             // 
             this.ObjetMenuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.ObjetMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fichierToolStripMenuItem});
+            this.FichierToolStripMenuItem});
             this.ObjetMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.ObjetMenuStrip.Name = "ObjetMenuStrip";
             this.ObjetMenuStrip.Size = new System.Drawing.Size(800, 24);
             this.ObjetMenuStrip.TabIndex = 0;
             this.ObjetMenuStrip.Text = "menuStrip1";
             // 
-            // fichierToolStripMenuItem
+            // FichierToolStripMenuItem
             // 
-            this.fichierToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FichierToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ActualiserToolStripMenuItem,
             this.ImporterToolStripMenuItem,
             this.ExporterToolStripMenuItem});
-            this.fichierToolStripMenuItem.Name = "fichierToolStripMenuItem";
-            this.fichierToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
-            this.fichierToolStripMenuItem.Text = "Fichier";
+            this.FichierToolStripMenuItem.Name = "FichierToolStripMenuItem";
+            this.FichierToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
+            this.FichierToolStripMenuItem.Text = "Fichier";
             // 
             // ActualiserToolStripMenuItem
             // 
             this.ActualiserToolStripMenuItem.Name = "ActualiserToolStripMenuItem";
-            this.ActualiserToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ActualiserToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.ActualiserToolStripMenuItem.Text = "Actualiser";
-            this.ActualiserToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            this.ActualiserToolStripMenuItem.Click += new System.EventHandler(this.ActualiserToolStripMenuItem_Click);
             // 
             // ImporterToolStripMenuItem
             // 
             this.ImporterToolStripMenuItem.Name = "ImporterToolStripMenuItem";
-            this.ImporterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ImporterToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.ImporterToolStripMenuItem.Text = "Importer";
-            this.ImporterToolStripMenuItem.Click += new System.EventHandler(this.importerToolStripMenuItem_Click);
+            this.ImporterToolStripMenuItem.Click += new System.EventHandler(this.ImporterToolStripMenuItem_Click);
             // 
             // ExporterToolStripMenuItem
             // 
             this.ExporterToolStripMenuItem.Name = "ExporterToolStripMenuItem";
-            this.ExporterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ExporterToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.ExporterToolStripMenuItem.Text = "Exporter";
-            this.ExporterToolStripMenuItem.Click += new System.EventHandler(this.exporterToolStripMenuItem_Click);
+            this.ExporterToolStripMenuItem.Click += new System.EventHandler(this.ExporterToolStripMenuItem_Click);
             // 
             // ObjetStatusStrip
             // 
             this.ObjetStatusStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.ObjetStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.LabelFamilleToolStripStatusLabel,
+            this.FamillesToolStripStatusLabel,
+            this.SousFamilleLabelToolStripStatusLabel3,
+            this.SousFamillesLabelToolStripStatusLabel,
+            this.MarqueLabelToolStripStatusLabel,
+            this.MarquesToolStripStatusLabel,
+            this.ArticleLabelToolStripStatusLabel,
+            this.ArticlesToolStripStatusLabel});
             this.ObjetStatusStrip.Location = new System.Drawing.Point(0, 428);
             this.ObjetStatusStrip.Name = "ObjetStatusStrip";
             this.ObjetStatusStrip.Size = new System.Drawing.Size(800, 22);
             this.ObjetStatusStrip.TabIndex = 1;
             this.ObjetStatusStrip.Text = "statusStrip1";
+            // 
+            // LabelFamilleToolStripStatusLabel
+            // 
+            this.LabelFamilleToolStripStatusLabel.Name = "LabelFamilleToolStripStatusLabel";
+            this.LabelFamilleToolStripStatusLabel.Size = new System.Drawing.Size(56, 17);
+            this.LabelFamilleToolStripStatusLabel.Text = "Familles :";
+            // 
+            // FamillesToolStripStatusLabel
+            // 
+            this.FamillesToolStripStatusLabel.Name = "FamillesToolStripStatusLabel";
+            this.FamillesToolStripStatusLabel.Size = new System.Drawing.Size(13, 17);
+            this.FamillesToolStripStatusLabel.Text = "0";
+            // 
+            // SousFamilleLabelToolStripStatusLabel3
+            // 
+            this.SousFamilleLabelToolStripStatusLabel3.Name = "SousFamilleLabelToolStripStatusLabel3";
+            this.SousFamilleLabelToolStripStatusLabel3.Size = new System.Drawing.Size(81, 17);
+            this.SousFamilleLabelToolStripStatusLabel3.Text = "SousFamilles :";
+            // 
+            // SousFamillesLabelToolStripStatusLabel
+            // 
+            this.SousFamillesLabelToolStripStatusLabel.Name = "SousFamillesLabelToolStripStatusLabel";
+            this.SousFamillesLabelToolStripStatusLabel.Size = new System.Drawing.Size(13, 17);
+            this.SousFamillesLabelToolStripStatusLabel.Text = "0";
+            // 
+            // MarqueLabelToolStripStatusLabel
+            // 
+            this.MarqueLabelToolStripStatusLabel.Name = "MarqueLabelToolStripStatusLabel";
+            this.MarqueLabelToolStripStatusLabel.Size = new System.Drawing.Size(59, 17);
+            this.MarqueLabelToolStripStatusLabel.Text = "Marques :";
+            // 
+            // MarquesToolStripStatusLabel
+            // 
+            this.MarquesToolStripStatusLabel.Name = "MarquesToolStripStatusLabel";
+            this.MarquesToolStripStatusLabel.Size = new System.Drawing.Size(13, 17);
+            this.MarquesToolStripStatusLabel.Text = "0";
+            // 
+            // ArticleLabelToolStripStatusLabel
+            // 
+            this.ArticleLabelToolStripStatusLabel.Name = "ArticleLabelToolStripStatusLabel";
+            this.ArticleLabelToolStripStatusLabel.Size = new System.Drawing.Size(52, 17);
+            this.ArticleLabelToolStripStatusLabel.Text = "Articles :";
+            // 
+            // ArticlesToolStripStatusLabel
+            // 
+            this.ArticlesToolStripStatusLabel.Name = "ArticlesToolStripStatusLabel";
+            this.ArticlesToolStripStatusLabel.Size = new System.Drawing.Size(13, 17);
+            this.ArticlesToolStripStatusLabel.Text = "0";
             // 
             // splitContainer1
             // 
@@ -131,7 +197,7 @@ namespace Hector
             this.ObjetTreeView.Name = "ObjetTreeView";
             this.ObjetTreeView.Size = new System.Drawing.Size(264, 404);
             this.ObjetTreeView.TabIndex = 0;
-            this.ObjetTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeViewParam_AfterSelect);
+            this.ObjetTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.ObjetTreeView_AfterSelect);
             // 
             // ObjetListView
             // 
@@ -145,11 +211,11 @@ namespace Hector
             this.ObjetListView.TabIndex = 0;
             this.ObjetListView.UseCompatibleStateImageBehavior = false;
             this.ObjetListView.View = System.Windows.Forms.View.Details;
-            this.ObjetListView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ListView1_ColumnClick);
-            this.ObjetListView.ItemActivate += new System.EventHandler(this.ListView1_ItemActivate);
-            this.ObjetListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ListView1_KeyDown);
-            this.ObjetListView.Leave += new System.EventHandler(this.ListView1_Leave);
-            this.ObjetListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListView1_MouseDoubleClick);
+            this.ObjetListView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ObjetListView_ColumnClick);
+            this.ObjetListView.ItemActivate += new System.EventHandler(this.ObjetListView_ItemActivate);
+            this.ObjetListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ObjetListView_KeyDown);
+            this.ObjetListView.Leave += new System.EventHandler(this.ObjetListView_Leave);
+            this.ObjetListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ObjetListView_MouseDoubleClick);
             // 
             // ObjetContextMenuStrip
             // 
@@ -159,8 +225,8 @@ namespace Hector
             this.ModifierUnObjetToolStripMenuItem,
             this.SupprimerLobjetSelectionneToolStripMenuItem});
             this.ObjetContextMenuStrip.Name = "contextMenuStrip1";
-            this.ObjetContextMenuStrip.Size = new System.Drawing.Size(229, 92);
-            this.ObjetContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            this.ObjetContextMenuStrip.Size = new System.Drawing.Size(229, 70);
+            this.ObjetContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.ObjetContextMenuStrip_Opening);
             // 
             // CreerToolStripMenuItem
             // 
@@ -176,44 +242,44 @@ namespace Hector
             // CreerArticleToolStripMenuItem
             // 
             this.CreerArticleToolStripMenuItem.Name = "CreerArticleToolStripMenuItem";
-            this.CreerArticleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.CreerArticleToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.CreerArticleToolStripMenuItem.Text = "Article";
-            this.CreerArticleToolStripMenuItem.Click += new System.EventHandler(this.articleToolStripMenuItem_Click);
+            this.CreerArticleToolStripMenuItem.Click += new System.EventHandler(this.CreerArticleToolStripMenuItem_Click);
             // 
             // CreerFamilleToolStripMenuItem
             // 
             this.CreerFamilleToolStripMenuItem.Name = "CreerFamilleToolStripMenuItem";
-            this.CreerFamilleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.CreerFamilleToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.CreerFamilleToolStripMenuItem.Text = "Famille";
-            this.CreerFamilleToolStripMenuItem.Click += new System.EventHandler(this.familleToolStripMenuItem_Click);
+            this.CreerFamilleToolStripMenuItem.Click += new System.EventHandler(this.CreerFamilleToolStripMenuItem_Click);
             // 
             // CreerSousFamilleToolStripMenuItem
             // 
             this.CreerSousFamilleToolStripMenuItem.Name = "CreerSousFamilleToolStripMenuItem";
-            this.CreerSousFamilleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.CreerSousFamilleToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.CreerSousFamilleToolStripMenuItem.Text = "Sous-Famille";
-            this.CreerSousFamilleToolStripMenuItem.Click += new System.EventHandler(this.sousFamilleToolStripMenuItem_Click);
+            this.CreerSousFamilleToolStripMenuItem.Click += new System.EventHandler(this.CreerSousFamilleToolStripMenuItem_Click);
             // 
             // CreerMarqueToolStripMenuItem
             // 
             this.CreerMarqueToolStripMenuItem.Name = "CreerMarqueToolStripMenuItem";
-            this.CreerMarqueToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.CreerMarqueToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.CreerMarqueToolStripMenuItem.Text = "Marque";
-            this.CreerMarqueToolStripMenuItem.Click += new System.EventHandler(this.marqueToolStripMenuItem_Click);
+            this.CreerMarqueToolStripMenuItem.Click += new System.EventHandler(this.CreerMarqueToolStripMenuItem_Click);
             // 
             // ModifierUnObjetToolStripMenuItem
             // 
             this.ModifierUnObjetToolStripMenuItem.Name = "ModifierUnObjetToolStripMenuItem";
             this.ModifierUnObjetToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this.ModifierUnObjetToolStripMenuItem.Text = "Modifier l\'objet selectionne";
-            this.ModifierUnObjetToolStripMenuItem.Click += new System.EventHandler(this.modifierUnObjetToolStripMenuItem_Click);
+            this.ModifierUnObjetToolStripMenuItem.Click += new System.EventHandler(this.ModifierUnObjetToolStripMenuItem_Click);
             // 
             // SupprimerLobjetSelectionneToolStripMenuItem
             // 
             this.SupprimerLobjetSelectionneToolStripMenuItem.Name = "SupprimerLobjetSelectionneToolStripMenuItem";
             this.SupprimerLobjetSelectionneToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this.SupprimerLobjetSelectionneToolStripMenuItem.Text = "Supprimer l\'objet selectionne";
-            this.SupprimerLobjetSelectionneToolStripMenuItem.Click += new System.EventHandler(this.supprimerLobjetSelectionneToolStripMenuItem_Click);
+            this.SupprimerLobjetSelectionneToolStripMenuItem.Click += new System.EventHandler(this.SupprimerLobjetSelectionneToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -226,10 +292,15 @@ namespace Hector
             this.Controls.Add(this.ObjetMenuStrip);
             this.MainMenuStrip = this.ObjetMenuStrip;
             this.Name = "FormMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Outil de Gestion de stock";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
+            this.Load += new System.EventHandler(this.FormMain_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);
             this.ObjetMenuStrip.ResumeLayout(false);
             this.ObjetMenuStrip.PerformLayout();
+            this.ObjetStatusStrip.ResumeLayout(false);
+            this.ObjetStatusStrip.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -243,7 +314,7 @@ namespace Hector
         #endregion
 
         private System.Windows.Forms.MenuStrip ObjetMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem fichierToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FichierToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ActualiserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ImporterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ExporterToolStripMenuItem;
@@ -259,6 +330,14 @@ namespace Hector
         private System.Windows.Forms.ToolStripMenuItem CreerMarqueToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ModifierUnObjetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SupprimerLobjetSelectionneToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel LabelFamilleToolStripStatusLabel;
+        private System.Windows.Forms.ToolStripStatusLabel FamillesToolStripStatusLabel;
+        private System.Windows.Forms.ToolStripStatusLabel SousFamilleLabelToolStripStatusLabel3;
+        private System.Windows.Forms.ToolStripStatusLabel SousFamillesLabelToolStripStatusLabel;
+        private System.Windows.Forms.ToolStripStatusLabel MarqueLabelToolStripStatusLabel;
+        private System.Windows.Forms.ToolStripStatusLabel MarquesToolStripStatusLabel;
+        private System.Windows.Forms.ToolStripStatusLabel ArticleLabelToolStripStatusLabel;
+        private System.Windows.Forms.ToolStripStatusLabel ArticlesToolStripStatusLabel;
     }
 }
 

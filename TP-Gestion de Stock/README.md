@@ -1,0 +1,1 @@
+Le Fichier Hector.SQLite doit etre placé dans le dossier Hector (à coté du fichier Hector.sln)

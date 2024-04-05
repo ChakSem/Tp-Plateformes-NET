@@ -19,23 +19,18 @@ namespace Hector
         {
             InitializeComponent();
             Parseur = new Parseur(); // Initialisation de Parseur
-            ObjetBackgroundWorker.ProgressChanged += backgroundWorker1_ProgressChanged;
         }
+
         /// <summary>
         /// Méthode permettant de mettre à jour la barre de progression
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void ObjetBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             BarreDeProgression.Value = e.ProgressPercentage;
         }
 
-        //this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
-        private void progressBar1_Click(object sender, EventArgs e)
-        {
-            //this.progressBar1.Value = 0;
-        }
         /// <summary>
         /// Méthode permettant de cocher la case Ajout si la case Ecrasement est cochée
         /// </summary>
@@ -45,6 +40,7 @@ namespace Hector
         {
             CheckBoxAjout.Checked = !CheckBoxEcrasement.Checked;
         }
+
         /// <summary>
         /// Méthode permettant de cocher la case Ecrasement si la case Ajout est cochée
         /// </summary>
@@ -54,16 +50,18 @@ namespace Hector
         {
             CheckBoxEcrasement.Checked = !CheckBoxAjout.Checked;
         }
+
         /// <summary>
         /// Méthode permettant d'importer un fichier CSV en cliquant sur le bouton Importer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ImportButton(object sender, EventArgs e)
+        private void SelectionFichier_Click(object sender, EventArgs e)
         {
             CheminCsvAImpoter = ImportCsvFile(sender, e);
-            CheminLabel.Text = CheminCsvAImpoter;
+            CheminTextBox.Text = CheminCsvAImpoter;
         }
+
         /// <summary>
         /// Méthode permettant d'importer un fichier CSV
         /// </summary>
@@ -84,15 +82,15 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void FinishButton_Click(object sender, EventArgs e)
+        private void BoutonImporter_Click(object sender, EventArgs e)
         {
             if (!ObjetBackgroundWorker.IsBusy)
             {
                 BDD = BaseDeDonnees.GetInstance();
 
                 ObjetBackgroundWorker.WorkerReportsProgress = true;
-                ObjetBackgroundWorker.DoWork -= backgroundWorker1_DoWork;
-                ObjetBackgroundWorker.DoWork += backgroundWorker1_DoWork;
+                ObjetBackgroundWorker.DoWork -= ObjetBackgroundWorker_DoWork;
+                ObjetBackgroundWorker.DoWork += ObjetBackgroundWorker_DoWork;
                 ObjetBackgroundWorker.RunWorkerAsync();
             }
         }
@@ -102,7 +100,7 @@ namespace Hector
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        private void ObjetBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker BarreDeProgression = sender as BackgroundWorker; // On récupère le worker
 
@@ -123,7 +121,6 @@ namespace Hector
             }
 
             // On crée et recupere les objets Article à importer dans la BDD ( et on cree les objets Marque, Familles et SousFamilles qui n'existent pas encore )
-
             Parseur.Parse(CheminCsvAImpoter, BarreDeProgression);
 
             int NombreArticleTotal = Article.GetListeArticles().Count;

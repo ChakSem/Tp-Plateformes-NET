@@ -72,21 +72,29 @@ namespace Hector
         public static void ExtraireDonnees(string CheminDExportation) {
 
             Encoding Encodage = Encoding.UTF8;
-
-            using (StreamWriter Ecrivain = new StreamWriter(CheminDExportation, false, Encodage))
+            try
             {
-                Ecrivain.WriteLine("Description; Ref; Marque; Famille; Sous - Famille; Prix H.T.");
+                using (StreamWriter Ecrivain = new StreamWriter(CheminDExportation, false, Encodage))
+                {
+                    Ecrivain.WriteLine("Description; Ref; Marque; Famille; Sous - Famille; Prix H.T.");
 
-                foreach (Article ArticleAExtraire in Article.GetListeArticles()) {
-                    Ecrivain.WriteLine(ArticleAExtraire.GetDescription() + ";"
-                        + ArticleAExtraire.GetReference() + ";"
-                        + ArticleAExtraire.GetMarque().GetNom() + ";"
-                        + ArticleAExtraire.GetSousFamille().GetFamille().GetNom() + ";"
-                        + ArticleAExtraire.GetSousFamille().GetNom() + ";"
-                        + ArticleAExtraire.GetPrixHT());
+                    foreach (Article ArticleAExtraire in Article.GetListeArticles())
+                    {
+                        Ecrivain.WriteLine(ArticleAExtraire.GetDescription() + ";"
+                            + ArticleAExtraire.GetReference() + ";"
+                            + ArticleAExtraire.GetMarque().GetNom() + ";"
+                            + ArticleAExtraire.GetSousFamille().GetFamille().GetNom() + ";"
+                            + ArticleAExtraire.GetSousFamille().GetNom() + ";"
+                            + ArticleAExtraire.GetPrixHT());
+                    }
                 }
             }
+            catch (IOException) 
+            {
+                throw new Exception(Exception.ERREUR_CHEMIN_EXPORT_INVALIDE);
+            }
         }
+
 
         /// <summary>
         /// Permet de lire la Quantite dans la Description de l'objet Article

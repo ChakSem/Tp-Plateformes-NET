@@ -53,7 +53,7 @@ namespace Hector
             this.BoutonCreer.TabIndex = 14;
             this.BoutonCreer.Text = "Créer";
             this.BoutonCreer.UseVisualStyleBackColor = true;
-            this.BoutonCreer.Click += new System.EventHandler(this.CreateButton_Click);
+            this.BoutonCreer.Click += new System.EventHandler(this.BoutonCreer_Click);
             // 
             // BoutonAnnulation
             // 
@@ -63,7 +63,7 @@ namespace Hector
             this.BoutonAnnulation.TabIndex = 15;
             this.BoutonAnnulation.Text = "Annuler";
             this.BoutonAnnulation.UseVisualStyleBackColor = true;
-            this.BoutonAnnulation.Click += new System.EventHandler(this.CancelButton_Click);
+            this.BoutonAnnulation.Click += new System.EventHandler(this.BoutonAnnulation_Click);
             // 
             // MarqueComboBox
             // 

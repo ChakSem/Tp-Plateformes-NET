@@ -31,8 +31,8 @@ namespace Hector
         {
             this.SelectionFichier = new System.Windows.Forms.Button();
             this.BoutonExtraire = new System.Windows.Forms.Button();
-            this.CheminLabel = new System.Windows.Forms.Label();
             this.ObjetSaveFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.CheminTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // SelectionFichier
@@ -43,7 +43,7 @@ namespace Hector
             this.SelectionFichier.TabIndex = 9;
             this.SelectionFichier.Text = "Sauvgarder dans un fichier .csv";
             this.SelectionFichier.UseVisualStyleBackColor = true;
-            this.SelectionFichier.Click += new System.EventHandler(this.SelectFile_Click);
+            this.SelectionFichier.Click += new System.EventHandler(this.SelectionFichier_Click);
             // 
             // BoutonExtraire
             // 
@@ -54,28 +54,29 @@ namespace Hector
             this.BoutonExtraire.TabIndex = 14;
             this.BoutonExtraire.Text = "Extraire";
             this.BoutonExtraire.UseVisualStyleBackColor = true;
-            // 
-            // CheminLabel
-            // 
-            this.CheminLabel.AutoSize = true;
-            this.CheminLabel.Location = new System.Drawing.Point(22, 49);
-            this.CheminLabel.Name = "CheminLabel";
-            this.CheminLabel.Size = new System.Drawing.Size(15, 13);
-            this.CheminLabel.TabIndex = 10;
-            this.CheminLabel.Text = "./";
+            this.BoutonExtraire.Click += new System.EventHandler(this.BoutonExtraire_Click);
             // 
             // ObjetSaveFileDialog
             // 
             this.ObjetSaveFileDialog.FileName = "openFileDialog1";
+            // 
+            // CheminTextBox
+            // 
+            this.CheminTextBox.Location = new System.Drawing.Point(28, 44);
+            this.CheminTextBox.Name = "CheminTextBox";
+            this.CheminTextBox.ReadOnly = true;
+            this.CheminTextBox.Size = new System.Drawing.Size(327, 20);
+            this.CheminTextBox.TabIndex = 31;
+            this.CheminTextBox.Text = "./";
             // 
             // FormExport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(382, 109);
+            this.Controls.Add(this.CheminTextBox);
             this.Controls.Add(this.SelectionFichier);
             this.Controls.Add(this.BoutonExtraire);
-            this.Controls.Add(this.CheminLabel);
             this.Name = "FormExport";
             this.Text = "Extraire";
             this.ResumeLayout(false);
@@ -87,7 +88,7 @@ namespace Hector
 
         private System.Windows.Forms.Button SelectionFichier;
         private System.Windows.Forms.Button BoutonExtraire;
-        private System.Windows.Forms.Label CheminLabel;
         private System.Windows.Forms.OpenFileDialog ObjetSaveFileDialog;
+        private System.Windows.Forms.TextBox CheminTextBox;
     }
 }

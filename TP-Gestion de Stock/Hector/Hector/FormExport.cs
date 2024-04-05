@@ -19,12 +19,13 @@ namespace Hector
         {
             InitializeComponent();
         }
+
         /// <summary>
-        /// Méthode permettant de fermer la fenêtre
+        /// Méthode permettant de selectionner le chemin du fichier .csv pour l'export des données
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SelectFile_Click(object sender, EventArgs e)
+        private void SelectionFichier_Click(object sender, EventArgs e)
         {
 
             SaveFileDialog SaveFileDialog = new SaveFileDialog();
@@ -33,11 +34,36 @@ namespace Hector
             SaveFileDialog.ShowDialog();
             CheminCsvAExporter = SaveFileDialog.FileName;
 
-            if (CheminCsvAExporter != null)
+            if (CheminCsvAExporter != "")
             {
-                CheminLabel.Text = CheminCsvAExporter;
+                CheminTextBox.Text = CheminCsvAExporter;
+            }
+        }
 
-                Parseur.ExtraireDonnees(CheminCsvAExporter);
+        /// <summary>
+        /// Lance l'extraction des données
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BoutonExtraire_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (CheminCsvAExporter != "")
+                {
+                    Parseur.ExtraireDonnees(CheminCsvAExporter);
+                    MessageBox.Show("Exportation réussie");
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Veuillez sélectionner un fichier à exporter");
+                }
+            } 
+            // Si Parser lève une excpetion lors de l'extraction, on attrape l'erreur et on l'affiche
+            catch (Exception ExceptionAttrapee)
+            {
+                ExceptionAttrapee.AfficherMessageErreur();
             }
         }
     }

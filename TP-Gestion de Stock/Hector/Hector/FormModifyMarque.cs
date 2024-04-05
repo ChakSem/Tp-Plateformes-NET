@@ -21,7 +21,7 @@ namespace Hector
             NomMarqueTextBox.Text = MarqueParam.GetNom();
         }
 
-        private void BouttonModifier_Click(object sender, EventArgs e)
+        private void BoutonModifier_Click(object sender, EventArgs e)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace Hector
             }
         }
 
-        private void CancelButton_Click(object sender, EventArgs e)
+        private void BoutonAnnulation_Click(object sender, EventArgs e)
         {
             this.Close();
         }

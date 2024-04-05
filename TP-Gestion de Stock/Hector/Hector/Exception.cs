@@ -32,6 +32,7 @@ namespace Hector
         public const uint ERREUR_OBJET_UTILISEE = 13;
         public const uint ARTICLE_DEJA_EXISTANT = 14;
         public const uint ERREUR_CHAINE_VIDE = 15;
+        public const uint ERREUR_CHEMIN_EXPORT_INVALIDE = 16;
 
 
         private uint CodeErreur;
@@ -80,10 +81,10 @@ namespace Hector
                     MessageErreur = "La sous-famille existante a ce nom n'est pas de la famille indiquee";
                     break;
                 case ERREUR_FICHIER_NON_TROUVE:
-                    MessageErreur = "Le fichier n'a pu être trouve";
+                    MessageErreur = "Le fichier n'a pu etre trouve";
                     break;
                 case ERREUR_SQLITE:
-                    MessageErreur = "Une erreur est survenue lors de l'interraction avec la base de donnée";
+                    MessageErreur = "Une erreur est survenue lors de l'interraction avec la base de donnee";
                     break;
                 case ERREUR_OBJET_INNEXISTANT:
                     MessageErreur = "Aucun objet n'existe pour ce nom";
@@ -98,7 +99,7 @@ namespace Hector
                     MessageErreur = "Le chemin du fichier est vide";
                     break;
                 case ERREUR_OBJET_DEJA_EXISTANT:
-                    MessageErreur = "L'objet qui devait être cree existe deja";
+                    MessageErreur = "L'objet qui devait etre cree existe deja";
                     break;
                 case ERREUR_PARSING_DOUBLE:
                     MessageErreur = "Le parsing en double a echoue";
@@ -113,10 +114,13 @@ namespace Hector
                     MessageErreur = "Cet objet ne peut etre supprime, il est utilse par un autre objet";
                     break;
                 case ARTICLE_DEJA_EXISTANT:
-                    MessageErreur = "L'Article existe déjà";
+                    MessageErreur = "L'Article existe deja";
                     break;
                 case ERREUR_CHAINE_VIDE:
-                    MessageErreur = "La chaîne de caracteres est vide";
+                    MessageErreur = "La chaine de caracteres est vide";
+                    break;
+                case ERREUR_CHEMIN_EXPORT_INVALIDE:
+                    MessageErreur = "Le chemin specifie du fcihier .csv ou extraire les donnees est incorrect";
                     break;
                 default:
                     MessageErreur = "Une erreur inconnue est survenue";
