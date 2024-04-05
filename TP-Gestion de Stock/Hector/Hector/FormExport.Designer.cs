@@ -37,10 +37,9 @@ namespace Hector
             // 
             // SelectionFichier
             // 
-            this.SelectionFichier.Location = new System.Drawing.Point(12, 9);
-            this.SelectionFichier.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.SelectionFichier.Location = new System.Drawing.Point(8, 6);
             this.SelectionFichier.Name = "SelectionFichier";
-            this.SelectionFichier.Size = new System.Drawing.Size(548, 43);
+            this.SelectionFichier.Size = new System.Drawing.Size(185, 28);
             this.SelectionFichier.TabIndex = 9;
             this.SelectionFichier.Text = "Sauvgarder dans un fichier .csv";
             this.SelectionFichier.UseVisualStyleBackColor = true;
@@ -49,10 +48,9 @@ namespace Hector
             // BoutonExtraire
             // 
             this.BoutonExtraire.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.BoutonExtraire.Location = new System.Drawing.Point(0, 109);
-            this.BoutonExtraire.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.BoutonExtraire.Location = new System.Drawing.Point(0, 88);
             this.BoutonExtraire.Name = "BoutonExtraire";
-            this.BoutonExtraire.Size = new System.Drawing.Size(573, 59);
+            this.BoutonExtraire.Size = new System.Drawing.Size(414, 38);
             this.BoutonExtraire.TabIndex = 14;
             this.BoutonExtraire.Text = "Extraire";
             this.BoutonExtraire.UseVisualStyleBackColor = true;
@@ -64,21 +62,23 @@ namespace Hector
             // 
             // CheminTextBox
             // 
-            this.CheminTextBox.Location = new System.Drawing.Point(28, 44);
+            this.CheminTextBox.Location = new System.Drawing.Point(11, 49);
+            this.CheminTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.CheminTextBox.Name = "CheminTextBox";
             this.CheminTextBox.ReadOnly = true;
-            this.CheminTextBox.Size = new System.Drawing.Size(327, 20);
+            this.CheminTextBox.Size = new System.Drawing.Size(392, 20);
             this.CheminTextBox.TabIndex = 31;
             this.CheminTextBox.Text = "./";
             // 
             // FormExport
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(382, 109);
+            this.ClientSize = new System.Drawing.Size(414, 126);
             this.Controls.Add(this.CheminTextBox);
             this.Controls.Add(this.SelectionFichier);
             this.Controls.Add(this.BoutonExtraire);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "FormExport";
             this.Text = "Extraire";
             this.ResumeLayout(false);

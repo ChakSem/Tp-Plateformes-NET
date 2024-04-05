@@ -41,10 +41,9 @@ namespace Hector
             // 
             // SelectionFichier
             // 
-            this.SelectionFichier.Location = new System.Drawing.Point(12, 14);
-            this.SelectionFichier.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.SelectionFichier.Location = new System.Drawing.Point(8, 9);
             this.SelectionFichier.Name = "SelectionFichier";
-            this.SelectionFichier.Size = new System.Drawing.Size(537, 59);
+            this.SelectionFichier.Size = new System.Drawing.Size(358, 38);
             this.SelectionFichier.TabIndex = 0;
             this.SelectionFichier.Text = "Ouvrir le fichier .csv";
             this.SelectionFichier.UseVisualStyleBackColor = true;
@@ -53,13 +52,14 @@ namespace Hector
             // ObjetBackgroundWorker
             // 
             this.ObjetBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ObjetBackgroundWorker_DoWork);
+            this.ObjetBackgroundWorker.ProgressChanged += ObjetBackgroundWorker_ProgressChanged;
             // 
             // BarreDeProgression
             // 
-            this.BarreDeProgression.Location = new System.Drawing.Point(0, 162);
-            this.BarreDeProgression.Margin = new System.Windows.Forms.Padding(4, 5, 4, 6);
+            this.BarreDeProgression.Location = new System.Drawing.Point(0, 124);
+            this.BarreDeProgression.Margin = new System.Windows.Forms.Padding(3, 3, 3, 4);
             this.BarreDeProgression.Name = "BarreDeProgression";
-            this.BarreDeProgression.Size = new System.Drawing.Size(561, 56);
+            this.BarreDeProgression.Size = new System.Drawing.Size(374, 36);
             this.BarreDeProgression.TabIndex = 5;
             // 
             // CheckBoxAjout
@@ -67,10 +67,9 @@ namespace Hector
             this.CheckBoxAjout.AutoSize = true;
             this.CheckBoxAjout.Checked = true;
             this.CheckBoxAjout.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckBoxAjout.Location = new System.Drawing.Point(40, 128);
-            this.CheckBoxAjout.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.CheckBoxAjout.Location = new System.Drawing.Point(24, 101);
             this.CheckBoxAjout.Name = "CheckBoxAjout";
-            this.CheckBoxAjout.Size = new System.Drawing.Size(139, 24);
+            this.CheckBoxAjout.Size = new System.Drawing.Size(96, 17);
             this.CheckBoxAjout.TabIndex = 6;
             this.CheckBoxAjout.Text = "Ouvrir en Ajout";
             this.CheckBoxAjout.UseVisualStyleBackColor = true;
@@ -79,10 +78,9 @@ namespace Hector
             // CheckBoxEcrasement
             // 
             this.CheckBoxEcrasement.AutoSize = true;
-            this.CheckBoxEcrasement.Location = new System.Drawing.Point(339, 128);
-            this.CheckBoxEcrasement.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.CheckBoxEcrasement.Location = new System.Drawing.Point(223, 101);
             this.CheckBoxEcrasement.Name = "CheckBoxEcrasement";
-            this.CheckBoxEcrasement.Size = new System.Drawing.Size(188, 24);
+            this.CheckBoxEcrasement.Size = new System.Drawing.Size(128, 17);
             this.CheckBoxEcrasement.TabIndex = 7;
             this.CheckBoxEcrasement.Text = "Ouvrir en Ecrasement";
             this.CheckBoxEcrasement.UseVisualStyleBackColor = true;
@@ -91,10 +89,9 @@ namespace Hector
             // BoutonImporter
             // 
             this.BoutonImporter.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.BoutonImporter.Location = new System.Drawing.Point(0, 214);
-            this.BoutonImporter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.BoutonImporter.Location = new System.Drawing.Point(0, 150);
             this.BoutonImporter.Name = "BoutonImporter";
-            this.BoutonImporter.Size = new System.Drawing.Size(561, 35);
+            this.BoutonImporter.Size = new System.Drawing.Size(378, 23);
             this.BoutonImporter.TabIndex = 8;
             this.BoutonImporter.Text = "Démarrer l\'importation";
             this.BoutonImporter.UseVisualStyleBackColor = true;
@@ -106,7 +103,8 @@ namespace Hector
             // 
             // CheminTextBox
             // 
-            this.CheminTextBox.Location = new System.Drawing.Point(27, 41);
+            this.CheminTextBox.Location = new System.Drawing.Point(24, 61);
+            this.CheminTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.CheminTextBox.Name = "CheminTextBox";
             this.CheminTextBox.ReadOnly = true;
             this.CheminTextBox.Size = new System.Drawing.Size(327, 20);
@@ -115,18 +113,17 @@ namespace Hector
             // 
             // FormImport
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(380, 179);
+            this.ClientSize = new System.Drawing.Size(378, 173);
             this.Controls.Add(this.CheminTextBox);
             this.Controls.Add(this.BoutonImporter);
             this.Controls.Add(this.CheckBoxEcrasement);
             this.Controls.Add(this.CheckBoxAjout);
             this.Controls.Add(this.BarreDeProgression);
             this.Controls.Add(this.SelectionFichier);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.MaximumSize = new System.Drawing.Size(583, 305);
-            this.MinimumSize = new System.Drawing.Size(583, 305);
+            this.MaximumSize = new System.Drawing.Size(394, 212);
+            this.MinimumSize = new System.Drawing.Size(394, 212);
             this.Name = "FormImport";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Importer";

@@ -102,7 +102,7 @@ namespace Hector
         /// <param name="e"></param>
         private void ObjetBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            BackgroundWorker BarreDeProgression = sender as BackgroundWorker; // On récupère le worker
+            BackgroundWorker WorkerRecupere = sender as BackgroundWorker; // On récupère le worker
 
             // Si l'import est lancé en ecrasement, la base de donnée SQLite est vidée
             if (CheckBoxEcrasement.Checked)
@@ -121,7 +121,7 @@ namespace Hector
             }
 
             // On crée et recupere les objets Article à importer dans la BDD ( et on cree les objets Marque, Familles et SousFamilles qui n'existent pas encore )
-            Parseur.Parse(CheminCsvAImpoter, BarreDeProgression);
+            Parseur.Parse(CheminCsvAImpoter, WorkerRecupere);
 
             int NombreArticleTotal = Article.GetListeArticles().Count;
 
