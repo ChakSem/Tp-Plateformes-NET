@@ -44,3 +44,7 @@ La barre en haut de l'interface intègre un menu Fichier, celui-ci permet plusie
 - La touche F5 recharge la liste des éléments, tout comme le sous-menu « Actualiser ».
 - La touche « Supp » demande la suppression de l‘élément du ListView sélectionné.
 - Le clic droit ouvre un menu contextuel permettant d'ajouter un élément, de modifier ou de supprimer l‘élément du ListView sélectionné (grisé si aucun élément n'est sélectionné).
+
+##
+
+_Arthur Crochemore et Alâa Chakori Semmane_
