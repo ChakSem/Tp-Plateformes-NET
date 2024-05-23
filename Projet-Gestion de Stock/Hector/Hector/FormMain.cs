@@ -233,41 +233,6 @@ namespace Hector
         }
 
         /// <summary>
-        /// Appelée lorsqu'un objet du list view est cliqué
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ObjetListView_ItemActivate(object sender, EventArgs e)
-        {
-            ObjetTreeView.SelectedNode = null; // On réinitialise le noeud du treeview selectionnée pour re-cliquer dessus
-
-            IndiceColonne = -1; // On réinitlaise l'indice de la colonne selectionnée
-            ObjetListView.Groups.Clear(); // On réinitialises les groupes
-
-            if (ObjetListView.SelectedItems.Count == 1) // On vérifie qu'un seul élement est selectionné
-            {
-                ListViewItem Item = ObjetListView.SelectedItems[0];
-
-                Filtre = Item.SubItems[0].Text;
-                if (TypeDonneesAffichees == "SousFamilles")
-                {
-                    TypeFiltre = "SousFamille";
-                    ChargerListViewArticlesPourUneSousFamille(); // On affiche les articles correspondant à la sous-famille selectionnée
-                }
-                if (TypeDonneesAffichees == "Familles")
-                {
-                    TypeFiltre = "Famille";
-                    ChargerListViewArticlesPourUneFamille(); // On affiche les articles correspondant à la famille selectionnée
-                }
-                if (TypeDonneesAffichees == "Marques")
-                {
-                    TypeFiltre = "Marque";
-                    ChargerListViewArticlesPourUneMarque(); // On affiche les articles correspondant à la marque selectionnée
-                }
-            }
-        }
-
-        /// <summary>
         /// Methode qui permet de charger des articles dans le ListView, pour la SousFamille dont le Nom est stockée dans Filtre
         /// </summary>
         private void ChargerListViewArticlesPourUneSousFamille()

@@ -212,7 +212,6 @@ namespace Hector
             this.ObjetListView.UseCompatibleStateImageBehavior = false;
             this.ObjetListView.View = System.Windows.Forms.View.Details;
             this.ObjetListView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ObjetListView_ColumnClick);
-            this.ObjetListView.ItemActivate += new System.EventHandler(this.ObjetListView_ItemActivate);
             this.ObjetListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ObjetListView_KeyDown);
             this.ObjetListView.Leave += new System.EventHandler(this.ObjetListView_Leave);
             this.ObjetListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ObjetListView_MouseDoubleClick);
